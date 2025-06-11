@@ -41,10 +41,39 @@ jobs:
         include:
           - os: macos-latest
             arch: x64
+            target: darwin-x64
+            ext: zip
+            asset_name: Thorium-darwin-x64-${{ github.ref_name }}.zip
           - os: macos-latest
             arch: arm64
+            target: darwin-arm64
+            ext: zip
+            asset_name: Thorium-darwin-arm64-${{ github.ref_name }}.zip
           - os: windows-latest
             arch: x64
+            target: win-x64
+            ext: exe
+            asset_name: Thorium-Setup-${{ github.ref_name }}.exe
+          - os: windows-latest
+            arch: x64
+            target: win-x64
+            ext: zip
+            asset_name: Thorium-win-x64-${{ github.ref_name }}.zip
+          - os: ubuntu-latest
+            arch: x64
+            target: linux-x64
+            ext: AppImage
+            asset_name: Thorium-linux-x64-${{ github.ref_name }}.AppImage
+          - os: ubuntu-latest
+            arch: arm64
+            target: linux-arm64
+            ext: AppImage
+            asset_name: Thorium-linux-arm64-${{ github.ref_name }}.AppImage
+          - os: ubuntu-latest
+            arch: x64
+            target: linux-x64
+            ext: zip
+            asset_name: Thorium-linux-x64-${{ github.ref_name }}.zip
 
     steps:
       - name: Check out Git repository
