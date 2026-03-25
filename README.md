@@ -113,7 +113,7 @@ principles which should underscore all feature development in the project:
 
 ## Getting Started
 
-Make sure you have **[Node.js v22](https://nodejs.org/)** installed.
+Make sure you have **[Node.js](https://nodejs.org/)** installed.
 
 > **Note:** You must have [`node-gyp`](https://github.com/nodejs/node-gyp) installed and properly configured.  
 > This requires Python, `make`, and a C++ compiler.
@@ -121,7 +121,7 @@ Make sure you have **[Node.js v22](https://nodejs.org/)** installed.
 Install dependencies with:
 
 ```sh
-npm install --force
+npm install
 ```
 
 Start the development server:
