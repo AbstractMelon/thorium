@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Button, Row, Col } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import { graphql, withApollo } from "@apollo/client/react/hoc";
@@ -27,6 +26,7 @@ export const JR_TRACTORBEAM_SUB = gql`
 `;
 
 class TractorBeam extends Component {
+  containerRef = React.createRef();
   subscription = null;
   state = {
     target: { x: 0, y: 0 },
@@ -52,9 +52,8 @@ class TractorBeam extends Component {
     document.addEventListener("touchend", this.mouseUp);
   };
   mouseMove = (evt) => {
-    const targetGrid = ReactDOM.findDOMNode(this).querySelector(
-      ".target-holder"
-    );
+    const targetGrid = this.containerRef.current?.querySelector(".target-holder");
+    if (!targetGrid) return;
     const { x, y, width, height } = targetGrid.getBoundingClientRect();
     const target = {};
     target.x = Math.min(
@@ -97,9 +96,8 @@ class TractorBeam extends Component {
     document.addEventListener("touchend", this.mouseUp);
   };
   arrowMouseMove = (evt) => {
-    const arrowContainer = ReactDOM.findDOMNode(this).querySelector(
-      ".rainbow-bar"
-    );
+    const arrowContainer = this.containerRef.current?.querySelector(".rainbow-bar");
+    if (!arrowContainer) return;
     const { y, height } = arrowContainer.getBoundingClientRect();
     const actual = Math.min(
       1,
@@ -174,7 +172,7 @@ class TractorBeam extends Component {
     const { target, targetedContact, arrow, actual } = this.state;
     if (!tractorBeam) return <h1>No Tractor Beam system</h1>;
     return (
-      <Row className="jr-tractor-beam">
+      <Row className="jr-tractor-beam" ref={this.containerRef}>
         <SubscriptionHelper
           subscribe={() =>
           this.props.data.subscribeToMore({

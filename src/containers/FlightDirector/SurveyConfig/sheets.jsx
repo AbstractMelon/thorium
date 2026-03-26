@@ -4,7 +4,7 @@ import { Query } from "@apollo/client/react/components";
 import { withApollo } from "@apollo/client/react/hoc";
 
 
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import { Input } from "helpers/reactstrap";
 import Measure from "react-measure";
 
@@ -87,7 +87,7 @@ class SearchForm extends Component {
           }
         </Measure>
         {this.state.sheets &&
-        ReactDOM.createPortal(
+        createPortal(
           <Search
             items={this.state.sheets}
             location={this.state.dimensions}

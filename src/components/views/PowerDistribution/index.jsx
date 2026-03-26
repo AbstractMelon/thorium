@@ -6,7 +6,7 @@ import { withApollo } from "@apollo/client/react/hoc";
 
 import Tour from "helpers/tourHelper";
 import "./style.scss";
-import AnimatedNumber from "react-animated-number";
+import AnimatedNumber from "helpers/animatedNumber";
 import PowerLine from "../JumpDrive/powerLine";
 import { useQuery, useSubscription } from "@apollo/client";
 import { capitalCase } from "change-case";

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Query } from "@apollo/client/react/components";
 import { withApollo } from "@apollo/client/react/hoc";
 
@@ -191,21 +190,23 @@ const BurstLine = (props) => {
 
 };
 class ProbeScienceCore extends Component {
+  containerRef = React.createRef();
   state = {};
   componentDidMount() {
-    setTimeout(() => {
-      let dimensions = false;
-      while (!dimensions) {
-        const el = ReactDOM.findDOMNode(this);
-        if (el) {
-          const el2 = el.querySelector("#threeSensors #sensorGrid");
-          if (el2) {
-            dimensions = el2.getBoundingClientRect();
-          }
-        }
-      }
-      this.setState({ dimensions });
-    }, 500);
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 500);
+  }
+  componentWillUnmount() {
+    clearTimeout(this.dimensionsTimeout);
+  }
+  updateDimensions = () => {
+    const grid = this.containerRef.current?.querySelector(
+      "#threeSensors #sensorGrid"
+    );
+    if (grid) {
+      this.setState({ dimensions: grid.getBoundingClientRect() });
+      return;
+    }
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 50);
   }
   mouseDown = (e, contact) => {
     this.downMouseTime = Date.now();
@@ -272,7 +273,7 @@ class ProbeScienceCore extends Component {
     // Delete any dragging contacts that are out of bounds
     const contacts = draggingContacts.
     map((c) => {
-      const contactEl = ReactDOM.findDOMNode(this).querySelector(
+      const contactEl = this.containerRef.current?.querySelector(
         `#contact-${c.id}`
       );
       if (contactEl) {
@@ -396,7 +397,7 @@ class ProbeScienceCore extends Component {
     const { dimensions, draggingContacts } = this.state;
     const extraContacts = [].concat(draggingContacts).filter(Boolean);
     return (
-      <Container className="scienceProbes-core">
+      <Container className="scienceProbes-core" ref={this.containerRef}>
         <Row>
           <Col sm={4}>
             <div>

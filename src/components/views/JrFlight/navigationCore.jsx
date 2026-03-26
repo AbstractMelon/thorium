@@ -25,13 +25,13 @@ class NavigationCore extends Component {
       destinations: []
     };
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-    !nextProps.data.loading &&
-    this.props.data.loading &&
-    nextProps.data.navigation)
+    !this.props.data.loading &&
+    prevProps.data.loading &&
+    this.props.data.navigation)
     {
-      const navigation = nextProps.data.navigation[0];
+      const navigation = this.props.data.navigation[0];
       if (navigation) {
         this.setState({
           destinations: navigation.destinations.join("\n")

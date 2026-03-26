@@ -163,6 +163,15 @@ const cache = new InMemoryCache({
     Thorium: {
       keyFields: false,
     },
+    Subscription: {
+      fields: {
+        clientChanged: {
+          merge(_existing, incoming) {
+            return incoming;
+          },
+        },
+      },
+    },
     Query: {
       fields: {
         thorium: {

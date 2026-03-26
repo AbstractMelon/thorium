@@ -27,7 +27,7 @@ class Rotor extends Component {
       top,
       width,
       height,
-    } = this.refs.innerCircle.getBoundingClientRect();
+    } = this.innerCircle.getBoundingClientRect();
     const centerX = width / 2 + left;
     const centerY = height / 2 + top;
     const x = evt.clientX - centerX;
@@ -59,7 +59,9 @@ class Rotor extends Component {
       <div style={{transform: `scale(${scale})`}}>
         <div
           className="rotor"
-          ref="innerCircle"
+          ref={el => {
+            this.innerCircle = el;
+          }}
           id="innerCircle"
           onPointerDown={this.move}
           style={{transform: `rotate(${level * 270}deg)`}}

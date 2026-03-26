@@ -376,8 +376,7 @@ class ActionsCore extends Component {
           </ButtonGroup>
           <select
             onChange={(e) => this.handleNameChange(e.target.value)}
-            value={actionName}
-            ref="actionName">
+            value={actionName}>
             
             <option value="flash">Flash</option>
             <option value="spark">Spark</option>
@@ -417,7 +416,7 @@ class ActionsCore extends Component {
             <option value="quit">Quit</option>
           </select>
           {!bridgeMap &&
-          <select onChange={this.handleDestChange} ref="actionDest">
+          <select onChange={this.handleDestChange}>
               <option value="all">All Stations</option>
               <option value="bridge">Bridge Stations</option>
               <option value="random">Random Station</option>

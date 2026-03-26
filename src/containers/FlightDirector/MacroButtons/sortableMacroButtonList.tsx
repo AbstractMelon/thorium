@@ -1,58 +1,51 @@
 import React from "react";
-import {SortableContainer, SortableElement} from "react-sortable-hoc";
+import {ReactSortable} from "react-sortablejs";
 import {ListGroup, ListGroupItem} from "reactstrap";
 
-const SortableButton = SortableElement(
-  ({
-    button,
-    selectedButton,
-    setSelectedButton,
-  }: {
-    button: {id: string; name: string; category: string};
-    selectedButton?: string | null;
-    setSelectedButton: (id: string) => void;
-  }) => (
-    <ListGroupItem
-      key={`${button.id}`}
-      onClick={() => setSelectedButton(button.id)}
-      active={button.id === selectedButton}
-    >
-      {button.name}
-      <br />
-      <small>{button.category}</small>
-    </ListGroupItem>
-  ),
-);
+const SortableButtonList = ({
+  id,
+  selectedButton,
+  setSelectedButton,
+  buttons,
+  onSortEnd,
+  ...props
+}: {
+  id: string;
+  selectedButton?: string | null;
+  setSelectedButton: (id: string) => void;
+  buttons: {id: string; name: string; category: string}[];
+  onSortEnd: ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => void;
+}) => {
+  const [localButtons, setLocalButtons] = React.useState(buttons);
 
-const SortableButtonList = SortableContainer(
-  ({
-    id,
-    selectedButton,
-    setSelectedButton,
-    buttons,
-    onSortEnd,
-    ...props
-  }: {
-    id: string;
-    selectedButton?: string | null;
-    setSelectedButton: (id: string) => void;
-    buttons: {id: string; name: string; category: string}[];
-    onSortEnd: (newIndex: number) => void;
-  }) => {
-    return (
-      <ListGroup style={{maxHeight: "60vh", overflowY: "auto"}} {...props}>
-        {buttons.map((b, index) => (
-          <SortableButton
-            key={b.id}
-            index={index}
-            button={b}
-            selectedButton={selectedButton}
-            setSelectedButton={() => setSelectedButton(b.id)}
-          />
+  React.useEffect(() => {
+    setLocalButtons(buttons);
+  }, [buttons]);
+
+  return (
+    <ListGroup style={{maxHeight: "60vh", overflowY: "auto"}} {...props}>
+      <ReactSortable
+        list={localButtons}
+        setList={setLocalButtons}
+        onEnd={evt => {
+          if (evt.oldIndex == null || evt.newIndex == null) return;
+          onSortEnd({oldIndex: evt.oldIndex, newIndex: evt.newIndex});
+        }}
+      >
+        {localButtons.map(button => (
+          <ListGroupItem
+            key={`${button.id}`}
+            onClick={() => setSelectedButton(button.id)}
+            active={button.id === selectedButton}
+          >
+            {button.name}
+            <br />
+            <small>{button.category}</small>
+          </ListGroupItem>
         ))}
-      </ListGroup>
-    );
-  },
-);
+      </ReactSortable>
+    </ListGroup>
+  );
+};
 
 export default SortableButtonList;

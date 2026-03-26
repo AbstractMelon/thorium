@@ -1,6 +1,6 @@
 import React from "react";
 import {Button} from "helpers/reactstrap";
-import AnimatedNumber from "react-animated-number";
+import AnimatedNumber from "helpers/animatedNumber";
 
 const PhaserBeam = ({
   coolPhasers,

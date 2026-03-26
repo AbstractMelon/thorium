@@ -27,7 +27,7 @@ export default class Downloading extends Component {
   };
 
   setup = function () {
-    let canvas = this.refs.starCanvas;
+    let canvas = this.starCanvas;
     let height = window.innerHeight;
     let width = window.innerWidth;
     canvas.height = height;
@@ -219,7 +219,9 @@ export default class Downloading extends Component {
           Downloading
         </h1>
         <canvas
-          ref="starCanvas"
+          ref={el => {
+            this.starCanvas = el;
+          }}
           style={{position: "absolute", left: 0, right: 0, top: 0, bottom: 0}}
         />
       </div>

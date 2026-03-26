@@ -3,11 +3,15 @@ import gql from "graphql-tag.macro";
 import { graphql, withApollo } from "@apollo/client/react/hoc";
 
 import { Container, Row, Col } from "helpers/reactstrap";
-import ReactTable from "react-table";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import Tour from "helpers/tourHelper";
-
-
-import "react-table/react-table.css";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import "./style.scss";
@@ -61,6 +65,110 @@ const trainingSteps = [
   content: "Use the next or previous button to scroll through multiple pages."
 }];
 
+const RosterTable = ({crew = []}) => {
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
+
+  const tableColumns = React.useMemo(
+    () =>
+      columns.map(c => ({
+        header: c.Header,
+        accessorKey: c.accessor,
+      })),
+    [],
+  );
+
+  const table = useReactTable({
+    data: crew,
+    columns: tableColumns,
+    state: {
+      sorting,
+      columnFilters,
+    },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
+
+  return (
+    <div style={{height: "100%", display: "flex", flexDirection: "column"}}>
+      <table className="table table-sm table-dark" style={{marginBottom: 0}}>
+        <thead className="rt-thead">
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th
+                  key={header.id}
+                  onClick={header.column.getToggleSortingHandler()}
+                  style={{cursor: "pointer"}}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext(),
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
+          <tr>
+            {table.getAllLeafColumns().map(column => (
+              <th key={`filter-${column.id}`}>
+                <input
+                  value={column.getFilterValue() ?? ""}
+                  onChange={event => column.setFilterValue(event.target.value)}
+                  placeholder="Filter..."
+                  className="form-control form-control-sm"
+                />
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.length === 0 ? (
+            <tr>
+              <td colSpan={table.getAllLeafColumns().length}>
+                No Matching Crew Found
+              </td>
+            </tr>
+          ) : (
+            table.getRowModel().rows.map(row => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+      <div
+        className="pagination-bottom"
+        style={{display: "flex", gap: "0.5rem", marginTop: "0.5rem"}}
+      >
+        <button
+          className="btn btn-sm btn-secondary"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </button>
+        <button
+          className="btn btn-sm btn-secondary"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
 class Roster extends Component {
   render() {
     const {
@@ -84,23 +192,10 @@ class Roster extends Component {
             }
           })
           } />
-        
+
         <Row style={{ height: "100%" }}>
           <Col sm={12} style={{ height: "100%" }}>
-            <ReactTable
-              style={{ height: "100%" }}
-              data={crew}
-              columns={columns}
-              defaultFilterMethod={(filter, row) =>
-              String(row[filter.id]).
-              toLowerCase().
-              includes(filter.value.toLowerCase())
-              }
-              filterable={true}
-              showPageSizeOptions={false}
-              resizable={false}
-              noDataText={"No Matching Crew Found"} />
-            
+            <RosterTable crew={crew} />
           </Col>
         </Row>
         <Tour steps={trainingSteps} client={this.props.clientObj} />

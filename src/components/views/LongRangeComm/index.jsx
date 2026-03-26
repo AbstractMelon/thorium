@@ -70,8 +70,8 @@ class MessageBox extends Component {
   componentWillUnmount() {
     clearTimeout(this.loopTimeout);
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.message !== this.props.message) {
+  componentDidUpdate(prevProps) {
+    if (this.props.message !== prevProps.message) {
       this.setState({
         typedMessage: "",
         typedIndex: 0

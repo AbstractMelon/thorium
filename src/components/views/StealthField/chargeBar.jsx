@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import Arrow from "./arrow";
 import col from "color";
 class ChargeBar extends Component {
+  barHolderRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +48,8 @@ class ChargeBar extends Component {
   };
   mouseMove = evt => {
     const {invert} = this.props;
-    const node = ReactDOM.findDOMNode(this).querySelector(".bar-holder");
+    const node = this.barHolderRef.current;
+    if (!node) return;
     const level = Math.min(
       1,
       Math.max(
@@ -75,7 +76,7 @@ class ChargeBar extends Component {
     } = this.props;
     return (
       <div className="vertical-chargeBar">
-        <div className="bar-holder">
+        <div className="bar-holder" ref={this.barHolderRef}>
           <div
             className="bar"
             style={{

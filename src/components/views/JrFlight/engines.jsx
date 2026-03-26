@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import gql from "graphql-tag.macro";
 import { graphql } from "@apollo/client/react/hoc";
 
@@ -18,17 +17,18 @@ export const JR_SPEEDCHANGE_SUB = gql`
 `;
 
 class EngineControl extends Component {
+  lineRef = React.createRef();
   constructor(props) {
     super(props);
     this.setSpeedSubscription = null;
     this.systemSub = null;
   }
   state = { arrowPos: 0 };
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!this.setSpeedSubscription && !nextProps.data.loading) {
-      this.setSpeedSubscription = nextProps.data.subscribeToMore({
+  componentDidUpdate(prevProps) {
+    if (!this.setSpeedSubscription && !this.props.data.loading) {
+      this.setSpeedSubscription = this.props.data.subscribeToMore({
         document: JR_SPEEDCHANGE_SUB,
-        variables: { simulatorId: nextProps.simulator.id },
+        variables: { simulatorId: this.props.simulator.id },
         updateQuery: (previousResult, { subscriptionData }) => {
           const engines = previousResult.engines.map((engine) => {
             if (engine.id === subscriptionData.data.engineUpdate.id) {
@@ -44,8 +44,8 @@ class EngineControl extends Component {
       });
     }
 
-    if (!nextProps.data.loading) {
-      const engines = nextProps.data.engines || [];
+    if (!this.props.data.loading) {
+      const engines = this.props.data.engines || [];
       const speeds = [{ text: "Full Stop", number: -1 }].concat(
         engines.reduce((prev, next) => {
           return prev.concat(
@@ -135,7 +135,8 @@ class EngineControl extends Component {
     }
   };
   mouseMove = (evt) => {
-    const line = ReactDOM.findDOMNode(this).querySelector(".line");
+    const line = this.lineRef.current;
+    if (!line) return;
     const { y, height } = line.getBoundingClientRect();
     let arrowPos = Math.abs(
       Math.min(
@@ -210,7 +211,7 @@ class EngineControl extends Component {
           
           <div className="engine-arrow" />
         </div>
-        <div className="line" />
+        <div className="line" ref={this.lineRef} />
         <div className="engines-list">
           {speeds.map((s) =>
           <p

@@ -4,7 +4,7 @@ import { graphql, withApollo } from "@apollo/client/react/hoc";
 
 import { Container, Row, Col, Card } from "helpers/reactstrap";
 import { throttle } from "helpers/debounce";
-import AnimatedNumber from "react-animated-number";
+import AnimatedNumber from "helpers/animatedNumber";
 import Slider from "./slider";
 import ThrusterRotor from "./thrusterRotor";
 import SubscriptionHelper from "helpers/subscriptionHelper";

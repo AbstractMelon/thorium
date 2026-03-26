@@ -61,11 +61,17 @@ function responseForOperation(requestContext: any) {
   const opName = selection.name.value;
   const parentType = getOperationRootType(schema, operation);
   const fieldDef = getFieldDef(schema, parentType, selection);
-  const args = getArgumentValues(
-    fieldDef,
-    operation.selectionSet.selections[0] as FieldNode,
-    variables,
-  );
+  if (!fieldDef) return null;
+  let args: Record<string, any> = {};
+  try {
+    args = getArgumentValues(
+      fieldDef,
+      operation.selectionSet.selections[0] as FieldNode,
+      variables,
+    );
+  } catch {
+    args = {};
+  }
 
   // Figure out the context of the action
   const {clientId} = context;
@@ -109,22 +115,40 @@ function responseForOperation(requestContext: any) {
     // the built-in mutation resolver
     return null;
   }
+  const buildMutationResponse = (payload: Record<string, any>) => ({
+    http: {status: 200} as any,
+    body: {
+      kind: "single",
+      singleResult: {
+        data: payload,
+      },
+    },
+  });
+
   return new Promise<any>(resolve => {
     // Execute the old legacy event handler system.
-    let timeout = null;
+    let timeout: NodeJS.Timeout | null = null;
+    let settled = false;
+    const resolveMutation = (value: any = null) => {
+      if (settled) return;
+      settled = true;
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      resolve(buildMutationResponse({[opName]: value}));
+    };
     App.handleEvent(
       {
         ...args,
         cb: (a: any) => {
-          clearTimeout(timeout);
-          resolve({data: {[opName]: a}});
+          resolveMutation(a ?? null);
         },
       },
       opName,
       requestContext.contextValue,
     );
     timeout = setTimeout(() => {
-      resolve({error: "fail", data: {}});
+      resolveMutation(null);
     }, 500);
   });
 }

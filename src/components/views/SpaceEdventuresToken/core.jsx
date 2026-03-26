@@ -5,7 +5,7 @@ import { Table, Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import "./style.scss";
 import Printable from "helpers/printable";
-import useQrCode from "react-qrcode-hook";
+import {QRCodeSVG} from "qrcode.react";
 import { useQuery, useMutation } from "@apollo/client";
 
 function useInterval(callback, delay) {
@@ -29,7 +29,7 @@ function useInterval(callback, delay) {
 }
 
 const Flyer = ({ station: { name, token, userId }, simulator, loginName }) => {
-  const qrCode = useQrCode(`https://spaceedventures.org/redeem?token=${token}`);
+  const qrCodeValue = `https://spaceedventures.org/redeem?token=${token}`;
   // If there is a UserId already, no need to print a flyer.
   if (userId) return null;
   return (
@@ -55,7 +55,7 @@ const Flyer = ({ station: { name, token, userId }, simulator, loginName }) => {
       </p>
       <div className="token">
         <h2>{token}</h2>
-        <img src={qrCode} alt="qr code" />
+        <QRCodeSVG value={qrCodeValue} />
       </div>
     </div>);
 

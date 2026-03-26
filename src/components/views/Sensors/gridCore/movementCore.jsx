@@ -90,9 +90,9 @@ export default class MovementCore extends PureComponent {
     this.sendUpdate({x: 0, y: 0, z: 0});
   };
   componentDidMount() {
-    if (this.refs.dirCirc) {
-      const width = this.refs.dirCirc.getBoundingClientRect().width;
-      const height = this.refs.dirCirc.getBoundingClientRect().height;
+    if (this.dirCirc) {
+      const width = this.dirCirc.getBoundingClientRect().width;
+      const height = this.dirCirc.getBoundingClientRect().height;
       this.setState({
         width,
         height,
@@ -108,10 +108,14 @@ export default class MovementCore extends PureComponent {
     return (
       <div style={{flex: 1}}>
         <div className="draggerHolder">
-          <div className="draggerCircle" ref="dirCirc">
+          <div
+            className="draggerCircle"
+            ref={el => {
+              this.dirCirc = el;
+            }}
+          >
             <DraggableCore onDrag={this.onDragHandler("onDrag")}>
               <div
-                ref="directionDragger"
                 className="dragger direction alertBack"
                 style={{
                   transform: `translate3d(${(left * width) / 2}px,${

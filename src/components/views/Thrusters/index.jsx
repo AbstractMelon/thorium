@@ -384,9 +384,9 @@ class Thrusters extends Component {
       thruster = this.props.data.thrusters[0]; //Only allow one thruster - no need for multiple.
     }
     let { width, height } = { width: 0, height: 0 };
-    if (this.refs.dirCirc) {
-      width = this.refs.dirCirc.getBoundingClientRect().width;
-      height = this.refs.dirCirc.getBoundingClientRect().height;
+    if (this.dirCirc) {
+      width = this.dirCirc.getBoundingClientRect().width;
+      height = this.dirCirc.getBoundingClientRect().height;
     }
     const direction = {
       x: this.state.direction.left,
@@ -442,14 +442,18 @@ class Thrusters extends Component {
               <Fragment>
                   <label>Direction</label>
                   <div className="spacer" />
-                  <div className="draggerCircle" ref="dirCirc">
+                  <div
+                    className="draggerCircle"
+                    ref={el => {
+                      this.dirCirc = el;
+                    }}
+                  >
                     <DraggableCore
                     onStart={this.onDragHandler("onDragStart", "direction")}
                     onDrag={this.onDragHandler("onDrag", "direction")}
                     onStop={this.onDragHandler("onDragStop", "direction")}>
                     
                       <div
-                      ref="directionDragger"
                       className="dragger direction alertBack"
                       style={{
                         transform: `translate3d(${
@@ -473,7 +477,6 @@ class Thrusters extends Component {
                     onStop={this.onDragHandler("onDragStop", "directionUp")}>
                     
                       <div
-                      ref="foreDragger"
                       className="dragger fore alertBack"
                       style={{
                         transform: `translate3d(${
@@ -538,7 +541,6 @@ class Thrusters extends Component {
                     onStop={this.onDragHandler("onDragStop", "rotation")}>
                     
                       <div
-                      ref="rotationDragger"
                       className="dragger rotation alertBack"
                       style={{
                         transform: `translate3d(${
@@ -560,7 +562,6 @@ class Thrusters extends Component {
                     onStop={this.onDragHandler("onDragStop", "yaw")}>
                     
                       <div
-                      ref="yaw"
                       className="dragger yaw alertBack"
                       style={{
                         transform: `translate3d(${

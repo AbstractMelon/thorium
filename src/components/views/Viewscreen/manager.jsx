@@ -54,12 +54,12 @@ class ViewscreenManager extends Component {
   componentWillUnmount() {
     this.sub && this.sub();
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!this.sub && !nextProps.data.loading) {
-      this.sub = nextProps.data.subscribeToMore({
+  componentDidUpdate(prevProps) {
+    if (!this.sub && !this.props.data.loading) {
+      this.sub = this.props.data.subscribeToMore({
         document: VIEWSCREEN_SUB,
         variables: {
-          simulatorId: nextProps.simulator.id
+          simulatorId: this.props.simulator.id
         },
         updateQuery: (previousResult, { subscriptionData }) => {
           return Object.assign({}, previousResult, {
@@ -68,8 +68,8 @@ class ViewscreenManager extends Component {
         }
       });
     }
-    if (!nextProps.data.loading) {
-      const { viewscreens } = nextProps.data;
+    if (!this.props.data.loading) {
+      const { viewscreens } = this.props.data;
       if (viewscreens.length === 1 && viewscreens[0]) {
         this.setState({
           selectedViewscreen: viewscreens[0].id

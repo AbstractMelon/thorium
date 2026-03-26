@@ -1,12 +1,13 @@
 import React, {Component} from "react";
-import {findDOMNode} from "react-dom";
 import "./plasmaBall.scss";
 
 class PlasmaBall extends Component {
+  canvasRef = React.createRef();
   unmounted = true;
   componentDidMount() {
     const self = this;
-    const canvas = findDOMNode(this).querySelector("canvas");
+    const canvas = this.canvasRef.current;
+    if (!canvas) return;
     canvas.width = 200;
     canvas.height = 200;
     const ctx = canvas.getContext("2d");
@@ -140,7 +141,7 @@ class PlasmaBall extends Component {
         )}
         <div onMouseDown={onMouseDown} className="plasmaBall">
           <div className="canvas-container">
-            <canvas style={{opactiy: alpha}} />
+            <canvas ref={this.canvasRef} style={{opactiy: alpha}} />
           </div>
         </div>
       </div>
