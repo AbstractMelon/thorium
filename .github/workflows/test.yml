@@ -14,7 +14,9 @@ jobs:
         with:
           node-version: 22
       - name: Install libs
-        run: sudo apt-get install libudev-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install libudev-dev
       - name: Install Dependencies
         run: |
              npm i --force
