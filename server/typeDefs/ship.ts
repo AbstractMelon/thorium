@@ -1,4 +1,5 @@
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
@@ -132,7 +133,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("notify"),
+        () => pubsub.asyncIterableIterator("notify"),
         (rootValue, {simulatorId, station, trigger}) => {
           if (simulatorId) {
             if (rootValue.simulatorId !== simulatorId) return false;
@@ -159,7 +160,7 @@ const resolver = {
         return returnVal.widget;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("widgetNotify"),
+        () => pubsub.asyncIterableIterator("widgetNotify"),
         rootValue => !!rootValue,
       ),
     },
@@ -176,7 +177,7 @@ const resolver = {
             );
             pubsub.publish(id, returnVal);
           });
-          return pubsub.asyncIterator([id, "printQueue"]);
+          return pubsub.asyncIterableIterator([id, "printQueue"]);
         },
         (rootValue, {simulatorId}) => {
           return true;

@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import mutationHelper from "../helpers/mutationHelper";
@@ -299,7 +300,7 @@ const resolver = {
             }
             pubsub.publish(subId, returnVal);
           });
-          return pubsub.asyncIterator([subId, "tacticalMapsUpdate"]);
+          return pubsub.asyncIterableIterator([subId, "tacticalMapsUpdate"]);
         },
         (rootValue, {flightId}) => {
           return true;
@@ -317,7 +318,7 @@ const resolver = {
             let returnVal = App.tacticalMaps.find(t => t.id === id);
             pubsub.publish(subId, returnVal);
           });
-          return pubsub.asyncIterator([subId, "tacticalMapUpdate"]);
+          return pubsub.asyncIterableIterator([subId, "tacticalMapUpdate"]);
         },
         (rootValue, {id, lowInterval}) => {
           if (lowInterval && Date.now() % 20 > 0) return false;

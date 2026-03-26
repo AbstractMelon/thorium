@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {probesEquipment} from "../classes/probes";
 import mutationHelper from "../helpers/mutationHelper";
@@ -224,7 +225,7 @@ const resolver = {
         return returnRes;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("probesUpdate"),
+        () => pubsub.asyncIterableIterator("probesUpdate"),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },
@@ -233,7 +234,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("scienceProbeEmitter"),
+        () => pubsub.asyncIterableIterator("scienceProbeEmitter"),
         (rootValue, {simulatorId}) => rootValue.simulatorId === simulatorId,
       ),
     },

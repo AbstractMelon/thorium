@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {RecordSnippet} from "../classes";
 import mutationHelper from "../helpers/mutationHelper";
@@ -165,7 +166,7 @@ const resolver = {
           .filter(c => (visible ? true : c.visible));
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("recordSnippetsUpdate"),
+        () => pubsub.asyncIterableIterator("recordSnippetsUpdate"),
         (rootValue, {simulatorId}) => {
           return rootValue.id === simulatorId;
         },
@@ -175,7 +176,7 @@ const resolver = {
       resolve() {
         return App.recordTemplates;
       },
-      subscribe: () => pubsub.asyncIterator("recordTemplatesUpdate"),
+      subscribe: () => pubsub.asyncIterableIterator("recordTemplatesUpdate"),
     },
   },
 };

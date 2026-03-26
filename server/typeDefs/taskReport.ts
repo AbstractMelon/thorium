@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import getDamageSystem from "../helpers/getDamageSystem";
 import mutationHelper from "../helpers/mutationHelper";
@@ -75,7 +76,7 @@ const resolver = {
       },
 
       subscribe: withFilter(
-        () => pubsub.asyncIterator("taskReportUpdate"),
+        () => pubsub.asyncIterableIterator("taskReportUpdate"),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },

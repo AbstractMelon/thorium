@@ -1,5 +1,4 @@
 import React from "react";
-import {SubscriptionClient} from "subscriptions-transport-ws";
 import create, {UseStore, StoreApi} from "zustand";
 import {
   separateOperations,
@@ -9,6 +8,8 @@ import {
   FieldNode,
 } from "graphql";
 import {equal} from "@wry/equality";
+import {createClient} from "graphql-ws";
+import {getClientId} from "helpers/getClientId";
 
 const hostname = window.location.hostname;
 const protocol = window.location.protocol;
@@ -21,8 +22,14 @@ const websocketUrl =
         parseInt(window.location.port || "3000", 10) + 1
       }/graphql`;
 
-const client = new SubscriptionClient(websocketUrl, {
-  reconnect: true,
+const client = createClient({
+  url: websocketUrl,
+  lazy: true,
+  retryAttempts: Infinity,
+  connectionParams: async () => {
+    const clientId = await getClientId();
+    return {clientId};
+  },
 });
 
 export type PatchData<SubData> = {
@@ -61,13 +68,13 @@ function usePatchedSubscriptions<SubData, VariableDefinition>(
     const selection = definitions.selectionSet.selections[0] as FieldNode;
     const operationName = Object.keys(separateOperations(queryAST))[0];
     const selectionName = selection.name.value;
-    const unsubscribe = client
-      .request({
+    const unsubscribe = client.subscribe(
+      {
         query,
         operationName,
         variables: variables as any,
-      })
-      .subscribe({
+      },
+      {
         next: ({data}) => {
           api.setState(s => ({
             loading: false,
@@ -75,8 +82,13 @@ function usePatchedSubscriptions<SubData, VariableDefinition>(
             tick: s.tick + 1,
           }));
         },
-      });
-    return () => unsubscribe.unsubscribe();
+        error: error => {
+          console.error("Subscription error", error);
+        },
+        complete: () => {},
+      },
+    );
+    return () => unsubscribe();
   }, [api, queryAST, variables]);
 
   return [useStore, api];

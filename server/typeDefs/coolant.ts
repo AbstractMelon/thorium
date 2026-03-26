@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -112,7 +113,7 @@ const resolver = {
         return returnRes;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("coolantUpdate"),
+        () => pubsub.asyncIterableIterator("coolantUpdate"),
         (rootValue, {simulatorId}) => {
           if (simulatorId)
             return !!rootValue.find(s => s.simulatorId === simulatorId);
@@ -129,7 +130,7 @@ const resolver = {
         return returnRes;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("coolantSystemUpdate"),
+        () => pubsub.asyncIterableIterator("coolantSystemUpdate"),
         (rootValue, {simulatorId, systemId}) => {
           let returnRes = rootValue;
           if (simulatorId)

@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -60,7 +61,7 @@ const resolver = {
         );
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("officerLogsUpdate"),
+        () => pubsub.asyncIterableIterator("officerLogsUpdate"),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },
@@ -69,7 +70,7 @@ const resolver = {
         return rootValue.filter(l => l.simulatorId === simulatorId);
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("shipLogsUpdate"),
+        () => pubsub.asyncIterableIterator("shipLogsUpdate"),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },

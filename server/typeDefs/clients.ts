@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {StationResolver} from "../helpers/stationResolver";
 import uuid from "uuid";
@@ -428,7 +429,7 @@ const resolver = {
               returnVal.filter(c => (all ? true : c.connected)),
             );
           });
-          return pubsub.asyncIterator([id, "clientChanged"]);
+          return pubsub.asyncIterableIterator([id, "clientChanged"]);
         },
         (data, {clientId, simulatorId, flightId}) => {
           const payload = data.filter(c => c.connected);
@@ -450,7 +451,7 @@ const resolver = {
     clientPing: {
       resolve: payload => true,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("clientPing"),
+        () => pubsub.asyncIterableIterator("clientPing"),
         (rootValue, {clientId}) => {
           return rootValue.id === clientId;
         },
@@ -459,7 +460,7 @@ const resolver = {
     keypadUpdate: {
       resolve: payload => payload,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("keypadUpdate"),
+        () => pubsub.asyncIterableIterator("keypadUpdate"),
         (data, {client}) => {
           return data.id === client;
         },
@@ -469,7 +470,7 @@ const resolver = {
       resolve: (payload, {simulatorId}) =>
         payload.filter(c => c.simulatorId === simulatorId).map(c => c.keypad),
       subscribe: withFilter(
-        () => pubsub.asyncIterator("keypadsUpdate"),
+        () => pubsub.asyncIterableIterator("keypadsUpdate"),
         (data, {simulatorId}) => {
           return data.filter(c => c.simulatorId === simulatorId).length > 0;
         },
@@ -478,7 +479,7 @@ const resolver = {
     scannerUpdate: {
       resolve: payload => payload,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("scannerUpdate"),
+        () => pubsub.asyncIterableIterator("scannerUpdate"),
         (data, {client}) => {
           return data.id === client;
         },
@@ -488,7 +489,7 @@ const resolver = {
       resolve: (payload, {simulatorId}) =>
         payload.filter(c => c.simulatorId === simulatorId).map(c => c.scanner),
       subscribe: withFilter(
-        () => pubsub.asyncIterator("scannersUpdate"),
+        () => pubsub.asyncIterableIterator("scannersUpdate"),
         (data, {simulatorId}) => {
           return data.filter(c => c.simulatorId === simulatorId).length > 0;
         },
@@ -497,7 +498,7 @@ const resolver = {
     commandLineOutputUpdate: {
       resolve: payload => payload.commandLineOutput.join("\n"),
       subscribe: withFilter(
-        () => pubsub.asyncIterator("commandLineOutputUpdate"),
+        () => pubsub.asyncIterableIterator("commandLineOutputUpdate"),
         (data, {clientId}) => {
           return data.id === clientId;
         },
@@ -508,7 +509,7 @@ const resolver = {
         return payload;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("commandLinesOutputUpdate"),
+        () => pubsub.asyncIterableIterator("commandLinesOutputUpdate"),
         (data, {simulatorId}) => {
           return data && data.find(s => s.simulatorId === simulatorId);
         },
@@ -517,7 +518,7 @@ const resolver = {
     clearCache: {
       resolve: payload => Boolean(payload),
       subscribe: withFilter(
-        () => pubsub.asyncIterator("clearCache"),
+        () => pubsub.asyncIterableIterator("clearCache"),
         (rootValue, {client, flight}) => {
           let output = false;
           if (client) {
@@ -534,7 +535,7 @@ const resolver = {
     soundSub: {
       resolve: payload => payload,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("soundSub"),
+        () => pubsub.asyncIterableIterator("soundSub"),
         (rootValue, {clientId}) => {
           if (rootValue && rootValue.clients.indexOf(clientId) > -1)
             return true;
@@ -545,7 +546,7 @@ const resolver = {
     cancelSound: {
       resolve: payload => payload.id,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("cancelSound"),
+        () => pubsub.asyncIterableIterator("cancelSound"),
         (rootValue, {clientId}) => {
           if (rootValue && rootValue.clients.indexOf(clientId) > -1)
             return true;
@@ -556,7 +557,7 @@ const resolver = {
     cancelAllSounds: {
       resolve: payload => !!payload,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("cancelAllSounds"),
+        () => pubsub.asyncIterableIterator("cancelAllSounds"),
         (rootValue, {clientId}) => {
           return rootValue && !!rootValue.find(c => c.id === clientId);
         },
@@ -565,7 +566,7 @@ const resolver = {
     cancelLoopingSounds: {
       resolve: payload => !!payload,
       subscribe: withFilter(
-        () => pubsub.asyncIterator("cancelLoopingSounds"),
+        () => pubsub.asyncIterableIterator("cancelLoopingSounds"),
         (rootValue, {clientId}) => {
           return rootValue && !!rootValue.find(c => c.id === clientId);
         },

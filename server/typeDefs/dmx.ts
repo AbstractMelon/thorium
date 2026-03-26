@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {DMXConfig, DMXDevice, DMXFixture, DMXSet} from "../classes";
 import uuid from "uuid";
@@ -437,7 +438,7 @@ const resolver = {
 
           pubsub.publish(id, returnVal);
         });
-        return pubsub.asyncIterator([id, "dmxDevices"]);
+        return pubsub.asyncIterableIterator([id, "dmxDevices"]);
       },
     },
     dmxSets: {
@@ -451,7 +452,7 @@ const resolver = {
 
           pubsub.publish(id, returnVal);
         });
-        return pubsub.asyncIterator([id, "dmxSets"]);
+        return pubsub.asyncIterableIterator([id, "dmxSets"]);
       },
     },
     dmxFixtures: {
@@ -470,7 +471,7 @@ const resolver = {
 
             pubsub.publish(id, {simulatorId, fixtures: returnVal});
           });
-          return pubsub.asyncIterator([id, "dmxFixtures"]);
+          return pubsub.asyncIterableIterator([id, "dmxFixtures"]);
         },
         (rootValue, {simulatorId}) => {
           return rootValue.simulatorId === simulatorId;
@@ -488,7 +489,7 @@ const resolver = {
 
           pubsub.publish(id, returnVal);
         });
-        return pubsub.asyncIterator([id, "dmxConfigs"]);
+        return pubsub.asyncIterableIterator([id, "dmxConfigs"]);
       },
     },
   },

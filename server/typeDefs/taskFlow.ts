@@ -1,4 +1,5 @@
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import App from "../app";
@@ -224,7 +225,7 @@ const resolver = {
             };
             pubsub.publish(id, data);
           });
-          return pubsub.asyncIterator([id, "taskFlows"]);
+          return pubsub.asyncIterableIterator([id, "taskFlows"]);
         },
         (rootValue, {simulatorId = null}) => {
           const rootSimId = rootValue.simulatorId || null;

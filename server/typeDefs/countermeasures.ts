@@ -1,4 +1,5 @@
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import App from "../app";
 import {moduleTypes} from "../classes/Countermeasure";
@@ -173,7 +174,7 @@ const resolver = {
             });
             pubsub.publish(id, data);
           });
-          return pubsub.asyncIterator([id, "countermeasuresUpdate"]);
+          return pubsub.asyncIterableIterator([id, "countermeasuresUpdate"]);
         },
         (rootValue, args) => {
           return rootValue?.simulatorId === args?.simulatorId;

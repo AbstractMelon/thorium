@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import mutationHelper from "../helpers/mutationHelper";
@@ -413,7 +414,7 @@ const resolver = {
             if (domain) returnVal = returnVal.filter(s => s.domain === domain);
             pubsub.publish(id, returnVal);
           });
-          return pubsub.asyncIterator([id, "sensorsUpdate"]);
+          return pubsub.asyncIterableIterator([id, "sensorsUpdate"]);
         },
         rootValue => !!(rootValue && rootValue.length),
       ),
@@ -432,7 +433,7 @@ const resolver = {
         return contacts;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("sensorContactUpdate"),
+        () => pubsub.asyncIterableIterator("sensorContactUpdate"),
         (rootValue, {simulatorId, sensorId}) => {
           let returnVal = false;
           if (sensorId) returnVal = rootValue.id === sensorId;
@@ -446,7 +447,7 @@ const resolver = {
         return root;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("sensorsPing"),
+        () => pubsub.asyncIterableIterator("sensorsPing"),
         (rootValue, {sensorId}) => {
           if (rootValue !== sensorId) return false;
           return true;

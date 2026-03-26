@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import {Simulator, Station} from "../classes";
@@ -369,7 +370,7 @@ const resolver = {
             if (template) returnVal = returnVal.filter(s => s.template);
             pubsub.publish(id, returnVal);
           });
-          return pubsub.asyncIterator([id, "simulatorsUpdate"]);
+          return pubsub.asyncIterableIterator([id, "simulatorsUpdate"]);
         },
         (rootValue, {simulatorId, template}) => {
           let returnVal = rootValue;

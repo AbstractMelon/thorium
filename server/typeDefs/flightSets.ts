@@ -1,5 +1,6 @@
 import App from '../app';
-import { gql, withFilter } from 'apollo-server-express';
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import { pubsub } from '../helpers/subscriptionManager';
 import { AdvancedNavigationAndAstrometrics } from '~classes';
 const mutationHelper = require('../helpers/mutationHelper').default;
@@ -590,7 +591,7 @@ const resolver = {
         return { velocity: 0, activating: false };
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator('advancedNavStarsUpdate'),
+        () => pubsub.asyncIterableIterator('advancedNavStarsUpdate'),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },
@@ -609,7 +610,7 @@ const resolver = {
         return returnedValues;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator('advancedNavAndAstrometricsUpdate'),
+        () => pubsub.asyncIterableIterator('advancedNavAndAstrometricsUpdate'),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },

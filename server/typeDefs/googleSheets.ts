@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {getOAuthClient} from "../events/googleSheets";
 import {google} from "googleapis";
@@ -98,7 +99,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("googleSheetsUpdate"),
+        () => pubsub.asyncIterableIterator("googleSheetsUpdate"),
         (rootValue, args) => {
           return true;
         },

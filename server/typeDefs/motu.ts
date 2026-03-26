@@ -1,4 +1,5 @@
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import App from "../app";
 import mutationHelper from "../helpers/mutationHelper";
@@ -252,7 +253,7 @@ const resolver = {
         return rootQuery;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("motu"),
+        () => pubsub.asyncIterableIterator("motu"),
         (rootValue, args) => {
           return rootValue.address === args.id;
         },
@@ -274,7 +275,7 @@ const resolver = {
         return channel;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("motu"),
+        () => pubsub.asyncIterableIterator("motu"),
         (rootValue, args) => {
           return rootValue.address === args.id;
         },
@@ -299,7 +300,7 @@ const resolver = {
         };
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("motu"),
+        () => pubsub.asyncIterableIterator("motu"),
         (rootValue, args) => {
           return rootValue.address === args.id;
         },
@@ -310,7 +311,7 @@ const resolver = {
         return rootQuery;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("motus"),
+        () => pubsub.asyncIterableIterator("motus"),
         (rootValue, args) => {
           return true;
         },

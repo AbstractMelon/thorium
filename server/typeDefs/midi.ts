@@ -1,4 +1,4 @@
-import {gql} from "apollo-server-express";
+import {gql} from "graphql-tag";
 import {pubsub} from "../helpers/subscriptionManager";
 import App from "../app";
 import mutationHelper from "../helpers/mutationHelper";
@@ -106,7 +106,7 @@ const resolver = {
         }
         return rootQuery;
       },
-      subscribe: () => pubsub.asyncIterator("midiSets"),
+      subscribe: () => pubsub.asyncIterableIterator("midiSets"),
     },
   },
 };

@@ -1,4 +1,5 @@
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../../helpers/subscriptionManager";
 import App from "../../app";
 import {handleInitialSubResponse} from "../../helpers/handleInitialSubResponse";
@@ -118,7 +119,7 @@ const resolver = {
             const entity = App.entities.find(e => e.id === args.id);
             pubsub.publish(id, entity);
           });
-          return pubsub.asyncIterator([id, "entity"]);
+          return pubsub.asyncIterableIterator([id, "entity"]);
         },
         (rootValue, args) => {
           return rootValue.id === args.id;
@@ -154,7 +155,7 @@ const resolver = {
               entities: App.entities,
             });
           });
-          return pubsub.asyncIterator([id, "entities"]);
+          return pubsub.asyncIterableIterator([id, "entities"]);
         },
         (rootValue, {flightId, template, stageId}) => {
           if (flightId && flightId !== rootValue.flightId) return false;

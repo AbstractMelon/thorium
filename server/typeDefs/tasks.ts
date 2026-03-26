@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import taskDefinitions from "../tasks";
 import {ValueDef} from "../classes/task";
@@ -213,7 +214,7 @@ const resolver = {
         return tasks;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("tasksUpdate"),
+        () => pubsub.asyncIterableIterator("tasksUpdate"),
         (rootValue, {simulatorId, isCore, station}) => {
           let simTasks = App.tasks.filter(s => s.simulatorId === simulatorId);
           if (station) simTasks = simTasks.filter(s => s.station === station);
@@ -238,7 +239,7 @@ const resolver = {
 
           pubsub.publish(id, returnVal);
         });
-        return pubsub.asyncIterator([id, "taskTemplatesUpdate"]);
+        return pubsub.asyncIterableIterator([id, "taskTemplatesUpdate"]);
       },
     },
   },

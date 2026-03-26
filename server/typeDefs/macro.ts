@@ -1,5 +1,5 @@
 import App from "../app";
-import {gql} from "apollo-server-express";
+import {gql} from "graphql-tag";
 import {pubsub} from "../helpers/subscriptionManager";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -87,13 +87,13 @@ const resolver = {
       resolve(rootQuery) {
         return rootQuery;
       },
-      subscribe: () => pubsub.asyncIterator("macrosUpdate"),
+      subscribe: () => pubsub.asyncIterableIterator("macrosUpdate"),
     },
     macroButtonsUpdate: {
       resolve(rootQuery) {
         return rootQuery;
       },
-      subscribe: () => pubsub.asyncIterator("macroButtonsUpdate"),
+      subscribe: () => pubsub.asyncIterableIterator("macroButtonsUpdate"),
     },
   },
 };

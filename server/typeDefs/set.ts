@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import Set from "../classes/set";
 // We define a schema that encompasses all of the types
@@ -97,7 +98,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("setsUpdate"),
+        () => pubsub.asyncIterableIterator("setsUpdate"),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },

@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {StationResolver} from "../helpers/stationResolver";
 import mutationHelper from "../helpers/mutationHelper";
@@ -87,7 +88,7 @@ const resolver = {
         return rootValue.filter(s => s.simulatorId === simulatorId);
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("thxUpdate"),
+        () => pubsub.asyncIterableIterator("thxUpdate"),
         (rootValue, {simulatorId}) => {
           if (simulatorId) {
             return !!rootValue.find(s => s.simulatorId === simulatorId);

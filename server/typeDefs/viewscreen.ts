@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -144,7 +145,7 @@ const resolver = {
         return viewscreens.map(v => rootValue.find(av => av.id === v.id));
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("viewscreensUpdate"),
+        () => pubsub.asyncIterableIterator("viewscreensUpdate"),
         rootValue => !!(rootValue && rootValue.length),
       ),
     },
@@ -153,7 +154,7 @@ const resolver = {
         return true;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("viewscreenVideoToggle"),
+        () => pubsub.asyncIterableIterator("viewscreenVideoToggle"),
         (rootValue, {simulatorId, viewscreenId}) => {
           return (
             (rootValue.simulatorId &&

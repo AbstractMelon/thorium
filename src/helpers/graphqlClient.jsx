@@ -1,15 +1,21 @@
-import {ApolloClient, HttpLink, ApolloLink, split, from} from "@apollo/client";
-import {getMainDefinition} from "@apollo/client/utilities";
+import {
+  ApolloClient,
+  HttpLink,
+  ApolloLink,
+  split,
+  from,
+  InMemoryCache,
+} from "@apollo/client";
+import {getMainDefinition, Observable} from "@apollo/client/utilities";
 import {onError} from "@apollo/link-error";
-import {WebSocketLink} from "@apollo/link-ws";
 import {MockLink} from "@apollo/client/testing";
 import {setContext} from "@apollo/link-context";
-import {Hermes} from "apollo-cache-hermes";
+import {createClient} from "graphql-ws";
 import {FLIGHTS_QUERY} from "../containers/FlightDirector/Welcome/Welcome";
 import {getClientId} from "helpers/getClientId";
 import {publish} from "./pubsub";
 import {getArgumentValues} from "graphql/execution/values";
-import {buildASTSchema, getOperationRootType} from "graphql";
+import {buildASTSchema, getOperationRootType, print} from "graphql";
 import {loader} from "graphql.macro";
 import {getFieldDef} from "graphql/execution/execute";
 
@@ -34,13 +40,29 @@ const websocketUrl =
         parseInt(window.location.port || 3000, 10) + 1
       }/graphql`;
 
-const webSocketLink = new WebSocketLink({
-  uri: websocketUrl,
-  options: {
-    reconnect: true,
-    connectionParams: () => getClientId().then(clientId => ({clientId})),
+const graphqlWsClient = createClient({
+  url: websocketUrl,
+  lazy: true,
+  retryAttempts: Infinity,
+  connectionParams: async () => {
+    const clientId = await getClientId();
+    return {clientId};
   },
 });
+
+const webSocketLink = new ApolloLink(
+  operation =>
+    new Observable(observer =>
+      graphqlWsClient.subscribe(
+        {
+          query: print(operation.query),
+          variables: operation.variables,
+          operationName: operation.operationName,
+        },
+        observer,
+      ),
+    ),
+);
 
 const wsLink = ApolloLink.from([
   onError(args => {
@@ -135,8 +157,8 @@ const link = split(
   httpLink,
 );
 
-const cache = new Hermes({
-  entityIdForNode(node) {
+const cache = new InMemoryCache({
+  dataIdFromObject(node) {
     if (node.id && node.__typename && node.count) {
       return node.__typename + node.id + node.count;
     }

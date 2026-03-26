@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import * as Classes from "../classes";
@@ -651,7 +652,7 @@ const resolver = {
             }
             pubsub.publish(subId, returnRes);
           });
-          return pubsub.asyncIterator([subId, "flightsUpdate"]);
+          return pubsub.asyncIterableIterator([subId, "flightsUpdate"]);
         },
         rootValue => {
           return !!rootValue;

@@ -1,8 +1,8 @@
 import {
   ApolloServer,
-  makeExecutableSchema,
   ApolloServerExpressConfig,
 } from "apollo-server-express";
+import {makeExecutableSchema} from "@graphql-tools/schema";
 import express from "express";
 import vanity from "./vanity";
 import https from "https";
@@ -21,12 +21,16 @@ import "../processes";
 import {FieldNode, getOperationRootType, printSchema} from "graphql";
 import {getArgumentValues} from "graphql/execution/values";
 import {getFieldDef} from "graphql/execution/execute";
+import {WebSocketServer} from "ws";
+import {useServer} from "graphql-ws/use/ws";
+
+const GRAPHQL_PATH = "/graphql";
 
 export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
   resolverValidationOptions: {
-    requireResolversForResolveType: false,
+    requireResolversForResolveType: "ignore",
   },
 });
 if (process.env.NODE_ENV === "development" && !process.env.CI) {
@@ -124,7 +128,7 @@ function responseForOperation(requestContext) {
   });
 }
 
-export default (
+export default async (
   app: express.Application,
   SERVER_PORT: number,
   httpOnly: boolean,
@@ -134,26 +138,29 @@ export default (
   setMutations(resolvers.Mutation);
   const graphqlOptions: ApolloServerExpressConfig = {
     schema,
-    tracing: process.env.NODE_ENV !== "production",
     introspection: true,
-    playground: true,
-    uploads: false,
     plugins: [
       {
-        requestDidStart() {
+        async requestDidStart() {
           return {
             responseForOperation,
           };
         },
       },
     ],
-    context: ({req, connection}) => ({
-      clientId: req?.headers.clientid || connection?.context.clientId,
-      core: req?.headers.core,
-    }),
+    context: ({req}) => {
+      const clientId = Array.isArray(req?.headers.clientid)
+        ? req?.headers.clientid[0]
+        : req?.headers.clientid;
+      const core = Array.isArray(req?.headers.core)
+        ? req?.headers.core[0]
+        : req?.headers.core;
+      return {clientId, core};
+    },
   };
   const apollo = new ApolloServer(graphqlOptions);
-  apollo.applyMiddleware({app});
+  await apollo.start();
+  apollo.applyMiddleware({app, path: GRAPHQL_PATH});
 
   let httpServer: http.Server | https.Server = http.createServer(app);
   let isHttps = false;
@@ -185,7 +192,33 @@ export default (
       insecureServer.listen(80);
     }
   }
-  apollo.installSubscriptionHandlers(httpServer);
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: GRAPHQL_PATH,
+  });
+
+  const wsCleanup = useServer(
+    {
+      schema,
+      context: ctx => {
+        const connectionParams = (ctx.connectionParams || {}) as {
+          clientId?: unknown;
+          core?: unknown;
+        };
+        return {
+          clientId:
+            typeof connectionParams.clientId === "string"
+              ? connectionParams.clientId
+              : undefined,
+          core:
+            typeof connectionParams.core === "string"
+              ? connectionParams.core
+              : undefined,
+        };
+      },
+    },
+    wsServer,
+  );
 
   vanity();
 
@@ -201,7 +234,15 @@ export default (
 Client Server running on ${printUrl()}/client
 Access the Flight Director on ${printUrl()}
 GraphQL Server running on ${printUrl()}/graphql
-🚀 Subscriptions ready at ${printUrl({isWs: true})}${apollo.subscriptionsPath}`;
+🚀 Subscriptions ready at ${printUrl({isWs: true})}${GRAPHQL_PATH}`;
+
+  const disposeWs = () => {
+    wsCleanup.dispose();
+    wsServer.close();
+  };
+
+  process.once("SIGINT", disposeWs);
+  process.once("SIGTERM", disposeWs);
 
   process.on("uncaughtException", function (err) {
     // String key because typescript is funky

@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import mutationHelper from "../helpers/mutationHelper";
@@ -149,7 +150,7 @@ const resolver = {
               returnVal = returnVal.filter(s => s.simulatorId === simulatorId);
             pubsub.publish(id, returnVal);
           });
-          return pubsub.asyncIterator([id, "reactorUpdate"]);
+          return pubsub.asyncIterableIterator([id, "reactorUpdate"]);
         },
         rootValue => !!(rootValue && rootValue.length),
       ),

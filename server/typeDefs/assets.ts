@@ -1,4 +1,4 @@
-import {gql} from "apollo-server-express";
+import {gql} from "graphql-tag";
 import {pubsub} from "../helpers/subscriptionManager";
 import {getFolders} from "../helpers/uploadAsset";
 import path from "path";
@@ -133,7 +133,7 @@ const resolver = {
           const returnVal = getFolders(assetDir);
           pubsub.publish(id, returnVal);
         });
-        return pubsub.asyncIterator([id, "assetFolderChange"]);
+        return pubsub.asyncIterableIterator([id, "assetFolderChange"]);
       },
     },
   },

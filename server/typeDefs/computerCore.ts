@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {ComputerCore, HackingPreset} from "../classes";
 import {cloneDeep} from "lodash";
@@ -357,7 +358,7 @@ const resolver = {
               returnVal = returnVal.filter(s => s.simulatorId === simulatorId);
             pubsub.publish(id, returnVal);
           });
-          return pubsub.asyncIterator([id, "computerCoreUpdate"]);
+          return pubsub.asyncIterableIterator([id, "computerCoreUpdate"]);
         },
         (rootValue, {simulatorId}) => {
           let returnVal = rootValue;

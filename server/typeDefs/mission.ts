@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import uuid from "uuid";
 import {missionRequirements} from "../helpers/missionRequirements";
@@ -281,7 +282,7 @@ const resolver = {
             if (aux) returnVal = returnVal.filter(m => (aux ? m.aux : !m.aux));
             pubsub.publish(id, returnVal);
           });
-          return pubsub.asyncIterator([id, "missionsUpdate"]);
+          return pubsub.asyncIterableIterator([id, "missionsUpdate"]);
         },
         (rootValue, {missionId}) => {
           if (missionId) {
@@ -296,7 +297,7 @@ const resolver = {
         return rootValue.timelines;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("auxTimelinesUpdate"),
+        () => pubsub.asyncIterableIterator("auxTimelinesUpdate"),
         (rootValue, {simulatorId}) => {
           return rootValue.id === simulatorId;
         },

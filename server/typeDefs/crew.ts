@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {Crew} from "../classes";
 import mutationHelper from "../helpers/mutationHelper";
@@ -139,7 +140,7 @@ const resolver = {
         return getCrew(simulatorId, position, killed, rootValue);
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("crewUpdate"),
+        () => pubsub.asyncIterableIterator("crewUpdate"),
         rootValue => (rootValue.length > 0 ? true : false),
       ),
     },
@@ -148,7 +149,7 @@ const resolver = {
         return getCrew(simulatorId, position, killed, rootValue).length;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("crewCountUpdate"),
+        () => pubsub.asyncIterableIterator("crewCountUpdate"),
         rootValue => true,
       ),
     },

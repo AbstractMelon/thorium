@@ -1,4 +1,5 @@
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import mutationHelper from "../helpers/mutationHelper";
 import App from "../app";
@@ -161,7 +162,7 @@ const resolver = {
         return rootQuery;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("crmUpdate"),
+        () => pubsub.asyncIterableIterator("crmUpdate"),
         (rootValue, {simulatorId}) => {
           return rootValue.simulatorId === simulatorId;
         },
@@ -172,7 +173,7 @@ const resolver = {
         return rootQuery;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("crmFighterUpdate"),
+        () => pubsub.asyncIterableIterator("crmFighterUpdate"),
         (rootValue, {simulatorId, clientId}) => {
           return (
             rootValue.simulatorId === simulatorId &&
@@ -186,7 +187,7 @@ const resolver = {
         return rootQuery;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("crmMovementUpdate"),
+        () => pubsub.asyncIterableIterator("crmMovementUpdate"),
         (rootValue, {simulatorId}) => {
           return rootValue.simulatorId === simulatorId;
         },

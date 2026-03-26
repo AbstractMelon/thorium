@@ -1,5 +1,6 @@
 import App from "../app";
-import {gql, withFilter} from "apollo-server-express";
+import {gql} from "graphql-tag";
+import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {Room} from "../classes";
 import mutationHelper from "../helpers/mutationHelper";
@@ -214,7 +215,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: withFilter(
-        () => pubsub.asyncIterator("inventoryUpdate"),
+        () => pubsub.asyncIterableIterator("inventoryUpdate"),
         rootValue => {
           return !!(rootValue && rootValue.length);
         },
