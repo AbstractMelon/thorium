@@ -10,10 +10,10 @@ class CableSimple extends Component {
     }, []);
     update(cableComponents.indexOf(id) > -1 ? 1 : 0, true);
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.cables) === JSON.stringify(this.props.cables))
+  componentDidUpdate(prevProps) {
+    if (JSON.stringify(this.props.cables) === JSON.stringify(prevProps.cables))
       return;
-    const {cables = [], update = () => {}, id} = nextProps;
+    const {cables = [], update = () => {}, id} = this.props;
     const cableComponents = cables.reduce((prev, next) => {
       return prev.concat(next.components);
     }, []);

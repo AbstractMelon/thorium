@@ -1,6 +1,6 @@
 import React from "react";
 import {Button} from "helpers/reactstrap";
-import {SortableContainer, SortableElement} from "react-sortable-hoc";
+import {ReactSortable} from "react-sortablejs";
 import TacticalMapList from "./tacticalMapList";
 import {
   useFreezeTacticalMapMutation,
@@ -11,54 +11,43 @@ import {
 } from "generated/graphql";
 
 type Item = {id: string; name: string};
-const SortableItem = SortableElement(
-  ({
-    item,
-    selectedLayer,
-    selectLayer,
-  }: {
-    item: Item;
-    selectedLayer?: string;
-    selectLayer: Function;
-  }) => (
-    <li
-      onMouseDown={() => selectLayer(item)}
-      className={`${
-        item.id === selectedLayer ? "selected" : ""
-      } list-group-item`}
-    >
-      {item.name}
-    </li>
-  ),
-);
+const SortableList: React.FC<{
+  items: Item[];
+  selectedLayer?: string;
+  selectLayer: Function;
+  onSortEnd: ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => void;
+}> = ({items, selectedLayer, selectLayer, onSortEnd}) => {
+  const [localItems, setLocalItems] = React.useState(items);
 
-const SortableList = SortableContainer(
-  ({
-    items,
-    selectedLayer,
-    selectLayer,
-  }: {
-    items: Item[];
-    selectedLayer?: string;
-    selectLayer: Function;
-  }) => {
-    return (
-      <ul style={{padding: 0}}>
-        {items.map((item, index) => {
-          return (
-            <SortableItem
-              key={`${item.id}-layer`}
-              index={index}
-              item={item}
-              selectedLayer={selectedLayer}
-              selectLayer={selectLayer}
-            />
-          );
-        })}
-      </ul>
-    );
-  },
-);
+  React.useEffect(() => {
+    setLocalItems(items);
+  }, [items]);
+
+  return (
+    <ReactSortable
+      list={localItems}
+      setList={setLocalItems}
+      tag="ul"
+      style={{padding: 0}}
+      onEnd={evt => {
+        if (evt.oldIndex == null || evt.newIndex == null) return;
+        onSortEnd({oldIndex: evt.oldIndex, newIndex: evt.newIndex});
+      }}
+    >
+      {localItems.map(item => (
+        <li
+          key={`${item.id}-layer`}
+          onMouseDown={() => selectLayer(item)}
+          className={`${
+            item.id === selectedLayer ? "selected" : ""
+          } list-group-item`}
+        >
+          {item.name}
+        </li>
+      ))}
+    </ReactSortable>
+  );
+};
 
 interface SidebarProps {
   tacticalMapId?: string;

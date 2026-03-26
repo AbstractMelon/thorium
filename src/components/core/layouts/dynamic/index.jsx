@@ -17,7 +17,7 @@ import {FaCodeBranch, FaWindowMaximize, FaTimes} from "react-icons/fa";
 const UpdateSelect = ({id, path, mosaic}) => {
   const {mosaicActions} = React.useContext(MosaicContext);
   const update = e => {
-    mosaicActions.replaceWith(path || {}, e.target.value);
+    mosaicActions.replaceWith(path || [], e.target.value);
   };
   return (
     <select

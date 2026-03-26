@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import Lottie from 'react-lottie-player'
 
 import animationData from "./data.json";

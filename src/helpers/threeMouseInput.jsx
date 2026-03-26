@@ -1,8 +1,5 @@
 import React3 from "react-three-renderer";
 import * as THREE from "three";
-import ReactUpdates from "react-dom/lib/ReactUpdates";
-
-import SyntheticMouseEvent from "react-dom/lib/SyntheticMouseEvent";
 
 import Module from "react-three-renderer/lib/Module";
 
@@ -26,6 +23,44 @@ const mouseEvents = [
 const boolProps = {
   ignorePointerEvents: false,
 };
+
+function createSyntheticMouseEvent(eventType, sourceEvent, targetOverride) {
+  let defaultPrevented = false;
+  let propagationStopped = false;
+  return {
+    type: eventType,
+    target: targetOverride || sourceEvent?.target || null,
+    currentTarget: targetOverride || sourceEvent?.target || null,
+    clientX: sourceEvent?.clientX ?? 0,
+    clientY: sourceEvent?.clientY ?? 0,
+    button: sourceEvent?.button,
+    buttons: sourceEvent?.buttons,
+    altKey: !!sourceEvent?.altKey,
+    ctrlKey: !!sourceEvent?.ctrlKey,
+    metaKey: !!sourceEvent?.metaKey,
+    shiftKey: !!sourceEvent?.shiftKey,
+    nativeEvent: sourceEvent,
+    preventDefault() {
+      defaultPrevented = true;
+      if (sourceEvent?.preventDefault) {
+        sourceEvent.preventDefault();
+      }
+    },
+    stopPropagation() {
+      propagationStopped = true;
+      if (sourceEvent?.stopPropagation) {
+        sourceEvent.stopPropagation();
+      }
+    },
+    isDefaultPrevented() {
+      return defaultPrevented;
+    },
+    isPropagationStopped() {
+      return propagationStopped;
+    },
+    persist() {},
+  };
+}
 
 class MouseInput extends Module {
   constructor() {
@@ -143,86 +178,72 @@ class MouseInput extends Module {
   }
 
   _onMouseDown(callbackName, mouseEvent) {
-    ReactUpdates.batchedUpdates(() => {
-      const {event, intersections} = this._intersectAndDispatch(
-        callbackName,
-        mouseEvent,
-      );
+    const {event, intersections} = this._intersectAndDispatch(
+      callbackName,
+      mouseEvent,
+    );
 
-      if (event.isDefaultPrevented() || event.isPropagationStopped()) {
-        this._intersectionsForClick = null;
-      } else {
-        this._intersectionsForClick = intersections;
-      }
-    });
+    if (event.isDefaultPrevented() || event.isPropagationStopped()) {
+      this._intersectionsForClick = null;
+    } else {
+      this._intersectionsForClick = intersections;
+    }
   }
 
   _onMouseUp(callbackName, mouseEvent) {
-    ReactUpdates.batchedUpdates(() => {
-      const {event, intersections} = this._intersectAndDispatch(
-        callbackName,
-        mouseEvent,
+    const {event, intersections} = this._intersectAndDispatch(
+      callbackName,
+      mouseEvent,
+    );
+
+    if (!(event.isDefaultPrevented() || event.isPropagationStopped())) {
+      if (this._intersectionsForClick === null) {
+        return;
+      }
+
+      const intersectionUUIDMap = this._intersectionsForClick.reduce(
+        (map, intersection) => {
+          map[intersection.object.uuid] = intersection;
+
+          return map;
+        },
+        {},
       );
 
-      if (!(event.isDefaultPrevented() || event.isPropagationStopped())) {
-        if (this._intersectionsForClick === null) {
+      for (let i = 0; i < intersections.length; ++i) {
+        if (event.isDefaultPrevented() || event.isPropagationStopped()) {
           return;
         }
 
-        // intersect current intersections with the intersections for click
-        //   call xzibit ASAP we have a good one son
-        //     it wasn't that good
+        const intersection = intersections[i];
 
-        const intersectionUUIDMap = this._intersectionsForClick.reduce(
-          (map, intersection) => {
-            map[intersection.object.uuid] = intersection;
+        const object = intersection.object;
 
-            return map;
-          },
-          {},
-        );
+        const uuid = object.uuid;
 
-        for (let i = 0; i < intersections.length; ++i) {
-          if (event.isDefaultPrevented() || event.isPropagationStopped()) {
-            return;
-          }
-
-          const intersection = intersections[i];
-
-          const object = intersection.object;
-
-          const uuid = object.uuid;
-
-          if (intersectionUUIDMap[uuid]) {
-            // oh boy oh boy here we go, we got a clicker
-
-            React3.eventDispatcher.dispatchEvent(
-              object,
-              "onClick",
-              this._createSyntheticMouseEvent("click", event),
-              intersection,
-            );
-          }
+        if (intersectionUUIDMap[uuid]) {
+          React3.eventDispatcher.dispatchEvent(
+            object,
+            "onClick",
+            this._createSyntheticMouseEvent("click", event),
+            intersection,
+          );
         }
       }
-    });
+    }
 
     this._intersectionsForClick = null;
   }
 
   _createSyntheticMouseEvent(eventType, prototype) {
-    return SyntheticMouseEvent.getPooled(
-      null,
-      null,
-      new MouseEvent(eventType, prototype),
-      prototype.target,
-    );
+    const sourceEvent =
+      prototype?.nativeEvent || new MouseEvent(eventType, prototype);
+    return createSyntheticMouseEvent(eventType, sourceEvent, prototype?.target);
   }
 
   _intersectAndDispatch(callbackName, mouseEvent) {
-    const event = SyntheticMouseEvent.getPooled(
-      null,
-      null,
+    const event = createSyntheticMouseEvent(
+      callbackName,
       mouseEvent,
       mouseEvent.target,
     );
@@ -231,24 +252,25 @@ class MouseInput extends Module {
       tempVector2.set(event.clientX, event.clientY),
     );
 
-    ReactUpdates.batchedUpdates(() => {
-      for (let i = 0; i < intersections.length; ++i) {
-        const intersection = intersections[i];
+    for (let i = 0; i < intersections.length; ++i) {
+      const intersection = intersections[i];
 
-        if (event.isDefaultPrevented() || event.isPropagationStopped()) {
-          return;
-        }
-
-        const object = intersection.object;
-
-        React3.eventDispatcher.dispatchEvent(
-          object,
-          callbackName,
+      if (event.isDefaultPrevented() || event.isPropagationStopped()) {
+        return {
           event,
-          intersection,
-        );
+          intersections,
+        };
       }
-    });
+
+      const object = intersection.object;
+
+      React3.eventDispatcher.dispatchEvent(
+        object,
+        callbackName,
+        event,
+        intersection,
+      );
+    }
 
     return {
       event,

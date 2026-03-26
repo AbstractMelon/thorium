@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import tinycolor from "tinycolor2";
 import { CompactPicker } from "react-color";
 import { Button } from "helpers/reactstrap";
@@ -56,6 +55,7 @@ const SHORTRANGE_SUB = gql`
 `;
 
 export class SignalPicker extends Component {
+  signalHolderRef = React.createRef();
   state = {
     signals: this.props.shortRangeComm ? this.props.shortRangeComm.signals : []
   };
@@ -88,9 +88,9 @@ export class SignalPicker extends Component {
       resize: { id, which },
       signals
     } = this.state;
-    const { top, height } = ReactDOM.findDOMNode(this).
-    querySelector("#signalHolder").
-    getBoundingClientRect();
+    const holder = this.signalHolderRef.current;
+    if (!holder) return;
+    const { top, height } = holder.getBoundingClientRect();
     const level = Math.min(1, Math.max(0, (e.clientY - top) / height));
     this.setState({
       signals: signals.map((s) => {
@@ -217,6 +217,7 @@ export class SignalPicker extends Component {
         }
         <div
           id="signalHolder"
+          ref={this.signalHolderRef}
           onMouseDown={() => {
             this.setState({
               selectedSignal: null

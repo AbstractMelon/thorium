@@ -29,7 +29,7 @@ export default class ThrusterRotor extends Component {
       top,
       width,
       height,
-    } = this.refs.innerCircle.getBoundingClientRect();
+    } = this.innerCircle.getBoundingClientRect();
     const centerX = width / 2 + left;
     const centerY = height / 2 + top;
     const x = (evt.clientX || evt.touches[0].clientX) - centerX;
@@ -52,7 +52,12 @@ export default class ThrusterRotor extends Component {
     const {text, label} = this.props;
     return (
       <div className="thruster-rotor">
-        <div className="inner-circle" ref="innerCircle">
+        <div
+          className="inner-circle"
+          ref={el => {
+            this.innerCircle = el;
+          }}
+        >
           <div className={`angle-box text-${text}`} draggable="false">
             {Math.round(rotation)}˚
           </div>

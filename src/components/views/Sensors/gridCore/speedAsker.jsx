@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import gql from "graphql-tag.macro";
 import { Mutation } from "@apollo/client/react/components";
 
@@ -17,7 +17,7 @@ const SpeedAsker = ({
   const contacts = draggingContacts.
   map((c) => c.id).
   filter((a, i, arr) => arr.indexOf(a) === i);
-  return ReactDOM.createPortal(
+  return createPortal(
     <div
       className="speed-container"
       style={{

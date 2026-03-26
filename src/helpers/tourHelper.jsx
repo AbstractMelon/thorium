@@ -1,9 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import {renderToStaticMarkup} from "react-dom/server";
 import { useMutation } from "@apollo/client";
 
 import gql from "graphql-tag.macro";
-import Tour from "reactour";
+import {TourProvider, useTour} from "@reactour/tour";
 import "./tourHelper.scss";
 import { FaVolumeUp } from "react-icons/fa";
 import { ClientContext } from "components/client/client";
@@ -16,6 +16,16 @@ const SET_CLIENT_TRAINING = gql`
     clientSetTraining(client: $id, training: $training)
   }
 `;
+
+const TourStateSync = ({isOpen}) => {
+  const {setIsOpen} = useTour();
+
+  React.useEffect(() => {
+    setIsOpen(Boolean(isOpen));
+  }, [isOpen, setIsOpen]);
+
+  return null;
+};
 
 /**
  * Helper component for displaying a tour with steps.
@@ -40,14 +50,16 @@ const TourHelper = ({
   const speak = (stepNum) => {
     synth && synth.cancel();
     const step = steps[stepNum - 1];
-    if (typeof step.content === "string") {
-      return synth.speak(new SpeechSynthesisUtterance(step.content));
-    }
-    const div = document.createElement("div");
-    // Process the training, in case it's a react element.
-    ReactDOM.render(step.content, div);
+    const text =
+      typeof step.content === "string"
+        ? step.content
+        : (() => {
+            const div = document.createElement("div");
+            div.innerHTML = renderToStaticMarkup(<>{step.content}</>);
+            return div.innerText || div.textContent || "";
+          })();
     setTimeout(
-      () => synth.speak(new SpeechSynthesisUtterance(div.innerText)),
+      () => synth.speak(new SpeechSynthesisUtterance(text)),
       100
     );
   };
@@ -63,27 +75,33 @@ const TourHelper = ({
   return null;
   if (!steps) return null;
   return (
-    <Tour
-      key={innerKey}
+    <TourProvider
       steps={steps}
-      isOpen={training || false}
-      onAfterOpen={(target) => {
+      afterOpen={(target) => {
         const node = document.getElementById("___reactour");
         if (node) {
           node.style.transform = "translateZ(-10px)";
         }
       }}
-      onRequestClose={() => {
+      onClickClose={() => {
         synth && synth.cancel();
         onRequestClose ? onRequestClose() : setClientTraining();
       }}
-      badgeContent={(current, total) => {
+      badgeContent={(badgeProps) => {
+        const current =
+          typeof badgeProps?.current === "number"
+            ? badgeProps.current
+            : typeof badgeProps?.currentStep === "number"
+            ? badgeProps.currentStep + 1
+            : 1;
         return (
           <div className="tour-speaker" onClick={() => speak(current)}>
             <FaVolumeUp size="1em" /> Speak This
           </div>);
 
-      }} />);
+      }}>
+      <TourStateSync key={innerKey} isOpen={training || false} />
+    </TourProvider>);
 
 
 };

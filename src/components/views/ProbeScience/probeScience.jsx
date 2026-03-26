@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import ReactDOM from "react-dom";
 import {
   Container,
   Row,
@@ -89,6 +88,7 @@ const ProbeScienceSub = (props) => {
 };
 
 class ProbeScience extends Component {
+  containerRef = React.createRef();
   state = { emitContacts: [], detectorScale: 0 };
   static trainingSteps = [
   {
@@ -117,21 +117,18 @@ class ProbeScience extends Component {
   }];
 
   componentDidMount() {
-    setTimeout(() => {
-      let dimensions = false;
-      while (!dimensions) {
-        const el = ReactDOM.findDOMNode(this);
-        if (el) {
-          const el2 = el.querySelector("#sensorGrid");
-          if (el2) {
-            dimensions = el2.getBoundingClientRect();
-          }
-        }
-      }
-      this.setState({ dimensions });
-    }, 500);
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 500);
+  }
+  updateDimensions = () => {
+    const grid = this.containerRef.current?.querySelector("#sensorGrid");
+    if (grid) {
+      this.setState({ dimensions: grid.getBoundingClientRect() });
+      return;
+    }
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 50);
   }
   componentWillUnmount() {
+    clearTimeout(this.dimensionsTimeout);
     this.frame && cancelAnimationFrame(this.frame);
     this.detectFrame && cancelAnimationFrame(this.detectFrame);
   }
@@ -281,7 +278,7 @@ class ProbeScience extends Component {
     map((p) => ({ ...p, scienceType: getProbeConfig(probes, p) }));
     const probe = scienceProbes.find((p) => p.id === selectedProbe);
     return (
-      <Container className="card-scienceProbes">
+      <Container className="card-scienceProbes" ref={this.containerRef}>
         <ProbeScienceSub
           simulatorId={this.props.simulator.id}
           emit={this.emit}

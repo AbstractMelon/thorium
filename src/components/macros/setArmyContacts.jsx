@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from "react";
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import {FormGroup, Col, Button} from "helpers/reactstrap";
 import ContactContextMenu from "components/views/Sensors/gridCore/contactContextMenu";
 import {v4 as uuidv4} from "uuid";
@@ -93,7 +93,7 @@ const SetArmyContacts = ({args, updateArgs}) => {
       </Button>
       {dims &&
         contactObj &&
-        ReactDOM.createPortal(
+        createPortal(
           <div
             style={{
               zIndex: 100,

@@ -19,7 +19,7 @@
     "noEmit": true,
     "jsx": "preserve",
     "baseUrl": "./src/",
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "node"],
     "jsxImportSource": "@emotion/react"
   },
   "include": [

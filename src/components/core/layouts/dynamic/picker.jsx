@@ -7,7 +7,7 @@ import categories from "../../categories";
 const Picker = ({components, path}) => {
   const {mosaicActions} = React.useContext(MosaicContext);
   const update = e => {
-    mosaicActions.replaceWith(path, e);
+    mosaicActions.replaceWith(path || [], e);
   };
   return (
     <div className="core-picker">

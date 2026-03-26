@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import styles from "../compStyles.module.css";
 import propTypes from "prop-types";
 import uuid from "./uuid";
@@ -66,7 +66,7 @@ export default class Dragger extends Component {
     } = this.props;
     const {position} = this.state;
     const Comp = this.getRenderComp();
-    return ReactDOM.createPortal(
+    return createPortal(
       <div
         className={`${styles.comp} ${styles["dragging-comp"]}`}
         style={{

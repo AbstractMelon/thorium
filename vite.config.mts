@@ -1,7 +1,6 @@
 import {defineConfig, transformWithEsbuild} from "vite";
 import react from "@vitejs/plugin-react";
 import macrosPlugin from "vite-plugin-babel-macros";
-import tsconfigPaths from "vite-tsconfig-paths";
 import svgrPlugin from "vite-plugin-svgr";
 import commonjs from "vite-plugin-commonjs";
 // https://vitejs.dev/config/
@@ -11,7 +10,20 @@ export default defineConfig({
     jsxFactory: "jsx",
     jsxInject: `import { jsx } from '@emotion/react'`,
   },
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
+    {
+      name: "svg-react-jsx-compat",
+      enforce: "pre",
+      async transform(code, id) {
+        if (!id.endsWith(".svg?react")) return null;
+        return transformWithEsbuild(code, id, {
+          loader: "jsx",
+        });
+      },
+    },
     macrosPlugin(),
     react({
       jsxRuntime: "classic",
@@ -20,8 +32,12 @@ export default defineConfig({
         plugins: ["@emotion/babel-plugin"],
       },
     }),
-    tsconfigPaths(),
-    svgrPlugin(),
+    svgrPlugin({
+      include: "**/*.svg?react",
+      esbuildOptions: {
+        loader: "jsx",
+      },
+    }),
     commonjs(),
   ],
   css: {
@@ -49,8 +65,8 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    esbuildOptions: {
-      loader: {
+    rolldownOptions: {
+      moduleTypes: {
         ".js": "jsx",
       },
     },

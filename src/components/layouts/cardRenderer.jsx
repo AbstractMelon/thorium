@@ -152,13 +152,28 @@ function renderCards(props) {
 
 export default function CardHolder(props) {
   const comps = renderCards(props);
+  const transitionRefs = React.useMemo(() => {
+    return comps.reduce((acc, card) => {
+      acc[card.name] = React.createRef();
+      return acc;
+    }, {});
+  }, [comps]);
+
   return comps.map((card) => {
+    const nodeRef = transitionRefs[card.name];
     return (
-      <Transition key={card.name} in={card.in} timeout={250} appear>
+      <Transition
+        key={card.name}
+        in={card.in}
+        timeout={250}
+        appear
+        nodeRef={nodeRef}
+      >
         {(state) => {
           if (state === "exited") return null;
           return (
             <div
+              ref={nodeRef}
               className={`cardContainer card-transition card-transition-${state}`}
               style={{
                 width: "100%",

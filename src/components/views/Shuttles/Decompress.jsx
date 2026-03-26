@@ -19,7 +19,7 @@ export default class FizzleFade extends Component {
     this.updatePixels();
   }
   init() {
-    this.ctx = this.refs.framebuffer.getContext("2d");
+    this.ctx = this.framebuffer.getContext("2d");
     this.pixels = this.ctx.createImageData(
       this.screen_width,
       this.screen_height,
@@ -71,7 +71,9 @@ export default class FizzleFade extends Component {
     return (
       <div className="fizzlefade">
         <canvas
-          ref="framebuffer"
+          ref={el => {
+            this.framebuffer = el;
+          }}
           width={this.screen_width}
           height={this.screen_height}
         />

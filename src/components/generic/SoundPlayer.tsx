@@ -3,6 +3,7 @@ import {v4 as uuidv4} from "uuid";
 
 const sounds: {[id: string]: Sound} = {};
 let audioContext: AudioContext | undefined = undefined;
+let listenersAttached = false;
 
 declare global {
   interface Window {
@@ -11,16 +12,40 @@ declare global {
 }
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
-if (AudioContext) audioContext = new AudioContext();
-
-let resumed = false;
-
-document.body.onmousemove = () => {
-  if (!resumed) {
-    audioContext?.resume();
-    resumed = true;
+const initAudioContext = () => {
+  if (!AudioContext) return;
+  if (!audioContext) {
+    audioContext = new AudioContext();
+  }
+  if (audioContext.state === "suspended") {
+    audioContext.resume().catch(() => {
+      // Ignore browser autoplay restrictions until next user gesture.
+    });
   }
 };
+
+const attachAudioInitListeners = () => {
+  if (listenersAttached || typeof window === "undefined") return;
+  listenersAttached = true;
+  const options: AddEventListenerOptions = {passive: true};
+  const initialize = () => {
+    initAudioContext();
+    if (audioContext && audioContext.state !== "suspended") {
+      ["pointerdown", "mousedown", "touchstart", "keydown", "click"].forEach(
+        eventName => {
+          window.removeEventListener(eventName, initialize, options);
+        },
+      );
+    }
+  };
+  ["pointerdown", "mousedown", "touchstart", "keydown", "click"].forEach(
+    eventName => {
+      window.addEventListener(eventName, initialize, options);
+    },
+  );
+};
+
+attachAudioInitListeners();
 function copyToChannel(
   destination: AudioBuffer,
   source: Float32Array,
@@ -102,6 +127,7 @@ interface Sound {
 }
 export function playSound(opts: Sound) {
   if (!opts.asset && !opts.url) return;
+  initAudioContext();
   if (opts.id) {
     removeSound(opts.id, true);
   }

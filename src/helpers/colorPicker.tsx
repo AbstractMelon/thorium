@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import {ChromePicker} from "react-color";
 import useOnClickOutside from "./hooks/useClickOutside";
 import tc from "tinycolor2";
@@ -39,7 +39,7 @@ const ColorPicker: React.FC<{
         />
       </div>
       {isOpen &&
-        ReactDOM.createPortal(
+        createPortal(
           <div
             ref={ref}
             style={{

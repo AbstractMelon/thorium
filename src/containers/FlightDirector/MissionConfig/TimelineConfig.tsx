@@ -10,7 +10,7 @@ import {
   Input,
 } from "helpers/reactstrap";
 import MacroWrapper from "./MacroConfig";
-import {SortableContainer, SortableElement} from "react-sortable-hoc";
+import {ReactSortable} from "react-sortablejs";
 import EventPicker from "./EventPicker";
 import MissionConfig from "./MissionConfig";
 import EventName from "./EventName";
@@ -32,43 +32,32 @@ import {
 import TimelineStepButtons from "./TimelineStepButtons";
 import {useParams} from "react-router";
 import {useNavigate} from "react-router-dom";
-const sortableElement = SortableElement;
-const sortableContainer = SortableContainer;
+const SortableList: React.FC<{
+  items: (TimelineStep | TimelineItem)[];
+  renderItem: (item: TimelineStep | TimelineItem) => ReactNode;
+  onSortEnd?: ({oldIndex, newIndex}: {oldIndex: number; newIndex: number}) => void;
+}> = ({items, renderItem, onSortEnd}) => {
+  const [localItems, setLocalItems] = React.useState(items);
 
-const SortableItem = sortableElement(
-  ({
-    item,
-    renderItem,
-  }: {
-    item: TimelineStep | TimelineItem;
-    renderItem: (item: TimelineStep | TimelineItem) => any;
-  }) => renderItem(item),
-);
+  React.useEffect(() => {
+    setLocalItems(items);
+  }, [items]);
 
-const SortableList = sortableContainer(
-  ({
-    items,
-    renderItem,
-  }: {
-    items: (TimelineStep | TimelineItem)[];
-    renderItem: (item: TimelineStep | TimelineItem) => ReactNode;
-  }) => {
-    return (
-      <ul style={{padding: 0}}>
-        {items.map((item, index) => {
-          return (
-            <SortableItem
-              key={`${item.id}-timelineStep`}
-              index={index}
-              item={item}
-              renderItem={renderItem}
-            />
-          );
-        })}
-      </ul>
-    );
-  },
-);
+  return (
+    <ReactSortable
+      list={localItems}
+      setList={setLocalItems}
+      tag="ul"
+      style={{padding: 0}}
+      onEnd={evt => {
+        if (evt.oldIndex == null || evt.newIndex == null) return;
+        onSortEnd?.({oldIndex: evt.oldIndex, newIndex: evt.newIndex});
+      }}
+    >
+      {localItems.map(item => renderItem(item))}
+    </ReactSortable>
+  );
+};
 
 export const TimelineMacroConfig: React.FC<{
   missionId: string;

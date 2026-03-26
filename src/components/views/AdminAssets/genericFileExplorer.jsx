@@ -69,7 +69,6 @@ class FileExplorer extends Component {
               {massUpload && (
                 <label>
                   <input
-                    ref="massUpload"
                     type="file"
                     id="mass-upload-folder"
                     multiple

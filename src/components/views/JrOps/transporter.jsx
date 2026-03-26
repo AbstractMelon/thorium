@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Button, Row, Col } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import { graphql, withApollo } from "@apollo/client/react/hoc";
@@ -37,6 +36,7 @@ export const JR_TRANSPORTER_SUB = gql`
 `;
 
 class Transporters extends Component {
+  containerRef = React.createRef();
   transporterSubscription = null;
   state = {
     target: { x: 0, y: 0 },
@@ -63,9 +63,8 @@ class Transporters extends Component {
     document.addEventListener("touchend", this.mouseUp);
   };
   mouseMove = (evt) => {
-    const targetGrid = ReactDOM.findDOMNode(this).querySelector(
-      ".target-holder"
-    );
+    const targetGrid = this.containerRef.current?.querySelector(".target-holder");
+    if (!targetGrid) return;
     const { x, y, width, height } = targetGrid.getBoundingClientRect();
     const target = {};
     target.x = Math.min(
@@ -168,7 +167,7 @@ class Transporters extends Component {
     const { target, targetedContact, charge } = this.state;
     if (!transporter) return <h1>No transporter system</h1>;
     return (
-      <Row className="transporters">
+      <Row className="transporters" ref={this.containerRef}>
         <SubscriptionHelper
           subscribe={() =>
           this.props.data.subscribeToMore({

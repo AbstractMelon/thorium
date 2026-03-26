@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import {Input} from "helpers/reactstrap";
 import Measure from "react-measure";
 import escapeRegex from "escape-string-regexp";
@@ -91,7 +91,7 @@ class RoomSearch extends Component {
           )}
         </Measure>
         {this.state.searchQuery &&
-          ReactDOM.createPortal(
+          createPortal(
             <Search
               items={this.state.searchRooms}
               location={this.state.dimensions}

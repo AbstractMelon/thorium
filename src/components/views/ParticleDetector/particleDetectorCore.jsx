@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Query } from "@apollo/client/react/components";
 import { withApollo } from "@apollo/client/react/hoc";
 
@@ -201,27 +200,27 @@ class ParticleLine extends Component {
   }
 }
 class ParticleDetectorCore extends Component {
+  containerRef = React.createRef();
   state = {};
   mounted = false;
   componentDidMount() {
     this.mounted = true;
-    setTimeout(() => {
-      if (this.mounted === false) return;
-      let dimensions = false;
-      while (!dimensions) {
-        const el = ReactDOM.findDOMNode(this);
-        if (el) {
-          const el2 = el.querySelector("#threeSensors #sensorGrid");
-          if (el2) {
-            dimensions = el2.getBoundingClientRect();
-          }
-        }
-      }
-      this.setState({ dimensions });
-    }, 500);
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 500);
+  }
+  updateDimensions = () => {
+    if (this.mounted === false) return;
+    const grid = this.containerRef.current?.querySelector(
+      "#threeSensors #sensorGrid"
+    );
+    if (grid) {
+      this.setState({ dimensions: grid.getBoundingClientRect() });
+      return;
+    }
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 50);
   }
   componentWillUnmount() {
     this.mounted = false;
+    clearTimeout(this.dimensionsTimeout);
   }
   mouseDown = (e, contact) => {
     this.downMouseTime = Date.now();
@@ -288,7 +287,7 @@ class ParticleDetectorCore extends Component {
     // Delete any dragging contacts that are out of bounds
     const contacts = draggingContacts.
     map((c) => {
-      const contactEl = ReactDOM.findDOMNode(this).querySelector(
+      const contactEl = this.containerRef.current?.querySelector(
         `#contact-${c.id}`
       );
       if (contactEl) {
@@ -411,7 +410,7 @@ class ParticleDetectorCore extends Component {
     const { dimensions, draggingContacts } = this.state;
     const extraContacts = [].concat(draggingContacts).filter(Boolean);
     return (
-      <Container className="particleDetector-core">
+      <Container className="particleDetector-core" ref={this.containerRef}>
         <Row>
           <Col sm={4}>
             <Button block color="secondary" size="sm" onClick={this.clear}>

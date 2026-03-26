@@ -1,6 +1,6 @@
 import React from "react";
 import {Container, Row, Col} from "helpers/reactstrap";
-import AnimatedNumber from "react-animated-number";
+import AnimatedNumber from "helpers/animatedNumber";
 import useMeasure from "helpers/hooks/useMeasure";
 import {ViewscreenScaleContext} from "../../views/Viewscreen";
 

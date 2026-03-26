@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import {Container, Row, Col, Button} from "helpers/reactstrap";
 import Grid from "../Sensors/GridDom/grid";
 import {particleTypes, particleBootstrapClasses} from "./particleConstants";
@@ -15,6 +14,7 @@ function distance3d(coord2, coord1) {
 }
 
 class ParticleDetector extends Component {
+  containerRef = React.createRef();
   state = {circles: [], opacities: {}};
   static trainingSteps = [
     {
@@ -31,21 +31,17 @@ content: "Click anywhere on the grid to detect particles. You can only detect a 
     },
   ];
   componentDidMount() {
-    setTimeout(() => {
-      let dimensions = false;
-      while (!dimensions) {
-        const el = ReactDOM.findDOMNode(this);
-        if (el) {
-          const el2 = el.querySelector("#sensorGrid");
-          if (el2) {
-            dimensions = el2.getBoundingClientRect();
-          }
-        }
-      }
-      this.setState({dimensions});
-    }, 500);
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 500);
     this.loop();
   }
+  updateDimensions = () => {
+    const grid = this.containerRef.current?.querySelector("#sensorGrid");
+    if (grid) {
+      this.setState({dimensions: grid.getBoundingClientRect()});
+      return;
+    }
+    this.dimensionsTimeout = setTimeout(this.updateDimensions, 50);
+  };
   mouseDown = (e, b, c) => {
     const {
       dimensions: {left, top, width, height},
@@ -88,6 +84,7 @@ content: "Click anywhere on the grid to detect particles. You can only detect a 
     );
   };
   componentWillUnmount() {
+    clearTimeout(this.dimensionsTimeout);
     cancelAnimationFrame(this.frame);
   }
   loop = () => {
@@ -128,7 +125,7 @@ content: "Click anywhere on the grid to detect particles. You can only detect a 
       };
     });
     return (
-      <Container className="card-particleDetector">
+      <Container className="card-particleDetector" ref={this.containerRef}>
         <Row>
           <Col sm={8} className="particle-grid">
             <Grid

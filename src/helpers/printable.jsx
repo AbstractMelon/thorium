@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import ReactDOM from "react-dom";
+import {createPortal} from "react-dom";
 import "./printable.scss";
 
 export default function Printable(props) {
@@ -7,7 +7,7 @@ export default function Printable(props) {
   return (
     <Fragment>
       {props.preview && props.children}
-      {ReactDOM.createPortal(
+      {createPortal(
         <div className="printable">{props.children}</div>,
         document.body,
       )}

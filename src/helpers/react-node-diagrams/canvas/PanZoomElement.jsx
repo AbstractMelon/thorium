@@ -28,8 +28,8 @@ export default class PanZoomElement extends Component {
       },
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.reset !== this.state.reset) {
+  componentDidUpdate(prevProps) {
+    if (this.props.reset !== prevProps.reset) {
       this._panner = new Panner({
         screenWidth: this.props.width,
         screenHeight: this.props.height,
@@ -47,9 +47,6 @@ export default class PanZoomElement extends Component {
         y: this._panner.viewport.y,
       });
     }
-    this.setState({
-      reset: nextProps.reset,
-    });
   }
   element = React.createRef();
   content = React.createRef();

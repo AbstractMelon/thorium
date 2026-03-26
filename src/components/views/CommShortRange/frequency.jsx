@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {findDOMNode} from "react-dom";
 
 const sinPoints = ({frequency = 0, amplitude = 0, width, height}) => {
   let sinHeight = height * 2 * 2;
@@ -12,9 +11,11 @@ const sinPoints = ({frequency = 0, amplitude = 0, width, height}) => {
 };
 
 export default class FrequencySignals extends Component {
+  svgRef = React.createRef();
   state = {};
   componentDidMount() {
-    const el = findDOMNode(this);
+    const el = this.svgRef.current;
+    if (!el || !el.parentElement) return;
     this.setState({
       height: el.parentElement.getBoundingClientRect().height,
     });
@@ -34,6 +35,7 @@ export default class FrequencySignals extends Component {
     return (
       <svg
         key={"short-range-line"}
+        ref={this.svgRef}
         style={{height: "100%", width: dimensions.width}}
       >
         <path d={points} fill="transparent" stroke="green" strokeWidth={2} />

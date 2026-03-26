@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 
 export default class Doodad2 extends Component {
+  canvasRef = React.createRef();
   componentDidMount() {
     this.animating = true;
     this.frame();
@@ -12,7 +12,8 @@ export default class Doodad2 extends Component {
   frame = vars => {
     if (vars === undefined) {
       vars = {};
-      vars.canvas = ReactDOM.findDOMNode(this);
+      vars.canvas = this.canvasRef.current;
+      if (!vars.canvas) return;
       vars.ctx = vars.canvas.getContext("2d");
       vars.canvas.width = document.body.clientWidth;
       vars.canvas.height = document.body.clientHeight;
@@ -42,7 +43,10 @@ export default class Doodad2 extends Component {
   };
   render() {
     return (
-      <canvas style={{position: "absolute", width: "100%", height: "100%"}} />
+      <canvas
+        ref={this.canvasRef}
+        style={{position: "absolute", width: "100%", height: "100%"}}
+      />
     );
   }
 }

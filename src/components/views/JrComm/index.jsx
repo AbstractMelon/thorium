@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import gql from "graphql-tag.macro";
 import SineWaves from "../../generic/SineWaves";
 import { graphql, withApollo } from "@apollo/client/react/hoc";
@@ -46,6 +45,8 @@ export const JR_COMM_SUB = gql`
 `;
 
 class CommShortRange extends Component {
+  containerRef = React.createRef();
+  wavesCanvasRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
@@ -57,10 +58,9 @@ class CommShortRange extends Component {
     this.subscription = null;
   }
   initWaves = () => {
-    const self = this;
     this.waves = new SineWaves({
       // Canvas Element
-      el: ReactDOM.findDOMNode(self).querySelector("#comm-waves"),
+      el: this.wavesCanvasRef.current,
 
       // General speed of entire wave system
       speed: 8,
@@ -128,13 +128,13 @@ class CommShortRange extends Component {
       }
     });
   };
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!nextProps.data.loading) {
-      if (nextProps.data.shortRangeComm && nextProps.data.shortRangeComm[0]) {
+  componentDidUpdate(prevProps) {
+    if (!this.props.data.loading) {
+      if (this.props.data.shortRangeComm && this.props.data.shortRangeComm[0]) {
         if (!this.waves) {
           setTimeout(this.initWaves, 500);
         }
-        const ShortRange = nextProps.data.shortRangeComm[0];
+        const ShortRange = this.props.data.shortRangeComm[0];
         let comms = ShortRange.arrows.map((a) => {
           const signal = ShortRange.signals.find((s) => s.id === a.signal) || {};
           return {
@@ -270,7 +270,7 @@ class CommShortRange extends Component {
     "Incoming Call";
     if (!ShortRange) return <p>No short range comm</p>;
     return (
-      <Container className="shortRangeComm">
+      <Container className="shortRangeComm" ref={this.containerRef}>
         <SubscriptionHelper
           subscribe={() =>
           this.props.data.subscribeToMore({
@@ -316,6 +316,7 @@ class CommShortRange extends Component {
           <Col sm={12}>
             <canvas
               id="comm-waves"
+              ref={this.wavesCanvasRef}
               style={{
                 width: "100%",
                 height: "25vh"
