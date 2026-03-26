@@ -4,7 +4,7 @@ import {
   useDmxSetsSubscription,
   useActivateLightingMutation,
 } from "generated/graphql";
-import css from "@emotion/css";
+import {css} from "@emotion/react";
 import LightingCore from "components/views/Lighting";
 
 import {Button, Input} from "reactstrap";

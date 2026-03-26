@@ -1,4 +1,4 @@
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import React, {Fragment, Component} from "react";
 
 class CardFrame extends Component {

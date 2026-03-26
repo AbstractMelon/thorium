@@ -6,10 +6,6 @@ import commonjs from "vite-plugin-commonjs";
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/",
-  esbuild: {
-    jsxFactory: "jsx",
-    jsxInject: `import { jsx } from '@emotion/react'`,
-  },
   resolve: {
     tsconfigPaths: true,
   },
@@ -26,7 +22,7 @@ export default defineConfig({
     },
     macrosPlugin(),
     react({
-      jsxRuntime: "classic",
+      jsxRuntime: "automatic",
       jsxImportSource: "@emotion/react",
       babel: {
         plugins: ["@emotion/babel-plugin"],

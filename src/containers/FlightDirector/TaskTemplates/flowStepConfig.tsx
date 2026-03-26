@@ -1,4 +1,4 @@
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import React from "react";
 import {Col, Input, Label, ListGroup, ListGroupItem, Button} from "reactstrap";
 import {useParams, useNavigate, useMatch, Outlet} from "react-router";

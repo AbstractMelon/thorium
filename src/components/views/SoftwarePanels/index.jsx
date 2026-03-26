@@ -9,7 +9,7 @@ import { getComponentLevel } from "../../../containers/FlightDirector/SoftwarePa
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import "./style.scss";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const SUB = gql`
   subscription SoftwarePanelsUpdate($simulatorId: ID) {

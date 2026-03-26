@@ -1,5 +1,5 @@
-import { keyframes } from "@emotion/core";
-import css from "@emotion/css/macro";
+import { keyframes } from "@emotion/react";
+import {css} from "@emotion/react";
 import React, { useState } from "react";
 import {
   Button,

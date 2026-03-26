@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import gql from "graphql-tag.macro";
 import { Container, Card } from "helpers/reactstrap";
 import { withApollo } from "@apollo/client/react/hoc";

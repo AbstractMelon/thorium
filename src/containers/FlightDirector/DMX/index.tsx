@@ -1,7 +1,7 @@
 import React from "react";
 import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
 import {ListGroup, ListGroupItem} from "reactstrap";
-import css from "@emotion/css/macro";
+import {css} from "@emotion/react";
 import DMXDevices from "./devices";
 import DMXSets from "./sets";
 import DMXConfigs from "./configs";

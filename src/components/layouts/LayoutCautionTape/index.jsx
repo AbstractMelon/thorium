@@ -7,7 +7,7 @@ import Widgets from "../LayoutOdyssey/widgets";
 import CardSwitcher from "./cardSwitcher";
 import CardHolder from "../cardRenderer";
 import "./style.scss";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 class LayoutCautionTape extends Component {
   state = {};

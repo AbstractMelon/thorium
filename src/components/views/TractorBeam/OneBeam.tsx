@@ -1,6 +1,6 @@
 import React from "react";
 import {Button} from "helpers/reactstrap";
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import Beam from "./beam";
 import Target from "./target";
 import Bars from "./bars";

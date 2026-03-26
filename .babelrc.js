@@ -12,9 +12,9 @@ module.exports = {
         allExtensions: false,
       },
     ],
-    "@emotion/babel-preset-css-prop",
   ].filter(Boolean),
   plugins: [
+    "@emotion/babel-plugin",
     "transform-node-env-inline",
     "import-glob",
     "@babel/plugin-transform-class-properties",

@@ -1,4 +1,4 @@
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import React from "react";
 import {useParams, useMatch, useNavigate, Outlet} from "react-router";
 import {

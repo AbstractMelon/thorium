@@ -16,7 +16,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import {FaBan} from "react-icons/fa";
 import FileExplorer from "../TacticalMap/fileExplorer";
 const DocumentViewer = React.lazy(() => import("./documentViewer"));

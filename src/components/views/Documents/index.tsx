@@ -1,4 +1,4 @@
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import {ListGroup, ListGroupItem} from "helpers/reactstrap";
 import React from "react";
 import {Simulator, useDocumentsSubscription} from "generated/graphql";

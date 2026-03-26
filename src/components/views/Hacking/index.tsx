@@ -16,7 +16,7 @@ import Arrow from "../CommShortRange/arrow";
 import FrequencySignals from "../CommShortRange/frequency";
 import {Doodad} from "components/viewscreens";
 import Keypad from "../Navigation/keypad";
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import {ListGroupItem, Button, Card, ListGroup} from "helpers/reactstrap";
 import {capitalCase} from "change-case";
 import useInterval from "helpers/hooks/useInterval";
