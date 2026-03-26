@@ -176,11 +176,16 @@ const resolver = {
             }
           }
         }`,
-        }).then(({data: {center}}) => {
-          if (!center) return spaceEdventuresData;
-          spaceEdventuresData = {...center, token: App.spaceEdventuresToken};
-          return spaceEdventuresData;
-        });
+        })
+          .then(result => {
+            const center = result?.data?.center;
+            if (!center) return spaceEdventuresData;
+            spaceEdventuresData = {...center, token: App.spaceEdventuresToken};
+            return spaceEdventuresData;
+          })
+          .catch(() => {
+            return spaceEdventuresData;
+          });
       }
       if (spaceEdventuresData) {
         return spaceEdventuresData;

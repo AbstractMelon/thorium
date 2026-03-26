@@ -15,7 +15,12 @@ const height = 200;
 
 const cache = {};
 let renderer;
-if (process.env.JEST_WORKER_ID === undefined) {
+const isJestRuntime =
+  typeof process !== "undefined" &&
+  process.env &&
+  process.env.JEST_WORKER_ID !== undefined;
+
+if (!isJestRuntime) {
   renderer = new WebGLRenderer({alpha: true});
   renderer.setSize(width, height);
   renderer.outputEncoding = sRGBEncoding;
@@ -23,7 +28,7 @@ if (process.env.JEST_WORKER_ID === undefined) {
 }
 
 export default function useGLTFPreview(assetPath) {
-  if (process.env.JEST_WORKER_ID !== undefined) return "";
+  if (isJestRuntime) return "";
   if (cache[assetPath] && cache[assetPath].then) throw cache[assetPath];
   if (!cache[assetPath]) {
     const promise = new Promise(resolve => {

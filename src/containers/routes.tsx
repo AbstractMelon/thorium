@@ -174,7 +174,12 @@ const App: React.FC = () => {
   return (
     <>
       <ClockSync />
-      <Router>
+      <Router
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <Routes>
           <Route path="client" element={<Client />} />
 

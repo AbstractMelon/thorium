@@ -15,7 +15,11 @@ import {FLIGHTS_QUERY} from "../containers/FlightDirector/Welcome/Welcome";
 import {getClientId} from "helpers/getClientId";
 import {publish} from "./pubsub";
 import {getArgumentValues} from "graphql/execution/values";
-import {buildASTSchema, getOperationRootType, print} from "graphql";
+import {
+  buildASTSchema,
+  getOperationRootType,
+  print,
+} from "graphql";
 import {loader} from "graphql.macro";
 import {getFieldDef} from "graphql/execution/execute";
 
@@ -95,23 +99,28 @@ const headersMiddleware = setContext((operation, {headers}) => {
 
 const mutationMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
-  if (operation.query.definitions[0].operation === "mutation" && schema) {
-    const event =
-      operation?.query?.definitions?.[0]?.selectionSet?.selections?.[0]?.name
-        ?.value;
+  const opDef = operation.query.definitions.find(
+    d => d.kind === "OperationDefinition" && d.operation === "mutation",
+  );
+
+  if (opDef && schema) {
+    const selection = opDef.selectionSet.selections[0];
+    if (!selection || selection.kind !== "Field") {
+      return forward(operation);
+    }
+    const event = selection.name?.value;
     const variables = Object.keys(operation.variables).reduce((acc, key) => {
       const _acc = acc;
       if (operation.variables[key] !== undefined)
         _acc[key] = operation.variables[key];
       return _acc;
     }, {});
-    const opDef = operation?.query.definitions?.[0];
     const parentType = getOperationRootType(schema, opDef);
-    const fieldDef = getFieldDef(schema, parentType, event);
+    const fieldDef = getFieldDef(schema, parentType, selection);
     try {
       const args = getArgumentValues(
         fieldDef,
-        opDef.selectionSet.selections[0],
+        selection,
         variables,
       );
       if (event) {
@@ -167,6 +176,20 @@ const cache = new InMemoryCache({
     }
     return null;
   },
+  typePolicies: {
+    Thorium: {
+      keyFields: false,
+    },
+    Query: {
+      fields: {
+        thorium: {
+          merge(existing = {}, incoming = {}) {
+            return {...existing, ...incoming};
+          },
+        },
+      },
+    },
+  },
 });
 
 const client = new ApolloClient({
@@ -176,7 +199,7 @@ const client = new ApolloClient({
   cache: cache.restore(window.__APOLLO_CLIENT__),
   ssrMode: true,
   ssrForceFetchDelay: 100,
-  connectToDevTools: true,
+  devtools: {enabled: true},
   queryDeduplication: true,
   defaultOptions: {
     watchQuery: {

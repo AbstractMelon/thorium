@@ -1,7 +1,8 @@
 import {
   ApolloServer,
-  ApolloServerExpressConfig,
-} from "apollo-server-express";
+  ApolloServerPlugin,
+} from "@apollo/server";
+import {expressMiddleware} from "@as-integrations/express4";
 import {makeExecutableSchema} from "@graphql-tools/schema";
 import express from "express";
 import vanity from "./vanity";
@@ -42,7 +43,7 @@ if (process.env.NODE_ENV === "development" && !process.env.CI) {
 }
 
 // TODO: Change app to the express type
-function responseForOperation(requestContext) {
+function responseForOperation(requestContext: any) {
   // This plugin checks to see if a request
   // coming in is a mutation. If it is, it
   // hijacks the request and triggers the
@@ -50,16 +51,16 @@ function responseForOperation(requestContext) {
   // /server/events. If the event handler doesn't
   // resolve (by calling the callback function cb)
   // in 500 milliseconds, it just returns.
-  const {
-    context,
-    request: {variables},
-    operation,
-  } = requestContext;
+  const context = requestContext.contextValue || {};
+  const variables = requestContext.request?.variables || {};
+  const operation = requestContext.operation;
+  if (!operation) return null;
   if (operation.operation !== "mutation") return null;
   const selection = operation.selectionSet.selections[0] as FieldNode;
+  if (!selection || selection.kind !== "Field") return null;
   const opName = selection.name.value;
   const parentType = getOperationRootType(schema, operation);
-  const fieldDef = getFieldDef(schema, parentType, opName);
+  const fieldDef = getFieldDef(schema, parentType, selection);
   const args = getArgumentValues(
     fieldDef,
     operation.selectionSet.selections[0] as FieldNode,
@@ -83,7 +84,7 @@ function responseForOperation(requestContext) {
   );
   // We really want to modify this read-only property
   // @ts-ignore ts(2540)
-  requestContext.context = {
+  requestContext.contextValue = {
     ...context,
     flight: flight || context.flight,
     simulator: simulator || context.simulator,
@@ -102,7 +103,7 @@ function responseForOperation(requestContext) {
         cb: () => {},
       },
       opName,
-      requestContext.context,
+      requestContext.contextValue,
     );
     // Returning null means it executes
     // the built-in mutation resolver
@@ -120,7 +121,7 @@ function responseForOperation(requestContext) {
         },
       },
       opName,
-      requestContext.context,
+      requestContext.contextValue,
     );
     timeout = setTimeout(() => {
       resolve({error: "fail", data: {}});
@@ -136,31 +137,34 @@ export default async (
 ) => {
   // Apply the mutations to App.js so we don't get circular dependency issues
   setMutations(resolvers.Mutation);
-  const graphqlOptions: ApolloServerExpressConfig = {
-    schema,
-    introspection: true,
-    plugins: [
-      {
-        async requestDidStart() {
-          return {
-            responseForOperation,
-          };
-        },
-      },
-    ],
-    context: ({req}) => {
-      const clientId = Array.isArray(req?.headers.clientid)
-        ? req?.headers.clientid[0]
-        : req?.headers.clientid;
-      const core = Array.isArray(req?.headers.core)
-        ? req?.headers.core[0]
-        : req?.headers.core;
-      return {clientId, core};
+  const mutationBridgePlugin: ApolloServerPlugin = {
+    async requestDidStart() {
+      return {
+        responseForOperation,
+      };
     },
   };
-  const apollo = new ApolloServer(graphqlOptions);
+
+  const apollo = new ApolloServer({
+    schema,
+    introspection: true,
+    plugins: [mutationBridgePlugin],
+  });
   await apollo.start();
-  apollo.applyMiddleware({app, path: GRAPHQL_PATH});
+  app.use(
+    GRAPHQL_PATH,
+    expressMiddleware(apollo, {
+      context: async ({req}) => {
+        const clientId = Array.isArray(req?.headers.clientid)
+          ? req?.headers.clientid[0]
+          : req?.headers.clientid;
+        const core = Array.isArray(req?.headers.core)
+          ? req?.headers.core[0]
+          : req?.headers.core;
+        return {clientId, core};
+      },
+    }),
+  );
 
   let httpServer: http.Server | https.Server = http.createServer(app);
   let isHttps = false;
