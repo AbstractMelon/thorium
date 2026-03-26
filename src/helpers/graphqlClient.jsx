@@ -7,9 +7,9 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import {getMainDefinition, Observable} from "@apollo/client/utilities";
-import {onError} from "@apollo/link-error";
+import {onError} from "@apollo/client/link/error";
 import {MockLink} from "@apollo/client/testing";
-import {setContext} from "@apollo/link-context";
+import {setContext} from "@apollo/client/link/context";
 import {createClient} from "graphql-ws";
 import {FLIGHTS_QUERY} from "../containers/FlightDirector/Welcome/Welcome";
 import {getClientId} from "helpers/getClientId";

@@ -2,7 +2,7 @@ import {
   ApolloServer,
   ApolloServerPlugin,
 } from "@apollo/server";
-import {expressMiddleware} from "@as-integrations/express4";
+import {expressMiddleware} from "@as-integrations/express5";
 import {makeExecutableSchema} from "@graphql-tools/schema";
 import express from "express";
 import vanity from "./vanity";
