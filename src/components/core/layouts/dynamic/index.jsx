@@ -164,7 +164,7 @@ const Dynamic = props => {
       }
       value={mosaic}
       onChange={updateMosaic}
-      className={"core mosaic   bp3-dark pt-dark"}
+      className={"core mosaic"}
     />
   );
 };
