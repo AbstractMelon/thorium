@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import throttle from "../helpers/throttle";
 
 const sendUpdate = throttle(() => {
@@ -32,7 +32,7 @@ App.on("firePhaserBeam", ({id, beamId}) => {
   const beam = sys.beams.find(b => b.id === beamId);
   if (beam.charge > 0) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       station: "Core",
       type: "Phasers",

@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 
 class Keypad {
@@ -82,7 +82,7 @@ class Scanner {
 
 export default class Client {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.clientLabel = params.label || "";
     this.class = "Client";
     this.flightId = params.flightId || null;

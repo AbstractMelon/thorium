@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const shieldNames = [
   "",
@@ -20,7 +20,7 @@ App.on("shieldRaised", ({id}) => {
   if (system) {
     if (system.shieldState(true)) {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: system.simulatorId,
         type: "Shields",
         station: "Core",
@@ -58,7 +58,7 @@ App.on("shieldRaised", ({id}) => {
         .filter(Boolean);
       if (raised.length > 0) {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: id,
           type: "Shields",
           station: "Core",
@@ -93,7 +93,7 @@ App.on("shieldLowered", ({id}) => {
   const system = App.systems.find(sys => sys.id === id);
   if (system) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: system.simulatorId,
       type: "Shields",
       station: "Core",
@@ -131,7 +131,7 @@ App.on("shieldLowered", ({id}) => {
           sys.shieldState(false);
         });
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: id,
         type: "Shields",
         station: "Core",

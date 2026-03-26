@@ -3,7 +3,7 @@ import { graphql, withApollo } from "@apollo/client/react/hoc";
 
 import gql from "graphql-tag.macro";
 import { Container, Row, Col, Card, Input, Button } from "helpers/reactstrap";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Printable from "helpers/printable";
 
@@ -44,7 +44,7 @@ class OfficerLog extends Component {
         addLog(log: {clientId: $clientId, flightId: $flightId, log: $log})
       }
     `;
-    const id = uuid.v4();
+    const id = uuidv4();
     const variables = {
       clientId: this.props.clientObj.id,
       flightId: this.props.flight.id,

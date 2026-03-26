@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 // from ./taskFlow.ts
 function move(array, old_index, new_index) {
@@ -16,7 +16,7 @@ function move(array, old_index, new_index) {
 
 class Action {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Action";
     this.event = params.event || "";
     this.args = params.args || "{}";
@@ -27,7 +27,7 @@ class Action {
 
 export default class Macro {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Macro";
     this.name = params.name || "Default Macro";
     this.actions = [];
@@ -71,7 +71,7 @@ class MacroButton extends Macro {
 
 export class MacroButtonConfig {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "MacroButtonConfig";
     this.name = params.name || "Macro Button";
     this.buttons = [];

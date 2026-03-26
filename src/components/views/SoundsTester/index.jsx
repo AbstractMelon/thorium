@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import gql from "graphql-tag.macro";
 import { graphql, withApollo } from "@apollo/client/react/hoc";
 
@@ -9,7 +9,7 @@ class SoundsTester extends Component {
   state = { currentSounds: [] };
   playSound = (asset) => {
     this.setState({
-      currentSounds: this.state.currentSounds.concat({ id: uuid.v4(), asset })
+      currentSounds: this.state.currentSounds.concat({ id: uuidv4(), asset })
     });
   };
   render() {

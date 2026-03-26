@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class Ambiance {
   id: string;
@@ -9,7 +9,7 @@ export default class Ambiance {
   channel: number[] | number;
   playbackRate: number;
   constructor(params: Partial<Ambiance> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Ambiance";
     this.name = params.name || "Ambiance";
     this.asset = params.asset || "/Sounds/ambiance.ogg";

@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import {Countermeasures} from "../classes/Countermeasure";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 function performAction(id, action: (sys: Countermeasures) => void) {
   const sys: Countermeasures = App.systems.find(s => s.id === id);
   if (!sys) return;
@@ -11,7 +11,7 @@ function performAction(id, action: (sys: Countermeasures) => void) {
 
 function doNotify({simulatorId, title, body}) {
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId,
     type: "Countermeasures",
     station: "Core",

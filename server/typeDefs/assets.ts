@@ -5,7 +5,7 @@ import path from "path";
 import os from "os";
 import {ncp} from "ncp";
 import {download} from "../bootstrap/init";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import fs from "fs";
 import assetDir from "../helpers/assetDir";
 import mutationHelper from "../helpers/mutationHelper";
@@ -102,7 +102,7 @@ const resolver = {
       Promise.all(
         files.map(file => {
           const filePath = `${assetDir}${folderPath}/${file.name}`;
-          const dest = path.resolve(`${os.tmpdir()}/${file.name}-${uuid.v4()}`);
+          const dest = path.resolve(`${os.tmpdir()}/${file.name}-${uuidv4()}`);
           return new Promise<void>(resolve =>
             download(file.url, dest, err => {
               if (err) {
@@ -128,7 +128,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: rootValue => {
-        const id = uuid.v4();
+        const id = uuidv4();
         process.nextTick(() => {
           const returnVal = getFolders(assetDir);
           pubsub.publish(id, returnVal);

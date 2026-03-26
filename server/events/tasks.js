@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("addTask", ({taskInput, simulatorId, cb}) => {
   let simId = taskInput.simulatorId || simulatorId;
@@ -18,7 +18,7 @@ App.on("addTask", ({taskInput, simulatorId, cb}) => {
     );
 
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: task.simulatorId,
     type: "Tasks",
     station: task.station,
@@ -81,7 +81,7 @@ App.on("requestTaskVerify", ({id}) => {
     App.tasks.filter(s => s.simulatorId === task.simulatorId),
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: task.simulatorId,
     type: "Tasks",
     station: "Core",
@@ -109,7 +109,7 @@ App.on("denyTaskVerify", ({id}) => {
     App.tasks.filter(s => s.simulatorId === task.simulatorId),
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: task.simulatorId,
     type: "Tasks",
     station: task.station,
@@ -120,7 +120,7 @@ App.on("denyTaskVerify", ({id}) => {
   });
 });
 
-App.on("addTaskTemplate", ({id = uuid.v4(), definition, cb}) => {
+App.on("addTaskTemplate", ({id = uuidv4(), definition, cb}) => {
   App.taskTemplates.push(new Classes.TaskTemplate({id, definition}));
   pubsub.publish("taskTemplatesUpdate", App.taskTemplates);
   cb(id);

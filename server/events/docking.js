@@ -2,7 +2,7 @@ import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
 import {capitalCase} from "change-case";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 function whichEvent({clamps, compress, doors, docked}) {
   if (compress) {
     return "Compressed";
@@ -52,7 +52,7 @@ App.on("updateDockingPort", ({port, simulatorId, cb, ...rest}) => {
   pubsub.publish("dockingUpdate", App.dockingPorts);
   if (!whichEvent(port)) return cb();
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: dockingPort.simulatorId,
     type: "Docking",
     station: "Core",

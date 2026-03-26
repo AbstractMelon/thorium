@@ -3,7 +3,7 @@ import {Input, Button, Col, Card, CardBody} from "helpers/reactstrap";
 import ValueInput from "../../../components/views/Tasks/core/ValueInput";
 import EventPicker from "containers/FlightDirector/MissionConfig/EventPicker";
 import EventName from "containers/FlightDirector/MissionConfig/EventName";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import MacroConfig from "../../../components/views/Macros/macroConfig";
 import {FaBan} from "react-icons/fa";
 import {
@@ -219,7 +219,7 @@ export const ConfigureMacro: React.FC<{
                   event,
                   args: "{}",
                   delay: 0,
-                  id: uuid.v4(),
+                  id: uuidv4(),
                 }),
             },
           });

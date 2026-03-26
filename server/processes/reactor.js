@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import throttle from "../helpers/throttle";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const throttles = {};
 const heatThrottles = {};
@@ -10,7 +10,7 @@ const triggerWarning = sys => {
   if (!throttles[sys.id]) {
     throttles[sys.id] = throttle(sys => {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         type: "Reactor",
         station: "Core",
@@ -43,7 +43,7 @@ const triggerHeatWarning = sys => {
       );
       stations.forEach(s =>
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: sys.simulatorId,
           type: "Reactor",
           station: s.name,
@@ -55,7 +55,7 @@ const triggerHeatWarning = sys => {
       );
 
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         type: "Reactor",
         station: "Core",
@@ -88,7 +88,7 @@ const triggerPowerWarning = sys => {
         );
         stations.forEach(s =>
           pubsub.publish("notify", {
-            id: uuid.v4(),
+            id: uuidv4(),
             simulatorId: sys.simulatorId,
             type: "Reactor",
             station: s.name,

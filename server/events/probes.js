@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {capitalCase} from "change-case";
 import throttle from "../helpers/throttle";
 
@@ -61,7 +61,7 @@ App.on("launchProbe", ({id, probe}) => {
   const sys = App.systems.find(s => s.id === id);
   if (!sys.torpedo) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Probes",
       station: "Core",
@@ -96,7 +96,7 @@ App.on("fireProbe", ({id, probeId}) => {
   const probe = sys.probes.find(p => p.id === probeId);
   if (probe) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Probes",
       station: "Core",
@@ -156,7 +156,7 @@ App.on("probeQuery", ({id, probeId, query}) => {
   const sys = App.systems.find(s => s.id === id);
   sys.probeQuery(probeId, query);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     type: "Probes",
     station: "Core",
@@ -198,7 +198,7 @@ App.on("probeQueryResponse", ({id, probeId, response}) => {
   );
   stations.forEach(s => {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       station: s.name,
       title: `New Probe Query Response`,
@@ -244,7 +244,7 @@ App.on("probeProcessedData", ({id, simulatorId, data = "", flash}) => {
       );
     }
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       station: s.name,
       title: `New Processed Data`,
@@ -372,7 +372,7 @@ App.on("activateProbeEmitter", ({id, probeId}) => {
 
     // Notifications
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Probes",
       station: "Core",

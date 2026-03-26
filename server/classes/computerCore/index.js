@@ -1,10 +1,10 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "../generic";
 import * as defaults from "./defaults";
 
 class User {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Generic User";
     this.password = params.password || "rommel1942";
     this.hacker = params.hacker || false;
@@ -20,7 +20,7 @@ class User {
 
 export class File {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || `File ${Math.round(Math.random() * 998 + 1)}`;
     this.level = params.level || Math.round(Math.random() * 10 + 1);
     this.corrupted = params.corrupted || false;
@@ -48,7 +48,7 @@ function randomString(length, chars) {
 
 class Virus {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name =
       params.name ||
       randomString(
@@ -64,7 +64,7 @@ class Virus {
 // R - Restarting
 class Terminal {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name =
       params.name ||
       `Terminal ${randomString(5, "0123456789abcdefghijklmnopqrstuvwxyz")}`;
@@ -78,7 +78,7 @@ class Terminal {
 export default class ComputerCore extends System {
   constructor(params) {
     super({name: "Main Computer", ...params});
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "ComputerCore";
     this.type = "ComputerCore";
     this.wing = params.wing || "left";

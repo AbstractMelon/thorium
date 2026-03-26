@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 App.on("createSurveyForm", ({name, cb}) => {
   const form = new Classes.SurveyForm({title: name});
   App.surveyForms.push(form);
@@ -28,7 +28,7 @@ App.on("triggerSurvey", ({simulatorId, id}) => {
       App.surveyForms.find(s => s.id === id),
       {
         simulatorId,
-        id: uuid.v4(),
+        id: uuidv4(),
         active: true,
       },
     ),

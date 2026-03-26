@@ -5,7 +5,7 @@ import gql from "graphql-tag.macro";
 import { Button, Card, Input } from "helpers/reactstrap";
 import EventName from "containers/FlightDirector/MissionConfig/EventName";
 import EventPicker from "containers/FlightDirector/MissionConfig/EventPicker";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import MacroConfig from "./macroConfig";
 import { FaBan } from "react-icons/fa";
 import triggerLocalMacros, { localMacrosList } from "helpers/triggerLocalMacros";
@@ -45,7 +45,7 @@ class MacrosCore extends Component {
                 handleChange={(e) => {
                   const { value: event } = e.target;
                   this.setState((state) => {
-                    const id = uuid.v4();
+                    const id = uuidv4();
                     return {
                       actions: state.actions.
                       map(({ __typename, ...rest }) => rest).

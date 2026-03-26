@@ -1,5 +1,5 @@
 import React from "react";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import CoreTargets from "../views/Targeting/coreTargets";
 import "../views/Targeting/style.scss";
 const SetTargetingClasses = ({updateArgs = () => {}, args = {}}) => {
@@ -34,7 +34,7 @@ const SetTargetingClasses = ({updateArgs = () => {}, args = {}}) => {
           updateArgs("classInput", [
             ...(args.classInput || []),
             {
-              id: uuid.v4(),
+              id: uuidv4(),
               icon: "/Sensor Contacts/Icons/Default.svg",
               moving: true,
               name: "Target",

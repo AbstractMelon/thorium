@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import {randomFromList} from "../classes/generic/damageReports/constants";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 function performAction(id, action) {
   const sys = App.systems.find(s => s.id === id);
   if (sys) {
@@ -18,7 +18,7 @@ App.on("addComputerCoreUser", ({id, user, cb, context}) => {
     const newUser = sys.addUser(user);
     if (context.core !== "true") {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         station: "Core",
         type: "Computer Core",
@@ -122,7 +122,7 @@ App.on("restoreComputerCoreFile", ({id, fileId, level, all, context}) => {
     if (all) {
       if (context.core !== "true") {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: sys.simulatorId,
           station: "Core",
           type: "Computer Core",
@@ -146,7 +146,7 @@ App.on("restoreComputerCoreFile", ({id, fileId, level, all, context}) => {
     if (level) {
       if (context.core !== "true") {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: sys.simulatorId,
           station: "Core",
           type: "Computer Core",
@@ -207,7 +207,7 @@ App.on("deleteComputerCoreVirus", ({id, virusId, context}) => {
 
     if (context.core !== "true") {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         station: "Core",
         type: "Computer Core",

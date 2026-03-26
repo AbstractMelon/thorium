@@ -2,7 +2,7 @@ import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
 import {capitalCase} from "change-case";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 // id always represents the ID of the sensor system
 App.on("addSensorsArray", ({simulatorId, domain}) => {
   const system = new Classes.Sensors({simulatorId, domain});
@@ -17,7 +17,7 @@ App.on("removedSensorsArray", ({id}) => {});
 App.on("sensorScanRequest", ({id, request}) => {
   const system = App.systems.find(sys => sys.id === id);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: `${capitalCase(system.domain)} Sensors`,
     station: "Core",
@@ -71,7 +71,7 @@ App.on("sensorScanResult", ({id, simulatorId, domain = "external", result}) => {
   );
   stations.forEach(s => {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: system.simulatorId,
       station: s.name,
       title: `Sensor Scan Answered`,
@@ -139,7 +139,7 @@ App.on(
         );
       }
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: system.simulatorId,
         station: s.name,
         title: `New Processed Data`,
@@ -174,7 +174,7 @@ App.on("sensorScanCancel", ({id}) => {
   const system = App.systems.find(sys => sys.id === id);
   system.scanCanceled();
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: `${capitalCase(system.domain)} Sensors`,
     station: "Core",

@@ -1,10 +1,10 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {camelCase} from "change-case";
 import Fuzz from "fuse.js";
 
 export default class Trigger {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Trigger";
 
     this.simulatorId = params.simulatorId || null;

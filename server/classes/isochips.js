@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const labels = {
   "1": "LT-7211",
@@ -31,7 +31,7 @@ const diagnosticChip = 31; // 11111
 
 export default class Isochip {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Isochip";
     this.system = params.system || null;
     this.simulatorId = params.simulatorId || null;

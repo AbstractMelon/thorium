@@ -4,7 +4,7 @@ import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {ComputerCore, HackingPreset} from "../classes";
 import {cloneDeep} from "lodash";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
 const schema = gql`
@@ -249,7 +249,7 @@ const resolver = {
         if (state === "scanning") {
           sys.hackingLog.unshift("Ports scanned by fe80::4c3:2e73:2557:c71a");
           pubsub.publish("notify", {
-            id: uuid.v4(),
+            id: uuidv4(),
             simulatorId: sys.simulatorId,
             station: "Core",
             type: "Hacking",
@@ -277,7 +277,7 @@ const resolver = {
             "Unauthorized connection established with fe80::4c3:2e73:2557:c71a",
           );
           pubsub.publish("notify", {
-            id: uuid.v4(),
+            id: uuidv4(),
             simulatorId: sys.simulatorId,
             station: "Core",
             type: "Hacking",
@@ -351,7 +351,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootValue, {simulatorId}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             let returnVal = App.systems.filter(s => s.class === "ComputerCore");
             if (simulatorId)

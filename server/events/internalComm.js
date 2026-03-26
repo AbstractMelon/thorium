@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("createInternalComm", ({simulatorId}) => {
   const system = new Classes.InternalComm({simulatorId});
@@ -83,7 +83,7 @@ App.on("internalCommCallIncoming", ({id, incoming}) => {
   );
   stations.forEach(s => {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Internal Comm",
       station: s.name,
@@ -108,7 +108,7 @@ App.on("internalCommCallOutgoing", ({id, outgoing}) => {
     "addCoreFeed",
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     type: "Internal Comm",
     station: "Core",

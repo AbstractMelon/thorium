@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {randomFromList} from "../classes/generic/damageReports/constants";
 App.on("triggerAction", args => {
   args.stationId = args.stationId || "all";
@@ -130,7 +130,7 @@ App.on("triggerAction", args => {
     case "message":
       stations.forEach(s => {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: args.simulatorId,
           station: s,
           title: args.message,

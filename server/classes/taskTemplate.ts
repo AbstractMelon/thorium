@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import taskDefinitions from "../tasks";
 import App from "../app";
 
@@ -13,7 +13,7 @@ export default class TaskTemplate {
   macros: any[];
   preMacros: any[];
   constructor(params: Partial<TaskTemplate> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "TaskTemplate";
     this.name = params.name || "Task Template";
     this.values = params.values || {};

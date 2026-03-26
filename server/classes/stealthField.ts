@@ -1,7 +1,7 @@
 import App from "../app";
 import {System} from "./generic";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 interface StealthQuadrants {
   fore: number;
@@ -81,7 +81,7 @@ export default class StealthField extends System {
     this.deactivate();
     if (this.state) {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: this.simulatorId,
         type: "Stealth Field",
         station: "Core",
@@ -109,7 +109,7 @@ export default class StealthField extends System {
     ) {
       if (this.state) {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: this.simulatorId,
           type: "Stealth Field",
           station: "Core",

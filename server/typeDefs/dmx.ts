@@ -3,7 +3,7 @@ import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {DMXConfig, DMXDevice, DMXFixture, DMXSet} from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const schema = gql`
   enum DMXChannelProperty {
@@ -432,7 +432,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: () => {
-        const id = uuid.v4();
+        const id = uuidv4();
         process.nextTick(() => {
           let returnVal = App.dmxDevices;
 
@@ -446,7 +446,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: () => {
-        const id = uuid.v4();
+        const id = uuidv4();
         process.nextTick(() => {
           let returnVal = App.dmxSets;
 
@@ -463,7 +463,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootValue, {simulatorId = null}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             let returnVal = App.dmxFixtures.filter(
               f => f.simulatorId === simulatorId,
@@ -483,7 +483,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: () => {
-        const id = uuid.v4();
+        const id = uuidv4();
         process.nextTick(() => {
           let returnVal = App.dmxConfigs;
 

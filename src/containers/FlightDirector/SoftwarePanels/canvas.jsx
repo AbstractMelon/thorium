@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import * as Components from "./components";
 import PageComponent from "./pageComponent";
 import DraggingLine from "./draggingLine";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 function distance3d(coord2, coord1) {
   const {x: x1, y: y1, z: z1} = coord1;
@@ -80,7 +80,7 @@ export default class PanelCanvas extends Component {
               {components, connections},
               {
                 cables: cables.concat({
-                  id: uuid.v4(),
+                  id: uuidv4(),
                   color: this.state.draggingCable.color,
                   components: [
                     this.state.draggingCable.component,
@@ -128,7 +128,7 @@ export default class PanelCanvas extends Component {
     document.removeEventListener("pointerup", this.endConnection);
     const connections = evt.target.dataset.component
       ? this.props.connections.concat({
-          id: uuid.v4(),
+          id: uuidv4(),
           to: evt.target.dataset.component,
           from: this.state.connectingFrom,
         })

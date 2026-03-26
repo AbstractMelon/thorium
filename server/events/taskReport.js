@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on(
   "generateTaskReport",
@@ -50,7 +50,7 @@ App.on("assignTaskReportStep", ({id, stepId, station}) => {
 
   taskReport.assignTask(stepId, station);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: taskReport.simulatorId,
     type: "Tasks",
     station: station,
@@ -82,7 +82,7 @@ App.on("requestVerifyTaskReportStep", ({id, stepId}) => {
     App.tasks.filter(s => s.simulatorId === taskReport.simulatorId),
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: task.simulatorId,
     type: "Tasks",
     station: "Core",

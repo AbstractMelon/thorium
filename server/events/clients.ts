@@ -6,7 +6,7 @@ import {pubsub} from "../helpers/subscriptionManager";
 import path from "path";
 import paths from "../helpers/paths";
 import fs from "fs";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import tokenGenerator from "../helpers/tokenGenerator";
 import {DMXFixture} from "../classes";
 
@@ -461,7 +461,7 @@ App.on("setKeypadEnteredCode", ({id, code}) => {
     keypad.setEnteredCode(code);
     const match = keypad.code.join("") === keypad.enteredCode.join("");
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: client.simulatorId,
       type: "Keypad",
       station: "Core",
@@ -516,7 +516,7 @@ App.on("handheldScannerScan", ({id, request}) => {
   performScannerAction(id, (scanner, client) => {
     scanner.scan(request);
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: client.simulatorId,
       type: "Handheld Scanner",
       station: "Core",
@@ -541,7 +541,7 @@ App.on("handheldScannerCancel", ({id}) => {
   performScannerAction(id, (scanner, client) => {
     scanner.cancelScan();
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: client.simulatorId,
       type: "Handheld Scanner",
       station: "Core",

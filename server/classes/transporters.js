@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "./generic";
 
 export default class Transporters extends System {
@@ -35,7 +35,7 @@ export default class Transporters extends System {
     this.state = "Targeting";
     for (let i = 0; i < number; i++) {
       this.targets.push({
-        id: uuid.v4(),
+        id: uuidv4(),
         icon,
         moving,
         position: {

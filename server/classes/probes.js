@@ -1,5 +1,5 @@
 import {System} from "./generic";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import {randomFromList} from "./generic/damageReports/constants";
 
@@ -144,7 +144,7 @@ export default class Probes extends System {
     if (this.torpedo) {
       probe.launched = false;
       //Create a new torpedo linked to this probe
-      probe.id = uuid.v4();
+      probe.id = uuidv4();
       App.handleEvent(
         {
           simulatorId: this.simulatorId,
@@ -201,7 +201,7 @@ export default class Probes extends System {
 
 class Probe {
   constructor(params, parentId) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.parentId = parentId;
     this.name = params.name || "";
     this.type = params.type || null;
@@ -239,7 +239,7 @@ class Probe {
 
 class ProbeType {
   constructor(params, parentId) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Probe";
     this.parentId = parentId;
     this.description = params.description || "This is a probe";
@@ -255,7 +255,7 @@ class ProbeType {
 }
 class ProbeEquipment {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Equipment";
     this.description =
       params.description || "This is a piece of probe equipment";

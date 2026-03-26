@@ -1,5 +1,5 @@
 import { pubsub } from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { BasicCoordinate, EngineStatus, FlightSet, FullCoordinate, MapBorder, NamedNavigationRoute, NavigationRoute, PointOfInterest, Probe, ProbeAssignment } from "./flightSets";
 import { calculateTotalTime, countProbeFuelCells, generateCurrentUnixTimestamp, generateFlightPathCoordinates, getLastVisitedCoordinate, getPositionAtTime, getProbeCurrentLocation } from "./flightSets/helpers";
 import { System } from "./generic";
@@ -607,7 +607,7 @@ const generateLocationIdMap = (pointsOfInterest: PointOfInterest[]) => {
 
 const notifyEvent = (simulatorId, type, component, title, body, color) => {
     pubsub.publish('notify', {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId,
         type: type,
         station: 'Core',

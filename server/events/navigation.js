@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("navCalculateCourse", ({id, destination}) => {
   const system = App.systems.find(sys => sys.id === id);
@@ -25,7 +25,7 @@ App.on("navCalculateCourse", ({id, destination}) => {
     "addCoreFeed",
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Navigation",
     station: "Core",
@@ -42,7 +42,7 @@ App.on("navCancelCalculation", ({id}) => {
   const system = App.systems.find(sys => sys.id === id);
   system.cancelCalculation();
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Navigation",
     station: "Core",
@@ -96,7 +96,7 @@ App.on("navCourseEntry", ({id, x, y, z}) => {
   const system = App.systems.find(sys => sys.id === id);
   system.courseEntry(x, y, z);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Navigation",
     station: "Core",

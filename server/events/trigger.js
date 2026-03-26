@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 function performAction(id, action) {
   const sys = App.triggerGroups.find(s => s.id === id);
@@ -33,7 +33,7 @@ App.on("addTriggerToSimulator", ({simulatorId, trigger}) => {
   const simulator = App.simulators.find(s => s.id === simulatorId);
   const triggerData = App.triggerGroups.find(s => s.id === trigger);
   if (!simulator || !triggerData) return;
-  const id = uuid.v4();
+  const id = uuidv4();
   const triggerObj = {
     ...triggerData,
     templateId: triggerData.id,

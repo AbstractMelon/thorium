@@ -16,7 +16,7 @@ import { useSubscription } from "@apollo/client";
 import { Mutation } from "@apollo/client/react/components";
 
 import gql from "graphql-tag.macro";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export function getProbeConfig(probes, probe) {
   // Check to see if the probe equipment matches a
@@ -157,7 +157,7 @@ class ProbeScience extends Component {
           emitContacts: [
           ...state.emitContacts,
           {
-            id: uuid.v4(),
+            id: uuidv4(),
             type: "burst",
             destination: randomOnPlane(1.1),
             location: { x: -0.01, y: -0.01, z: -0.01 },

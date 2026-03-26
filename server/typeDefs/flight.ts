@@ -2,7 +2,7 @@ import App from "../app";
 import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import * as Classes from "../classes";
 import cloneDeep from "lodash.clonedeep";
 import tokenGenerator from "../helpers/tokenGenerator";
@@ -123,9 +123,9 @@ export function addAspects(
         // Create a new isochip for that system, if one exists
         const isochip = data.isochips.find(i => i.system === a.id);
         // Override the system ID
-        newAspect.id = uuid.v4();
+        newAspect.id = uuidv4();
         if (isochip) {
-          isochip.id = uuid.v4();
+          isochip.id = uuidv4();
           isochip.system = newAspect.id;
           isochip.simulatorId = sim.id;
           data.isochips.push(new Classes.Isochip(isochip));
@@ -199,7 +199,7 @@ export function addAspects(
       const panelData = data.softwarePanels.find(s => s.id === p);
       if (!panelData) return null;
       const panel = {...panelData};
-      const id = uuid.v4();
+      const id = uuidv4();
       sim.stations = sim.stations.map(
         s =>
           new Classes.Station({
@@ -233,7 +233,7 @@ export function addAspects(
     .map(c => {
       const commandLineData = data.commandLine.find(s => s.id === c);
       if (!commandLineData) return null;
-      const id = uuid.v4();
+      const id = uuidv4();
       const commandLine = {
         ...commandLineData,
         templateId: commandLineData.id,
@@ -250,7 +250,7 @@ export function addAspects(
     .map(c => {
       const triggerData = data.triggerGroups.find(s => s.id === c);
       if (!triggerData) return null;
-      const id = uuid.v4();
+      const id = uuidv4();
       const trigger = {
         ...triggerData,
         templateId: triggerData.id,
@@ -269,7 +269,7 @@ export function addAspects(
     .map(c => {
       const interfaceData = data.interfaces.find(s => s.id === c);
       if (!interfaceData) return null;
-      const id = uuid.v4();
+      const id = uuidv4();
       const interfaceObj = {
         ...interfaceData,
         templateId: interfaceData.id,
@@ -415,7 +415,7 @@ const resolver = {
     },
   },
   Mutation: {
-    startFlight(rootQuery, {id = uuid.v4(), name, simulators, flightType}) {
+    startFlight(rootQuery, {id = uuidv4(), name, simulators, flightType}) {
       const simIds = simulators.map(
         (s: {simulatorId: string; missionId?: string; stationSet: string}) => {
           // Create a snapshot restore before the flight is created
@@ -641,7 +641,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootQuery, {running, id}) => {
-          const subId = uuid.v4();
+          const subId = uuidv4();
           process.nextTick(() => {
             let returnRes = App.flights;
             if (running) {

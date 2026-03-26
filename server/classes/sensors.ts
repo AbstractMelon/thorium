@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "./generic";
 import SensorContact from "./sensorContact";
 class Scan {
@@ -11,7 +11,7 @@ class Scan {
   scanning: boolean;
   cancelled: boolean;
   constructor(params: Partial<Scan>) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.timestamp = params.timestamp || new Date().toString();
     this.mode = params.mode || "Standard";
     this.location = params.location || "";

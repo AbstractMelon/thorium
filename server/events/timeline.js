@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 function getTimelineObject(simulatorId, missionId) {
   if (simulatorId) return App.simulators.find(s => s.id === simulatorId);
@@ -13,7 +13,7 @@ App.on(
   "addTimelineStep",
   ({simulatorId, missionId, timelineStepId, name, description, cb}) => {
     if (!timelineStepId) {
-      timelineStepId = uuid.v4();
+      timelineStepId = uuidv4();
     }
     const object = getTimelineObject(simulatorId, missionId);
     object.addTimelineStep({timelineStepId, name, description});
@@ -76,7 +76,7 @@ App.on(
     simulatorId,
     missionId,
     timelineStepId,
-    timelineItemId = uuid.v4(),
+    timelineItemId = uuidv4(),
     timelineItem,
     cb,
   }) => {

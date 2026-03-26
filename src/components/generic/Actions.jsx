@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from "react";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import gql from "graphql-tag.macro";
 import Spark from "components/views/Actions/spark";
 import {useApolloClient} from "@apollo/client";
@@ -22,7 +22,7 @@ const useSpark = () => {
   const timeoutRef = useRef([]);
   const doSpark = React.useCallback(duration => {
     duration = duration || 5000;
-    const id = uuid.v4();
+    const id = uuidv4();
     setSparks(sparks => [...sparks, id]);
     const timeout = setTimeout(() => {
       setSparks(sparks => sparks.filter(s => s !== id));

@@ -1,7 +1,7 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export function handleInitialSubResponse(fn: (id: string) => void) {
-  const id = uuid.v4();
+  const id = uuidv4();
   process.nextTick(() => {
     fn(id);
   });

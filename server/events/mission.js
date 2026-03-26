@@ -1,9 +1,9 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 // Mission
-App.on("createMission", ({id = uuid.v4(), name, cb}) => {
+App.on("createMission", ({id = uuidv4(), name, cb}) => {
   const mission = new Classes.Mission({id, name});
   App.missions.push(mission);
   pubsub.publish("missionsUpdate", App.missions);

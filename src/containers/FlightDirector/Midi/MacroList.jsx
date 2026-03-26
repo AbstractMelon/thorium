@@ -3,7 +3,7 @@ import {ListGroup, ListGroupItem} from "reactstrap";
 import {FaBan} from "react-icons/fa";
 import EventPicker from "../MissionConfig/EventPicker";
 import EventName from "../MissionConfig/EventName";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const MacroList = ({
   type,
@@ -18,7 +18,7 @@ const MacroList = ({
       const macroKey = type === "down" ? "macros" : "upMacros";
       const macros = config[macroKey] || [];
       return {
-        config: {...config, [macroKey]: macros.concat({id: uuid.v4(), event})},
+        config: {...config, [macroKey]: macros.concat({id: uuidv4(), event})},
       };
     });
   }

@@ -1,5 +1,5 @@
 import {camelCase} from "change-case";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {
   Appearance,
   Behavior,
@@ -47,7 +47,7 @@ export class Entity {
   static class = "Entity";
   class = "Entity";
   constructor({
-    id = uuid.v4(),
+    id = uuidv4(),
     templateId = id,
     flightId,
     interval = 1,

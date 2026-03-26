@@ -1,5 +1,5 @@
 import React from "react";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import MIDIMessage from "midimessage";
 
 function getMidiAccess(sysex = false) {
@@ -178,7 +178,7 @@ export const MidiProvider = ({
       {all, channel, messageType, key, controllerNumber, name},
       sub,
     ) => {
-      const id = uuid.v4();
+      const id = uuidv4();
       subscribers.current[id] = {
         address: {all, channel, messageType, key, controllerNumber, name},
         sub,

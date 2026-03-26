@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import Team from "./teams";
 import DamageStep from "./generic/damageStep";
@@ -66,7 +66,7 @@ export default class Simulator {
   spaceEdventuresId: string | null;
 
   constructor(params: Partial<Simulator> = {}, newlyCreated: boolean = false) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Simulator";
     this.layout = params.layout || "LayoutCorners";
     this.caps = params.caps || false;

@@ -1,5 +1,5 @@
 import App from "../app";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {pubsub} from "../helpers/subscriptionManager";
 
 function action(id, cb) {
@@ -36,7 +36,7 @@ App.on("fireRailgun", ({id, simulatorId, contactId}) => {
     if (contact.hitpoints <= 0) {
       sensors.destroyContact(contact);
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: simulatorId,
         type: "Railgun",
         station: "Core",

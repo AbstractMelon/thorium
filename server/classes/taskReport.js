@@ -1,5 +1,5 @@
 import App from "../app";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import Task from "./task";
 import taskDefinitions from "../tasks";
 import {capitalCase} from "change-case";
@@ -22,7 +22,7 @@ function colloquialType(type) {
 
 export default class TaskReport {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "TaskReport";
     this.simulatorId = params.simulatorId || null;
     this.systemId = params.systemId || null;

@@ -4,7 +4,7 @@ import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import taskDefinitions from "../tasks";
 import {ValueDef} from "../classes/task";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import mutationHelper from "../helpers/mutationHelper";
 
 // We define a schema that encompasses all of the types
@@ -233,7 +233,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: () => {
-        const id = uuid.v4();
+        const id = uuidv4();
         process.nextTick(() => {
           let returnVal = App.taskTemplates;
 

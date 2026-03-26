@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 // TODO: Extend this with different types of sensor contacts
 // Ex: Ship has crew count, weapons, etc.
 
@@ -23,7 +23,7 @@ function degreeToRadian(deg) {
 export default class SensorContact {
   constructor(params) {
     if (!params) return;
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.sensorId = params.sensorId || null;
     this.class = "SensorContact";
     this.name = params.name || "Contact";

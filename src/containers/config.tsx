@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import TacticalMapCore from "../components/views/TacticalMap";
 import DebugList from "./DebugList";
 import {
@@ -53,7 +53,7 @@ const Config = () => {
       setAlerts(alerts => alerts.filter(a => a.id !== id));
     }, 2000);
   };
-  const trigger = ({ title, body, color, duration, id = uuid.v4() }: Alert) => {
+  const trigger = ({ title, body, color, duration, id = uuidv4() }: Alert) => {
     setAlerts(alerts =>
       alerts.concat({ title, body, duration, id, visible: true }),
     );

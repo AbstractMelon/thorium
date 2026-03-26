@@ -1,4 +1,4 @@
-const uuid = require("uuid");
+const {v4: uuidv4} = require("uuid");
 const damageTexts = {
   "Computer Specialist": [
     {
@@ -109,7 +109,7 @@ const damageTexts = {
 // };
 
 const report = Object.entries(damageTexts).map(([key, value]) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   name: `${key} Team`,
   class: "TaskTemplate",
   values: {

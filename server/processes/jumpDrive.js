@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import throttle from "../helpers/throttle";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const throttles = {};
 
@@ -19,7 +19,7 @@ const triggerWarning = sys => {
         "addCoreFeed",
       );
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         type: "Jump Drive",
         station: "Core",

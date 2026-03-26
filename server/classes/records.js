@@ -1,11 +1,11 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import {randomFromList} from "./generic/damageReports/constants";
 import systemNames from "./universe/systemNames";
 
 export class Record {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Record";
     this.contents = params.contents || "";
     this.original = params.original || params.contents || "";
@@ -28,7 +28,7 @@ const deniedSystemClasses = ["StealthField", "Transwarp", "Thx", "Crm"];
 
 export class RecordSnippet {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "RecordSnippet";
     this.simulatorId = params.simulatorId || null;
     this.sensorContactId = params.sensorContactId || null;

@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../../app";
 import {DMXChannelProperty} from "./DMXDevice";
 export type ChannelConfig = Partial<
@@ -20,7 +20,7 @@ export default class DMXFixture {
   tags: ("main" | "accent" | "work" | "no effects" | string)[];
   passiveChannels: ChannelConfig;
   constructor(params: Partial<DMXFixture> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "DMX Fixture";
     this.DMXDeviceId = params.DMXDeviceId;
     this.simulatorId = params.simulatorId || null;

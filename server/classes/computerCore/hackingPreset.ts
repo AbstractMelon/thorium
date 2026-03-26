@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {File} from "./";
 export class HackingPreset {
   id: string;
@@ -11,7 +11,7 @@ export class HackingPreset {
   fileViewer: boolean;
   files: File[];
   constructor(params: Partial<HackingPreset> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Hacking Preset";
     this.logs = params.logs ?? true;
     this.longRange = params.longRange ?? true;

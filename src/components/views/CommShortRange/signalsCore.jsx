@@ -8,7 +8,7 @@ import { graphql, withApollo } from "@apollo/client/react/hoc";
 
 import FileExplorer from "../TacticalMap/fileExplorer";
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import "./signalsCore.scss";
 
 function transparentColor(col) {
@@ -128,7 +128,7 @@ export class SignalPicker extends Component {
     this.setState(
       {
         signals: this.state.signals.concat({
-          id: uuid.v4(),
+          id: uuidv4(),
           name,
           range: { lower: random, upper: random + 0.1 },
           color: "rebeccapurple"

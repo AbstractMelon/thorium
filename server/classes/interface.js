@@ -1,9 +1,9 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import cloneDeep from "clone-deep";
 
 export default class Interface {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Interface";
 
     this.simulatorId = params.simulatorId || null;
@@ -86,7 +86,7 @@ export default class Interface {
 
 export class InterfaceDevice {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "InterfaceDevice";
     this.name = params.name || "Generic Interface Device";
     this.width = params.width || 320;

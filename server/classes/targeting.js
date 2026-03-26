@@ -1,9 +1,9 @@
 import {System} from "./generic";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 class TargetClass {
   constructor(params, systemId) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.systemId = systemId || params.systemId || "";
     this.name = params.name || "Target";
     this.size = params.size ?? 1;
@@ -40,7 +40,7 @@ class TargetClass {
 
 class Target {
   constructor(params, systemId) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.systemId = systemId || "";
     this.targeted = params.targeted || false;
     this.system = params.system || "General";
@@ -85,7 +85,7 @@ export default class Targeting extends System {
     this.enteredTarget = params.enteredTarget || null;
   }
   trainingMode() {
-    const id = uuid.v4();
+    const id = uuidv4();
     this.addTargetClass({
       id,
       name: "Target",

@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 
 const standardOptions = ["Stations", "Library Entry Slugs"];
@@ -62,7 +62,7 @@ function generateTriggerActions(component, simulator = {}, args) {
 
 export default class CommandLine {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "CommandLine";
 
     this.simulatorId = params.simulatorId || null;

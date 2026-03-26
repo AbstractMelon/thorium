@@ -9,7 +9,7 @@ import {
   Label,
   Input } from
 "helpers/reactstrap";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import gql from "graphql-tag.macro";
 import { graphql, withApollo } from "@apollo/client/react/hoc";
 
@@ -277,7 +277,7 @@ class App extends Component {
 
     return;
     const comp = {
-      id: uuid.v4(),
+      id: uuidv4(),
       component: draggingComponent,
       x: loc.x / this.state.dimensions.width,
       y: loc.y / this.state.dimensions.height

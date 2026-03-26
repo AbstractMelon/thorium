@@ -1,5 +1,5 @@
 import yauzl from "yauzl";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../../app";
 import * as Classes from "../../classes";
 import {pubsub} from "../../helpers/subscriptionManager";
@@ -40,11 +40,11 @@ export default function ImportFlight(filepath, cb) {
             }
             const flight = new Classes.Flight({
               ...data.flight,
-              id: uuid.v4(),
+              id: uuidv4(),
               name,
             });
             flight.simulators = flight.simulators.map(s => {
-              const newId = uuid.v4();
+              const newId = uuidv4();
               const oldSim = data.simulators.find(ss => ss.id === s);
               oldSim.simulatorId = s;
               const sim = new Classes.Simulator({

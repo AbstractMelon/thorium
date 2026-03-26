@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import randomWords from "random-words";
 import App from "../app";
 import graphqlClient from "../helpers/graphqlClient";
@@ -6,7 +6,7 @@ import graphqlClient from "../helpers/graphqlClient";
 export default class Flight {
   constructor(params = {}) {
     this.class = "Flight";
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || randomWords(3).join("-");
     this.date = params.date || Date.now();
     this.running = params.running || false;

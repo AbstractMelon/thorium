@@ -2,7 +2,7 @@ import App from "../app";
 import {System} from "./generic";
 import HeatMixin from "./generic/heatMixin";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 export default class Engine extends HeatMixin(System) {
   constructor(params = {}) {
     super({displayName: params.name + " Engine", ...params});
@@ -48,7 +48,7 @@ export default class Engine extends HeatMixin(System) {
   break(report, destroyed, which) {
     if (this.on) {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: this.simulatorId,
         station: "Core",
         type: "Engines",
@@ -78,7 +78,7 @@ export default class Engine extends HeatMixin(System) {
       if (this.speed === 0) {
         if (this.on) {
           pubsub.publish("notify", {
-            id: uuid.v4(),
+            id: uuidv4(),
             simulatorId: this.simulatorId,
             station: "Core",
             type: "Engines",

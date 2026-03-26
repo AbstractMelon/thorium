@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 function performAction(id, action) {
   const sys = App.systems.find(s => s.id === id);
   if (sys) {
@@ -27,7 +27,7 @@ App.on("setJumpdriveActivated", ({id, activated}) => {
       "addCoreFeed",
     );
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Jump Drive",
       station: "Core",

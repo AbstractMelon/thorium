@@ -1,10 +1,10 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const topics: {[key: string]: {[key: string]: Function | null}} = {};
 
 export function subscribe(topic: string, fn: Function) {
   if (!topics[topic]) topics[topic] = {};
-  const id = uuid.v4();
+  const id = uuidv4();
   topics[topic][id] = fn;
   return () => {
     topics[topic][id] = null;

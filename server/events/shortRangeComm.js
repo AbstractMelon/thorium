@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("commAddSignal", ({id, commSignalInput}) => {
   App.systems.find(s => s.id === id).addCommSignal(commSignalInput);
@@ -58,7 +58,7 @@ App.on("commConnectArrow", ({id, arrowId}) => {
   const system = App.systems.find(s => s.id === id);
   system.connectArrow(arrowId);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Short Range Comm",
     station: "Core",
@@ -85,7 +85,7 @@ App.on("commDisconnectArrow", ({id, arrowId}) => {
   const system = App.systems.find(s => s.id === id);
   system.disconnectArrow(arrowId);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Short Range Comm",
     station: "Core",
@@ -119,7 +119,7 @@ App.on("commHail", ({id}) => {
   const system = App.systems.find(s => s.id === id);
   system.hail();
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Short Range Comm",
     station: "Core",
@@ -147,7 +147,7 @@ App.on("cancelHail", ({id, core}) => {
   system.cancelHail();
   if (!core) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: system.simulatorId,
       type: "Short Range Comm",
       station: "Core",
@@ -230,7 +230,7 @@ App.on("muteShortRangeComm", ({id, arrowId, mute}) => {
   const system = App.systems.find(s => s.id === id);
   system.muteArrow(arrowId, mute);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Short Range Comm",
     station: "Core",

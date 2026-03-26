@@ -1,5 +1,5 @@
 import {System} from "./generic";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class Torpedo extends System {
   constructor(params) {
@@ -95,7 +95,7 @@ export default class Torpedo extends System {
 
 class Warhead {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.type = params.type || "Photon";
     this.probe = params.probe || null;
   }

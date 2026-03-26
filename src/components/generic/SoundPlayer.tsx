@@ -1,5 +1,5 @@
 import React from "react";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const sounds: {[id: string]: Sound} = {};
 let audioContext: AudioContext | undefined = undefined;
@@ -105,7 +105,7 @@ export function playSound(opts: Sound) {
   if (opts.id) {
     removeSound(opts.id, true);
   }
-  opts.id = opts.id || uuid.v4();
+  opts.id = opts.id || uuidv4();
   const volume = opts.muted ? 0 : opts.volume || 1;
   const playbackRate = opts.paused ? 0 : opts.playbackRate || 1;
   const channel = opts.channel

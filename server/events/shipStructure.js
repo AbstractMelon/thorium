@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 // Decks
 App.on("addDeck", ({simulatorId, number, svgPath, doors, evac}) => {
   const deck = new Classes.Deck({simulatorId, number, svgPath, doors, evac});
@@ -37,7 +37,7 @@ App.on("deckDoors", ({deckId, doors}) => {
   pubsub.publish("decksUpdate", App.decks);
 
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: deck.simulatorId,
     type: "Security Doors",
     station: "Core",
@@ -61,7 +61,7 @@ App.on("deckEvac", ({deckId, evac}) => {
   deck.setEvac(evac);
   pubsub.publish("decksUpdate", App.decks);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: deck.simulatorId,
     type: "Security Doors",
     station: "Core",
@@ -144,7 +144,7 @@ App.on("roomGas", ({roomId, gas}) => {
   const deck = App.decks.find(d => d.id === room.deckId);
   room.setGas(gas);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: room.simulatorId,
     type: "Security Doors",
     station: "Core",
@@ -351,7 +351,7 @@ ${inventory
   });
 
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: simulator.id,
     type: "Cargo",
     station: "Core",

@@ -1,8 +1,8 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 class PanelCable {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.color = params.color || "red";
     this.components = params.components;
   }
@@ -10,7 +10,7 @@ class PanelCable {
 
 class PanelComponent {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.component = params.component || "Buffer";
     this.level = params.level || 0;
     this.color = params.color || "#0f0";
@@ -23,15 +23,15 @@ class PanelComponent {
 
 class PanelConnection {
   constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.to = params.to || uuid.v4();
-    this.from = params.from || uuid.v4();
+    this.id = params.id || uuidv4();
+    this.to = params.to || uuidv4();
+    this.from = params.from || uuidv4();
   }
 }
 
 export default class SoftwarePanel {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "SoftwarePanel";
     this.simulatorId = params.simulatorId || null;
     this.templateId = params.templateId || null;

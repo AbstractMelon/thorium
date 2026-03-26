@@ -1,6 +1,6 @@
 import {System} from "./generic";
 import {snakeCase} from "change-case";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 class CountermeasureResources {
   copper?: number;
@@ -238,7 +238,7 @@ export class Countermeasures extends System {
     this.storedMaterials[resource] = value;
   }
   createCountermeasure(slot: string, name: string) {
-    const countermeasure = new Countermeasure({id: uuid.v4(), name});
+    const countermeasure = new Countermeasure({id: uuidv4(), name});
     this.slots[slot] = countermeasure;
   }
   removeCountermeasure(slot) {
@@ -315,7 +315,7 @@ class Countermeasure {
   totalPowerUsed: number;
   note: string;
   constructor(params: Partial<Countermeasure>) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Countermeasure";
     this.modules = [];
     params.modules?.forEach(m =>
@@ -379,7 +379,7 @@ class Countermeasure {
         m => m.name === moduleType || m.id === moduleType,
       );
       if (!mod) return;
-      this.modules.push(new CountermeasureModule({...mod, id: uuid.v4()}));
+      this.modules.push(new CountermeasureModule({...mod, id: uuidv4()}));
     }
   }
   removeModule(id) {

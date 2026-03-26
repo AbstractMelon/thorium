@@ -1,9 +1,9 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
-App.on("newTacticalMap", ({id = uuid.v4(), name, flightId, cb}) => {
+App.on("newTacticalMap", ({id = uuidv4(), name, flightId, cb}) => {
   App.tacticalMaps.push(
     new Classes.TacticalMap({id, name, flightId, template: !flightId}),
   );
@@ -20,12 +20,12 @@ App.on("duplicateTacticalMap", ({id, name}) => {
   const map = App.tacticalMaps.find(t => t.id === id);
   App.tacticalMaps.push(
     new Classes.TacticalMap(
-      Object.assign({}, map, {id: uuid.v4(), dup: true, name}),
+      Object.assign({}, map, {id: uuidv4(), dup: true, name}),
     ),
   );
   pubsub.publish("tacticalMapsUpdate", App.tacticalMaps);
 });
-App.on("loadTacticalMap", ({id, newId = uuid.v4(), flightId, cb}) => {
+App.on("loadTacticalMap", ({id, newId = uuidv4(), flightId, cb}) => {
   const map = App.tacticalMaps.find(t => t.id === id);
   App.tacticalMaps.push(
     new Classes.TacticalMap(
@@ -108,7 +108,7 @@ App.on("addTacticalMapsToFlight", ({mapIds, simulatorId}) => {
       t => t.flightId === flight.id && t.templateId === mapId,
     );
     if (!flightMap) {
-      const newId = uuid.v4();
+      const newId = uuidv4();
       const map = App.tacticalMaps.find(t => t.id === mapId);
       flightMap = new Classes.TacticalMap(
         Object.assign({}, map, {
@@ -134,7 +134,7 @@ App.on(
       t => t.flightId === flight.id && t.templateId === mapId,
     );
     if (!flightMap) {
-      const newId = uuid.v4();
+      const newId = uuidv4();
       const map = App.tacticalMaps.find(t => t.id === mapId);
       flightMap = new Classes.TacticalMap(
         Object.assign({}, map, {

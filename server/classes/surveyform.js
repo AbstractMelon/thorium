@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 
 import {DateTime} from "luxon";
@@ -6,7 +6,7 @@ import {DateTime} from "luxon";
 export default class SurveyForm {
   static exportable = "surveyForms";
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "SurveyForm";
     this.simulatorId = params.simulatorId || null;
     this.title = params.title || "Survey Form";

@@ -14,7 +14,7 @@ import { Mutation } from "@apollo/client/react/components";
 
 import gql from "graphql-tag.macro";
 import EventPicker from "../MissionConfig/EventPicker";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { capitalCase } from "change-case";
 import { ActionConfig } from "../Macros/macroConfig";
 import SortableActionList from "./sortableActionList";
@@ -474,7 +474,7 @@ const MacroConfig = ({ macros }) => {
                     configId: macro.id,
                     id: button.id,
                     actions: button.actions.concat({
-                      id: uuid.v4(),
+                      id: uuidv4(),
                       event: e,
                       args: "{}",
                       delay: 0

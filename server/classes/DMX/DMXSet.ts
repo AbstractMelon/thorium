@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../../app";
 import DMXFixture from "./DMXFixture";
 
@@ -8,7 +8,7 @@ export default class DMXSet {
   name: string;
   fixtureIds: string[];
   constructor(params: Partial<DMXSet> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "DMX Set";
     this.fixtureIds = params.fixtureIds || [];
   }

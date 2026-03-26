@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const interval = 1000 / 30; // 1/30 of a second
 const pingInterval = 100;
@@ -118,7 +118,7 @@ const moveSensorContactTimed = () => {
               );
               sensors.destroyContact({id: c.id});
               pubsub.publish("notify", {
-                id: uuid.v4(),
+                id: uuidv4(),
                 simulatorId: sensors.simulatorId,
                 type: "Railgun",
                 station: "Core",

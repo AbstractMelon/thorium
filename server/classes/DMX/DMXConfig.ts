@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {ChannelConfig} from "./DMXFixture";
 import App from "../../app";
 
@@ -21,7 +21,7 @@ class DMXConfig {
   config: DMXConfigStuff;
   actionStrength: number;
   constructor(params: Partial<DMXConfig> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "DMX Config";
     this.config = params.config || {};
     this.actionStrength = params.actionStrength ?? 1;

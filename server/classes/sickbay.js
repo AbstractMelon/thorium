@@ -1,10 +1,10 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "./generic";
 import Crew from "./crew";
 
 class Bunk {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.sickbayId = params.sickbayId;
     this.scanRequest = params.scanRequest || "";
     this.scanResults = params.scanResults || "";
@@ -33,7 +33,7 @@ class Bunk {
 export default class Sickbay extends System {
   constructor(params) {
     super({name: "Sickbay", ...params});
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Sickbay";
     this.simulatorId = params.simulatorId || null;
     this.type = "Sickbay";

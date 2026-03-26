@@ -17,7 +17,7 @@ import {
   useHackingPresetDeleteMutation,
   useHackingPresetUpdateMutation,
 } from "../../../generated/graphql";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const HackingPresets: React.FC = () => {
   const {data} = useHackingPresetsQuery();
@@ -243,7 +243,7 @@ const LongRange: React.FC<{
               );
               if (!name) return;
               const message = {
-                id: uuid.v4(),
+                id: uuidv4(),
                 title: name,
                 message: "",
               };
@@ -356,7 +356,7 @@ const Files: React.FC<{
                       .concat(
                         files.map(f => ({
                           ...f,
-                          id: uuid.v4(),
+                          id: uuidv4(),
                           corrupted: false,
                           restoring: false,
                         })),
@@ -405,7 +405,7 @@ const Files: React.FC<{
                     preset: {
                       ...preset,
                       files: preset.files.concat({
-                        id: uuid.v4(),
+                        id: uuidv4(),
                         name,
                         level: selectedItem,
                         corrupted: false,

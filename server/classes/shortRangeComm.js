@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "./generic";
 
 export default class ShortRangeComm extends System {
@@ -112,7 +112,7 @@ export default class ShortRangeComm extends System {
 
 class Signal {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.image = params.image || "Generic";
     this.name = params.name || "General Use";
     this.color = params.color || "#888888";
@@ -131,8 +131,8 @@ class Signal {
 
 class Arrow {
   constructor(params, signals) {
-    this.id = params.id || uuid.v4();
-    this.signal = params.signal || uuid.v4(); //Useless arrow
+    this.id = params.id || uuidv4();
+    this.signal = params.signal || uuidv4(); //Useless arrow
     this.muted = params.muted || false;
     const signal = signals.find(s => s.id === params.signal);
     if (params.frequency) {

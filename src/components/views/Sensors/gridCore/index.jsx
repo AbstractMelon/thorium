@@ -15,7 +15,7 @@ import {CoreSidebar} from "./CoreSidebar";
 import "./gridCore.scss";
 import {useMouseDown} from "./hooks/useMouseDown";
 import {checkContactPosition} from "./hooks/checkContactPosition";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {usePing} from "..";
 const DELETE_CONTACT = gql`
   mutation DeleteContact($id: ID!, $contact: SensorContactInput!) {
@@ -120,7 +120,7 @@ const GridCore = ({
 
   const addContact = React.useCallback(
     function (c) {
-      return updateContacts(contacts.concat({...c, id: uuid.v4()}));
+      return updateContacts(contacts.concat({...c, id: uuidv4()}));
     },
     [contacts, updateContacts],
   );

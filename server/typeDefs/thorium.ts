@@ -5,7 +5,7 @@ import {pubsub} from "../helpers/subscriptionManager";
 import GraphQLClient from "../helpers/graphqlClient";
 import request from "request";
 import fetch from "node-fetch";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {capitalCase} from "change-case";
 
 import heap from "../helpers/heap";
@@ -177,7 +177,7 @@ const resolver = {
           }
         }`,
         })
-          .then(result => {
+          .then((result: {data?: {center?: typeof spaceEdventuresData}}) => {
             const center = result?.data?.center;
             if (!center) return spaceEdventuresData;
             spaceEdventuresData = {...center, token: App.spaceEdventuresToken};
@@ -214,9 +214,7 @@ const resolver = {
 
     setSpaceEdventuresToken: async (rootValue, {token}) => {
       // Check the token first
-      const {
-        data: {center},
-      } = await GraphQLClient.query({
+      const tokenResult = (await GraphQLClient.query({
         query: `query {
           center {
             id
@@ -226,7 +224,8 @@ const resolver = {
         headers: {
           authorization: `Bearer ${token}`,
         },
-      });
+      })) as {data?: {center?: {id: string; name: string}}};
+      const center = tokenResult?.data?.center;
       if (center) {
         App.spaceEdventuresToken = token;
         return center;
@@ -339,7 +338,7 @@ const resolver = {
       );
     },
     async addIssueUpload(rootValue, {data, filename, ext}) {
-      const uploadPath = `uploads/${filename}-${uuid.v4()}.${ext}`;
+      const uploadPath = `uploads/${filename}-${uuidv4()}.${ext}`;
       const url =
         "https://api.github.com/repos/thorium-sim/issue-uploads/contents/" +
         uploadPath;
@@ -357,7 +356,7 @@ const resolver = {
         },
         body: JSON.stringify(payload),
       })
-        .then(res => res.json())
+        .then(res => res.json() as Promise<{content?: {html_url?: string}}>)
         .then(res => {
           if (!res.content || !res.content.html_url) return null;
           return res.content.html_url + "?raw=true";

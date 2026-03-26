@@ -1,7 +1,7 @@
 import App from "../app";
 import {System} from "./generic";
 import heatMixin from "./generic/heatMixin";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {pubsub} from "../helpers/subscriptionManager";
 
 // const baseQuad = {
@@ -14,7 +14,7 @@ function notifyActive(tf, simulatorId) {
   if (tf) {
     /// activated
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: simulatorId,
       station: "Core",
       type: "Transwarp",
@@ -34,7 +34,7 @@ function notifyActive(tf, simulatorId) {
     );
   } else {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: simulatorId,
       station: "Core",
       type: "Transwarp",

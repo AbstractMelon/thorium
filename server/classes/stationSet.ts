@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import {pascalCase} from "change-case";
 
@@ -17,7 +17,7 @@ export class StationSet {
     stations = [],
   }: Partial<StationSet>) {
     this.class = "StationSet";
-    this.id = id || uuid.v4();
+    this.id = id || uuidv4();
     this.simulatorId = simulatorId || null;
     this.name = name || "StationSet";
     this.crewCount = crewCount || 14;

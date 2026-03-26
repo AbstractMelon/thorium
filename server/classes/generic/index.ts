@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../../app";
 import {
   defaultOptionalSteps,
@@ -51,7 +51,7 @@ export class Macro {
   delay: number;
   noCancelOnReset: boolean;
   constructor(params: Macro) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.event = params.event || "";
     this.args = params.args || "{}";
     this.delay = params.delay || 0;
@@ -116,7 +116,7 @@ export class System {
   stealthCompromised: boolean;
   [key: string]: any;
   constructor(params: any = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "System";
     this.type = "System";
     this.simulatorId = params.simulatorId || null;

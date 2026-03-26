@@ -1,6 +1,6 @@
 import React, { useReducer, useState, useEffect } from "react";
 import { Button } from "helpers/reactstrap";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { Mutation } from "@apollo/client/react/components";
 
 import gql from "graphql-tag.macro";
@@ -12,7 +12,7 @@ function reducer(state, action) {
     return state.concat(
       Array(count - state.length).
       fill(0).
-      map(() => ({ id: uuid.v4() }))
+      map(() => ({ id: uuidv4() }))
     );
   }
   if (count < state.length) {
@@ -41,7 +41,7 @@ const TorpedoLoading = ({ id, clientId, torpedoCount, torpedoLoaded }) => {
     reducer,
     Array(torpCount).
     fill(0).
-    map(() => ({ id: uuid.v4() }))
+    map(() => ({ id: uuidv4() }))
   );
 
   useEffect(() => {

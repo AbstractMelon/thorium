@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Query } from "@apollo/client/react/components";
 
 import { Badge, Input, Button } from "helpers/reactstrap";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import EventName from "containers/FlightDirector/MissionConfig/EventName";
 import EventPicker from "containers/FlightDirector/MissionConfig/EventPicker";
 import gql from "graphql-tag.macro";
@@ -261,7 +261,7 @@ const MacroPicker = ({ pre, updateMacros, macros, configureMacro }) => {
               event,
               args: "{}",
               delay: 0,
-              id: uuid.v4()
+              id: uuidv4()
             })
           );
         }} />

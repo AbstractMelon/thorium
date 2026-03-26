@@ -1,7 +1,7 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 class TacticalPath {
   constructor(params) {
-    this.id = params.dup ? uuid.v4() : params.id || uuid.v4();
+    this.id = params.dup ? uuidv4() : params.id || uuidv4();
     this.start = params.start || {x: 450, y: 50, z: 0};
     this.end = params.end || {x: 150, y: 450, z: 0};
     this.c1 = params.c1 || {x: 150, y: 100, z: 0};
@@ -33,7 +33,7 @@ const thrusterControls = {
 
 class TacticalItem {
   constructor(params) {
-    this.id = params.dup ? uuid.v4() : params.id || uuid.v4();
+    this.id = params.dup ? uuidv4() : params.id || uuidv4();
     this.label = params.label || "";
     this.font = params.font || "Helvetica";
     this.fontSize = params.fontSize || 12;
@@ -102,7 +102,7 @@ class TacticalItem {
 
 class TacticalLayer {
   constructor(params = {}) {
-    this.id = params.dup ? uuid.v4() : params.id || uuid.v4();
+    this.id = params.dup ? uuidv4() : params.id || uuidv4();
     this.name = params.name || "Layer";
     this.type = params.type || "grid";
     this.image = params.image || null;
@@ -184,7 +184,7 @@ class TacticalLayer {
 }
 export default class TacticalMap {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "TacticalMap";
     this.name = params.name || "Tactical Map";
     this.template = params.template || false;

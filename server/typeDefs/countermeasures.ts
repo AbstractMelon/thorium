@@ -3,7 +3,7 @@ import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import App from "../app";
 import {moduleTypes} from "../classes/Countermeasure";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
@@ -165,7 +165,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (_rootValue, {simulatorId}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             const data = App.systems.find(s => {
               return (

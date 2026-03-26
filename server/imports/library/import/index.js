@@ -1,5 +1,5 @@
 import yauzl from "yauzl";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import path from "path";
 import paths from "../../../helpers/paths";
 import fs from "fs";
@@ -28,7 +28,7 @@ export default function ImportLibrary(filepath, simulatorId, cb) {
     entry.simulatorId = simulatorId;
     // Don't import see also. Just remove it.
     entry.seeAlso = [];
-    entry.id = uuid.v4();
+    entry.id = uuidv4();
     App.libraryDatabase.push(new Classes.Library(entry));
   }
   yauzl.open(filepath, {lazyEntries: true}, function (err, importZip) {

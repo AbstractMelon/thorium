@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class TimelineInstance {
   id: string;
@@ -6,7 +6,7 @@ export default class TimelineInstance {
   currentTimelineStep: number;
   executedTimelineSteps: string[];
   constructor(params: Partial<TimelineInstance> = {}) {
-    this.id = uuid.v4();
+    this.id = uuidv4();
     this.missionId = params.missionId || null;
     this.currentTimelineStep = params.currentTimelineStep || 0;
     this.executedTimelineSteps = params.executedTimelineSteps || [];

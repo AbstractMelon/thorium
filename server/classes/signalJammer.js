@@ -1,9 +1,9 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "./generic";
 
 class Signal {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.type = params.type || "comm";
     this.level = params.level || Math.random();
     this.power = params.power || Math.random() / Math.sqrt(2) + 0.3;

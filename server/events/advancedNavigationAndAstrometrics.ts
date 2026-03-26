@@ -3,7 +3,7 @@ import App from '../app'
 import { pubsub } from '../helpers/subscriptionManager'
 import throttle from "../helpers/throttle";
 
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { FlightSet, MapBorderSide } from '../classes/flightSets/index';
 
 
@@ -17,7 +17,7 @@ const sendUpdate = throttle(() => {
 
 const notifyEvent = (simulatorId, type, component, title, body, color) => {
     pubsub.publish('notify', {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId,
         type: type,
         station: 'Core',
@@ -96,7 +96,7 @@ App.on('deleteFlightSet', ({ id }) => {
 });
 
 App.on('createFlightSet', ({ flightSet }) => {
-    const newFlightSet = { ...flightSet, id: uuid.v4() }
+    const newFlightSet = { ...flightSet, id: uuidv4() }
     newFlightSet.borders = newFlightSet.borders.map(border => {
         return {
             ...border,

@@ -6,7 +6,7 @@ import {particleTypes, particleBootstrapClasses} from "./particleConstants";
 
 import Tour from "helpers/tourHelper";
 
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 function distance3d(coord2, coord1) {
   const {x: x1, y: y1, z: z1} = coord1;
@@ -59,7 +59,7 @@ content: "Click anywhere on the grid to detect particles. You can only detect a 
       y: ((y - top - height / 2) / height) * 2,
       z: 0,
     };
-    const id = uuid.v4();
+    const id = uuidv4();
     const color = particleTypes[selectedType];
     this.setState(
       state => ({

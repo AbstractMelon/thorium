@@ -1,5 +1,5 @@
 // A set is a collection of clients
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class Set {
   id: string;
@@ -7,7 +7,7 @@ export default class Set {
   name: string;
   clients: SetClient[];
   constructor(params: Partial<Set> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Default Set";
     this.clients = params.clients || [];
   }
@@ -36,7 +36,7 @@ export class SetClient {
   secondary: boolean;
   soundPlayer: boolean;
   constructor(params: Partial<SetClient> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.clientId = params.clientId || null;
     this.simulatorId = params.simulatorId || null;
     this.stationSet = params.stationSet || null;

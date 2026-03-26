@@ -1,7 +1,7 @@
 const {screen, BrowserWindow} = require("electron");
 const path = require("path");
 const {bonjour} = require("./bonjour");
-const uuid = require("uuid");
+const {v4: uuidv4} = require("uuid");
 const url = require("url");
 const bootstrap = require("./bootstrap");
 
@@ -89,7 +89,7 @@ function addWindow({main, x, y, loadedUrl, server}) {
       );
     }
     const window = new BrowserWindow(config);
-    window.uniqueId = uuid.v4();
+    window.uniqueId = uuidv4();
     window.browserCount = BrowserWindow.getAllWindows().filter(
       b => !b.isDestroyed() && !b.server,
     ).length;

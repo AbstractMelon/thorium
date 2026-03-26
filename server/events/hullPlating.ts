@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import throttle from "../helpers/throttle";
 import {HullPlating} from "../classes";
 
@@ -21,7 +21,7 @@ App.on("setHullPlatingEngaged", ({id, engaged}) => {
   const sys: HullPlating = App.systems.find(s => s.id === id);
   if (sys) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Hull Plating",
       station: "Core",

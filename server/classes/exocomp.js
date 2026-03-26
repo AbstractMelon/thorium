@@ -1,11 +1,11 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import {System} from "./generic";
 
 export default class Exocomp extends System {
   constructor(params = {}) {
     super(params);
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Exocomp";
     this.simulatorId = params.simulatorId;
     // idle, deploying, returning, repairing

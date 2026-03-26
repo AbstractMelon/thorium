@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 import os from "os";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import importMission from "../imports/missions/import";
 import importSimulator from "../imports/simulators/import";
 import {gql} from "graphql-tag";
@@ -92,7 +92,7 @@ const resolver = {
   },
   Mutation: {
     importSimulatorFromUrl(root, {url}) {
-      const dest = path.resolve(`${os.tmpdir()}/${uuid.v4()}.zip`);
+      const dest = path.resolve(`${os.tmpdir()}/${uuidv4()}.zip`);
       download(url, dest, err => {
         if (err) {
           console.error("There was an error importing a simulator:", err);
@@ -107,7 +107,7 @@ const resolver = {
       });
     },
     importMissionFromUrl(root, {url}) {
-      const dest = path.resolve(`${os.tmpdir()}/${uuid.v4()}.zip`);
+      const dest = path.resolve(`${os.tmpdir()}/${uuidv4()}.zip`);
       download(url, dest, err => {
         if (err) {
           console.error("There was an error importing a mission:", err);

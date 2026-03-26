@@ -3,7 +3,7 @@ import gql from "graphql-tag.macro";
 import { withApollo } from "@apollo/client/react/hoc";
 
 import { subscribe, publish } from "helpers/pubsub";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { playSound } from "./SoundPlayer";
 import { randomFromList } from "helpers/randomFromList";
 import { FaTimes } from "react-icons/fa";
@@ -106,7 +106,7 @@ class Alerts extends Component {
     this.subscription && this.subscription.unsubscribe();
     this.addSub && this.addSub();
   }
-  trigger({ title, body, color, duration = 5000, id = uuid.v4() }) {
+  trigger({ title, body, color, duration = 5000, id = uuidv4() }) {
     const { soundEffects } = this.props.simulator;
     if (soundEffects && soundEffects.notification) {
       playSound({ url: `/assets${randomFromList(soundEffects.notification)}` });

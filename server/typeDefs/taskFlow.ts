@@ -1,7 +1,7 @@
 import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import {TaskFlow} from "../classes";
 
@@ -215,7 +215,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootValue, {simulatorId = null}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             const data = {
               simulatorId,

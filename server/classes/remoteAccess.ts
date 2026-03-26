@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class RemoteAccess {
   id: string;
@@ -7,7 +7,7 @@ export default class RemoteAccess {
   station: string;
   timestamp: string;
   constructor(params: Partial<RemoteAccess> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.code = params.code || "";
     this.state = params.state || "sent";
     this.station = params.station || "";

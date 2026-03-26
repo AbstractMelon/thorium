@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("toggleStationMessageGroup", ({stationSetId, station, group, state}) => {
   App.stationSets
@@ -43,7 +43,7 @@ App.on("sendMessage", args => {
       .filter(s => s.messageGroups.indexOf(messageClass.sender) > -1)
       .forEach(s => {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: messageClass.simulatorId,
           station: s.name,
           title: `New Message - ${messageClass.sender}`,
@@ -59,7 +59,7 @@ App.on("sendMessage", args => {
       });
   } else {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: messageClass.simulatorId,
       station: messageClass.destination,
       title: `New Message - ${messageClass.sender}`,

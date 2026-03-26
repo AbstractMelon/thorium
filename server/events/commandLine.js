@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 function delayPromise(action, delay) {
   return new Promise(resolve =>
@@ -133,7 +133,7 @@ App.on(
             "addCoreFeed",
           );
           pubsub.publish("notify", {
-            id: uuid.v4(),
+            id: uuidv4(),
             simulatorId: simulator.id,
             type: "Command Line",
             station: "Core",
@@ -142,7 +142,7 @@ App.on(
             color: "info",
           });
 
-          const id = uuid.v4();
+          const id = uuidv4();
           simulator.addCommandLineFeedback(client.id, {
             id,
             command,
@@ -251,7 +251,7 @@ App.on("addCommandLineToSimulator", ({simulatorId, commandLine}) => {
   const simulator = App.simulators.find(s => s.id === simulatorId);
   const commandLineData = App.commandLine.find(s => s.id === commandLine);
   if (!simulator || !commandLineData) return;
-  const id = uuid.v4();
+  const id = uuidv4();
   const commandLineObj = {
     ...commandLineData,
     templateId: commandLineData.id,

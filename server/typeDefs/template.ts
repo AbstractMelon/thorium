@@ -1,7 +1,7 @@
 import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
@@ -28,7 +28,7 @@ const resolver = {
       resolve(rootQuery) {},
       subscribe: withFilter(
         (rootValue, args) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             const templateData = [];
             pubsub.publish(id, templateData);

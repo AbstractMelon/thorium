@@ -7,7 +7,7 @@ import {
   MdCamera,
 } from "react-icons/md";
 import {Tooltip} from "reactstrap";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {FaRuler} from "react-icons/fa";
 import {CanvasContext} from "./CanvasContext";
 
@@ -20,7 +20,7 @@ const TooltipButton: React.FC<TooltipButtonProps> = ({
   tooltipContent,
   ...props
 }) => {
-  const tooltipId = React.useRef("A" + uuid.v4().split("-").join(""));
+  const tooltipId = React.useRef("A" + uuidv4().split("-").join(""));
   const [tooltipOpen, setTooltipOpen] = React.useState(false);
   const toggle = () => setTooltipOpen(!tooltipOpen);
 

@@ -18,7 +18,7 @@ import gql from "graphql-tag.macro";
 import EventName from "../MissionConfig/EventName";
 import MacroWrapper from "../MissionConfig/MacroConfig";
 import EventPicker from "../MissionConfig/EventPicker";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { FaBan } from "react-icons/fa";
 import {
   useMacroDuplicateMutation,
@@ -266,7 +266,7 @@ const MacroConfig = ({ macros }) => {
                   variables: {
                     id: macro.id,
                     actions: macro.actions.concat({
-                      id: uuid.v4(),
+                      id: uuidv4(),
                       event: e,
                       args: "{}",
                       delay: 0

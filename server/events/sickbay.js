@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 function performAction(id, action) {
   const sys = App.systems.find(s => s.id === id);
   if (sys) {
@@ -33,7 +33,7 @@ App.on("scanSickbayBunk", ({id, bunkId, request}) => {
   performAction(id, sys => {
     sys.scanBunk(bunkId, request);
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Sickbay",
       station: "Core",
@@ -70,7 +70,7 @@ App.on("assignPatient", ({id, bunkId, crewId}) => {
     pubsub.publish("crewUpdate", App.crew);
     pubsub.publish("crewCountUpdate", App.crew);
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Sickbay",
       station: "Core",
@@ -105,7 +105,7 @@ App.on("dischargePatient", ({id, bunkId}) => {
       }
     }
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Sickbay",
       station: "Core",
@@ -137,7 +137,7 @@ App.on("updatePatientChart", ({simulatorId, crewId, chart}) => {
   crew && crew.updateChart(chart);
   if (crew && chart.treatmentRequest) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Sickbay",
       station: "Core",
@@ -168,7 +168,7 @@ App.on("startDeconProgram", ({id, program, location}) => {
   performAction(id, sys => {
     sys.startDeconProgram(program, location);
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Decontamination",
       station: "Core",
@@ -201,7 +201,7 @@ App.on("updateDeconOffset", ({id, offset}) => {
 App.on("cancelDeconProgram", ({id}) => {
   performAction(id, sys => {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Decontamination",
       station: "Core",
@@ -221,7 +221,7 @@ App.on("completeDeconProgram", ({id}) => {
       .map(s => s.name)
       .forEach(s => {
         sys.deconProgram && pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: sys.simulatorId,
           type: "Decontamination",
           station: s,

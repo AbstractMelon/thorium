@@ -1,8 +1,8 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 class KeyAction {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "KeyAction";
     this.event = params.event || "";
     this.args = params.args || "{}";
@@ -12,7 +12,7 @@ class KeyAction {
 }
 class Key {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Key";
 
     // This is kept around for legacy support
@@ -37,7 +37,7 @@ class Key {
 }
 export default class Keyboard {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Keyboard";
     this.name = params.name || "Keyboard";
     this.keys = [];

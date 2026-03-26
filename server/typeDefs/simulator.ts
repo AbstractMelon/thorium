@@ -2,7 +2,7 @@ import App from "../app";
 import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {Simulator, Station} from "../classes";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -341,7 +341,7 @@ const resolver = {
     documentAdd(root, {simulatorId, name, asset}) {
       const simulator = App.simulators.find(s => s.id === simulatorId);
       if (!simulator) return;
-      simulator.documents.push({id: uuid.v4(), name, asset});
+      simulator.documents.push({id: uuidv4(), name, asset});
       pubsub.publish("simulatorsUpdate", App.simulators);
     },
     documentRemove(root, {simulatorId, id}) {
@@ -362,7 +362,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootValue, {simulatorId, template}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             let returnVal = App.simulators;
             if (simulatorId)

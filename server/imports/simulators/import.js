@@ -1,7 +1,7 @@
 import App from "../../app";
 import mkdirp from "mkdirp";
 import * as Classes from "../../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import yauzl from "yauzl";
 import path from "path";
 import paths from "../../helpers/paths";
@@ -26,13 +26,13 @@ export default function ImportSimulator(filepath, cb) {
   const aspects = {};
   yauzl.open(filepath, {lazyEntries: true}, function (err, importZip) {
     if (err) throw err;
-    const simId = uuid.v4();
+    const simId = uuidv4();
     importZip.on("close", function () {
       // Process all of the aspects.
       // Connect rooms to decks
       if (aspects.decks) {
         aspects.decks = aspects.decks.map(d => {
-          const deckId = uuid.v4();
+          const deckId = uuidv4();
           if (aspects.rooms) {
             aspects.rooms = aspects.rooms.map(r => {
               if (r.deckId === d.id) {
@@ -47,7 +47,7 @@ export default function ImportSimulator(filepath, cb) {
 
       // Connect system locations to rooms
       aspects.rooms = (aspects.rooms || []).map(r => {
-        const roomId = uuid.v4();
+        const roomId = uuidv4();
         if (aspects.inventory) {
           aspects.inventory = aspects.inventory.map(i => {
             if (i.roomCount[r.id]) {
@@ -117,7 +117,7 @@ export default function ImportSimulator(filepath, cb) {
             const aspect = JSON.parse(str);
             aspect.forEach(a => {
               if (["decks", "rooms"].indexOf(aspectName) === -1) {
-                a.id = uuid.v4();
+                a.id = uuidv4();
               }
               a.simulatorId = simId;
               aspects[aspectName] = aspects[aspectName] || [];

@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import throttle from "../helpers/throttle";
 
 const throttles = {};
@@ -11,7 +11,7 @@ const triggerHeatWarning = sys => {
   if (!heatThrottles[sys.id]) {
     heatThrottles[sys.id] = throttle(sys => {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         type: "Engines",
         station: "Core",
@@ -75,7 +75,7 @@ App.on("setSpeed", param => {
   const speed = system.speeds[system.speed - 1];
   if (param.on || on) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: system.simulatorId,
       station: "Core",
       type: "Engines",

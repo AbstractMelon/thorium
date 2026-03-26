@@ -1,12 +1,12 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {Reactor} from "../classes";
 
 App.on("reactorEject", ({id, tf = true}) => {
   const system = App.systems.find(sys => sys.id === id);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Reactor",
     station: "Core",

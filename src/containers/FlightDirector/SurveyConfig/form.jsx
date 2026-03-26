@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {Button} from "helpers/reactstrap";
 import FormAdder from "./form-adder";
 import FormContainer from "./form-container";
@@ -23,11 +23,11 @@ class Form extends Component {
   addForm = type => {
     this.setState({
       form: this.state.form.concat({
-        id: uuid.v4(),
+        id: uuidv4(),
         type,
         title: `Form ${type}`,
         description: "",
-        options: [{id: uuid.v4(), label: "Option 1"}],
+        options: [{id: uuidv4(), label: "Option 1"}],
         min: 1,
         max: 5,
       }),

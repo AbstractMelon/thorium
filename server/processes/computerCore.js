@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 function randomFromList(list) {
   if (!list) return;
   const length = list.length;
@@ -22,7 +22,7 @@ const computerCoreCycle = () => {
             if (Math.random() * hackers > 0.9) {
               const virusName = c.createVirus();
               pubsub.publish("notify", {
-                id: uuid.v4(),
+                id: uuidv4(),
                 simulatorId: c.simulatorId,
                 station: "Core",
                 type: "Computer Core",

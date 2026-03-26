@@ -1,5 +1,5 @@
 import Task from "./task";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 
 class TaskFlowStep {
@@ -10,7 +10,7 @@ class TaskFlowStep {
   completeAll: boolean;
   delay: number;
   constructor(params: Partial<TaskFlowStep> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Flow Step";
     this.tasks = params.tasks ? params.tasks.map(t => new Task(t)) : [];
     this.activeTaskIds = params.activeTaskIds || [];
@@ -79,7 +79,7 @@ export class TaskFlow {
   currentStep: number;
   steps: Partial<TaskFlowStep>[];
   constructor(params: Partial<TaskFlow> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.simulatorId = params.simulatorId || null;
     this.name = params.name || "Task Flow";
     this.category = params.category || "";

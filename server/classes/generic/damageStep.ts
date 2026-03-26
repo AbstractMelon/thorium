@@ -1,11 +1,11 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class DamageStep {
   id?: string;
   name?: string;
   args?: any;
   constructor(params: DamageStep = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "generic";
     this.args = params.args || {};
   }

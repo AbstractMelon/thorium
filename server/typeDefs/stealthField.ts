@@ -2,7 +2,7 @@ import App from "../app";
 import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {StealthField, Sensors} from "../classes";
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
@@ -94,7 +94,7 @@ const resolver = {
       system.activate();
       if (system.state) {
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: system.simulatorId,
           type: "Stealth Field",
           station: "Core",
@@ -139,7 +139,7 @@ const resolver = {
       const system = App.systems.find(s => s.id === id);
       system.deactivate();
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: system.simulatorId,
         type: "Stealth Field",
         station: "Core",

@@ -1,9 +1,9 @@
 import {System} from "./generic";
 import * as THREE from "three";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 class CrmFighter {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.simulatorId = params.simulatorId;
     this.clientId = params.clientId || "";
     this.size = params.size || 1;
@@ -138,7 +138,7 @@ class CrmFighter {
 
 class CrmTorpedo {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.fighterId = params.fighterId;
     this.position = params.position || {x: 0, y: 0, z: 0};
     this.velocity = params.velocity || {x: 0, y: 0, z: 0};

@@ -20,7 +20,7 @@ import {css} from "@emotion/core";
 import {ListGroupItem, Button, Card, ListGroup} from "helpers/reactstrap";
 import {capitalCase} from "change-case";
 import useInterval from "helpers/hooks/useInterval";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import TourHelper from "helpers/tourHelper";
 interface TemplateProps {
   children: React.ReactNode;
@@ -476,7 +476,7 @@ const FileViewer: React.FC<{
               variables: {
                 id: hacking.id,
                 file: {
-                  id: uuid.v4(),
+                  id: uuidv4(),
                   level: file?.level || 10,
                   name: file.name,
                   restoring: false,

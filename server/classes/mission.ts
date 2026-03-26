@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 interface Requirements {
   cards: string[];
@@ -16,7 +16,7 @@ export default class Mission {
   extraRequirements: Requirements;
   constructor(params: Partial<Mission> = {}) {
     this.class = "Mission";
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.name = params.name || "Mission";
     this.description = params.description || "";
     this.category = params.category || "";
@@ -141,7 +141,7 @@ export class TimelineStep {
   order: number;
   timelineItems: TimelineItem[];
   constructor(timelineStepId, params) {
-    this.id = timelineStepId || uuid.v4();
+    this.id = timelineStepId || uuidv4();
     this.class = "TimelineStep";
     this.name = params.name || "Step";
     this.description = params.description || "";
@@ -149,7 +149,7 @@ export class TimelineStep {
     this.timelineItems = [];
     if (params.timelineItems) {
       params.timelineItems.forEach(t => {
-        if (!timelineStepId) t.id = uuid.v4();
+        if (!timelineStepId) t.id = uuidv4();
         this.timelineItems.push(new TimelineItem(t.id, t));
       });
     }
@@ -174,7 +174,7 @@ export class TimelineStep {
     const timelineItemInst = this.timelineItems.find(
       t => t.id === timelineItemId,
     );
-    const id = uuid.v4();
+    const id = uuidv4();
     this.timelineItems.push(new TimelineItem(id, {...timelineItemInst}));
     return id;
   }
@@ -199,7 +199,7 @@ export class TimelineItem {
   delay: number;
   noCancelOnReset: boolean;
   constructor(timelineItemId, params: TimelineItemParams = {}) {
-    this.id = timelineItemId || uuid.v4();
+    this.id = timelineItemId || uuidv4();
     this.name = params.name || "Item";
     this.type = params.type || null;
     this.event = params.event || null;

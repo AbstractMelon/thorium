@@ -1,10 +1,10 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {resolvers} from "../data";
 // Simulator
-App.on("createSimulator", ({id = uuid.v4(), name, template, flightId}) => {
+App.on("createSimulator", ({id = uuidv4(), name, template, flightId}) => {
   const simulator = new Classes.Simulator({
     id,
     name,
@@ -46,7 +46,7 @@ App.on("changeSimulatorAlertLevel", ({simulatorId, alertLevel}) => {
   if (simulator && alertLevel !== simulator.alertlevel) {
     simulator.setAlertLevel(alertLevel);
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: simulator.id,
       type: "Alert Condition",
       station: "Core",

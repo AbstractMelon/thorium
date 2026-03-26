@@ -1,12 +1,12 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 App.on("updateSignalJammer", ({jammer}) => {
   const sys = App.systems.find(s => s.id === jammer.id);
   sys.update(jammer);
   if (jammer.active || jammer.active === false) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Signal Jammer",
       station: "Core",

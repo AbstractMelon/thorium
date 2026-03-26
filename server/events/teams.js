@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import Team from "../classes/teams";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("createTeam", ({team = {}}) => {
   App.teams.push(new Team(team));
@@ -12,7 +12,7 @@ App.on("createTeam", ({team = {}}) => {
       ? "Security Teams"
       : "Medical Teams";
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: team.simulatorId,
     type,
     station: "Core",

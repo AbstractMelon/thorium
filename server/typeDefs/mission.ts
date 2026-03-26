@@ -2,7 +2,7 @@ import App from "../app";
 import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {missionRequirements} from "../helpers/missionRequirements";
 
 import mutationHelper from "../helpers/mutationHelper";
@@ -274,7 +274,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootValue, {missionId, aux}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
           process.nextTick(() => {
             let returnVal = App.missions;
             if (missionId)

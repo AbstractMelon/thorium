@@ -1,5 +1,5 @@
 import {System} from "./generic";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 class Beam {
   id: string;
@@ -10,7 +10,7 @@ class Beam {
   stress: number;
   scanning: boolean;
   constructor(params: Partial<Beam> = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.state = params.state || false;
     this.target = params.target || false;
     this.targetLabel = params.targetLabel || "";

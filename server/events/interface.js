@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 function performAction(id, action) {
   const sys = App.interfaces.find(s => s.id === id);
@@ -38,7 +38,7 @@ App.on("addInterfaceToSimulator", ({simulatorId, interfaceId}) => {
   const simulator = App.simulators.find(s => s.id === simulatorId);
   const interfaceData = App.interfaces.find(s => s.id === interfaceId);
   if (!simulator || !interfaceData) return;
-  const id = uuid.v4();
+  const id = uuidv4();
   const interfaceObj = {
     ...interfaceData,
     templateId: interfaceData.id,

@@ -1,9 +1,9 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {paramCase} from "change-case";
 
 export default class Library {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Library";
     this.simulatorId = params.simulatorId || null;
     this.title = params.title || "Entry";

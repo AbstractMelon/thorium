@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("createTargetingContact", ({id, targetClass}) => {
   App.systems.find(s => s.id === id).createTarget(targetClass);
@@ -13,7 +13,7 @@ App.on("targetTargetingContact", ({id, targetId}) => {
   const system = App.systems.find(s => s.id === id);
   system.targetTarget(targetId);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: system.simulatorId,
     type: "Targeting",
     station: "Core",

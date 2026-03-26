@@ -1,7 +1,7 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("createTransporter", params => {
   const transporter = new Classes.Transporters(params);
@@ -32,7 +32,7 @@ App.on("beginTransportScan", params => {
     "addCoreFeed",
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: transporter.simulatorId,
     type: "Transporter",
     station: "Core",
@@ -56,7 +56,7 @@ App.on("cancelTransportScan", params => {
   transporter.cancelScan();
   transporter.clearTargets();
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: transporter.simulatorId,
     type: "Transporter",
     station: "Core",
@@ -99,7 +99,7 @@ App.on("completeTransport", params => {
 
   transporter.completeTransport(params.target);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: transporter.simulatorId,
     type: "Transporter",
     station: "Core",

@@ -1,8 +1,8 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import Environment from "./environment";
 export class Deck {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Deck";
     this.simulatorId = params.simulatorId || null;
     this.number = params.number || 1;
@@ -39,7 +39,7 @@ export class Room {
   constructor(params) {
     if (!params.deckId) return false;
     this.class = "Room";
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.simulatorId = params.simulatorId || null;
     this.deckId = params.deckId;
     this.name = params.name || "Vic's Lounge";
@@ -71,7 +71,7 @@ export class Room {
 export class InventoryItem {
   constructor(params) {
     this.class = "InventoryItem";
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.simulatorId = params.simulatorId || null;
     this.name = params.name || "Generic Cargo";
     this.roomCount = {};

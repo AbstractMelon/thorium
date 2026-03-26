@@ -2,7 +2,7 @@
 // check to see if they are still connected
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 const clientPing = () => {
   App.clients.forEach(c => {
@@ -10,7 +10,7 @@ const clientPing = () => {
     //   c.disconnect();
     // }
     if (c.connected) {
-      const ping = uuid.v4();
+      const ping = uuidv4();
       c.setPing(ping);
       pubsub.publish("clientPing", c);
     }

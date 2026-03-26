@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("shipSetDocking", ({simulatorId, clamps, ramps, airlock, legs}) => {
   const simulator = App.simulators.find(s => s.id === simulatorId);
@@ -52,7 +52,7 @@ App.on("shipDockingChange", ({simulatorId, which, state, context: {core}}) => {
     }
     if (core) {
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: simulatorId,
         type: "Docking",
         station: "Core",
@@ -107,7 +107,7 @@ App.on(
           "addCoreFeed",
         );
         pubsub.publish("notify", {
-          id: uuid.v4(),
+          id: uuidv4(),
           simulatorId: simulatorId,
           type: "Remote Access",
           station: "Core",
@@ -131,7 +131,7 @@ App.on("remoteAccessUpdateCode", ({simulatorId, codeId, state}) => {
   //Get the code
   const code = simulator.ship.remoteAccessCodes.find(c => c.id === codeId);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: simulator.id,
     station: code.station,
     title: "Remote Access Code",
@@ -144,7 +144,7 @@ App.on("setSelfDestructTime", ({simulatorId, time}) => {
   const sim = App.simulators.find(s => s.id === simulatorId);
   sim.setSelfDestructTime(time);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: simulatorId,
     type: "Self Destruct",
     station: "Core",
@@ -178,7 +178,7 @@ App.on(
   "notify",
   ({simulatorId, type, station = "Core", title, body, color = "primary"}) => {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId,
       type,
       station,
@@ -190,7 +190,7 @@ App.on(
 );
 App.on("printPdf", ({asset, simulatorId}) => {
   App.printQueue.push({
-    id: uuid.v4(),
+    id: uuidv4(),
     asset,
     simulatorId,
     timestamp: Date.now(),
@@ -210,7 +210,7 @@ App.on("printPdf", ({asset, simulatorId}) => {
     "addCoreFeed",
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: simulatorId,
     type: "Print Queue",
     station: "Core",

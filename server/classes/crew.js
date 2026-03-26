@@ -1,9 +1,9 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {diagnoses} from "./medical/symptoms";
 import processReport from "./generic/processReport";
 class Chart {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Chart";
     this.admitTime = params.admitTime || new Date();
     this.dischargeTime = params.dischargeTime || null;
@@ -63,7 +63,7 @@ class Chart {
 
 export default class Crew {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Crew";
     this.simulatorId = params.simulatorId || "test";
     this.firstName = params.firstName || "John";

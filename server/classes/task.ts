@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import App from "../app";
 import taskDefinitions from "../tasks";
 import {randomFromList} from "./generic/damageReports/constants";
@@ -54,7 +54,7 @@ export class Macro {
   delay: number;
   noCancelOnReset: boolean;
   constructor(params: Partial<Macro>) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.event = params.event || "";
     this.args = params.args || "{}";
     this.delay = params.delay || 0;
@@ -87,7 +87,7 @@ export default class Task {
   constructor(params: Partial<Task> = {}) {
     // The check to see if the task is relevant was already handled
     // before this task was instantiated
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Task";
 
     // The static object which defines the values and

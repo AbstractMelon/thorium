@@ -3,7 +3,7 @@ import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import {StationResolver} from "../helpers/stationResolver";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {Client, Card} from "../classes";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -408,7 +408,7 @@ const resolver = {
       },
       subscribe: withFilter(
         (rootQuery, {clientId, stationName, all, simulatorId, flightId}) => {
-          const id = uuid.v4();
+          const id = uuidv4();
 
           process.nextTick(() => {
             let returnVal = App.clients;

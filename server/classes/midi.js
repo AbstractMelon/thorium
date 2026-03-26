@@ -1,9 +1,9 @@
 // A set is a collection of clients
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export class MidiControl {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.channel = params.channel ?? null;
     this.messageType = params.messageType ?? null;
     this.key = params.key ?? null;
@@ -19,7 +19,7 @@ export class MidiControl {
 }
 export class MidiSet {
   constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "MidiSet";
     this.name = params.name || "Default Midi Set";
     this.deviceName = params.deviceName || "X-TOUCH MINI";

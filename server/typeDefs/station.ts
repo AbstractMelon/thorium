@@ -1,7 +1,7 @@
 import App from "../app";
 import {gql} from "graphql-tag";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {Simulator} from "../classes";
 import mutationHelper from "../helpers/mutationHelper";
 // We define a schema that encompasses all of the types
@@ -183,7 +183,7 @@ const resolver = {
         return rootValue;
       },
       subscribe: () => {
-        const id = uuid.v4();
+        const id = uuidv4();
         process.nextTick(() => {
           pubsub.publish(id, App.stationSets);
         });

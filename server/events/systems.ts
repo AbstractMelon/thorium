@@ -1,5 +1,5 @@
 import App from "../app";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import { pubsub } from "../helpers/subscriptionManager";
 import * as Classes from "../classes";
 
@@ -165,7 +165,7 @@ App.on("upgradeSystem", ({ systemId }) => {
         "triggerMacros",
       );
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "System",
       station: "Core",
@@ -257,7 +257,7 @@ App.on("systemReactivationCode", ({ systemId, station, code }) => {
       App.exocomps.find(s => s.id === systemId);
   }
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     type: "Reactivation Code",
     station: "Core",
@@ -306,7 +306,7 @@ App.on("requestDamageReport", ({ systemId }) => {
     "addCoreFeed",
   );
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     type: "Damage Reports",
     station: "Core",
@@ -325,7 +325,7 @@ App.on("systemReactivationCodeResponse", ({ systemId, response }) => {
       App.exocomps.find(s => s.id === systemId);
   }
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     station: sys.damage.reactivationRequester,
     title: "Reactivation Code",
@@ -485,7 +485,7 @@ App.on("setDamageStepValidation", ({ id, validation }) => {
       .filter((s, i, a) => a.indexOf(s) === i);
     stations.forEach(s =>
       pubsub.publish("notify", {
-        id: uuid.v4(),
+        id: uuidv4(),
         simulatorId: sys.simulatorId,
         station: s,
         title: `Damage report step validation rejected`,
@@ -507,7 +507,7 @@ App.on("setDamageStepValidation", ({ id, validation }) => {
       "addCoreFeed",
     );
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       type: "Damage Reports",
       station: "Core",
@@ -539,7 +539,7 @@ App.on("validateDamageStep", ({ id }) => {
     .filter((s, i, a) => a.indexOf(s) === i);
   stations.forEach(s =>
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: sys.simulatorId,
       station: s,
       title: `Damage report step validation accepted`,

@@ -2,7 +2,7 @@ import React, {useState, useCallback} from "react";
 import ReactDOM from "react-dom";
 import {FormGroup, Col, Button} from "helpers/reactstrap";
 import ContactContextMenu from "components/views/Sensors/gridCore/contactContextMenu";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {FaBan} from "react-icons/fa";
 
 function useClientRect() {
@@ -28,7 +28,7 @@ const SetArmyContacts = ({args, updateArgs}) => {
   };
   const addArmyContact = () => {
     const contact = {
-      id: uuid.v4(),
+      id: uuidv4(),
       name: "Army Contact",
       icon: "/Sensor Contacts/Icons/Default.svg",
       picture: "/Sensor Contacts/Pictures/N.svg",

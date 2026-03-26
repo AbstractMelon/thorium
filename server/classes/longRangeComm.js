@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {System} from "./generic";
 import App from "../app";
 // TODO: Make it so the stardate is stored separate from the timestamp
@@ -12,7 +12,7 @@ const stardate = () => {
 
 class LRMessage {
   constructor(params = {}, simulatorId) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.message = params.message || "";
     this.decodedMessage = params.decodedMessage || "";
     this.datestamp = params.datestamp || stardate();

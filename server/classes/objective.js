@@ -1,8 +1,8 @@
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 export default class Objective {
   constructor(params) {
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuidv4();
     this.class = "Objective";
     this.simulatorId = params.simulatorId || null;
     this.timestamp = params.timestamp || new Date().toString();

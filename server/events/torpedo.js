@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 App.on("torpedoAddWarhead", ({id, simulatorId, warhead}) => {
   const sys = App.systems.find(
@@ -61,7 +61,7 @@ App.on("torpedoFire", ({id}) => {
   }
 
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     type: "Torpedos",
     station: "Core",

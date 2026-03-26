@@ -1,6 +1,6 @@
 import App from "../app";
 import {pubsub} from "../helpers/subscriptionManager";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 
 //Creating a new long range message
 App.on(
@@ -41,7 +41,7 @@ App.on(
         stations.forEach(s => {
           if (s.name !== sender) {
             pubsub.publish("notify", {
-              id: uuid.v4(),
+              id: uuidv4(),
               simulatorId: system.simulatorId,
               type: "Long Range Comm",
               station: s.name,
@@ -67,7 +67,7 @@ App.on(
         stations.forEach(s => {
           if (s.name !== sender) {
             pubsub.publish("notify", {
-              id: uuid.v4(),
+              id: uuidv4(),
               simulatorId: system.simulatorId,
               type: "Long Range Comm",
               station: s.name,
@@ -100,7 +100,7 @@ App.on("longRangeMessageSend", ({id, message}) => {
   sys.sendMessage(message);
   const messageObj = sys.messages.find(m => m.id === message);
   pubsub.publish("notify", {
-    id: uuid.v4(),
+    id: uuidv4(),
     simulatorId: sys.simulatorId,
     type: "Long Range Comm",
     station: "Core",
@@ -156,7 +156,7 @@ App.on("approveLongRangeMessage", ({id, message}) => {
   );
   stations.forEach(s => {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: simulator.id,
       type: "Long Range Comm",
       station: s.name,
@@ -191,7 +191,7 @@ App.on("updateLongRangeComm", ({longRangeComm}) => {
   lr.update(longRangeComm);
   if (longRangeComm.locked) {
     pubsub.publish("notify", {
-      id: uuid.v4(),
+      id: uuidv4(),
       simulatorId: lr.simulatorId,
       type: "Interception",
       station: "Core",

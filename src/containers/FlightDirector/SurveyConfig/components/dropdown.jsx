@@ -1,6 +1,6 @@
 import React from "react";
 import {Input} from "helpers/reactstrap";
-import uuid from "uuid";
+import {v4 as uuidv4} from "uuid";
 import {FaBan, FaPlus} from "react-icons/fa";
 const Dropdown = ({
   value = "",
@@ -29,7 +29,7 @@ const Dropdown = ({
       id,
       "options",
       options.concat({
-        id: uuid.v4(),
+        id: uuidv4(),
         label: "Option",
       }),
     );
