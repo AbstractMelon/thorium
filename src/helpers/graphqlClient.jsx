@@ -14,17 +14,7 @@ import {createClient} from "graphql-ws";
 import {FLIGHTS_QUERY} from "../containers/FlightDirector/Welcome/Welcome";
 import {getClientId} from "helpers/getClientId";
 import {publish} from "./pubsub";
-import {getArgumentValues} from "graphql/execution/values";
-import {
-  buildASTSchema,
-  getOperationRootType,
-  print,
-} from "graphql";
-import {loader} from "graphql.macro";
-import {getFieldDef} from "graphql/execution/execute";
-
-const schemaAST = loader("../schema.graphql");
-const schema = buildASTSchema(schemaAST);
+import {print} from "graphql";
 // import * as Sentry from "@sentry/browser";
 
 const hostname = window.location.hostname;
@@ -103,7 +93,7 @@ const mutationMiddleware = new ApolloLink((operation, forward) => {
     d => d.kind === "OperationDefinition" && d.operation === "mutation",
   );
 
-  if (opDef && schema) {
+  if (opDef) {
     const selection = opDef.selectionSet.selections[0];
     if (!selection || selection.kind !== "Field") {
       return forward(operation);
@@ -115,16 +105,9 @@ const mutationMiddleware = new ApolloLink((operation, forward) => {
         _acc[key] = operation.variables[key];
       return _acc;
     }, {});
-    const parentType = getOperationRootType(schema, opDef);
-    const fieldDef = getFieldDef(schema, parentType, selection);
     try {
-      const args = getArgumentValues(
-        fieldDef,
-        selection,
-        variables,
-      );
       if (event) {
-        publish("mutation-event", {event, args});
+        publish("mutation-event", {event, args: variables});
       }
     } catch {
       // Swallow the error
@@ -216,8 +199,4 @@ const client = new ApolloClient({
   },
 });
 
-// Gotta nab the schema up there.
-if (!schema) {
-  client.query();
-}
 export default client;

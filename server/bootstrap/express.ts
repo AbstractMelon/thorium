@@ -93,7 +93,7 @@ export default () => {
 
   // server.use(require("express-status-monitor")({}));
 
-  server.use("*", cors());
+  server.use(cors());
 
   // server.use("/schema", (req, res) => {
   //   res.set("Content-Type", "text/plain");

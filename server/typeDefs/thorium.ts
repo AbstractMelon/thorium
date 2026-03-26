@@ -3,7 +3,6 @@ import {gql} from "graphql-tag";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../helpers/subscriptionManager";
 import GraphQLClient from "../helpers/graphqlClient";
-import request from "request";
 import fetch from "node-fetch";
 import {v4 as uuidv4} from "uuid";
 import {capitalCase} from "change-case";
@@ -332,10 +331,13 @@ const resolver = {
           type,
         ].filter(Boolean),
       };
-      request.post(
-        {url: issuesUrl, body: postOptions, json: true},
-        function () {},
-      );
+      void fetch(issuesUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postOptions),
+      }).catch(() => null);
     },
     async addIssueUpload(rootValue, {data, filename, ext}) {
       const uploadPath = `uploads/${filename}-${uuidv4()}.${ext}`;

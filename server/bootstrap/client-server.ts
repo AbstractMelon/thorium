@@ -10,7 +10,7 @@ export default function (server: express.Application) {
     let assetDir = path.resolve(paths.userData + "/assets");
     server.use("/assets/", express.static(assetDir));
 
-    server.get("*", function (req, response) {
+    server.get(/.*/, function (req, response) {
       response.sendFile(`${assetPath}/index.html`, function (err) {
         if (err) {
 

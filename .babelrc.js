@@ -17,9 +17,9 @@ module.exports = {
   plugins: [
     "transform-node-env-inline",
     "import-glob",
-    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-class-properties",
     "macros",
-    "@babel/plugin-proposal-optional-chaining",
-    "@babel/plugin-proposal-nullish-coalescing-operator",
+    "@babel/plugin-transform-optional-chaining",
+    "@babel/plugin-transform-nullish-coalescing-operator",
   ],
 };

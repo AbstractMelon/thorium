@@ -7,7 +7,7 @@ export default function processReport(report: string, system: System) {
   let returnReport = report;
   // #PART
   if (system) system.damage.exocompParts = [];
-  const partMatches = report.match(/#PART/gi) || [];
+  const partMatches: string[] = report.match(/#PART/gi) || [];
   partMatches.forEach(m => {
     const index = returnReport.indexOf(m);
     returnReport = returnReport.replace(m, "");
@@ -17,7 +17,7 @@ export default function processReport(report: string, system: System) {
   });
 
   // #COLOR
-  const colorMatches = report.match(/#COLOR/gi) || [];
+  const colorMatches: string[] = report.match(/#COLOR/gi) || [];
   colorMatches.forEach(m => {
     const index = returnReport.indexOf(m);
     returnReport = returnReport.replace(m, "");
@@ -30,7 +30,8 @@ export default function processReport(report: string, system: System) {
   });
 
   // #[1 - 2]
-  const matches = returnReport.match(/#\[ ?([0-9]+) ?- ?([0-9]+) ?\]/gi) || [];
+  const matches: string[] =
+    returnReport.match(/#\[ ?([0-9]+) ?- ?([0-9]+) ?\]/gi) || [];
   matches.forEach(m => {
     const index = returnReport.indexOf(m);
     returnReport = returnReport.replace(m, "");
@@ -43,21 +44,24 @@ export default function processReport(report: string, system: System) {
   });
 
   // #["String1", "String2", "String3", etc.]
-  const stringMatches = returnReport.match(/#\[ ?("|')[^\]]*("|') ?]/gi) || [];
+  const stringMatches: string[] =
+    returnReport.match(/#\[ ?("|')[^\]]*("|') ?]/gi) || [];
   stringMatches.forEach(m => {
     const index = returnReport.indexOf(m);
     returnReport = returnReport.replace(m, "");
-    const strings = m.match(/"(.*?)"/gi);
+    const strings = m.match(/"(.*?)"/gi) || [];
+    const randomString = randomFromList(strings);
+    if (!randomString) return;
     returnReport = splice(
       returnReport,
       index,
       0,
-      randomFromList(strings).replace(/"/gi, ""),
+      randomString.replace(/"/gi, ""),
     );
   });
 
   // #NUMBER
-  const numberMatches = returnReport.match(/#NUMBER/gi) || [];
+  const numberMatches: string[] = returnReport.match(/#NUMBER/gi) || [];
   const num = Math.round(Math.random() * 12 + 1);
   numberMatches.forEach(m => {
     const index = returnReport.indexOf(m);
@@ -66,7 +70,7 @@ export default function processReport(report: string, system: System) {
   });
 
   // #DECK
-  const deckMatches = returnReport.match(/#DECK/gi) || [];
+  const deckMatches: string[] = returnReport.match(/#DECK/gi) || [];
   const deck = Math.round(Math.random() * 14 + 1);
   deckMatches.forEach(m => {
     const index = returnReport.indexOf(m);
