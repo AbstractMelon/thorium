@@ -172,6 +172,20 @@ const cache = new InMemoryCache({
         },
       },
     },
+    Simulator: {
+      fields: {
+        ship: {
+          merge(existing = {}, incoming = {}) {
+            return {...existing, ...incoming};
+          },
+        },
+        crewCount: {
+          read(existing = 0) {
+            return existing;
+          },
+        },
+      },
+    },
     Query: {
       fields: {
         thorium: {
