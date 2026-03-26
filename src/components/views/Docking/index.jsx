@@ -1,11 +1,12 @@
 import React from "react";
-import {Container, Row, Col, Button} from "helpers/reactstrap";
+import { Container, Row, Col, Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
-import {Clamps, Ramps, Doors, Legs} from "./graphics";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { Clamps, Ramps, Doors, Legs } from "./graphics";
 import Tour from "helpers/tourHelper";
-import {useQuery} from "@apollo/client";
-import {useSubscribeToMore} from "helpers/hooks/useQueryAndSubscribe";
+import { useQuery } from "@apollo/client";
+import { useSubscribeToMore } from "helpers/hooks/useQueryAndSubscribe";
 
 import "./style.scss";
 
@@ -45,7 +46,7 @@ const mutation = gql`
   }
 `;
 
-const Docking = ({simulator, client, clientObj}) => {
+const Docking = ({ simulator, client, clientObj }) => {
   const [graphic, setGraphic] = React.useState(null);
   const [disabled, setDisabled] = React.useState(null);
   React.useEffect(() => {
@@ -56,23 +57,23 @@ const Docking = ({simulator, client, clientObj}) => {
     return () => clearTimeout(timeout);
   }, [disabled]);
 
-  const {loading, data, subscribeToMore} = useQuery(DOCKING_QUERY, {
-    variables: {simulatorId: simulator.id},
+  const { loading, data, subscribeToMore } = useQuery(DOCKING_QUERY, {
+    variables: { simulatorId: simulator.id }
   });
   const config = React.useMemo(
     () => ({
-      variables: {simulatorId: simulator.id},
-      updateQuery: (previousResult, {subscriptionData}) => ({
+      variables: { simulatorId: simulator.id },
+      updateQuery: (previousResult, { subscriptionData }) => ({
         ...previousResult,
-        simulators: subscriptionData.data.simulatorsUpdate,
-      }),
+        simulators: subscriptionData.data.simulatorsUpdate
+      })
     }),
-    [simulator.id],
+    [simulator.id]
   );
   useSubscribeToMore(subscribeToMore, DOCKING_SUB, config);
   if (loading || !data) return null;
-  const {simulators} = data;
-  const {ship} = simulators[0];
+  const { simulators } = data;
+  const { ship } = simulators[0];
 
   const clamps = () => {
     setGraphic("clamps");
@@ -80,11 +81,11 @@ const Docking = ({simulator, client, clientObj}) => {
     const variables = {
       simulatorId: simulator.id,
       which: "clamps",
-      state: !ship.clamps,
+      state: !ship.clamps
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   const ramps = () => {
@@ -93,11 +94,11 @@ const Docking = ({simulator, client, clientObj}) => {
     const variables = {
       simulatorId: simulator.id,
       which: "ramps",
-      state: !ship.ramps,
+      state: !ship.ramps
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   const doors = () => {
@@ -107,11 +108,11 @@ const Docking = ({simulator, client, clientObj}) => {
     const variables = {
       simulatorId: simulator.id,
       which: "airlock",
-      state: !ship.airlock,
+      state: !ship.airlock
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   const legs = () => {
@@ -120,11 +121,11 @@ const Docking = ({simulator, client, clientObj}) => {
     const variables = {
       simulatorId: simulator.id,
       which: "legs",
-      state: !ship.legs,
+      state: !ship.legs
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
@@ -139,8 +140,8 @@ const Docking = ({simulator, client, clientObj}) => {
               size="lg"
               className="clamps-button"
               color="primary"
-              onClick={clamps}
-            >
+              onClick={clamps}>
+              
               {ship.clamps ? "Detach" : "Attach"} Docking Clamps
             </Button>
             <Button
@@ -149,8 +150,8 @@ const Docking = ({simulator, client, clientObj}) => {
               size="lg"
               className="ramps-button"
               color="primary"
-              onClick={ramps}
-            >
+              onClick={ramps}>
+              
               {ship.ramps ? "Retract" : "Extend"} Boarding Ramps
             </Button>
             <Button
@@ -159,25 +160,25 @@ const Docking = ({simulator, client, clientObj}) => {
               size="lg"
               className="doors-button"
               color="primary"
-              onClick={doors}
-            >
+              onClick={doors}>
+              
               {ship.airlock ? "Close" : "Open"} Airlock Doors
             </Button>
-            {simulators[0].hasLegs && (
-              <Button
-                disabled={disabled}
-                block
-                size="lg"
-                className="legs-button"
-                color="primary"
-                onClick={legs}
-              >
+            {simulators[0].hasLegs &&
+            <Button
+              disabled={disabled}
+              block
+              size="lg"
+              className="legs-button"
+              color="primary"
+              onClick={legs}>
+              
                 {ship.legs ? "Retract" : "Extend"} Landing Legs
               </Button>
-            )}
+            }
           </div>
         </Col>
-        <Col className="graphics" sm={{size: 5, offset: 2}}>
+        <Col className="graphics" sm={{ size: 5, offset: 2 }}>
           {graphic === "clamps" && <Clamps transform={ship.clamps} />}
           {graphic === "ramps" && <Ramps transform={ship.ramps} />}
           {graphic === "doors" && <Doors transform={ship.airlock} />}
@@ -185,26 +186,26 @@ const Docking = ({simulator, client, clientObj}) => {
         </Col>
       </Row>
       <Tour steps={trainingSteps} client={clientObj} />
-    </Container>
-  );
+    </Container>);
+
 };
 
 const trainingSteps = [
-  {
-    selector: ".clamps-button",
-    content:
-      "Use this button to attach or detach docking clamps when you dock with a space station. These clamps will stabilize your ship for safe disembarking.",
-  },
-  {
-    selector: ".ramps-button",
-    content:
-      "Use this button to extend and retract the boarding ramps to allow crew and other visitors to enter and exit the ship.",
-  },
-  {
-    selector: ".doors-button",
-    content:
-      "Use this button to open and close the airlock doors, effectively sealing off your ship from space. Because space is a vacuum - totally empty, even of oxygen and other gases - leaving these doors open when you launch may lead to deadly consequences. It also may cause precious oxygen to disappear into the vacuum of space.",
-  },
-];
+{
+  selector: ".clamps-button",
+  content:
+  "Use this button to attach or detach docking clamps when you dock with a space station. These clamps will stabilize your ship for safe disembarking."
+},
+{
+  selector: ".ramps-button",
+  content:
+  "Use this button to extend and retract the boarding ramps to allow crew and other visitors to enter and exit the ship."
+},
+{
+  selector: ".doors-button",
+  content:
+  "Use this button to open and close the airlock doors, effectively sealing off your ship from space. Because space is a vacuum - totally empty, even of oxygen and other gases - leaving these doors open when you launch may lead to deadly consequences. It also may cause precious oxygen to disappear into the vacuum of space."
+}];
+
 
 export default withApollo(Docking);

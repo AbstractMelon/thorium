@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Sickbay from "./sickbay";
@@ -91,45 +92,45 @@ class SickbayData extends Component {
     return (
       <Query
         query={SICKBAY_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {sickbay, crew} = data;
+          const { sickbay, crew } = data;
           if (!sickbay[0]) return <div>No Sickbay</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SICKBAY_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      sickbay: subscriptionData.data.sickbayUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SICKBAY_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    sickbay: subscriptionData.data.sickbayUpdate
+                  });
+                }
+              })
+              }>
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: SICKBAY_CREW_SUB,
-                    variables: {simulatorId: this.props.simulator.id},
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        crew: subscriptionData.data.crewUpdate,
-                      });
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: SICKBAY_CREW_SUB,
+                  variables: { simulatorId: this.props.simulator.id },
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    return Object.assign({}, previousResult, {
+                      crew: subscriptionData.data.crewUpdate
+                    });
+                  }
+                })
+                } />
+              
               <Sickbay {...this.props} {...sickbay[0]} crew={crew} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default SickbayData;

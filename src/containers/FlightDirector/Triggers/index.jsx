@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Trigger from "./trigger";
@@ -37,28 +38,28 @@ class TriggerData extends Component {
   render() {
     return (
       <Query query={QUERY}>
-        {({loading, data, subscribeToMore}) => {
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {triggers} = data;
+          const { triggers } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      triggers: subscriptionData.data.triggersUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    triggers: subscriptionData.data.triggersUpdate
+                  });
+                }
+              })
+              }>
+              
               <Trigger {...this.props} triggers={triggers} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

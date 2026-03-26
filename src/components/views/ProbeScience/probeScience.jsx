@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import {
   Container,
@@ -6,13 +6,15 @@ import {
   Col,
   Button,
   ListGroup,
-  ListGroupItem,
-} from "helpers/reactstrap";
+  ListGroupItem } from
+"helpers/reactstrap";
 import Grid from "../Sensors/GridDom/grid";
 
 import Tour from "helpers/tourHelper";
-import {capitalCase} from "change-case";
-import {Mutation, useSubscription} from "react-apollo";
+import { capitalCase } from "change-case";
+import { useSubscription } from "@apollo/client";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import uuid from "uuid";
 
@@ -22,19 +24,19 @@ export function getProbeConfig(probes, probe) {
 
   // First, map out the probe's equipment
   const probeEquip = probe.equipment.reduce(
-    (prev, p) => ({...prev, [p.id]: p.count}),
-    {},
+    (prev, p) => ({ ...prev, [p.id]: p.count }),
+    {}
   );
   // Get the requirements
   const reqEquip = probes.scienceTypes.reduce(
     (prev, t) => ({
       ...prev,
       [t.id]: t.equipment.reduce(
-        (prev2, e) => ({...prev2, [e]: prev2[e] ? prev2[e] + 1 : 1}),
-        {},
-      ),
+        (prev2, e) => ({ ...prev2, [e]: prev2[e] ? prev2[e] + 1 : 1 }),
+        {}
+      )
     }),
-    {},
+    {}
   );
 
   // Get the type based on the equipment
@@ -47,14 +49,14 @@ export function getProbeConfig(probes, probe) {
     return true;
   });
   if (type) {
-    return probes.scienceTypes.find(t => t.id === type[0]);
+    return probes.scienceTypes.find((t) => t.id === type[0]);
   }
   return null;
 }
 
 function distance3d(coord2, coord1) {
-  const {x: x1, y: y1, z: z1} = coord1;
-  let {x: x2, y: y2, z: z2} = coord2;
+  const { x: x1, y: y1, z: z1 } = coord1;
+  let { x: x2, y: y2, z: z2 } = coord2;
   return Math.sqrt((x2 -= x1) * x2 + (y2 -= y1) * y2 + (z2 -= z1) * z2);
 }
 
@@ -67,12 +69,12 @@ export const PROBE_SCIENCE_EMITTER_SUB = gql`
     }
   }
 `;
-const ProbeScienceSub = props => {
-  const {simulatorId, emit, detect} = props;
-  const {data = {}, loading} = useSubscription(PROBE_SCIENCE_EMITTER_SUB, {
-    variables: {simulatorId},
+const ProbeScienceSub = (props) => {
+  const { simulatorId, emit, detect } = props;
+  const { data = {}, loading } = useSubscription(PROBE_SCIENCE_EMITTER_SUB, {
+    variables: { simulatorId }
   });
-  const {scienceProbeEmitter: {name, type, charge} = {}} = data;
+  const { scienceProbeEmitter: { name, type, charge } = {} } = data;
   React.useEffect(() => {
     if (!loading) {
       if (type === "burst") {
@@ -87,33 +89,33 @@ const ProbeScienceSub = props => {
 };
 
 class ProbeScience extends Component {
-  state = {emitContacts: [], detectorScale: 0};
+  state = { emitContacts: [], detectorScale: 0 };
   static trainingSteps = [
-    {
-      selector: ".nothing",
-content: "This screen is used to control your science probes. Science probes can be used to detect or emit certain kinds of particles, each with their own strategic and informational advantage. Before continuing with training, make sure you have a properly configured science probe launched.",
-    },
-    {
-      selector: ".probes-launched",
-content: "You can see the science probes that have been launched here, along with their configured type. These configurations are based on the equipment that has been loaded into the probe. Click on one now.",
-    },
-    {
-      selector: ".probe-config",
-content: "This is where you can control your science probe. You can see the current charge of the science probe as a yellow bar in the black box. To use the science probe, we have to charge it up.",
-    },
-    {
-      selector: ".charge-button",
-content: "To charge the science probe, click and hold this button. Depending on whether you configured your probe to burst or detect particles, a higher charge will either emit more particles or detect a larger radius on your probes grid.",
-    },
-    {
-      selector: ".activate-button",
-content: "Click this button to activate the probe emitter.",
-    },
-    {
-      selector: ".science-grid",
-content: "After activating your probe, you'll begin to see either the particles being emitted or nearby particles being detected. Make sure you look quickly though. The detector doesn't last for very long.",
-    },
-  ];
+  {
+    selector: ".nothing",
+    content: "This screen is used to control your science probes. Science probes can be used to detect or emit certain kinds of particles, each with their own strategic and informational advantage. Before continuing with training, make sure you have a properly configured science probe launched."
+  },
+  {
+    selector: ".probes-launched",
+    content: "You can see the science probes that have been launched here, along with their configured type. These configurations are based on the equipment that has been loaded into the probe. Click on one now."
+  },
+  {
+    selector: ".probe-config",
+    content: "This is where you can control your science probe. You can see the current charge of the science probe as a yellow bar in the black box. To use the science probe, we have to charge it up."
+  },
+  {
+    selector: ".charge-button",
+    content: "To charge the science probe, click and hold this button. Depending on whether you configured your probe to burst or detect particles, a higher charge will either emit more particles or detect a larger radius on your probes grid."
+  },
+  {
+    selector: ".activate-button",
+    content: "Click this button to activate the probe emitter."
+  },
+  {
+    selector: ".science-grid",
+    content: "After activating your probe, you'll begin to see either the particles being emitted or nearby particles being detected. Make sure you look quickly though. The detector doesn't last for very long."
+  }];
+
   componentDidMount() {
     setTimeout(() => {
       let dimensions = false;
@@ -126,7 +128,7 @@ content: "After activating your probe, you'll begin to see either the particles 
           }
         }
       }
-      this.setState({dimensions});
+      this.setState({ dimensions });
     }, 500);
   }
   componentWillUnmount() {
@@ -134,76 +136,76 @@ content: "After activating your probe, you'll begin to see either the particles 
     this.detectFrame && cancelAnimationFrame(this.detectFrame);
   }
   chargeLoop = () => {
-    this.setState(state => ({
-      charge: Math.min(1, state.charge + 0.001) || 0.001,
+    this.setState((state) => ({
+      charge: Math.min(1, state.charge + 0.001) || 0.001
     }));
     this.frame = requestAnimationFrame(this.chargeLoop);
   };
-  emit = charge => {
+  emit = (charge) => {
     function randomOnPlane(radius) {
       const angle = Math.random() * Math.PI * 2;
       const x = Math.cos(angle) * radius;
       const y = Math.sin(angle) * radius;
-      return {x, y, z: 0};
+      return { x, y, z: 0 };
     }
     let burstCount = Math.floor(charge * 30);
     if (burstCount === 0) return;
     const interval = 100;
     const updateContacts = () => {
       this.setState(
-        state => ({
+        (state) => ({
           emitContacts: [
-            ...state.emitContacts,
-            {
-              id: uuid.v4(),
-              type: "burst",
-              destination: randomOnPlane(1.1),
-              location: {x: -0.01, y: -0.01, z: -0.01},
-              position: {x: -0.01, y: -0.01, z: -0.01},
-              startTime: Date.now() + window.thoriumLocal.clockSync,
-              speed: 1,
-            },
-          ],
+          ...state.emitContacts,
+          {
+            id: uuid.v4(),
+            type: "burst",
+            destination: randomOnPlane(1.1),
+            location: { x: -0.01, y: -0.01, z: -0.01 },
+            position: { x: -0.01, y: -0.01, z: -0.01 },
+            startTime: Date.now() + window.thoriumLocal.clockSync,
+            speed: 1
+          }]
+
         }),
         () => {
           burstCount = burstCount - 1;
           if (burstCount <= 0) return;
           setTimeout(updateContacts, interval);
-        },
+        }
       );
     };
     updateContacts();
   };
   detect = (charge, name) => {
     this.setState(
-      {detectorCharge: charge, detectorScale: 0, detectType: name},
-      () => this.detectLoop(),
+      { detectorCharge: charge, detectorScale: 0, detectType: name },
+      () => this.detectLoop()
     );
   };
   detectLoop = () => {
     if (this.state.detectorScale <= this.state.detectorCharge + 0.1) {
       return this.setState(
-        state => ({
-          detectorScale: state.detectorScale + 0.005 || 0.005,
+        (state) => ({
+          detectorScale: state.detectorScale + 0.005 || 0.005
         }),
         () => {
           this.detectFrame = requestAnimationFrame(this.detectLoop);
-        },
+        }
       );
     }
     setTimeout(() => {
-      this.setState({detectorScale: 0, detectorCharge: 0, detectType: null});
+      this.setState({ detectorScale: 0, detectorCharge: 0, detectType: null });
     }, 5000);
   };
   mouseDown = () => {
-    const {probes} = this.props;
-    const {selectedProbe} = this.state;
-    const scienceProbes = probes.probes
-      .filter(s => s.type === "science" && s.launched)
-      .map(p => ({...p, scienceType: getProbeConfig(probes, p)}));
-    const probe = scienceProbes.find(p => p.id === selectedProbe);
+    const { probes } = this.props;
+    const { selectedProbe } = this.state;
+    const scienceProbes = probes.probes.
+    filter((s) => s.type === "science" && s.launched).
+    map((p) => ({ ...p, scienceType: getProbeConfig(probes, p) }));
+    const probe = scienceProbes.find((p) => p.id === selectedProbe);
     document.addEventListener("mouseup", this.mouseUp);
-    this.setState({charge: probe.charge}, () => {
+    this.setState({ charge: probe.charge }, () => {
       this.chargeLoop();
     });
   };
@@ -219,130 +221,130 @@ content: "After activating your probe, you'll begin to see either the particles 
       const variables = {
         id: this.props.probes.id,
         probeId: this.state.selectedProbe,
-        charge: this.state.charge,
+        charge: this.state.charge
       };
-      this.props.client.mutate({mutation, variables}).then(() => {
-        this.setState({charge: null});
+      this.props.client.mutate({ mutation, variables }).then(() => {
+        this.setState({ charge: null });
       });
     } else {
-      this.setState({charge: null});
+      this.setState({ charge: null });
     }
   };
-  renderLines = props => {
-    const {detectorScale} = this.state;
-    const {rings = 3, lines = 12, aligned = false} = props;
+  renderLines = (props) => {
+    const { detectorScale } = this.state;
+    const { rings = 3, lines = 12, aligned = false } = props;
     return (
       <Fragment>
         <div
           className="detector"
-          style={{transform: `scale(${detectorScale})`}}
-        />
-        {Array(rings)
-          .fill(0)
-          .map((_, i, array) => (
-            <div
-              key={`ring-${i}`}
-              className="ring"
-              style={{
-                width: `${((i + 1) / array.length) * 100}%`,
-                height: `${((i + 1) / array.length) * 100}%`,
-              }}
-            />
-          ))}
-        {Array(lines)
-          .fill(0)
-          .map((_, i, array) => (
-            <div
-              key={`line-${i}`}
-              className="line"
-              style={{
-                transform: `rotate(${
-                  ((i + (aligned ? 0 : 0.5)) / array.length) * 360
-                }deg)`,
-              }}
-            />
-          ))}
-      </Fragment>
-    );
+          style={{ transform: `scale(${detectorScale})` }} />
+        
+        {Array(rings).
+        fill(0).
+        map((_, i, array) =>
+        <div
+          key={`ring-${i}`}
+          className="ring"
+          style={{
+            width: `${(i + 1) / array.length * 100}%`,
+            height: `${(i + 1) / array.length * 100}%`
+          }} />
+
+        )}
+        {Array(lines).
+        fill(0).
+        map((_, i, array) =>
+        <div
+          key={`line-${i}`}
+          className="line"
+          style={{
+            transform: `rotate(${
+            (i + (aligned ? 0 : 0.5)) / array.length * 360}deg)`
+
+          }} />
+
+        )}
+      </Fragment>);
+
   };
   render() {
-    const {contacts, probes} = this.props;
+    const { contacts, probes } = this.props;
     const {
       selectedProbe,
       charge,
       emitContacts,
       detectorScale,
-      detectType,
+      detectType
     } = this.state;
-    const scienceProbes = probes.probes
-      .filter(s => s.type === "science" && s.launched)
-      .map(p => ({...p, scienceType: getProbeConfig(probes, p)}));
-    const probe = scienceProbes.find(p => p.id === selectedProbe);
+    const scienceProbes = probes.probes.
+    filter((s) => s.type === "science" && s.launched).
+    map((p) => ({ ...p, scienceType: getProbeConfig(probes, p) }));
+    const probe = scienceProbes.find((p) => p.id === selectedProbe);
     return (
       <Container className="card-scienceProbes">
         <ProbeScienceSub
           simulatorId={this.props.simulator.id}
           emit={this.emit}
-          detect={this.detect}
-        />
+          detect={this.detect} />
+        
         <Row>
           <Col sm={8} className="science-grid">
             <Grid
               aligned
               rings={7}
               lines={4}
-              contacts={contacts
-                .filter(
-                  c =>
-                    c.particle === detectType &&
-                    distance3d(c.position, {x: 0, y: 0, z: 0}) <= detectorScale,
-                )
-                .concat(emitContacts)}
-              renderLines={this.renderLines}
-            />
+              contacts={contacts.
+              filter(
+                (c) =>
+                c.particle === detectType &&
+                distance3d(c.position, { x: 0, y: 0, z: 0 }) <= detectorScale
+              ).
+              concat(emitContacts)}
+              renderLines={this.renderLines} />
+            
           </Col>
           <Col sm={4}>
             <h3>Science Probes
             </h3>
             <ListGroup
               className="probes-launched"
-              style={{height: "25vh", overflowY: "auto"}}
-            >
-              {scienceProbes.length > 0 ? (
-                scienceProbes.map(s => (
-                  <ListGroupItem
-                    key={s.id}
-                    active={selectedProbe === s.id}
-                    onClick={() => this.setState({selectedProbe: s.id})}
-                  >
+              style={{ height: "25vh", overflowY: "auto" }}>
+              
+              {scienceProbes.length > 0 ?
+              scienceProbes.map((s) =>
+              <ListGroupItem
+                key={s.id}
+                active={selectedProbe === s.id}
+                onClick={() => this.setState({ selectedProbe: s.id })}>
+                
                     {s.name}
                     <div>
                       <small>
-                        {s.scienceType ? (
-                          capitalCase(
-                            `${s.scienceType.name} ${s.scienceType.type}`,
-                          )
-                        ) : "Invalid Configuration"}
+                        {s.scienceType ?
+                    capitalCase(
+                      `${s.scienceType.name} ${s.scienceType.type}`
+                    ) :
+                    "Invalid Configuration"}
                       </small>
                     </div>
                   </ListGroupItem>
-                ))
-              ) : (
-                <ListGroupItem>
+              ) :
+
+              <ListGroupItem>
                   $
                 </ListGroupItem>
-              )}
+              }
             </ListGroup>
-            {probe && (
-              <div className="probe-config">
+            {probe &&
+            <div className="probe-config">
                 <p>
                   <strong>
                     Type:{" "}
-                    {probe.scienceType ? (
-                      capitalCase(
-                        `${probe.scienceType.name} ${probe.scienceType.type}`,
-                      )
-                    ) : "Invalid Configuration"}
+                    {probe.scienceType ?
+                  capitalCase(
+                    `${probe.scienceType.name} ${probe.scienceType.type}`
+                  ) :
+                  "Invalid Configuration"}
                   </strong>
                 </p>
                 <p>
@@ -353,50 +355,50 @@ content: "After activating your probe, you'll begin to see either the particles 
 
                 <div className="charge-box">
                   <div
-                    className="charge-bar"
-                    style={{width: `${(charge || probe.charge) * 100}%`}}
-                  />
+                  className="charge-bar"
+                  style={{ width: `${(charge || probe.charge) * 100}%` }} />
+                
                 </div>
                 <Button
-                  className="charge-button"
-                  disabled={!probe.scienceType}
-                  block
-                  color="warning"
-                  onMouseDown={this.mouseDown}
-                >
+                className="charge-button"
+                disabled={!probe.scienceType}
+                block
+                color="warning"
+                onMouseDown={this.mouseDown}>
+                
                   Charge Probe
                 </Button>
                 <Mutation
-                  mutation={gql`
+                mutation={gql`
                     mutation ProbeEmitter($id: ID!, $probeId: ID!) {
                       activateProbeEmitter(id: $id, probeId: $probeId)
                     }
                   `}
-                  variables={{id: probes.id, probeId: selectedProbe}}
-                >
-                  {action => (
-                    <Button
-                      className="activate-button"
-                      disabled={!probe.scienceType || probe.charge === 0}
-                      block
-                      color="success"
-                      onClick={action}
-                    >
+                variables={{ id: probes.id, probeId: selectedProbe }}>
+                
+                  {(action) =>
+                <Button
+                  className="activate-button"
+                  disabled={!probe.scienceType || probe.charge === 0}
+                  block
+                  color="success"
+                  onClick={action}>
+                  
 Activate {probe.scienceType &&
-                            capitalCase(probe.scienceType.type)}
+                  capitalCase(probe.scienceType.type)}
                     </Button>
-                  )}
+                }
                 </Mutation>
               </div>
-            )}
+            }
           </Col>
         </Row>
         <Tour
           steps={ProbeScience.trainingSteps}
-          client={this.props.clientObj}
-        />
-      </Container>
-    );
+          client={this.props.clientObj} />
+        
+      </Container>);
+
   }
 }
 export default ProbeScience;

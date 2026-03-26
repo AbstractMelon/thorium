@@ -1,9 +1,10 @@
-import React, {Component} from "react";
-import {Col, Button} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Col, Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import ContactContextMenu from "./contactContextMenu";
-import {withApollo} from "react-apollo";
-import {FaBan} from "react-icons/fa";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { FaBan } from "react-icons/fa";
 
 const ADD_ARMY_CONTACT = gql`
   mutation AddArmyContact(
@@ -38,11 +39,11 @@ const REMOVE_ARMY_CONTACT = gql`
 class ContactsList extends Component {
   state = {
     contextContact: null,
-    selectedContact: null,
+    selectedContact: null
   };
   addArmyContact = () => {
-    const {armyContacts, id} = this.props.sensors || {
-      armyContacts: [],
+    const { armyContacts, id } = this.props.sensors || {
+      armyContacts: []
     };
     const templateContact = armyContacts[armyContacts.length - 1] || {
       name: "Contact",
@@ -50,7 +51,7 @@ class ContactsList extends Component {
       icon: "/Sensor Contacts/Icons/N.svg",
       picture: "/Sensor Contacts/Pictures/N.svg",
       infrared: false,
-      cloaked: false,
+      cloaked: false
     };
     const defaultContact = {
       name: templateContact.name,
@@ -58,21 +59,21 @@ class ContactsList extends Component {
       icon: templateContact.icon,
       picture: templateContact.picture,
       infrared: templateContact.infrared,
-      cloaked: templateContact.cloaked,
+      cloaked: templateContact.cloaked
     };
     //Run the mutation to create the army contact
     this.props.client.mutate({
       mutation: ADD_ARMY_CONTACT,
       variables: Object.assign(
         {
-          id: id,
+          id: id
         },
-        defaultContact,
-      ),
+        defaultContact
+      )
     });
   };
   updateArmyContact = (contact, key, value) => {
-    const {id} = this.props.sensors;
+    const { id } = this.props.sensors;
     const newContact = {
       id: contact.id,
       name: contact.name,
@@ -81,7 +82,7 @@ class ContactsList extends Component {
       picture: contact.picture,
       speed: contact.speed,
       infrared: contact.infrared,
-      cloaked: contact.cloaked,
+      cloaked: contact.cloaked
     };
     newContact[key] = value;
     this.props.client.mutate({
@@ -92,111 +93,111 @@ class ContactsList extends Component {
       `,
       variables: {
         id,
-        contact: newContact,
-      },
+        contact: newContact
+      }
     });
   };
   contextMenu = (contact, e) => {
     e.preventDefault();
-    const {top: outerTop, left: outerLeft} = document
-      .getElementsByClassName("sensorGridCore")[0]
-      .getBoundingClientRect();
-    const {top, left} = e.target.getBoundingClientRect();
+    const { top: outerTop, left: outerLeft } = document.
+    getElementsByClassName("sensorGridCore")[0].
+    getBoundingClientRect();
+    const { top, left } = e.target.getBoundingClientRect();
     const obj = {
       left: left - outerLeft + 20,
       top: top - outerTop,
-      contact: contact.id,
+      contact: contact.id
     };
     this.setState({
-      contextContact: obj,
+      contextContact: obj
     });
   };
-  removeArmyContact = contact => {
-    const {id} = this.props.sensors || {armyContacts: []};
+  removeArmyContact = (contact) => {
+    const { id } = this.props.sensors || { armyContacts: [] };
     this.props.client.mutate({
       mutation: REMOVE_ARMY_CONTACT,
       variables: Object.assign({
         id: id,
-        contact: contact.id,
-      }),
+        contact: contact.id
+      })
     });
   };
   closeContext = () => {
     this.setState({
       contextContact: null,
-      selectedContact: null,
+      selectedContact: null
     });
   };
   render() {
-    const {sensors, dragStart, lite} = this.props;
-    const {contextContact} = this.state;
+    const { sensors, dragStart, lite } = this.props;
+    const { contextContact } = this.state;
     return (
       <div className="sensors-contact-list">
         <p>Contacts:</p>
         <div className="contact-scroll">
-          {sensors.armyContacts.map(contact => {
+          {sensors.armyContacts.map((contact) => {
             return (
               <Col key={contact.id} className={"flex-container"} sm={12}>
                 <img
                   alt="contact"
                   onMouseDown={() => dragStart(contact)}
-                  onContextMenu={e =>
-                    lite ? null : this.contextMenu(contact, e)
+                  onContextMenu={(e) =>
+                  lite ? null : this.contextMenu(contact, e)
                   }
                   draggable="false"
                   role="presentation"
                   className="armyContact"
-                  src={`/assets${contact.icon}`}
-                />
+                  src={`/assets${contact.icon}`} />
+                
                 <label
-                  onContextMenu={e =>
-                    lite ? null : this.contextMenu(contact, e)
+                  onContextMenu={(e) =>
+                  lite ? null : this.contextMenu(contact, e)
                   }
-                  style={{flex: 1}}
-                >
+                  style={{ flex: 1 }}>
+                  
                   {contact.name}
                 </label>
-                {!lite && (
-                  <FaBan
-                    className="text-danger pull-right clickable"
-                    onClick={() => this.removeArmyContact(contact)}
-                  />
-                )}
-              </Col>
-            );
+                {!lite &&
+                <FaBan
+                  className="text-danger pull-right clickable"
+                  onClick={() => this.removeArmyContact(contact)} />
+
+                }
+              </Col>);
+
           })}
         </div>
-        {!lite && (
-          <>
+        {!lite &&
+        <>
             <Button size="sm" color="success" onClick={this.addArmyContact}>
               Add Contact
             </Button>
             <p>Right-click to configure.</p>
           </>
-        )}
+        }
         {/* <label>
-          <input
-            type="checkbox"
-            checked={removeContacts}
-            onChange={e => {
-              this.setState({ removeContacts: e.target.checked });
-            }}
-          />{" "}
-          Remove
-        </label> */}
-        {contextContact && (
-          <ContactContextMenu
-            closeMenu={this.closeContext}
-            updateArmyContact={this.updateArmyContact}
-            contact={sensors.armyContacts.find(
-              c => c.id === contextContact.contact,
-            )}
-            x={contextContact.left}
-            y={0}
-          />
-        )}
-      </div>
-    );
+           <input
+             type="checkbox"
+             checked={removeContacts}
+             onChange={e => {
+               this.setState({ removeContacts: e.target.checked });
+             }}
+           />{" "}
+           Remove
+          </label> */}
+        {contextContact &&
+        <ContactContextMenu
+          closeMenu={this.closeContext}
+          updateArmyContact={this.updateArmyContact}
+          contact={sensors.armyContacts.find(
+            (c) => c.id === contextContact.contact
+          )}
+          x={contextContact.left}
+          y={0} />
+
+        }
+      </div>);
+
   }
 }
 

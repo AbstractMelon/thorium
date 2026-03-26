@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import SineWaves from "../../generic/SineWaves";
-import {Container, Row, Col} from "helpers/reactstrap";
+import { Container, Row, Col } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import tinycolor from "tinycolor2";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
@@ -38,7 +39,7 @@ const SHORTRANGE_SUB = gql`
 `;
 
 class Communications extends Component {
-  state = {comms: []};
+  state = { comms: [] };
   commSignalRef = React.createRef();
   componentDidMount() {
     const self = this;
@@ -62,37 +63,37 @@ class Communications extends Component {
 
       // An array of wave options
       waves: [
-        {
-          timeModifier: 1, // This is multiplied againse `speed`
-          lineWidth: 9, // Stroke width
-          amplitude: 90, // How tall is the wave
-          wavelength: 80, // How long is the wave
-          segmentLength: 20, // How smooth should the line be
-          strokeStyle: "rgba(255, 255, 255, 0.5)", // Stroke color and opacity
-          type: "sine", // Wave type
-        },
-        {
-          timeModifier: 1,
-          lineWidth: 6,
-          amplitude: 60,
-          wavelength: 100,
-          strokeStyle: "rgba(255, 255, 255, 0.3)",
-        },
-        {
-          timeModifier: 1.5,
-          lineWidth: 6,
-          amplitude: 30,
-          wavelength: 30,
-          strokeStyle: "rgba(255, 255, 255, 0.3)",
-        },
-        {
-          timeModifier: 1,
-          lineWidth: 3,
-          amplitude: 90,
-          wavelength: 50,
-          strokeStyle: "rgba(255, 255, 255, 0.3)",
-        },
-      ],
+      {
+        timeModifier: 1, // This is multiplied againse `speed`
+        lineWidth: 9, // Stroke width
+        amplitude: 90, // How tall is the wave
+        wavelength: 80, // How long is the wave
+        segmentLength: 20, // How smooth should the line be
+        strokeStyle: "rgba(255, 255, 255, 0.5)", // Stroke color and opacity
+        type: "sine" // Wave type
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 6,
+        amplitude: 60,
+        wavelength: 100,
+        strokeStyle: "rgba(255, 255, 255, 0.3)"
+      },
+      {
+        timeModifier: 1.5,
+        lineWidth: 6,
+        amplitude: 30,
+        wavelength: 30,
+        strokeStyle: "rgba(255, 255, 255, 0.3)"
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 3,
+        amplitude: 90,
+        wavelength: 50,
+        strokeStyle: "rgba(255, 255, 255, 0.3)"
+      }],
+
       resizeEvent: function () {
         // Here is an example on how to create a gradient stroke
         var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0);
@@ -100,8 +101,8 @@ class Communications extends Component {
         gradient.addColorStop(
           0.5,
           `rgba(${Math.round(Math.random() * 255)}, ${Math.round(
-            Math.random() * 255,
-          )}, ${Math.round(Math.random() * 255)}, 0.5)`,
+            Math.random() * 255
+          )}, ${Math.round(Math.random() * 255)}, 0.5)`
         );
         gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
@@ -110,7 +111,7 @@ class Communications extends Component {
         while (++index < length) {
           this.waves[index].strokeStyle = gradient;
         }
-      },
+      }
     });
   }
   static getDerivedStateFromProps(props) {
@@ -118,26 +119,26 @@ class Communications extends Component {
     if (!props.data.loading) {
       const ShortRange = props.data.shortRangeComm[0];
       if (!ShortRange) return;
-      let comms = ShortRange.arrows
-        .map(a => {
-          const signal = ShortRange.signals.find(s => s.id === a.signal) || {};
-          if (!signal) return null;
-          return {
-            id: a.id,
-            connected: a.connected,
-            frequency: a.frequency,
-            name: signal.name,
-            color: signal.color,
-            image: signal.image,
-          };
-        })
-        .filter(Boolean);
+      let comms = ShortRange.arrows.
+      map((a) => {
+        const signal = ShortRange.signals.find((s) => s.id === a.signal) || {};
+        if (!signal) return null;
+        return {
+          id: a.id,
+          connected: a.connected,
+          frequency: a.frequency,
+          name: signal.name,
+          color: signal.color,
+          image: signal.image
+        };
+      }).
+      filter(Boolean);
       if (ShortRange.state === "hailing") {
         // Add the hailing frequency
         const signal = ShortRange.signals.find(
-          s =>
-            s.range.upper > ShortRange.frequency &&
-            s.range.lower < ShortRange.frequency,
+          (s) =>
+          s.range.upper > ShortRange.frequency &&
+          s.range.lower < ShortRange.frequency
         );
         comms.push({
           id: "hailing-frequency",
@@ -146,36 +147,36 @@ class Communications extends Component {
           frequency: ShortRange.frequency,
           name: signal.name,
           color: signal.color,
-          image: signal.image,
+          image: signal.image
         });
       }
       return {
-        comms,
+        comms
       };
     }
     return null;
   }
   componentDidUpdate() {
-    const {comms} = this.state;
+    const { comms } = this.state;
     this.changeGradient(comms.slice(0, 5));
   }
   componentWillUnmount() {
     this.subscription && this.subscription();
   }
-  changeGradient = comms => {
+  changeGradient = (comms) => {
     var gradient = this.waves.ctx.createLinearGradient(
       0,
       0,
       this.waves.width,
-      0,
+      0
     );
     gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
     comms.forEach((comm, index, arr) => {
       gradient.addColorStop(
         (index + 1) / (arr.length + 1),
-        tinycolor(comm.color)
-          .setAlpha(comm.connected ? 1 : 0.4)
-          .toRgbString(),
+        tinycolor(comm.color).
+        setAlpha(comm.connected ? 1 : 0.4).
+        toRgbString()
       );
     });
     if (comms.length === 0) {
@@ -190,48 +191,48 @@ class Communications extends Component {
     }
   };
   render() {
-    const {comms} = this.state;
+    const { comms } = this.state;
     return (
       <div className="viewscreen-communications">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SHORTRANGE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  shortRangeComm: subscriptionData.data.shortRangeCommUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: SHORTRANGE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                shortRangeComm: subscriptionData.data.shortRangeCommUpdate
+              });
+            }
+          })
+          } />
+        
         <Container fluid>
           <div className="flex justify-content-center">
-            {comms.length > 0 ? (
-              comms.slice(0, 5).map(c => (
-                <div key={c.id} className="comm-container">
+            {comms.length > 0 ?
+            comms.slice(0, 5).map((c) =>
+            <div key={c.id} className="comm-container">
                   <img alt="comm" src={`/assets${c.image}`} />
                   <h2>
                     {c.name} - {Math.round(c.frequency * 37700 + 37700) / 100}
                     MHz
                   </h2>
                   <h3>
-                    {c.connected
-                      ? "Connected"
-                      : c.hailing
-                      ? "Hailing"
-                      : "Incoming Call"}
+                    {c.connected ?
+                "Connected" :
+                c.hailing ?
+                "Hailing" :
+                "Incoming Call"}
                   </h3>
                 </div>
-              ))
-            ) : (
-              <div>
+            ) :
+
+            <div>
                 <h1 className="text-center">No Communications Lines Open</h1>
               </div>
-            )}
+            }
           </div>
           <Row>
             <Col sm={12}>
@@ -239,8 +240,8 @@ class Communications extends Component {
             </Col>
           </Row>
         </Container>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -274,10 +275,10 @@ const SHORTRANGE_QUERY = gql`
 `;
 
 export default graphql(SHORTRANGE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(Communications));

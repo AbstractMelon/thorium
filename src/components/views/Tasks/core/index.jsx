@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import TaskCreator from "./TaskCreator";
@@ -41,7 +42,7 @@ const fragments = {
         delay
       }
     }
-  `,
+  `
 };
 
 export const TASK_CORE_QUERY = gql`
@@ -77,32 +78,32 @@ export const TASK_TEMPLATE_SUB = gql`
 class RenderPage extends Component {
   state = {};
   render() {
-    const {taskTemplates, tasks} = this.props;
-    const {newTask, stats} = this.state;
+    const { taskTemplates, tasks } = this.props;
+    const { newTask, stats } = this.state;
 
     if (newTask)
-      return (
-        <TaskCreator
-          {...this.props}
-          taskTemplates={taskTemplates}
-          cancel={() => this.setState({newTask: false})}
-        />
-      );
+    return (
+      <TaskCreator
+        {...this.props}
+        taskTemplates={taskTemplates}
+        cancel={() => this.setState({ newTask: false })} />);
+
+
     if (stats)
-      return (
-        <Statistics
-          tasks={tasks}
-          cancel={() => this.setState({newTask: false, stats: false})}
-        />
-      );
+    return (
+      <Statistics
+        tasks={tasks}
+        cancel={() => this.setState({ newTask: false, stats: false })} />);
+
+
     return (
       <TasksManager
         {...this.props}
         tasks={tasks}
-        newTask={() => this.setState({newTask: true})}
-        stats={() => this.setState({stats: true})}
-      />
-    );
+        newTask={() => this.setState({ newTask: true })}
+        stats={() => this.setState({ stats: true })} />);
+
+
   }
 }
 class TasksCore extends Component {
@@ -111,48 +112,48 @@ class TasksCore extends Component {
     return (
       <Query
         query={TASK_CORE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {tasks, taskTemplates} = data;
+          const { tasks, taskTemplates } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: TASK_CORE_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      tasks: subscriptionData.data.tasksUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: TASK_CORE_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    tasks: subscriptionData.data.tasksUpdate
+                  });
+                }
+              })
+              }>
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: TASK_TEMPLATE_SUB,
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        taskTemplates:
-                          subscriptionData.data.taskTemplatesUpdate,
-                      });
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: TASK_TEMPLATE_SUB,
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    return Object.assign({}, previousResult, {
+                      taskTemplates:
+                      subscriptionData.data.taskTemplatesUpdate
+                    });
+                  }
+                })
+                } />
+              
               <RenderPage
                 {...this.props}
                 taskTemplates={taskTemplates}
-                tasks={tasks}
-              />
-            </SubscriptionHelper>
-          );
+                tasks={tasks} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default TasksCore;

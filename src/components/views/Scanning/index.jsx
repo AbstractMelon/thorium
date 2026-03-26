@@ -1,15 +1,16 @@
-import React, {Component} from "react";
-import {graphql, withApollo} from "react-apollo";
-import {Row, Col, Button, Input, Card, CardBody} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Row, Col, Button, Input, Card, CardBody } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import Tour from "helpers/tourHelper";
-import {Typing} from "react-typing";
+import { Typing } from "react-typing";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
-import {DeckDropdown, RoomDropdown} from "helpers/shipStructure";
+import { DeckDropdown, RoomDropdown } from "helpers/shipStructure";
 import DamageOverlay from "../helpers/DamageOverlay";
 import "./style.scss";
-import {FaSyncAlt} from "react-icons/fa";
+import { FaSyncAlt } from "react-icons/fa";
 
 export const SENSOR_SUB = gql`
   subscription SensorsChanged($simulatorId: ID, $domain: String) {
@@ -53,47 +54,47 @@ class Scanning extends Component {
       selectedRoom: null,
       selectedScanType: "Standard",
       scanResults: "",
-      scanRequest: "",
+      scanRequest: ""
     };
     this.trainingSteps = [];
     if (props.domain === "internal") {
       this.trainingSteps.push({
         selector: ".nothing",
         content:
-          "There are sensors located throughout the entire ship which allow you to run scans. These scans could tell you about the location of people on the ship, or any other situation that is happening inside the ship.",
+        "There are sensors located throughout the entire ship which allow you to run scans. These scans could tell you about the location of people on the ship, or any other situation that is happening inside the ship."
       });
     } else {
       this.trainingSteps.push({
         selector: ".nothing",
         content:
-          "There are precise sensors located outside of the ship which allow you to scan objects around your ship for specific information.",
+        "There are precise sensors located outside of the ship which allow you to scan objects around your ship for specific information."
       });
     }
     this.trainingSteps.push({
       selector: ".scantype",
       content:
-        "You can select a scan type from this list. This will focus your scan to a specific category.",
+      "You can select a scan type from this list. This will focus your scan to a specific category."
     });
     if (props.domain === "internal") {
       this.trainingSteps.push({
         selector: ".locations",
         content:
-          "Select where you want to scan here. The more specific your scan location, the faster your results will come.",
+        "Select where you want to scan here. The more specific your scan location, the faster your results will come."
       });
     }
     this.trainingSteps.push(
       {
         selector: ".scan-input",
-        content: "Type in what you want to scan for here.",
+        content: "Type in what you want to scan for here."
       },
       {
         selector: ".begin-scan",
-        content: "Click here to begin your scan.",
+        content: "Click here to begin your scan."
       },
       {
         selector: ".results",
-        content: "The results of your scan will appear in this box.",
-      },
+        content: "The results of your scan will appear in this box."
+      }
     );
   }
   _scanRequest() {
@@ -103,25 +104,25 @@ class Scanning extends Component {
     let roomName = "";
     if (this.state.selectedDeck && this.state.selectedDeck !== "All Decks") {
       const deck = this.props.data.decks.find(
-        d => d.id === this.state.selectedDeck,
+        (d) => d.id === this.state.selectedDeck
       );
       deckName = "Deck " + deck.number;
       roomName = "Entire Deck";
       if (!this.state.selectedRoom || this.state.selectedRoom !== "") {
-        const room = deck.rooms.find(r => r.id === this.state.selectedRoom);
+        const room = deck.rooms.find((r) => r.id === this.state.selectedRoom);
         roomName = room ? room.name : roomName;
       }
     }
 
     const request =
-      this.props.domain === "internal"
-        ? `${this.state.selectedScanType} - ${deckName}${
-            roomName && ", "
-          }${roomName}\n${this.state.scanRequest}`
-        : `${this.state.selectedScanType} - \n${this.state.scanRequest}`;
+    this.props.domain === "internal" ?
+    `${this.state.selectedScanType} - ${deckName}${
+    roomName && ", "}${
+    roomName}\n${this.state.scanRequest}` :
+    `${this.state.selectedScanType} - \n${this.state.scanRequest}`;
     const obj = {
       id: this.props.data.sensors[0].id,
-      request,
+      request
     };
     this.props.client.mutate({
       mutation: gql`
@@ -129,12 +130,12 @@ class Scanning extends Component {
           sensorScanRequest(id: $id, request: $request)
         }
       `,
-      variables: obj,
+      variables: obj
     });
   }
   _stopScan() {
     let obj = {
-      id: this.props.data.sensors[0].id,
+      id: this.props.data.sensors[0].id
     };
     this.props.client.mutate({
       mutation: gql`
@@ -142,36 +143,36 @@ class Scanning extends Component {
           sensorScanCancel(id: $id)
         }
       `,
-      variables: obj,
+      variables: obj
     });
   }
   _selectDeck(e) {
     this.setState({
       selectedDeck: e.target.value,
-      selectedRoom: "",
+      selectedRoom: ""
     });
   }
   _selectRoom(e) {
     this.setState({
-      selectedRoom: e.target.value,
+      selectedRoom: e.target.value
     });
   }
-  _setSelectedScan = type => {
+  _setSelectedScan = (type) => {
     this.setState({
-      selectedScanType: type,
+      selectedScanType: type
     });
   };
   _setScanRequest(e) {
     this.setState({
-      scanRequest: e.target.value,
+      scanRequest: e.target.value
     });
   }
   newScan = () => {
-    const {selectedScanType, scanRequest, selectedDeck, selectedRoom} =
-      this.state;
-    const {decks, sensors} = this.props.data;
-    const deck = decks.find(d => d.id === selectedDeck);
-    const room = deck && deck.rooms.find(r => r.id === selectedRoom);
+    const { selectedScanType, scanRequest, selectedDeck, selectedRoom } =
+    this.state;
+    const { decks, sensors } = this.props.data;
+    const deck = decks.find((d) => d.id === selectedDeck);
+    const room = deck && deck.rooms.find((r) => r.id === selectedRoom);
     const mutation = gql`
       mutation NewScan($id: ID!, $scan: SensorScanInput!) {
         newSensorScan(id: $id, scan: $scan)
@@ -183,13 +184,13 @@ class Scanning extends Component {
         mode: selectedScanType,
         request: scanRequest,
         location:
-          deck &&
-          (room ? `${room.name}, Deck ${deck.number}` : `Deck ${deck.number}`),
-      },
+        deck && (
+        room ? `${room.name}, Deck ${deck.number}` : `Deck ${deck.number}`)
+      }
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     this.setState({
       selectedScan: null,
@@ -198,12 +199,12 @@ class Scanning extends Component {
       scanResults: "",
       scanning: false,
       selectedDeck: "All Decks",
-      selectedRoom: null,
+      selectedRoom: null
     });
   };
   cancelScan = () => {
-    const {selectedScan} = this.state;
-    const {sensors} = this.props.data;
+    const { selectedScan } = this.state;
+    const { sensors } = this.props.data;
     const mutation = gql`
       mutation CancelScan($id: ID!, $scan: ID!) {
         cancelSensorScan(id: $id, scan: $scan)
@@ -211,15 +212,15 @@ class Scanning extends Component {
     `;
     const variables = {
       id: sensors[0].id,
-      scan: selectedScan,
+      scan: selectedScan
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  selectScan = ({id, location = "", request, response, mode, scanning}) => {
-    const {decks} = this.props.data;
+  selectScan = ({ id, location = "", request, response, mode, scanning }) => {
+    const { decks } = this.props.data;
     let deck = location.split(", Deck ")[1];
     let room = location.split(", Deck ")[0];
     if (!deck) {
@@ -233,27 +234,27 @@ class Scanning extends Component {
       scanResults: response,
       scanning,
       selectedDeck:
-        (deck && deck === "All Decks") || deck === ""
-          ? "All Decks"
-          : decks.find(d => d.number === parseInt(deck, 10)).id,
+      deck && deck === "All Decks" || deck === "" ?
+      "All Decks" :
+      decks.find((d) => d.number === parseInt(deck, 10)).id,
       selectedRoom:
-        room &&
-        deck &&
-        decks
-          .find(d => d.number === parseInt(deck, 10))
-          .rooms.find(r => r.name === room).id,
+      room &&
+      deck &&
+      decks.
+      find((d) => d.number === parseInt(deck, 10)).
+      rooms.find((r) => r.name === room).id
     });
   };
   render() {
     if (this.props.data.loading || !this.props.data.sensors) return null;
-    const {domain} = this.props;
-    let {scanning, history, scans, scanResults} = this.props.data.sensors[0];
-    const {selectedScan} = this.state;
+    const { domain } = this.props;
+    let { scanning, history, scans, scanResults } = this.props.data.sensors[0];
+    const { selectedScan } = this.state;
     if (history) {
       scanResults = "";
     }
     if (history && selectedScan) {
-      const scan = scans.find(s => s.id === selectedScan);
+      const scan = scans.find((s) => s.id === selectedScan);
       if (scan) {
         scanning = scan.scanning;
         scanResults = scan.response;
@@ -264,115 +265,115 @@ class Scanning extends Component {
       <Row className="scanning">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SENSOR_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-                domain: this.props.domain || "internal",
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  sensors: subscriptionData.data.sensorsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: SENSOR_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id,
+              domain: this.props.domain || "internal"
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                sensors: subscriptionData.data.sensorsUpdate
+              });
+            }
+          })
+          } />
+        
         <DamageOverlay
           message="Scanning Offline"
-          system={this.props.data.sensors[0]}
-        />
-        {history && (
-          <Col sm={3}>
+          system={this.props.data.sensors[0]} />
+        
+        {history &&
+        <Col sm={3}>
             <h3>Scan Log</h3>
             <Card>
               <CardBody>
-                {scans
-                  .concat()
-                  .reverse()
-                  .map(s => (
-                    <p
-                      key={s.id}
-                      className={`${s.cancelled ? "text-danger" : ""} ${
-                        selectedScan === s.id ? "selected" : ""
-                      } ${!s.cancelled && !s.scanning ? "text-success" : ""}`}
-                      onClick={() => this.selectScan(s)}
-                    >
+                {scans.
+              concat().
+              reverse().
+              map((s) =>
+              <p
+                key={s.id}
+                className={`${s.cancelled ? "text-danger" : ""} ${
+                selectedScan === s.id ? "selected" : ""} ${
+                !s.cancelled && !s.scanning ? "text-success" : ""}`}
+                onClick={() => this.selectScan(s)}>
+                
                       {s.request.substr(0, 30)}
                       {s.request.length > 30 ? "... " : " "}
                       {s.scanning && <FaSyncAlt className="fa-spin" />}
                     </p>
-                  ))}
+              )}
               </CardBody>
             </Card>
             <Button
-              block
-              color="primary"
-              onClick={() =>
-                this.setState({
-                  selectedScan: null,
-                  scanRequest: "",
-                  selectedScanType: "Standard",
-                  scanResults: "",
-                  scanning: false,
-                  selectedDeck: "All Decks",
-                  selectedRoom: null,
-                })
-              }
-            >
+            block
+            color="primary"
+            onClick={() =>
+            this.setState({
+              selectedScan: null,
+              scanRequest: "",
+              selectedScanType: "Standard",
+              scanResults: "",
+              scanning: false,
+              selectedDeck: "All Decks",
+              selectedRoom: null
+            })
+            }>
+            
               New Scan
             </Button>
           </Col>
-        )}
-        <Col sm={{size: 6, offset: history ? 0 : 2}}>
-          {domain === "internal" && (
-            <Row>
+        }
+        <Col sm={{ size: 6, offset: history ? 0 : 2 }}>
+          {domain === "internal" &&
+          <Row>
               <Col>
                 <h4>Location Select:</h4>
               </Col>
             </Row>
-          )}
-          {domain === "internal" && (
-            <Row className="locations">
+          }
+          {domain === "internal" &&
+          <Row className="locations">
               <Col sm={"auto"}>
                 <DeckDropdown
-                  selectedDeck={this.state.selectedDeck}
-                  decks={decks}
-                  allDecks
-                  disabled={scanning || selectedScan}
-                  setSelected={a =>
-                    this.setState({
-                      selectedDeck: a.deck,
-                      selectedRoom: null,
-                    })
-                  }
-                />
+                selectedDeck={this.state.selectedDeck}
+                decks={decks}
+                allDecks
+                disabled={scanning || selectedScan}
+                setSelected={(a) =>
+                this.setState({
+                  selectedDeck: a.deck,
+                  selectedRoom: null
+                })
+                } />
+              
               </Col>
               <Col>
                 <RoomDropdown
-                  selectedDeck={this.state.selectedDeck}
-                  selectedRoom={this.state.selectedRoom}
-                  decks={decks}
-                  disabled={scanning || selectedScan}
-                  setSelected={a =>
-                    this.setState({
-                      selectedRoom: a.room,
-                    })
-                  }
-                />
+                selectedDeck={this.state.selectedDeck}
+                selectedRoom={this.state.selectedRoom}
+                decks={decks}
+                disabled={scanning || selectedScan}
+                setSelected={(a) =>
+                this.setState({
+                  selectedRoom: a.room
+                })
+                } />
+              
               </Col>
             </Row>
-          )}
+          }
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault();
               if (history) {
                 this.newScan();
               } else {
                 this._scanRequest();
               }
-            }}
-          >
+            }}>
+            
             <Row>
               <Col>
                 <h4>Scan Input:</h4>
@@ -384,98 +385,98 @@ class Scanning extends Component {
                   type="text"
                   disabled={selectedScan}
                   onChange={this._setScanRequest.bind(this)}
-                  value={this.state.scanRequest}
-                />
+                  value={this.state.scanRequest} />
+                
               </Col>
             </Row>
-            {scanning ? (
-              <div>
+            {scanning ?
+            <div>
                 <Row>
                   <Col sm="auto">
                     <Button
-                      size="lg"
-                      color="danger"
-                      onClick={
-                        history ? this.cancelScan : this._stopScan.bind(this)
-                      }
-                    >
+                    size="lg"
+                    color="danger"
+                    onClick={
+                    history ? this.cancelScan : this._stopScan.bind(this)
+                    }>
+                    
                       Cancel Scan
                     </Button>
                   </Col>
                 </Row>
-                <Row style={{marginTop: "50px"}}>
+                <Row style={{ marginTop: "50px" }}>
                   <h4 className="text-center">Scan in progress...</h4>
-                  {domain === "internal" ? (
-                    <Card className="scannerBox" style={{overflow: "hidden"}}>
+                  {domain === "internal" ?
+                <Card className="scannerBox" style={{ overflow: "hidden" }}>
                       <div
-                        alt="ship"
-                        style={{
-                          width: "100%",
-                          height: "30vh",
-                          backgroundImage: `url("/assets${this.props.simulator.assets.side}")`,
-                          backgroundSize: "contain",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat",
-                        }}
-                        draggable="false"
-                      />
+                    alt="ship"
+                    style={{
+                      width: "100%",
+                      height: "30vh",
+                      backgroundImage: `url("/assets${this.props.simulator.assets.side}")`,
+                      backgroundSize: "contain",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat"
+                    }}
+                    draggable="false" />
+                  
 
                       <div className="scanner" />
-                    </Card>
-                  ) : (
-                    <Card className="scannerBox">
+                    </Card> :
+
+                <Card className="scannerBox">
                       <video
-                        ref={"ReactVideo"}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        style={{height: "100%", width: "100%"}}
-                      >
+                    ref={"ReactVideo"}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{ height: "100%", width: "100%" }}>
+                    
                         <source
-                          src={require("../Sensors/scansvid.mov")}
-                          type="video/mp4"
-                        />
+                      src={require("../Sensors/scansvid.mov")}
+                      type="video/mp4" />
+                    
                       </video>
                     </Card>
-                  )}
+                }
                 </Row>
-              </div>
-            ) : (
-              <div>
+              </div> :
+
+            <div>
                 <Row>
                   <Col sm="auto">
                     <Button
-                      className="begin-scan"
-                      size="lg"
-                      disabled={
-                        selectedScan ||
-                        this.state.scanRequest.trim().length === 0
-                      }
-                      onClick={
-                        history ? this.newScan : this._scanRequest.bind(this)
-                      }
-                    >
+                    className="begin-scan"
+                    size="lg"
+                    disabled={
+                    selectedScan ||
+                    this.state.scanRequest.trim().length === 0
+                    }
+                    onClick={
+                    history ? this.newScan : this._scanRequest.bind(this)
+                    }>
+                    
                       Begin Scan
                     </Button>
                     <Button
-                      style={{marginLeft: "0.5rem"}}
-                      color="warning"
-                      size="lg"
-                      disabled={selectedScan}
-                      onClick={() =>
-                        this.setState({
-                          selectedDeck: null,
-                          selectedRoom: null,
-                          scanRequest: "",
-                        })
-                      }
-                    >
+                    style={{ marginLeft: "0.5rem" }}
+                    color="warning"
+                    size="lg"
+                    disabled={selectedScan}
+                    onClick={() =>
+                    this.setState({
+                      selectedDeck: null,
+                      selectedRoom: null,
+                      scanRequest: ""
+                    })
+                    }>
+                    
                       Clear
                     </Button>
                   </Col>
                 </Row>
-                <Row style={{marginTop: "1rem"}}>
+                <Row style={{ marginTop: "1rem" }}>
                   <Col>
                     <h4>Scan Results:</h4>
                   </Col>
@@ -494,28 +495,28 @@ class Scanning extends Component {
                   </Col>
                 </Row>
               </div>
-            )}
+            }
           </form>
         </Col>
-        <Col sm={{size: 2, offset: history ? 0 : 1}} className="scantype">
+        <Col sm={{ size: 2, offset: history ? 0 : 1 }} className="scantype">
           <h4>Scan Type:</h4>
-          {scanTypes.map(s => (
-            <Button
-              key={`scan-type-${s}`}
-              block
-              disabled={selectedScan}
-              onClick={() => this._setSelectedScan(s)}
-              className={`${
-                this.state.selectedScanType === s ? "active" : ""
-              } ${scanning ? "is-disabled" : ""}`}
-            >
+          {scanTypes.map((s) =>
+          <Button
+            key={`scan-type-${s}`}
+            block
+            disabled={selectedScan}
+            onClick={() => this._setSelectedScan(s)}
+            className={`${
+            this.state.selectedScanType === s ? "active" : ""} ${
+            scanning ? "is-disabled" : ""}`}>
+            
               {s}
             </Button>
-          ))}
+          )}
         </Col>
         <Tour steps={this.trainingSteps} client={this.props.clientObj} />
-      </Row>
-    );
+      </Row>);
+
   }
 }
 
@@ -562,11 +563,11 @@ export const SENSOR_QUERY = gql`
 `;
 
 export default graphql(SENSOR_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
       simulatorId: ownProps.simulator.id,
-      domain: ownProps.domain || "internal",
-    },
-  }),
+      domain: ownProps.domain || "internal"
+    }
+  })
 })(withApollo(Scanning));

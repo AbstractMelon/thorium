@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "../../../helpers/subscriptionHelper";
 import Environment from "./environment";
@@ -43,31 +44,31 @@ class EnvironmentData extends Component {
   state = {};
   render() {
     return (
-      <Query query={QUERY} variables={{simulatorId: this.props.simulator.id}}>
-        {({loading, data, subscribeToMore}) => {
-          const {decks} = data;
+      <Query query={QUERY} variables={{ simulatorId: this.props.simulator.id }}>
+        {({ loading, data, subscribeToMore }) => {
+          const { decks } = data;
           if (loading || !decks) return null;
 
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      decks: subscriptionData.data.decksUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    decks: subscriptionData.data.decksUpdate
+                  });
+                }
+              })
+              }>
+              
               <Environment {...this.props} decks={decks} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import ShortRangeComm from "./shortRangeComm";
@@ -64,33 +65,33 @@ class ShortRangeCommData extends Component {
     return (
       <Query
         query={COMM_SHORT_RANGE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {shortRangeComm} = data;
+          const { shortRangeComm } = data;
           if (!shortRangeComm[0]) return <div>No Short Range Comm</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: COMM_SHORT_RANGE_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      shortRangeComm:
-                        subscriptionData.data.shortRangeCommUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: COMM_SHORT_RANGE_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    shortRangeComm:
+                    subscriptionData.data.shortRangeCommUpdate
+                  });
+                }
+              })
+              }>
+              
               <ShortRangeComm {...this.props} {...shortRangeComm[0]} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default ShortRangeCommData;

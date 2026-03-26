@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Button} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Button } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 const TACTICALMAP_SUB = gql`
@@ -19,17 +20,17 @@ const TACTICALMAP_SUB = gql`
 `;
 class TacticalMapConfig extends Component {
   state = {
-    tacticalMapId: null,
+    tacticalMapId: null
   };
-  selectTactical = tacticalMapId => {
-    this.setState({tacticalMapId});
+  selectTactical = (tacticalMapId) => {
+    this.setState({ tacticalMapId });
   };
-  selectFlightTactical = tacticalMapId => {
-    let {data, updateData} = this.props;
+  selectFlightTactical = (tacticalMapId) => {
+    let { data, updateData } = this.props;
     data = JSON.parse(data);
-    updateData(JSON.stringify(Object.assign({}, data, {tacticalMapId})));
+    updateData(JSON.stringify(Object.assign({}, data, { tacticalMapId })));
   };
-  freezeTactical = evt => {
+  freezeTactical = (evt) => {
     const mutation = gql`
       mutation FreezeTacticalMap($id: ID!, $freeze: Boolean!) {
         freezeTacticalMap(id: $id, freeze: $freeze)
@@ -39,11 +40,11 @@ class TacticalMapConfig extends Component {
     const flightTacticalId = data.tacticalMapId;
     const variables = {
       id: flightTacticalId,
-      freeze: evt.target.checked,
+      freeze: evt.target.checked
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   loadTactical = () => {
@@ -54,99 +55,99 @@ class TacticalMapConfig extends Component {
     `;
     const variables = {
       id: this.state.tacticalMapId,
-      flightId: this.props.flightId,
+      flightId: this.props.flightId
     };
-    this.props.client
-      .mutate({
-        mutation,
-        variables,
-      })
-      .then(res => this.selectFlightTactical(res.data.loadTacticalMap));
+    this.props.client.
+    mutate({
+      mutation,
+      variables
+    }).
+    then((res) => this.selectFlightTactical(res.data.loadTacticalMap));
   };
   render() {
-    let {tacticalData, inputTacticalMaps} = this.props;
+    let { tacticalData, inputTacticalMaps } = this.props;
     let tacticalMaps = [];
     if (tacticalData.loading || !tacticalData.tacticalMaps) return null;
     if (inputTacticalMaps) {
-      tacticalMaps = inputTacticalMaps
-        .map(id => {
-          return {
-            ...this.props.tacticalData.tacticalMaps.find(t => t.id === id),
-            input: true,
-          };
-        })
-        .filter(({id}) => id);
+      tacticalMaps = inputTacticalMaps.
+      map((id) => {
+        return {
+          ...this.props.tacticalData.tacticalMaps.find((t) => t.id === id),
+          input: true
+        };
+      }).
+      filter(({ id }) => id);
     } else {
       tacticalMaps = this.props.tacticalData.tacticalMaps;
     }
-    const {tacticalMapId} = this.state;
+    const { tacticalMapId } = this.state;
     const data = JSON.parse(this.props.data);
     const flightTacticalId = data.tacticalMapId;
     return (
       <div className="tacticalmap-config">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.tacticalData.subscribeToMore({
-              document: TACTICALMAP_SUB,
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  tacticalMaps: subscriptionData.data.tacticalMapsUpdate,
-                });
-              },
-            })
-          }
-        />
-        {!this.props.inputTacticalMaps && (
-          <>
+          this.props.tacticalData.subscribeToMore({
+            document: TACTICALMAP_SUB,
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                tacticalMaps: subscriptionData.data.tacticalMapsUpdate
+              });
+            }
+          })
+          } />
+        
+        {!this.props.inputTacticalMaps &&
+        <>
             <p>Saved Maps</p>
             <ul className="saved-list">
-              {tacticalMaps
-                .filter(t => t.template)
-                .map(t => (
-                  <li
-                    key={t.id}
-                    className={t.id === tacticalMapId ? "selected" : ""}
-                    onClick={() => this.selectTactical(t.id)}
-                  >
+              {tacticalMaps.
+            filter((t) => t.template).
+            map((t) =>
+            <li
+              key={t.id}
+              className={t.id === tacticalMapId ? "selected" : ""}
+              onClick={() => this.selectTactical(t.id)}>
+              
                     {t.name}
                   </li>
-                ))}
+            )}
             </ul>
             <Button color="primary" size="sm" onClick={this.loadTactical}>
               Load Tactical
             </Button>
           </>
-        )}
+        }
         <div>
           <p>Flight Maps</p>
-          {flightTacticalId && (
-            <label>
+          {flightTacticalId &&
+          <label>
               <input
-                type="checkbox"
-                checked={
-                  tacticalMaps.find(t => t.id === flightTacticalId) &&
-                  tacticalMaps.find(t => t.id === flightTacticalId).frozen
-                }
-                onChange={this.freezeTactical}
-              />{" "}
+              type="checkbox"
+              checked={
+              tacticalMaps.find((t) => t.id === flightTacticalId) &&
+              tacticalMaps.find((t) => t.id === flightTacticalId).frozen
+              }
+              onChange={this.freezeTactical} />
+            {" "}
               Frozen
             </label>
-          )}
+          }
           <ul className="saved-list">
-            {tacticalMaps
-              .filter(
-                t =>
-                  t.input || (t.flight && t.flight.id === this.props.flightId),
-              )
-              .map(t => (
-                <li
-                  key={t.id}
-                  className={t.id === flightTacticalId ? "selected" : ""}
-                  onClick={() => this.selectFlightTactical(t.id)}
-                >
+            {tacticalMaps.
+            filter(
+              (t) =>
+              t.input || t.flight && t.flight.id === this.props.flightId
+            ).
+            map((t) =>
+            <li
+              key={t.id}
+              className={t.id === flightTacticalId ? "selected" : ""}
+              onClick={() => this.selectFlightTactical(t.id)}>
+              
                   {t.name}
                 </li>
-              ))}
+            )}
           </ul>
           <Button color="success" size="sm">
             Save as Template Map
@@ -156,8 +157,8 @@ class TacticalMapConfig extends Component {
           You can click and drag contacts or use WASD/IJKL to move contacts. Use
           the tactical map config screen to update tactical maps further.
         </p>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -176,5 +177,5 @@ const TACTICALMAP_QUERY = gql`
 `;
 
 export default graphql(TACTICALMAP_QUERY, {
-  name: "tacticalData",
+  name: "tacticalData"
 })(withApollo(TacticalMapConfig));

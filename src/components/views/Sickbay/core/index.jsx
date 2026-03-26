@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Container} from "helpers/reactstrap";
+import { Container } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import PatientControls from "./PatientControls";
 
@@ -62,10 +63,10 @@ export const SICKBAY_CORE_SUB = gql`
 `;
 
 class SickbayCore extends Component {
-  state = {currentBunk: null};
+  state = { currentBunk: null };
   render() {
-    const {bunks, id, simulator} = this.props;
-    const {currentBunk} = this.state;
+    const { bunks, id, simulator } = this.props;
+    const { currentBunk } = this.state;
     return (
       <Container className="sickbay-core">
         <div className="bunks-container">
@@ -74,68 +75,68 @@ class SickbayCore extends Component {
           </p>
           <div className="bunks-list">
             {bunks.map((b, i) => {
-              const chart = b.patient
-                ? b.patient.charts.concat().sort((a, c) => {
-                    if (new Date(a.admitTime) > new Date(c.admitTime))
-                      return -1;
-                    if (new Date(a.admitTime) < new Date(c.admitTime)) return 1;
-                    return 0;
-                  })[0]
-                : {};
+              const chart = b.patient ?
+              b.patient.charts.concat().sort((a, c) => {
+                if (new Date(a.admitTime) > new Date(c.admitTime))
+                return -1;
+                if (new Date(a.admitTime) < new Date(c.admitTime)) return 1;
+                return 0;
+              })[0] :
+              {};
               return (
                 <p
                   className={`${chart.treatmentRequest ? "text-info" : ""} ${
-                    b.scanning ? "text-danger" : ""
-                  } ${currentBunk === b.id ? "active" : ""}`}
-                  onClick={() => this.setState({currentBunk: b.id})}
-                  key={b.id}
-                >
+                  b.scanning ? "text-danger" : ""} ${
+                  currentBunk === b.id ? "active" : ""}`}
+                  onClick={() => this.setState({ currentBunk: b.id })}
+                  key={b.id}>
+                  
                   Bunk {i + 1}
-                </p>
-              );
+                </p>);
+
             })}
           </div>
         </div>
 
-        {currentBunk && (
-          <PatientControls
-            simulator={simulator}
-            sickbayId={id}
-            {...bunks.find(b => b.id === currentBunk)}
-          />
-        )}
-      </Container>
-    );
+        {currentBunk &&
+        <PatientControls
+          simulator={simulator}
+          sickbayId={id}
+          {...bunks.find((b) => b.id === currentBunk)} />
+
+        }
+      </Container>);
+
   }
 }
 
-const SickbayCoreData = props => (
-  <Query
-    query={SICKBAY_CORE_QUERY}
-    variables={{simulatorId: props.simulator.id}}
-  >
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {sickbay} = data;
-      if (!sickbay[0]) return <div>No Sickbay</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: SICKBAY_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  sickbay: subscriptionData.data.sickbayUpdate,
-                });
-              },
-            })
+const SickbayCoreData = (props) =>
+<Query
+  query={SICKBAY_CORE_QUERY}
+  variables={{ simulatorId: props.simulator.id }}>
+  
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { sickbay } = data;
+    if (!sickbay[0]) return <div>No Sickbay</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: SICKBAY_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              sickbay: subscriptionData.data.sickbayUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <SickbayCore {...props} {...sickbay[0]} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default SickbayCoreData;

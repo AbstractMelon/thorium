@@ -1,8 +1,9 @@
-import React, {Component} from "react";
-import {Mutation, Query} from "react-apollo";
+import React, { Component } from "react";
+import { Mutation, Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Input, Button} from "helpers/reactstrap";
-import {InputField} from "../../generic/core";
+import { Input, Button } from "helpers/reactstrap";
+import { InputField } from "../../generic/core";
 
 export const ARMORY_CORE_QUERY = gql`
   query Crew($simulatorId: ID!) {
@@ -61,10 +62,10 @@ export const ARMORY_CORE_TEAM_SUB = gql`
   }
 `;
 
-const CrewChoice = ({crew, teams, selectedCrew, updateSelectedCrew}) => {
-  const teamCrew = teams
-    .reduce((prev, next) => prev.concat(next.officers), [])
-    .map(t => t.id);
+const CrewChoice = ({ crew, teams, selectedCrew, updateSelectedCrew }) => {
+  const teamCrew = teams.
+  reduce((prev, next) => prev.concat(next.officers), []).
+  map((t) => t.id);
   const sorter = (a, b) => {
     if (a.inventory.length > b.inventory.length) return -1;
     if (a.inventory.length < b.inventory.length) return 1;
@@ -73,41 +74,41 @@ const CrewChoice = ({crew, teams, selectedCrew, updateSelectedCrew}) => {
     return 0;
   };
   // Remove crew that are on a team
-  const filteredCrew = crew.filter(c => teamCrew.indexOf(c.id) === -1);
+  const filteredCrew = crew.filter((c) => teamCrew.indexOf(c.id) === -1);
   return (
     <Input
       type="select"
       bsSize="sm"
       value={selectedCrew || "nothing"}
-      onChange={updateSelectedCrew}
-    >
+      onChange={updateSelectedCrew}>
+      
       <option value="nothing" disabled>
         Select a Crew Member
       </option>
-      {teams.map(t => (
-        <optgroup key={t.id} label={`${t.type} - ${t.name}`}>
-          {t.officers
-            .concat()
-            .sort(sorter)
-            .map(c => (
-              <option key={c.id} value={c.id}>
+      {teams.map((t) =>
+      <optgroup key={t.id} label={`${t.type} - ${t.name}`}>
+          {t.officers.
+        concat().
+        sort(sorter).
+        map((c) =>
+        <option key={c.id} value={c.id}>
                 {c.inventory.length > 0 ? "*" : ""} {c.name}
               </option>
-            ))}
+        )}
         </optgroup>
-      ))}
+      )}
       <optgroup label={`Unassigned`}>
-        {filteredCrew
-          .concat()
-          .sort(sorter)
-          .map(c => (
-            <option key={c.id} value={c.id}>
+        {filteredCrew.
+        concat().
+        sort(sorter).
+        map((c) =>
+        <option key={c.id} value={c.id}>
               {c.inventory.length > 0 ? "*" : ""} {c.name}
             </option>
-          ))}
+        )}
       </optgroup>
-    </Input>
-  );
+    </Input>);
+
 };
 
 const ADD_INVENTORY = gql`
@@ -122,8 +123,8 @@ const UPDATE_INVENTORY = gql`
   }
 `;
 
-const CrewCargo = ({simulatorId, crew: {id, name, inventory}}) => {
-  const addInventory = mutate => {
+const CrewCargo = ({ simulatorId, crew: { id, name, inventory } }) => {
+  const addInventory = (mutate) => {
     const iName = prompt("What is the name of the inventory?");
     if (!iName) return;
     const count = prompt("How many do you want to add?");
@@ -133,103 +134,103 @@ const CrewCargo = ({simulatorId, crew: {id, name, inventory}}) => {
         simulatorId,
         name: iName,
         metadata: {},
-        crewCount: [{crew: id, count: parseInt(count, 10)}],
-      },
+        crewCount: [{ crew: id, count: parseInt(count, 10) }]
+      }
     };
-    mutate({variables});
+    mutate({ variables });
   };
   const updateInventoryQuantity = (update, invId, count) => {
     const variables = {
       crewId: id,
       inventory: [
-        {
-          inventory: invId,
-          count: parseInt(count, 10),
-        },
-      ],
+      {
+        inventory: invId,
+        count: parseInt(count, 10)
+      }]
+
     };
-    update({variables});
+    update({ variables });
   };
   return (
     <div>
       <p>{name}</p>{" "}
       <Mutation mutation={ADD_INVENTORY}>
-        {mutate => (
-          <Button
-            size="sm"
-            color="primary"
-            onClick={() => addInventory(mutate)}
-          >
+        {(mutate) =>
+        <Button
+          size="sm"
+          color="primary"
+          onClick={() => addInventory(mutate)}>
+          
             Add Inventory
           </Button>
-        )}
+        }
       </Mutation>
-      {inventory.map(i => (
-        <p key={`to-${i.id}`}>
+      {inventory.map((i) =>
+      <p key={`to-${i.id}`}>
           {i.name}{" "}
           <Mutation mutation={UPDATE_INVENTORY}>
-            {update => (
-              <InputField
-                style={{
-                  display: "inline-block",
-                  minWidth: "20px",
-                }}
-                prompt={`What is the new quantity of ${i.name}?`}
-                onClick={val =>
-                  updateInventoryQuantity(update, i.id, parseInt(val, 10))
-                }
-              >
+            {(update) =>
+          <InputField
+            style={{
+              display: "inline-block",
+              minWidth: "20px"
+            }}
+            prompt={`What is the new quantity of ${i.name}?`}
+            onClick={(val) =>
+            updateInventoryQuantity(update, i.id, parseInt(val, 10))
+            }>
+            
                 {i.count}
               </InputField>
-            )}
+          }
           </Mutation>
         </p>
-      ))}
-    </div>
-  );
+      )}
+    </div>);
+
 };
-const ArmoryCoreData = ({simulator}) => (
-  <Query query={ARMORY_CORE_QUERY} variables={{simulatorId: simulator.id}}>
-    {({subscribeToMore, error, loading, data}) => {
-      if (loading || !data) return null;
-      const {crew, teams} = data;
-      return (
-        <ArmoryCore
-          crew={crew}
-          teams={teams}
-          simulator={simulator}
-          subscribe={() => {
-            return {
-              teams: subscribeToMore({
-                document: ARMORY_CORE_TEAM_SUB,
-                variables: {simulatorId: simulator.id},
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    teams: subscriptionData.data.teamsUpdate,
-                  });
-                },
-              }),
-              crew: subscribeToMore({
-                document: ARMORY_CORE_CREW_SUB,
-                variables: {simulatorId: simulator.id},
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    crew: subscriptionData.data.crewUpdate,
-                  });
-                },
-              }),
-            };
-          }}
-        />
-      );
-    }}
-  </Query>
-);
+const ArmoryCoreData = ({ simulator }) =>
+<Query query={ARMORY_CORE_QUERY} variables={{ simulatorId: simulator.id }}>
+    {({ subscribeToMore, error, loading, data }) => {
+    if (loading || !data) return null;
+    const { crew, teams } = data;
+    return (
+      <ArmoryCore
+        crew={crew}
+        teams={teams}
+        simulator={simulator}
+        subscribe={() => {
+          return {
+            teams: subscribeToMore({
+              document: ARMORY_CORE_TEAM_SUB,
+              variables: { simulatorId: simulator.id },
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  teams: subscriptionData.data.teamsUpdate
+                });
+              }
+            }),
+            crew: subscribeToMore({
+              document: ARMORY_CORE_CREW_SUB,
+              variables: { simulatorId: simulator.id },
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  crew: subscriptionData.data.crewUpdate
+                });
+              }
+            })
+          };
+        }} />);
+
+
+  }}
+  </Query>;
+
 
 class ArmoryCore extends Component {
-  state = {selectedCrew: null};
+  state = { selectedCrew: null };
   componentDidMount() {
-    const {teams, crew} = this.props.subscribe();
+    const { teams, crew } = this.props.subscribe();
     this.teamsSub = teams;
     this.crewSub = crew;
   }
@@ -238,26 +239,26 @@ class ArmoryCore extends Component {
     this.crewSub && this.crewSub();
   }
   render() {
-    const {selectedCrew} = this.state;
-    const {crew, teams, simulator} = this.props;
+    const { selectedCrew } = this.state;
+    const { crew, teams, simulator } = this.props;
     return (
       <div className="armory-core">
         <CrewChoice
           crew={crew}
           teams={teams}
           selectedCrew={selectedCrew}
-          updateSelectedCrew={e =>
-            this.setState({selectedCrew: e.target.value})
-          }
-        />
-        {selectedCrew && (
-          <CrewCargo
-            simulatorId={simulator.id}
-            crew={crew.find(c => c.id === selectedCrew)}
-          />
-        )}
-      </div>
-    );
+          updateSelectedCrew={(e) =>
+          this.setState({ selectedCrew: e.target.value })
+          } />
+        
+        {selectedCrew &&
+        <CrewCargo
+          simulatorId={simulator.id}
+          crew={crew.find((c) => c.id === selectedCrew)} />
+
+        }
+      </div>);
+
   }
 }
 

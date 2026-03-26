@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   Container,
   Row,
@@ -7,12 +7,13 @@ import {
   Button,
   Label,
   ListGroup,
-  ListGroupItem,
-} from "helpers/reactstrap";
+  ListGroupItem } from
+"helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import Slider from "react-rangeslider";
-import "react-rangeslider/lib/index.css";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 import Tour from "helpers/tourHelper";
 import DecodingCanvas from "./decodingCanvas";
 import SubscriptionHelper from "helpers/subscriptionHelper";
@@ -42,32 +43,32 @@ export const DECODING_SUB = gql`
 `;
 
 const trainingSteps = [
-  {
-    selector: ".nothing",
-    content:
-      "When you receive messages from someone outside of your ship, you must first decode them before you can read them.",
-  },
-  {
-    selector: ".incoming-messages",
-    content:
-      "This is the list of messages you have received. Click on one to read it or decode it.",
-  },
-  {
-    selector: ".decode-sliders",
-    content:
-      "Use these two knobs to adjust the amplitude and frequency of the waves you are sending. Amplitude is the height of the wave and frequency is how close together the waves are, or how quickly you send out the waves. To decode the message, you have to line up the yellow wave and the red wave by adjusting the frequency and amplitude.",
-  },
-  {
-    selector: ".decode-button ",
-    content:
-      "Once your yellow intercepting waves line up with the red waves you are receiving, press this button to decode the message.",
-  },
-  {
-    selector: ".message-field",
-    content:
-      "The decoded message will appear here. If the message isn’t coming through in a language you understand, continue to refine your intercepting wavelength until the message comes through clearly.",
-  },
-];
+{
+  selector: ".nothing",
+  content:
+  "When you receive messages from someone outside of your ship, you must first decode them before you can read them."
+},
+{
+  selector: ".incoming-messages",
+  content:
+  "This is the list of messages you have received. Click on one to read it or decode it."
+},
+{
+  selector: ".decode-sliders",
+  content:
+  "Use these two knobs to adjust the amplitude and frequency of the waves you are sending. Amplitude is the height of the wave and frequency is how close together the waves are, or how quickly you send out the waves. To decode the message, you have to line up the yellow wave and the red wave by adjusting the frequency and amplitude."
+},
+{
+  selector: ".decode-button ",
+  content:
+  "Once your yellow intercepting waves line up with the red waves you are receiving, press this button to decode the message."
+},
+{
+  selector: ".message-field",
+  content:
+  "The decoded message will appear here. If the message isn’t coming through in a language you understand, continue to refine your intercepting wavelength until the message comes through clearly."
+}];
+
 
 class Decoding extends Component {
   constructor(props) {
@@ -79,11 +80,11 @@ class Decoding extends Component {
       ra: 30,
       rf: 10,
       message:
-        "This is my really long testing testing 123 test message. It represents a message" +
-        " which might be given to the captain and crew during their flight and would be g" +
-        "reat cause for celebration when it is recieved. ",
+      "This is my really long testing testing 123 test message. It represents a message" +
+      " which might be given to the captain and crew during their flight and would be g" +
+      "reat cause for celebration when it is recieved. ",
       decodedMessage: "",
-      decodeProgress: null,
+      decodeProgress: null
     };
     this.decodeSubscription = null;
     this.decodeTimeout = null;
@@ -100,7 +101,7 @@ class Decoding extends Component {
       a,
       f,
       ra,
-      rf,
+      rf
     } = this.state;
     if (!decodeProgress) {
       decodeProgress = 0;
@@ -117,20 +118,20 @@ class Decoding extends Component {
         decodedMessage[decodeProgress] = message[decodeProgress - 1];
       } else {
         const adjuster =
-          ((Math.round(Math.sin(decodeProgress * a + f) * ra + rf) +
-            message.length) %
-            94) +
-          32;
+        (Math.round(Math.sin(decodeProgress * a + f) * ra + rf) +
+        message.length) %
+        94 +
+        32;
         let char = String.fromCharCode(adjuster);
         // If it is partially decoded, reveal random characters based on how much is is decoded.
         const diff =
-          Math.abs(a / 50 - ra / 50) / 2 + Math.abs(f / 50 - rf / 50) / 2;
+        Math.abs(a / 50 - ra / 50) / 2 + Math.abs(f / 50 - rf / 50) / 2;
         if (this.rng.next() > diff) char = message[decodeProgress - 1];
         decodedMessage[decodeProgress] = char;
       }
       this.setState({
         decodedMessage: decodedMessage.join(""),
-        decodeProgress,
+        decodeProgress
       });
       clearTimeout(this.decodeTimeout);
       this.decodeTimeout = setTimeout(this.decode, 50);
@@ -158,13 +159,13 @@ class Decoding extends Component {
         messageId: selectedMessage,
         decodedMessage: this.state.decodedMessage,
         a,
-        f,
+        f
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
-      this.setState({decodeProgress: null});
+      this.setState({ decodeProgress: null });
     }
   };
   _selectMessage(message) {
@@ -173,9 +174,9 @@ class Decoding extends Component {
       a: message.a,
       f: message.f,
       decodedMessage:
-        message.a === message.ra && message.f === message.rf
-          ? message.message
-          : "",
+      message.a === message.ra && message.f === message.rf ?
+      message.message :
+      ""
     });
   }
   _handleOnChange = (which, e) => {
@@ -184,7 +185,7 @@ class Decoding extends Component {
     this.setState(obj);
   };
   _handleChangeComplete = () => {
-    let {selectedMessage, a, f} = this.state;
+    let { selectedMessage, a, f } = this.state;
     if (!selectedMessage) return;
     const mutation = gql`
       mutation UpdateDecodedMessage(
@@ -205,56 +206,56 @@ class Decoding extends Component {
       id: this.props.data.longRangeCommunications[0].id,
       messageId: selectedMessage,
       a,
-      f,
+      f
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
     let alertClass = `alertColor${this.props.simulator.alertLevel || 5}`;
     if (this.props.data.loading || !this.props.data.longRangeCommunications)
-      return null;
+    return null;
     const sys = this.props.data.longRangeCommunications[0];
-    let selectedMessage = {a: 10, f: 10};
+    let selectedMessage = { a: 10, f: 10 };
     if (this.state.selectedMessage) {
       selectedMessage = sys.messages.find(
-        m => m.id === this.state.selectedMessage && !m.deleted,
+        (m) => m.id === this.state.selectedMessage && !m.deleted
       );
     }
     return (
       <Container fluid className="lrComm">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: DECODING_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  longRangeCommunications:
-                    subscriptionData.data.longRangeCommunicationsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: DECODING_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                longRangeCommunications:
+                subscriptionData.data.longRangeCommunicationsUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={8} className="flex-column">
-            <Card style={{padding: 0}} className="flex-max">
-              {selectedMessage && (
-                <DecodingCanvas
-                  decodeProgress={this.state.decodeProgress}
-                  ra={selectedMessage.ra}
-                  rf={selectedMessage.rf}
-                  message={selectedMessage.message}
-                  a={this.state.a}
-                  f={this.state.f}
-                />
-              )}
+            <Card style={{ padding: 0 }} className="flex-max">
+              {selectedMessage &&
+              <DecodingCanvas
+                decodeProgress={this.state.decodeProgress}
+                ra={selectedMessage.ra}
+                rf={selectedMessage.rf}
+                message={selectedMessage.message}
+                a={this.state.a}
+                f={this.state.f} />
+
+              }
             </Card>
             <div>
-              <Col sm={{size: 4, offset: 8}}>
+              <Col sm={{ size: 4, offset: 8 }}>
                 <Button
                   className="decode-button"
                   disabled={!this.state.selectedMessage}
@@ -267,12 +268,12 @@ class Decoding extends Component {
                         decodedMessage: "",
                         message: selectedMessage.message,
                         ra: selectedMessage.ra,
-                        rf: selectedMessage.rf,
+                        rf: selectedMessage.rf
                       },
-                      this.decode.bind(this),
+                      this.decode.bind(this)
                     );
-                  }}
-                >
+                  }}>
+                  
                   Decode
                 </Button>
               </Col>
@@ -283,26 +284,22 @@ class Decoding extends Component {
                 <Slider
                   className={`frequency-slider ${alertClass}`}
                   value={Math.abs(50 - this.state.f)}
-                  orientation="horizontal"
-                  onChange={e => this._handleOnChange("f", Math.abs(50 - e))}
-                  onChangeComplete={this._handleChangeComplete}
-                  tooltip={false}
+                  onChange={(e) => this._handleOnChange("f", Math.abs(50 - e))}
+                  onAfterChange={this._handleChangeComplete}
                   min={0}
                   step={5}
-                  max={45}
-                />
+                  max={45} />
+                
                 <Label>Amplitude</Label>
                 <Slider
                   className={`amplitude-slider ${alertClass}`}
                   value={this.state.a}
-                  orientation="horizontal"
-                  onChange={e => this._handleOnChange("a", e)}
-                  onChangeComplete={this._handleChangeComplete}
-                  tooltip={false}
+                  onChange={(e) => this._handleOnChange("a", e)}
+                  onAfterChange={this._handleChangeComplete}
                   min={5}
                   step={5}
-                  max={50}
-                />
+                  max={50} />
+                
               </Col>
             </div>
             <div className="flex-max message-field">
@@ -312,30 +309,30 @@ class Decoding extends Component {
           <Col sm={4} className="incoming-messages flex-column">
             <h3>Incoming Messages</h3>
             <ListGroup
-              style={{minHeight: "40px"}}
-              className="flex-max auto-scroll"
-            >
-              {sys.messages
-                .filter(m => !m.deleted)
-                .reverse()
-                .map(m => (
-                  <ListGroupItem
-                    key={m.id}
-                    className={
-                      m.a === m.ra && m.f === m.rf ? "message-decoded" : null
-                    }
-                    onClick={this._selectMessage.bind(this, m)}
-                    active={m.id === this.state.selectedMessage}
-                  >
+              style={{ minHeight: "40px" }}
+              className="flex-max auto-scroll">
+              
+              {sys.messages.
+              filter((m) => !m.deleted).
+              reverse().
+              map((m) =>
+              <ListGroupItem
+                key={m.id}
+                className={
+                m.a === m.ra && m.f === m.rf ? "message-decoded" : null
+                }
+                onClick={this._selectMessage.bind(this, m)}
+                active={m.id === this.state.selectedMessage}>
+                
                     {m.datestamp} - {m.sender}
                   </ListGroupItem>
-                ))}
+              )}
             </ListGroup>
           </Col>
         </Row>
         <Tour steps={trainingSteps} client={this.props.clientObj} />
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -361,10 +358,10 @@ export const DECODING_QUERY = gql`
   }
 `;
 export default graphql(DECODING_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(Decoding));

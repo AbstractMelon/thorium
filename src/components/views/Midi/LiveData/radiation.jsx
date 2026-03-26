@@ -1,26 +1,27 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {useMutation} from "react-apollo";
+import { useMutation } from "@apollo/client";
+
 import useQueryAndSubscription from "helpers/hooks/useQueryAndSubscribe";
 import {
   STATUS_RADIATION_QUERY,
-  STATUS_RADIATION_SUB,
-} from "components/views/Status/components/radiation";
+  STATUS_RADIATION_SUB } from
+"components/views/Status/components/radiation";
 
 const UPDATE_RADIATION = gql`
   mutation SetRadiation($simulatorId: ID!, $radiation: Float!) {
     changeSimulatorRadiation(simulatorId: $simulatorId, radiation: $radiation)
   }
 `;
-const Radiation = ({simulatorId, value, setValue}) => {
+const Radiation = ({ simulatorId, value, setValue }) => {
   const radiationSet = React.useRef(false);
-  const {data} = useQueryAndSubscription(
-    {query: STATUS_RADIATION_QUERY, variables: {simulatorId}},
-    {query: STATUS_RADIATION_SUB, variables: {simulatorId}},
+  const { data } = useQueryAndSubscription(
+    { query: STATUS_RADIATION_QUERY, variables: { simulatorId } },
+    { query: STATUS_RADIATION_SUB, variables: { simulatorId } }
   );
   const radiation = data?.simulators?.[0].ship.radiation || 0;
   const [updateRadiation] = useMutation(UPDATE_RADIATION, {
-    variables: {simulatorId, radiation: value},
+    variables: { simulatorId, radiation: value }
   });
   // Update the parent component
   React.useEffect(() => {

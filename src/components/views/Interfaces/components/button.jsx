@@ -1,9 +1,10 @@
 import React from "react";
-import {Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import { Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag";
 
-export const CompButton = ({id, interfaceId, config}) => {
+export const CompButton = ({ id, interfaceId, config }) => {
   return (
     <Mutation
       mutation={gql`
@@ -11,13 +12,13 @@ export const CompButton = ({id, interfaceId, config}) => {
           triggerInterfaceObject(id: $id, objectId: $objectId)
         }
       `}
-      variables={{id: interfaceId, objectId: id}}
-    >
-      {action => (
-        <Button onClick={() => action()} color={config.color}>
+      variables={{ id: interfaceId, objectId: id }}>
+      
+      {(action) =>
+      <Button onClick={() => action()} color={config.color}>
           {config.label || config.objectLabel}
         </Button>
-      )}
-    </Mutation>
-  );
+      }
+    </Mutation>);
+
 };

@@ -1,11 +1,12 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
-import {subscribe, publish} from "helpers/pubsub";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { subscribe, publish } from "helpers/pubsub";
 import uuid from "uuid";
-import {playSound} from "./SoundPlayer";
-import {randomFromList} from "helpers/randomFromList";
-import {FaTimes} from "react-icons/fa";
+import { playSound } from "./SoundPlayer";
+import { randomFromList } from "helpers/randomFromList";
+import { FaTimes } from "react-icons/fa";
 
 // Speech Handling
 const synth = window.speechSynthesis;
@@ -14,7 +15,7 @@ const holderStyle = {
   right: "20px",
   top: "40px",
   width: "30vw",
-  zIndex: "100000",
+  zIndex: "100000"
 };
 const NOTIFY_SUB = gql`
   subscription Notifications($simulatorId: ID!, $station: String) {
@@ -34,69 +35,69 @@ class Alerts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      alerts: [],
+      alerts: []
     };
     const self = this;
     if (!this.props.simulator || !this.props.station) return;
-    this.subscription = this.props.client
-      .subscribe({
-        query: NOTIFY_SUB,
-        variables: {
-          simulatorId: this.props.simulator.id,
-          station: this.props.station.name,
-        },
-      })
-      .subscribe({
-        next({data: {notify}}) {
-          // ... call updateQuery to integrate the new comment
-          // into the existing list of comments
-          const storedAllowed = localStorage.getItem("allowed_notifications");
-          const storedSpeech = localStorage.getItem("allowed_speech");
-          const allowed = storedAllowed ? JSON.parse(storedAllowed) : {};
-          const speech = storedSpeech ? JSON.parse(storedSpeech) : {};
-          const alerts = self.state.alerts;
-          if (notify && notify.id) {
-            if (allowed[notify.type] !== false) {
-              if (!self.props.disabled) {
-                const {soundEffects} = self.props.simulator;
+    this.subscription = this.props.client.
+    subscribe({
+      query: NOTIFY_SUB,
+      variables: {
+        simulatorId: this.props.simulator.id,
+        station: this.props.station.name
+      }
+    }).
+    subscribe({
+      next({ data: { notify } }) {
+        // ... call updateQuery to integrate the new comment
+        // into the existing list of comments
+        const storedAllowed = localStorage.getItem("allowed_notifications");
+        const storedSpeech = localStorage.getItem("allowed_speech");
+        const allowed = storedAllowed ? JSON.parse(storedAllowed) : {};
+        const speech = storedSpeech ? JSON.parse(storedSpeech) : {};
+        const alerts = self.state.alerts;
+        if (notify && notify.id) {
+          if (allowed[notify.type] !== false) {
+            if (!self.props.disabled) {
+              const { soundEffects } = self.props.simulator;
 
-                if (soundEffects && soundEffects.notification) {
-                  playSound({
-                    url: `/assets${randomFromList(soundEffects.notification)}`,
-                  });
-                }
-                alerts.push(Object.assign(notify, {visible: true}));
-                self.setState({
-                  alerts,
+              if (soundEffects && soundEffects.notification) {
+                playSound({
+                  url: `/assets${randomFromList(soundEffects.notification)}`
                 });
+              }
+              alerts.push(Object.assign(notify, { visible: true }));
+              self.setState({
+                alerts
+              });
 
-                const duration = notify.duration ? notify.duration : 5000;
-                setTimeout(() => {
-                  self.onDismiss(notify.id);
-                }, duration);
-              }
-            }
-            if (speech[notify.type] !== false) {
-              if (self.props.station.name === "Core" && self.props.speech) {
-                synth && synth.cancel();
-                synth &&
-                  synth.speak(new SpeechSynthesisUtterance(notify.title));
-              }
+              const duration = notify.duration ? notify.duration : 5000;
+              setTimeout(() => {
+                self.onDismiss(notify.id);
+              }, duration);
             }
           }
-        },
-        error(err) {
-          console.error("err", err);
-        },
-      });
+          if (speech[notify.type] !== false) {
+            if (self.props.station.name === "Core" && self.props.speech) {
+              synth && synth.cancel();
+              synth &&
+              synth.speak(new SpeechSynthesisUtterance(notify.title));
+            }
+          }
+        }
+      },
+      error(err) {
+        console.error("err", err);
+      }
+    });
   }
   componentDidMount() {
     this.sub = subscribe("clearNotifications", () => {
       this.setState({
-        alerts: [],
+        alerts: []
       });
     });
-    this.addSub = subscribe("triggerNotification", notification => {
+    this.addSub = subscribe("triggerNotification", (notification) => {
       this.trigger(notification);
     });
   }
@@ -105,32 +106,32 @@ class Alerts extends Component {
     this.subscription && this.subscription.unsubscribe();
     this.addSub && this.addSub();
   }
-  trigger({title, body, color, duration = 5000, id = uuid.v4()}) {
-    const {soundEffects} = this.props.simulator;
+  trigger({ title, body, color, duration = 5000, id = uuid.v4() }) {
+    const { soundEffects } = this.props.simulator;
     if (soundEffects && soundEffects.notification) {
-      playSound({url: `/assets${randomFromList(soundEffects.notification)}`});
+      playSound({ url: `/assets${randomFromList(soundEffects.notification)}` });
     }
-    this.setState(state => ({
-      alerts: state.alerts.concat({id, title, body, color, visible: true}),
+    this.setState((state) => ({
+      alerts: state.alerts.concat({ id, title, body, color, visible: true })
     }));
     setTimeout(() => {
       this.onDismiss(id);
     }, duration);
   }
   onDismiss = (id, changeToCard) => {
-    this.setState(state => ({
-      alerts: state.alerts.map(a => {
+    this.setState((state) => ({
+      alerts: state.alerts.map((a) => {
         if (a.id === id) a.visible = false;
         return a;
-      }),
+      })
     }));
     setTimeout(() => {
-      this.setState(state => ({
-        alerts: state.alerts.filter(a => a.id !== id),
+      this.setState((state) => ({
+        alerts: state.alerts.filter((a) => a.id !== id)
       }));
     }, 2000);
     if (changeToCard) {
-      publish("cardChangeRequest", {changeToCard});
+      publish("cardChangeRequest", { changeToCard });
     }
   };
   render() {
@@ -138,17 +139,17 @@ class Alerts extends Component {
   }
 }
 
-export const AlertsHolder = ({alerts, dismiss}) => (
-  <div style={holderStyle} className="alertsHolder">
-    {alerts
-      .filter(a => a.visible)
-      .map(a => (
-        <AlertItem key={a.id} notify={a} dismiss={dismiss} />
-      ))}
-  </div>
-);
+export const AlertsHolder = ({ alerts, dismiss }) =>
+<div style={holderStyle} className="alertsHolder">
+    {alerts.
+  filter((a) => a.visible).
+  map((a) =>
+  <AlertItem key={a.id} notify={a} dismiss={dismiss} />
+  )}
+  </div>;
 
-const AlertItem = ({dismiss, notify}) => {
+
+const AlertItem = ({ dismiss, notify }) => {
   return (
     <div onClick={() => dismiss(notify.id, notify.relevantCards)}>
       <div className={`alert alert-${notify.color}`}>
@@ -157,7 +158,7 @@ const AlertItem = ({dismiss, notify}) => {
         </h5>
         {notify.body}
       </div>
-    </div>
-  );
+    </div>);
+
 };
 export default withApollo(Alerts);

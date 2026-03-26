@@ -1,5 +1,8 @@
 import React from "react";
-import {Query, withApollo, useMutation} from "react-apollo";
+import { useMutation } from "@apollo/client";
+import { Query } from "@apollo/client/react/components";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import {
   Modal,
@@ -8,8 +11,8 @@ import {
   ModalFooter,
   Button,
   Col,
-  Row,
-} from "helpers/reactstrap";
+  Row } from
+"helpers/reactstrap";
 
 import SortableList from "helpers/SortableList";
 
@@ -38,19 +41,19 @@ const REORDER_CORE_LAYOUTS = gql`
     reorderCoreLayouts(layouts: $layouts)
   }
 `;
-const MosaicConfig = ({coreLayouts: coreLayoutsProps, modal, toggle}) => {
+const MosaicConfig = ({ coreLayouts: coreLayoutsProps, modal, toggle }) => {
   const [coreLayouts, setCoreLayouts] = React.useState(coreLayoutsProps);
   const [selected, setSelected] = React.useState(null);
   const [reorder] = useMutation(REORDER_CORE_LAYOUTS, {
-    variables: {layouts: coreLayouts.map(m => m.id)},
+    variables: { layouts: coreLayouts.map((m) => m.id) }
   });
-  const onSortEnd = ({oldIndex, newIndex}) => {
-    setCoreLayouts(s => move(s.concat(), oldIndex, newIndex));
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setCoreLayouts((s) => move(s.concat(), oldIndex, newIndex));
   };
-  const remove = id => {
-    setCoreLayouts(s => s.filter(c => c.id !== id));
+  const remove = (id) => {
+    setCoreLayouts((s) => s.filter((c) => c.id !== id));
   };
-  const select = id => {
+  const select = (id) => {
     setSelected(id);
   };
   const close = () => {
@@ -74,8 +77,8 @@ const MosaicConfig = ({coreLayouts: coreLayoutsProps, modal, toggle}) => {
               onSortEnd={onSortEnd}
               selectedItem={selected}
               setSelectedItem={select}
-              removeItem={remove}
-            />
+              removeItem={remove} />
+            
           </Col>
         </Row>
       </ModalBody>
@@ -84,19 +87,19 @@ const MosaicConfig = ({coreLayouts: coreLayoutsProps, modal, toggle}) => {
           Save & Close
         </Button>
       </ModalFooter>
-    </Modal>
-  );
+    </Modal>);
+
 };
 
-const MosaicConfigData = props => {
+const MosaicConfigData = (props) => {
   return (
     <Query query={CORE_LAYOUTS}>
-      {({loading, data}) => {
+      {({ loading, data }) => {
         if (loading || !data) return null;
-        const {coreLayouts} = data;
+        const { coreLayouts } = data;
         return <MosaicConfig coreLayouts={coreLayouts} {...props} />;
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 export default withApollo(MosaicConfigData);

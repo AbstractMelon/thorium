@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import CardFrame from "./frame";
 import Widgets from "./widgets";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import CardHolder from "../cardRenderer";
 import "./layout.scss";
 
@@ -12,10 +13,10 @@ class LayoutOdyssey extends Component {
     window.addEventListener(
       "touchstart",
       function onFirstTouch() {
-        self.setState({touch: true});
+        self.setState({ touch: true });
         window.removeEventListener("touchstart", onFirstTouch);
       },
-      false,
+      false
     );
   }
   render() {
@@ -25,19 +26,19 @@ class LayoutOdyssey extends Component {
       cardName,
       changeCard,
       clientObj,
-      flight,
+      flight
     } = this.props;
     const {
       name: stationName,
       cards = [
-        {
-          component: "Viewscreen",
-          name: "Viewscreen",
-        },
-      ],
+      {
+        component: "Viewscreen",
+        name: "Viewscreen"
+      }]
+
     } = station;
-    const {changingCard, touch} = this.state;
-    const {hypercard} = clientObj;
+    const { changingCard, touch } = this.state;
+    const { hypercard } = clientObj;
     let alertClass = `alertColor${simulator.alertlevel || 5}`;
     return (
       <div id="layout-odyssey" className={alertClass}>
@@ -46,31 +47,31 @@ class LayoutOdyssey extends Component {
           <div className="frame-text">
             <h1 className="simulator-name">{simulator.name}</h1>
             <h2 className="station-name">{stationName}</h2>
-            {!hypercard && (
-              <h2
-                className="card-name card-switcher"
-                onClick={() => this.setState({changingCard: !changingCard})}
-              >
-                {cardName} <span style={{float: "right"}}>&#9660;</span>
+            {!hypercard &&
+            <h2
+              className="card-name card-switcher"
+              onClick={() => this.setState({ changingCard: !changingCard })}>
+              
+                {cardName} <span style={{ float: "right" }}>&#9660;</span>
               </h2>
-            )}
+            }
             <div className={`card-holder ${changingCard ? "active" : ""}`}>
-              {cards.map(c => (
-                <div
-                  className="cardName"
-                  key={c.name}
-                  onClick={() => {
-                    changeCard(c.name);
-                    this.setState({changingCard: false});
-                  }}
-                >
+              {cards.map((c) =>
+              <div
+                className="cardName"
+                key={c.name}
+                onClick={() => {
+                  changeCard(c.name);
+                  this.setState({ changingCard: false });
+                }}>
+                
                   {c.name}
                 </div>
-              ))}
+              )}
               <div
                 className="backdrop"
-                onClick={() => this.setState({changingCard: false})}
-              />
+                onClick={() => this.setState({ changingCard: false })} />
+              
             </div>
           </div>
           <CardFrame simulator={simulator} />
@@ -79,11 +80,11 @@ class LayoutOdyssey extends Component {
             simulator={simulator}
             station={station}
             flight={flight}
-            touch={touch}
-          />
+            touch={touch} />
+          
         </div>
-      </div>
-    );
+      </div>);
+
   }
 }
 

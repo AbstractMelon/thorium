@@ -16,21 +16,22 @@ import {
   useHandleUpdateCurrentFlightPathMutation,
   useHandleUpdateCurrentFlightSetMutation,
   useHandleUpdateEtaMutation,
-  useUpdateFlightSetMutation,
-} from "generated/graphql";
-import {Button, Container, Modal} from "reactstrap";
+  useUpdateFlightSetMutation } from
+"generated/graphql";
+import { Button, Container, Modal } from "reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import {
   ADVANCED_NAV_AND_ASTROMETRICS_QUERY,
-  ADVANCED_NAV_AND_ASTROMETRICS_SUB,
-} from "./core-queries";
-import {graphql, withApollo} from "react-apollo";
-import {CoreAdvancedNavigation as CoreAdvancedNavigationModal} from "./components/CoreComponents/advanced-flight";
-import {EngineStatus} from "./types";
-import {FlightSet} from "containers/FlightDirector/FlightSets/types";
+  ADVANCED_NAV_AND_ASTROMETRICS_SUB } from
+"./core-queries";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { CoreAdvancedNavigation as CoreAdvancedNavigationModal } from "./components/CoreComponents/advanced-flight";
+import { EngineStatus } from "./types";
+import { FlightSet } from "containers/FlightDirector/FlightSets/types";
 import "./styles.css";
-import {PositionMap} from "containers/FlightDirector/FlightSets/Map";
-import {formatSecondsToTime} from "containers/FlightDirector/FlightSets/Time";
+import { PositionMap } from "containers/FlightDirector/FlightSets/Map";
+import { formatSecondsToTime } from "containers/FlightDirector/FlightSets/Time";
 
 interface CoreAdvancedNavigationProps {
   children: React.ReactNode;
@@ -46,11 +47,11 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
   children,
   simulator,
   data,
-  client,
+  client
 }) => {
   const [showDetailsModal, setShowDetailsModal] = React.useState(false);
   const [showAddFlightSetModal, setShowAddFlightSetModal] =
-    React.useState(false);
+  React.useState(false);
   const [ShowEta] = useHandleShowEtaMutation();
   const [ShowFlightSet] = useHandleShowFlightSetMutation();
   const [UpdateEta] = useHandleUpdateEtaMutation();
@@ -68,11 +69,11 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
   let parsedData = undefined;
 
   if (data && data.advancedNavAndAstrometrics) {
-    parsedData = data.advancedNavAndAstrometrics.map(d => {
+    parsedData = data.advancedNavAndAstrometrics.map((d) => {
       return {
         ...d,
         flightSetPathMap: JSON.parse(d.flightSetPathMap),
-        probeAssignments: JSON.parse(d.probeAssignments),
+        probeAssignments: JSON.parse(d.probeAssignments)
       };
     });
   }
@@ -82,9 +83,9 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
   const notIncludedFlightSets = React.useMemo(() => {
     return (
       flightSetQuery.data?.getAllFlightSets?.filter(
-        f => !advancedNav?.flightSets.find(af => af.id === f?.id),
-      ) || []
-    );
+        (f) => !advancedNav?.flightSets.find((af) => af.id === f?.id)
+      ) || []);
+
   }, [flightSetQuery.data, advancedNav]);
 
   if (!data || data.loading || !parsedData) {
@@ -108,10 +109,10 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
       return;
     }
     if (
-      isNaN(Number(hours)) ||
-      isNaN(Number(minutes)) ||
-      isNaN(Number(seconds))
-    ) {
+    isNaN(Number(hours)) ||
+    isNaN(Number(minutes)) ||
+    isNaN(Number(seconds)))
+    {
       alert("Please enter a valid number");
       return;
     }
@@ -119,13 +120,13 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
     UpdateEta({
       variables: {
         id: advancedNav.id || "",
-        eta,
-      },
+        eta
+      }
     });
   };
 
   const locationIdMap = advancedNav.flightSets.reduce((prev, next) => {
-    next.pointsOfInterest.forEach(p => {
+    next.pointsOfInterest.forEach((p) => {
       prev[p.id] = p.name;
     });
     return prev;
@@ -135,164 +136,164 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
     <Container fluid className="flex-column card-advancedNavigation">
       <SubscriptionHelper
         subscribe={() =>
-          (data as any).subscribeToMore({
-            document: ADVANCED_NAV_AND_ASTROMETRICS_SUB,
-            variables: {simulatorId: simulator.id},
-            updateQuery: (previousResult: any, {subscriptionData}: any) => {
-              return Object.assign({}, previousResult, {
-                advancedNavAndAstrometrics:
-                  subscriptionData.data?.advancedNavAndAstrometricsUpdate,
-              });
-            },
-          })
-        }
-      />
-      <div style={{display: "flex", width: "100%"}}>
-        <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
-          {advancedNav.currentFlightSet && (
-            <div style={{width: "100%", minHeight: "10rem"}}>
+        (data as any).subscribeToMore({
+          document: ADVANCED_NAV_AND_ASTROMETRICS_SUB,
+          variables: { simulatorId: simulator.id },
+          updateQuery: (previousResult: any, { subscriptionData }: any) => {
+            return Object.assign({}, previousResult, {
+              advancedNavAndAstrometrics:
+              subscriptionData.data?.advancedNavAndAstrometricsUpdate
+            });
+          }
+        })
+        } />
+      
+      <div style={{ display: "flex", width: "100%" }}>
+        <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+          {advancedNav.currentFlightSet &&
+          <div style={{ width: "100%", minHeight: "10rem" }}>
               <PositionMap
-                imageUrl={advancedNav.currentFlightSet?.backgroundImg || ""}
-                primaryLocation={advancedNav.currentLocation}
-              />
+              imageUrl={advancedNav.currentFlightSet?.backgroundImg || ""}
+              primaryLocation={advancedNav.currentLocation} />
+            
             </div>
-          )}
-          {advancedNav.currentFlightSet && (
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+          }
+          {advancedNav.currentFlightSet &&
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}>
+            
               <button
-                disabled={
-                  advancedNav.engineStatus === EngineStatus.STOPPED ||
-                  advancedNav.engineStatus === EngineStatus.STARTUP
-                }
-                onClick={() => {
-                  EngineFlux({
-                    variables: {
-                      id: advancedNav.id || "",
-                    },
-                  });
-                }}
-              >
-                {advancedNav.engineStatus === EngineStatus.FLUX
-                  ? "Cancel Flux"
-                  : "Flux"}
+              disabled={
+              advancedNav.engineStatus === EngineStatus.STOPPED ||
+              advancedNav.engineStatus === EngineStatus.STARTUP
+              }
+              onClick={() => {
+                EngineFlux({
+                  variables: {
+                    id: advancedNav.id || ""
+                  }
+                });
+              }}>
+              
+                {advancedNav.engineStatus === EngineStatus.FLUX ?
+              "Cancel Flux" :
+              "Flux"}
               </button>
               <button
-                disabled={
-                  advancedNav.engineStatus === EngineStatus.STOPPED ||
-                  advancedNav.engineStatus === EngineStatus.STARTUP
-                }
-                onClick={() => {
-                  EmergencyStop({
-                    variables: {
-                      id: advancedNav.id || "",
-                    },
-                  });
-                }}
-              >
+              disabled={
+              advancedNav.engineStatus === EngineStatus.STOPPED ||
+              advancedNav.engineStatus === EngineStatus.STARTUP
+              }
+              onClick={() => {
+                EmergencyStop({
+                  variables: {
+                    id: advancedNav.id || ""
+                  }
+                });
+              }}>
+              
                 Stop
               </button>
               <label htmlFor="eta">ETA</label>
               <div
-                onClick={handleEtaClick}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  minWidth: "5rem",
-                  backgroundColor: "yellow",
-                  textAlign: "center",
-                  color: "black",
-                }}
-              >
-                {advancedNav.remainingEta
-                  ? formatSecondsToTime(advancedNav.remainingEta)
-                  : "None"}
+              onClick={handleEtaClick}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                minWidth: "5rem",
+                backgroundColor: "yellow",
+                textAlign: "center",
+                color: "black"
+              }}>
+              
+                {advancedNav.remainingEta ?
+              formatSecondsToTime(advancedNav.remainingEta) :
+              "None"}
               </div>
               <label htmlFor="show-eta">Show ETA</label>
               <input
-                disabled={advancedNav.engineStatus === EngineStatus.STOPPED}
-                type="checkbox"
-                id="show-eta"
-                checked={advancedNav.showEta}
-                onChange={event => {
-                  ShowEta({
-                    variables: {
-                      id: advancedNav.id || "",
-                      show: event.target.checked,
-                    },
-                  });
-                }}
-              />
+              disabled={advancedNav.engineStatus === EngineStatus.STOPPED}
+              type="checkbox"
+              id="show-eta"
+              checked={advancedNav.showEta}
+              onChange={(event) => {
+                ShowEta({
+                  variables: {
+                    id: advancedNav.id || "",
+                    show: event.target.checked
+                  }
+                });
+              }} />
+            
             </div>
-          )}
+          }
           <br />
           Target Location:{" "}
-          {advancedNav.currentFlightPath?.targetLocationId
-            ? locationIdMap[advancedNav.currentFlightPath?.targetLocationId]
-            : "None"}
+          {advancedNav.currentFlightPath?.targetLocationId ?
+          locationIdMap[advancedNav.currentFlightPath?.targetLocationId] :
+          "None"}
           <br />
           <Button
             onClick={() => {
               setShowDetailsModal(true);
-            }}
-          >
+            }}>
+            
             Open Panel
           </Button>
           <Button
             onClick={() => {
               setShowAddFlightSetModal(true);
-            }}
-          >
+            }}>
+            
             Show available flight sets
           </Button>
         </div>
-        <div style={{display: "flex", flexDirection: "column"}}></div>
+        <div style={{ display: "flex", flexDirection: "column" }}></div>
       </div>
       <Modal
         size="lg"
         isOpen={showAddFlightSetModal}
-        toggle={() => setShowAddFlightSetModal(false)}
-      >
+        toggle={() => setShowAddFlightSetModal(false)}>
+        
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
+            justifyContent: "space-around"
+          }}>
+          
           <div
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
+              justifyContent: "space-around"
+            }}>
+            
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+                alignItems: "center"
+              }}>
+              
               <h3>Available Flight Sets</h3>
-              {notIncludedFlightSets.map(each => {
+              {notIncludedFlightSets.map((each) => {
                 return (
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
+                      justifyContent: "center"
                     }}
-                    key={each?.id}
-                  >
+                    key={each?.id}>
+                    
                     <div>
                       {each?.label || "No Label"} - {each?.name}
                     </div>
@@ -302,28 +303,28 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
                         AddFlightSet({
                           variables: {
                             id: advancedNav.id || "",
-                            flightSetId: each?.id || "",
-                          },
+                            flightSetId: each?.id || ""
+                          }
                         });
-                      }}
-                    >
+                      }}>
+                      
                       Add Flight Set
                     </Button>
-                  </div>
-                );
+                  </div>);
+
               })}
             </div>
           </div>
-          <div style={{display: "flex", flexDirection: "column"}}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <h3>Included Flight Sets</h3>
-            {advancedNav.flightSets.map(each => {
+            {advancedNav.flightSets.map((each) => {
               return (
                 <div key={each.id}>
                   <div>
                     {each.label || "No Label"} - {each.name}
                   </div>
-                </div>
-              );
+                </div>);
+
             })}
           </div>
         </div>
@@ -331,24 +332,24 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
       <Modal
         className="fullscreen-modal"
         isOpen={showDetailsModal}
-        toggle={() => setShowDetailsModal(false)}
-      >
+        toggle={() => setShowDetailsModal(false)}>
+        
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "lightgray",
-          }}
-        >
-          <div style={{flexGrow: 1, margin: "1rem"}}>
+            backgroundColor: "lightgray"
+          }}>
+          
+          <div style={{ flexGrow: 1, margin: "1rem" }}>
             <CoreAdvancedNavigationModal
               engineStatus={advancedNav.engineStatus as EngineStatus}
               currentLocation={advancedNav.currentLocation}
               flightSets={advancedNav.flightSets as FlightSet[]}
               possibleFlightPaths={
-                advancedNav.currentFlightSet ? advancedNav.flightPaths : []
+              advancedNav.currentFlightSet ? advancedNav.flightPaths : []
               }
               currentFlightPath={advancedNav.currentFlightPath || undefined}
               showEta={advancedNav.showEta}
@@ -356,113 +357,113 @@ const CoreAdvancedNavigation: React.FC<CoreAdvancedNavigationProps> = ({
               heatLevel={advancedNav.heatLevel}
               currentETA={advancedNav.remainingEta}
               currentFlightSet={
-                (advancedNav.currentFlightSet as FlightSet) || undefined
+              advancedNav.currentFlightSet as FlightSet || undefined
               }
               showFlightSet={advancedNav.showFlightSet}
               colorScheme="light"
-              onUpdateFlightSet={flightSet => {
+              onUpdateFlightSet={(flightSet) => {
                 UpdateFlightSetData({
                   variables: {
                     id: advancedNav.id || "",
-                    flightSet: flightSet,
-                  },
+                    flightSet: flightSet
+                  }
                 });
               }}
-              onShowFlightSet={show => {
+              onShowFlightSet={(show) => {
                 ShowFlightSet({
                   variables: {
                     id: advancedNav.id || "",
-                    show,
-                  },
+                    show
+                  }
                 });
               }}
-              onUpdateEta={eta => {
+              onUpdateEta={(eta) => {
                 UpdateEta({
                   variables: {
                     id: advancedNav.id || "",
-                    eta,
-                  },
+                    eta
+                  }
                 });
               }}
-              onShowEta={show => {
+              onShowEta={(show) => {
                 ShowEta({
                   variables: {
                     id: advancedNav.id || "",
-                    show,
-                  },
+                    show
+                  }
                 });
               }}
               onEmergencyStop={() => {
                 EmergencyStop({
                   variables: {
-                    id: advancedNav.id || "",
-                  },
+                    id: advancedNav.id || ""
+                  }
                 });
               }}
               onEngineFlux={() => {
                 EngineFlux({
                   variables: {
-                    id: advancedNav.id || "",
-                  },
+                    id: advancedNav.id || ""
+                  }
                 });
               }}
-              onCoolantLevelChange={level => {
+              onCoolantLevelChange={(level) => {
                 ChangeCoolantLevel({
                   variables: {
                     id: advancedNav.id || "",
-                    level,
-                  },
+                    level
+                  }
                 });
               }}
-              onHeatLevelChange={level => {
+              onHeatLevelChange={(level) => {
                 ChangeHeatLevel({
                   variables: {
                     id: advancedNav.id || "",
-                    level,
-                  },
+                    level
+                  }
                 });
               }}
-              onUpdateCurrentFlightPath={path => {
+              onUpdateCurrentFlightPath={(path) => {
                 UpdateCurrentFlightPath({
                   variables: {
                     id: advancedNav.id || "",
-                    route: path,
-                  },
+                    route: path
+                  }
                 });
               }}
               onOverrideLocation={(
-                location,
-                currentLocationUrl,
-                currentLocationName,
-              ) => {
+              location,
+              currentLocationUrl,
+              currentLocationName) =>
+              {
                 OverrideLocation({
                   variables: {
                     id: advancedNav.id || "",
                     location,
                     currentLocationUrl,
-                    currentLocationName,
-                  },
+                    currentLocationName
+                  }
                 });
               }}
-              onUpdateCurrentFlightSet={flightSet => {
+              onUpdateCurrentFlightSet={(flightSet) => {
                 SetCurrentFlightSet({
                   variables: {
                     id: advancedNav.id || "",
-                    flightSetId: flightSet.id,
-                  },
+                    flightSetId: flightSet.id
+                  }
                 });
-              }}
-            />
+              }} />
+            
           </div>
         </div>
       </Modal>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default graphql(ADVANCED_NAV_AND_ASTROMETRICS_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: (ownProps as any).simulator.id},
-  }),
+    variables: { simulatorId: (ownProps as any).simulator.id }
+  })
 })(withApollo(CoreAdvancedNavigation as any));

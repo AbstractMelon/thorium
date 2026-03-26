@@ -1,8 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Button} from "helpers/reactstrap";
-import {Mutation, graphql, withApollo} from "react-apollo";
-import {InputField, OutputField} from "../../generic/core";
+import { Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { InputField, OutputField } from "../../generic/core";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 export const SIGNAL_JAMMER_CORE_SUB = gql`
@@ -32,7 +34,7 @@ export const SIGNAL_JAMMER_CORE_SUB = gql`
 class SignalJammerCore extends Component {
   setSignal = (type, signals) => {
     const {
-      data: {loading, signalJammers},
+      data: { loading, signalJammers }
     } = this.props;
     if (loading || !signalJammers) return;
     const signalJammer = signalJammers[0];
@@ -46,16 +48,16 @@ class SignalJammerCore extends Component {
     const variables = {
       id: signalJammer.id,
       type,
-      signals,
+      signals
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
     const {
-      data: {loading, signalJammers},
+      data: { loading, signalJammers }
     } = this.props;
     if (loading || !signalJammers) return null;
     const signalJammer = signalJammers[0];
@@ -64,61 +66,61 @@ class SignalJammerCore extends Component {
       <div className="core-signalJammer">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SIGNAL_JAMMER_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  signalJammers: subscriptionData.data.signalJammersUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: SIGNAL_JAMMER_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                signalJammers: subscriptionData.data.signalJammersUpdate
+              });
+            }
+          })
+          } />
+        
         <Mutation
           mutation={gql`
             mutation UpdateSignalJammer($id: ID!, $active: Boolean) {
               updateSignalJammer(jammer: {id: $id, active: $active})
             }
           `}
-          variables={{id: signalJammer.id, active: !signalJammer.active}}
-        >
-          {action => (
-            <OutputField alert={signalJammer.active} onDoubleClick={action}>
+          variables={{ id: signalJammer.id, active: !signalJammer.active }}>
+          
+          {(action) =>
+          <OutputField alert={signalJammer.active} onDoubleClick={action}>
               {signalJammer.active ? "Activated" : "Deactivated"}
             </OutputField>
-          )}
+          }
         </Mutation>
-        <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)"}}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
           <div>
             Comm{" "}
             <InputField
               prompt="What would you like to set this signal to?"
-              onClick={value => this.setSignal("comm", parseInt(value, 10))}
-              style={{width: "40px"}}
-            >
-              {signalJammer.signals.filter(s => s.type === "comm").length}
+              onClick={(value) => this.setSignal("comm", parseInt(value, 10))}
+              style={{ width: "40px" }}>
+              
+              {signalJammer.signals.filter((s) => s.type === "comm").length}
             </InputField>
             <Button
               size="sm"
               color="success"
               onClick={() =>
-                this.setSignal(
-                  "comm",
-                  signalJammer.signals.filter(s => s.type === "comm").length +
-                    1,
-                )
-              }
-            >
+              this.setSignal(
+                "comm",
+                signalJammer.signals.filter((s) => s.type === "comm").length +
+                1
+              )
+              }>
+              
               Add
             </Button>
             <Button
               size="sm"
               color="danger"
-              onClick={() => this.setSignal("comm", 0)}
-            >
+              onClick={() => this.setSignal("comm", 0)}>
+              
               Clear
             </Button>
           </div>
@@ -126,29 +128,29 @@ class SignalJammerCore extends Component {
             Tact{" "}
             <InputField
               prompt="What would you like to set this signal to?"
-              onClick={value => this.setSignal("tactical", parseInt(value, 10))}
-              style={{width: "40px"}}
-            >
-              {signalJammer.signals.filter(s => s.type === "tactical").length}
+              onClick={(value) => this.setSignal("tactical", parseInt(value, 10))}
+              style={{ width: "40px" }}>
+              
+              {signalJammer.signals.filter((s) => s.type === "tactical").length}
             </InputField>
             <Button
               size="sm"
               color="success"
               onClick={() =>
-                this.setSignal(
-                  "tactical",
-                  signalJammer.signals.filter(s => s.type === "tactical")
-                    .length + 1,
-                )
-              }
-            >
+              this.setSignal(
+                "tactical",
+                signalJammer.signals.filter((s) => s.type === "tactical").
+                length + 1
+              )
+              }>
+              
               Add
             </Button>
             <Button
               size="sm"
               color="danger"
-              onClick={() => this.setSignal("tactical", 0)}
-            >
+              onClick={() => this.setSignal("tactical", 0)}>
+              
               Clear
             </Button>
           </div>
@@ -156,29 +158,29 @@ class SignalJammerCore extends Component {
             Sens{" "}
             <InputField
               prompt="What would you like to set this signal to?"
-              onClick={value => this.setSignal("sensors", parseInt(value, 10))}
-              style={{width: "40px"}}
-            >
-              {signalJammer.signals.filter(s => s.type === "sensors").length}
+              onClick={(value) => this.setSignal("sensors", parseInt(value, 10))}
+              style={{ width: "40px" }}>
+              
+              {signalJammer.signals.filter((s) => s.type === "sensors").length}
             </InputField>
             <Button
               size="sm"
               color="success"
               onClick={() =>
-                this.setSignal(
-                  "sensors",
-                  signalJammer.signals.filter(s => s.type === "sensors")
-                    .length + 1,
-                )
-              }
-            >
+              this.setSignal(
+                "sensors",
+                signalJammer.signals.filter((s) => s.type === "sensors").
+                length + 1
+              )
+              }>
+              
               Add
             </Button>
             <Button
               size="sm"
               color="danger"
-              onClick={() => this.setSignal("sensors", 0)}
-            >
+              onClick={() => this.setSignal("sensors", 0)}>
+              
               Clear
             </Button>
           </div>
@@ -192,8 +194,8 @@ class SignalJammerCore extends Component {
         <div>
           Power: <OutputField>{signalJammer.strength * 100}%</OutputField>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -222,11 +224,11 @@ export const SIGNAL_JAMMER_CORE_QUERY = gql`
 `;
 
 export default graphql(SIGNAL_JAMMER_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
 
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(SignalJammerCore));

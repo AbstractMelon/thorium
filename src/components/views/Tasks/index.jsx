@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Tasks from "./tasks";
@@ -44,39 +45,39 @@ class TasksData extends Component {
         query={TASK_QUERY}
         variables={{
           simulatorId: this.props.simulator.id,
-          station: this.props.station.executive
-            ? null
-            : this.props.station.name,
-        }}
-      >
-        {({loading, data, subscribeToMore}) => {
+          station: this.props.station.executive ?
+          null :
+          this.props.station.name
+        }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {tasks} = data;
+          const { tasks } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: TASK_SUB,
-                  variables: {
-                    simulatorId: this.props.simulator.id,
-                    station: this.props.station.executive
-                      ? null
-                      : this.props.station.name,
-                  },
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      tasks: subscriptionData.data.tasksUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: TASK_SUB,
+                variables: {
+                  simulatorId: this.props.simulator.id,
+                  station: this.props.station.executive ?
+                  null :
+                  this.props.station.name
+                },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    tasks: subscriptionData.data.tasksUpdate
+                  });
+                }
+              })
+              }>
+              
               <Tasks {...this.props} tasks={tasks} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default TasksData;

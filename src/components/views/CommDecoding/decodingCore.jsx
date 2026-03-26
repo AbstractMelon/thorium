@@ -1,32 +1,33 @@
-import React, {Component} from "react";
-import {Row, Col, Button, ButtonGroup} from "helpers/reactstrap";
-import {TypingField, InputField} from "../../generic/core";
-import {graphql, withApollo} from "react-apollo";
+import React, { Component } from "react";
+import { Row, Col, Button, ButtonGroup } from "helpers/reactstrap";
+import { TypingField, InputField } from "../../generic/core";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import "./style.scss";
 
 const MessagePresets = [
-  {
-    label: "Send Updates",
-    messageSender: "Starbase 74",
-    value: `To: #SIM
+{
+  label: "Send Updates",
+  messageSender: "Starbase 74",
+  value: `To: #SIM
 From: Starbase 74
 
 We want to be informed about any developments during your mission. Make sure you send us a message every 10 minutes.
 
-Starbase 74 out`,
-  },
-  {
-    label: "What is your status?",
-    messageSender: "Starbase 74",
-    value: `To: #SIM
+Starbase 74 out`
+},
+{
+  label: "What is your status?",
+  messageSender: "Starbase 74",
+  value: `To: #SIM
 From: Starbase 74
 
 #SIM, we haven't heard from you in a while. What is your status?
 
-Starbase 74 out`,
-  },
-];
+Starbase 74 out`
+}];
+
 
 class LRCommCore extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class LRCommCore extends Component {
       message: "",
       messageType: "inbound",
       decoded: false,
-      sent: false,
+      sent: false
     };
   }
   _lrmText(e) {
@@ -45,11 +46,11 @@ class LRCommCore extends Component {
     const match = value.match(regex);
     if (match) {
       this.setState({
-        messageSender: match[match.length - 2],
+        messageSender: match[match.length - 2]
       });
     }
     this.setState({
-      message: value,
+      message: value
     });
   }
   _sendMessage() {
@@ -75,24 +76,24 @@ class LRCommCore extends Component {
       sender: this.state.messageSender,
       crew: this.state.messageType === "inbound",
       message: `${
-        this.state.messageType === "outbound"
-          ? `To: ${this.state.messageReceiver}`
-          : ""
-      }\n${this.state.message}`,
-      decoded: this.state.decoded,
+      this.state.messageType === "outbound" ?
+      `To: ${this.state.messageReceiver}` :
+      ""}\n${
+      this.state.message}`,
+      decoded: this.state.decoded
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     this.setState({
       sent: true,
       sender: "",
-      message: "",
+      message: ""
     });
     setTimeout(() => {
       this.setState({
-        sent: false,
+        sent: false
       });
     }, 4000);
   }
@@ -101,13 +102,13 @@ class LRCommCore extends Component {
       messageSender: "",
       message: "",
       decoded: false,
-      sent: false,
+      sent: false
     });
   };
   render() {
     if (this.props.data.loading || !this.props.data.longRangeCommunications)
-      return null;
-    const {sent, messageType} = this.state;
+    return null;
+    const { sent, messageType } = this.state;
     if (sent) {
       return (
         <div>
@@ -115,27 +116,27 @@ class LRCommCore extends Component {
           <Button size="sm" onClick={this._clearMessage}>
             Send Another
           </Button>
-        </div>
-      );
+        </div>);
+
     }
     if (this.props.data.longRangeCommunications.length === 0)
-      return "No Long Range Comm";
+    return "No Long Range Comm";
     const comm = this.props.data.longRangeCommunications[0];
     return (
-      <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <ButtonGroup>
           <Button
             size="sm"
-            onClick={() => this.setState({messageType: "inbound"})}
-            active={messageType === "inbound"}
-          >
+            onClick={() => this.setState({ messageType: "inbound" })}
+            active={messageType === "inbound"}>
+            
             Inbound
           </Button>
           <Button
             size="sm"
-            onClick={() => this.setState({messageType: "outbound"})}
-            active={messageType === "outbound"}
-          >
+            onClick={() => this.setState({ messageType: "outbound" })}
+            active={messageType === "outbound"}>
+            
             Outbound
           </Button>
         </ButtonGroup>
@@ -144,40 +145,40 @@ class LRCommCore extends Component {
             <label>Sender</label>
             <InputField
               prompt={`What is the message sender? (eg. ${
-                messageType === "inbound" ? "Starbase 74" : "Lt. Carter"
-              })`}
-              onClick={e =>
-                this.setState({
-                  messageSender: e,
-                })
+              messageType === "inbound" ? "Starbase 74" : "Lt. Carter"})`
               }
-            >
+              onClick={(e) =>
+              this.setState({
+                messageSender: e
+              })
+              }>
+              
               {this.state.messageSender}
             </InputField>
           </Col>
-          {messageType === "outbound" && (
-            <Col sm={6}>
+          {messageType === "outbound" &&
+          <Col sm={6}>
               <label>Receiver</label>
               <InputField
-                prompt="What is the message receiver? (eg. Starbase 74)"
-                onClick={e =>
-                  this.setState({
-                    messageReceiver: e,
-                  })
-                }
-              >
+              prompt="What is the message receiver? (eg. Starbase 74)"
+              onClick={(e) =>
+              this.setState({
+                messageReceiver: e
+              })
+              }>
+              
                 {this.state.messageReceiver}
               </InputField>
             </Col>
-          )}
+          }
         </Row>
         <TypingField
-          style={{flex: 1, textAlign: "left"}}
+          style={{ flex: 1, textAlign: "left" }}
           controlled
           value={this.state.message}
-          onChange={this._lrmText.bind(this)}
-        />
-        <span style={{display: "flex", alignItems: "flex-start"}}>
+          onChange={this._lrmText.bind(this)} />
+        
+        <span style={{ display: "flex", alignItems: "flex-start" }}>
           <Button size="sm" onClick={this._sendMessage.bind(this)}>
             Send
           </Button>
@@ -187,43 +188,43 @@ class LRCommCore extends Component {
           <label>
             <input
               type="checkbox"
-              onClick={e => {
-                this.setState({decoded: e.target.checked});
-              }}
-            />{" "}
+              onClick={(e) => {
+                this.setState({ decoded: e.target.checked });
+              }} />
+            {" "}
             Decoded
           </label>
           <select
-            style={{height: "18px"}}
+            style={{ height: "18px" }}
             value={"nothing"}
-            onChange={e => {
-              const {value, messageSender} = MessagePresets.concat(
-                comm.presetMessages,
-              ).find(m => m.label === e.target.value);
+            onChange={(e) => {
+              const { value, messageSender } = MessagePresets.concat(
+                comm.presetMessages
+              ).find((m) => m.label === e.target.value);
 
               const regex = /.*(?= out| out\.)/gi;
               const match = value.match(regex);
 
               this.setState({
                 message: value.replace(/#SIM/gi, this.props.simulator.name),
-                messageSender: messageSender
-                  ? messageSender
-                  : match && match[match.length - 2],
+                messageSender: messageSender ?
+                messageSender :
+                match && match[match.length - 2]
               });
-            }}
-          >
+            }}>
+            
             <option value="nothing" disabled>
               Select a Message
             </option>
-            {MessagePresets.concat(comm.presetMessages).map(p => (
-              <option key={p.label} value={p.label}>
+            {MessagePresets.concat(comm.presetMessages).map((p) =>
+            <option key={p.label} value={p.label}>
                 {p.label}
               </option>
-            ))}
+            )}
           </select>
         </span>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -240,8 +241,8 @@ const DECODING_QUERY = gql`
 `;
 
 export default graphql(DECODING_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(LRCommCore));

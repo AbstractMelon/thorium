@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Label} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 export const STATUS_DEST_SUB = gql`
@@ -33,34 +34,34 @@ class Destination extends Component {
     if (!nav) return null;
     if (!nav.calculate) return null;
     const onCourse =
-      nav.currentCourse.x === nav.calculatedCourse.x &&
-      nav.currentCourse.y === nav.calculatedCourse.y &&
-      nav.currentCourse.z === nav.calculatedCourse.z;
+    nav.currentCourse.x === nav.calculatedCourse.x &&
+    nav.currentCourse.y === nav.calculatedCourse.y &&
+    nav.currentCourse.z === nav.calculatedCourse.z;
     return (
       <div>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_DEST_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  navigation: subscriptionData.data.navigationUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_DEST_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                navigation: subscriptionData.data.navigationUpdate
+              });
+            }
+          })
+          } />
+        
         <Label>Destination</Label>
         <div className="status-field">
-          {nav.scanning
-            ? "Calculating Course..."
-            : onCourse
-            ? nav.destination
-            : "No Destination"}
+          {nav.scanning ?
+          "Calculating Course..." :
+          onCourse ?
+          nav.destination :
+          "No Destination"}
         </div>
-      </div>
-    );
+      </div>);
+
   }
 }
 export const STATUS_DEST_QUERY = gql`
@@ -86,8 +87,8 @@ export const STATUS_DEST_QUERY = gql`
 `;
 
 export default graphql(STATUS_DEST_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(Destination);

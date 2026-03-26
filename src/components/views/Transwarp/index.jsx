@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Transwarp from "./transwarp";
@@ -50,7 +51,7 @@ const fragments = {
       heat
       coolant
     }
-  `,
+  `
 };
 
 export const TRANSWARP_HEAT_SUB = gql`
@@ -88,50 +89,50 @@ class TranswarpData extends Component {
     return (
       <Query
         query={TRANSWARP_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {transwarp} = data;
+          const { transwarp } = data;
           if (!transwarp[0]) return <div>No Transwarp</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: TRANSWARP_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      transwarp: subscriptionData.data.transwarpUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: TRANSWARP_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    transwarp: subscriptionData.data.transwarpUpdate
+                  });
+                }
+              })
+              }>
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: TRANSWARP_HEAT_SUB,
-                    variables: {simulatorId: this.props.simulator.id},
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      const {transwarp} = previousResult;
-                      const {heatChange} = subscriptionData.data;
-                      return {
-                        ...previousResult,
-                        transwarp: transwarp.map(t =>
-                          t.id === heatChange.id ? {...t, ...heatChange} : t,
-                        ),
-                      };
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: TRANSWARP_HEAT_SUB,
+                  variables: { simulatorId: this.props.simulator.id },
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    const { transwarp } = previousResult;
+                    const { heatChange } = subscriptionData.data;
+                    return {
+                      ...previousResult,
+                      transwarp: transwarp.map((t) =>
+                      t.id === heatChange.id ? { ...t, ...heatChange } : t
+                      )
+                    };
+                  }
+                })
+                } />
+              
               <Transwarp {...this.props} {...transwarp[0]} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default TranswarpData;

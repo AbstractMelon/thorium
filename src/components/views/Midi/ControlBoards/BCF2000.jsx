@@ -1,8 +1,9 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {useMidi} from "helpers/midi";
-import {useMutation} from "react-apollo";
-import {bcf2000Controls} from "containers/FlightDirector/Midi/boardLayouts/bcf2000";
+import { useMidi } from "helpers/midi";
+import { useMutation } from "@apollo/client";
+
+import { bcf2000Controls } from "containers/FlightDirector/Midi/boardLayouts/bcf2000";
 import LiveDataComponents from "../LiveData";
 const EXECUTE_MACRO = gql`
   mutation ExecuteMacro($simulatorId: ID!, $macros: [MacroInput]!) {
@@ -15,10 +16,10 @@ function Rotor({
   componentName,
   channel,
   controllerNumber,
-  config = {},
+  config = {}
 }) {
   const [value, setValue] = React.useState(0);
-  const {addSubscriber, sendOutput} = useMidi();
+  const { addSubscriber, sendOutput } = useMidi();
   const selfTriggeredRef = React.useRef(false);
   const Comp = LiveDataComponents[componentName];
 
@@ -28,15 +29,15 @@ function Rotor({
         name: "BCF2000 Port 1",
         channel,
         messageType: "controlchange",
-        controllerNumber,
+        controllerNumber
       },
-      ({value: val}) => {
+      ({ value: val }) => {
         selfTriggeredRef.current = true;
         setTimeout(() => {
           selfTriggeredRef.current = false;
         }, 500);
         setValue(val / 127);
-      },
+      }
     );
   }, [addSubscriber, channel, controllerNumber]);
 
@@ -48,7 +49,7 @@ function Rotor({
       name: "BCF2000 Port 1",
       messageType: "controlchange",
       controllerNumber,
-      value: Math.round(value * 127),
+      value: Math.round(value * 127)
     });
   }, [value, controllerNumber, sendOutput]);
 
@@ -58,9 +59,9 @@ function Rotor({
       simulatorId={simulatorId}
       value={value}
       setValue={setValue}
-      config={config}
-    />
-  );
+      config={config} />);
+
+
 }
 
 function Slider({
@@ -68,10 +69,10 @@ function Slider({
   componentName,
   channel,
   controllerNumber,
-  config = {},
+  config = {}
 }) {
   const [value, setValue] = React.useState(0);
-  const {addSubscriber, sendOutput} = useMidi();
+  const { addSubscriber, sendOutput } = useMidi();
   const selfTriggeredRef = React.useRef(false);
   const Comp = LiveDataComponents[componentName];
 
@@ -81,15 +82,15 @@ function Slider({
         name: "BCF2000 Port 1",
         channel,
         messageType: "controlchange",
-        controllerNumber,
+        controllerNumber
       },
-      ({value: val}) => {
+      ({ value: val }) => {
         selfTriggeredRef.current = true;
         setTimeout(() => {
           selfTriggeredRef.current = false;
         }, 500);
         setValue(val / 127);
-      },
+      }
     );
   }, [addSubscriber, channel, controllerNumber]);
 
@@ -101,7 +102,7 @@ function Slider({
       name: "BCF2000 Port 1",
       messageType: "controlchange",
       controllerNumber,
-      value: Math.round(value * 127),
+      value: Math.round(value * 127)
     });
   }, [value, controllerNumber, sendOutput]);
 
@@ -111,9 +112,9 @@ function Slider({
       simulatorId={simulatorId}
       value={value}
       setValue={setValue}
-      config={config}
-    />
-  );
+      config={config} />);
+
+
 }
 
 function Toggle({
@@ -121,10 +122,10 @@ function Toggle({
   componentName,
   channel,
   controllerNumber,
-  config = {},
+  config = {}
 }) {
   const [value, setValue] = React.useState(0);
-  const {addSubscriber, sendOutput} = useMidi();
+  const { addSubscriber, sendOutput } = useMidi();
   const selfTriggeredRef = React.useRef(false);
   const Comp = LiveDataComponents[componentName];
 
@@ -134,15 +135,15 @@ function Toggle({
         name: "BCF2000 Port 1",
         channel,
         messageType: "controlchange",
-        controllerNumber,
+        controllerNumber
       },
-      ({value: val}) => {
+      ({ value: val }) => {
         selfTriggeredRef.current = true;
         setTimeout(() => {
           selfTriggeredRef.current = false;
         }, 500);
         setValue(val === 0 ? 0 : 1);
-      },
+      }
     );
   }, [addSubscriber, channel, controllerNumber]);
 
@@ -155,7 +156,7 @@ function Toggle({
       name: "BCF2000 Port 1",
       messageType: "controlchange",
       controllerNumber,
-      value: value === 0 ? 0 : 127,
+      value: value === 0 ? 0 : 127
     });
   }, [value, controllerNumber, sendOutput]);
 
@@ -165,9 +166,9 @@ function Toggle({
       simulatorId={simulatorId}
       value={value}
       setValue={setValue}
-      config={config}
-    />
-  );
+      config={config} />);
+
+
 }
 
 const Button = ({
@@ -176,9 +177,9 @@ const Button = ({
   messageType,
   keyVal: key,
   controllerNumber,
-  config,
+  config
 }) => {
-  const {addSubscriber} = useMidi();
+  const { addSubscriber } = useMidi();
   const [executeMacros] = useMutation(EXECUTE_MACRO);
 
   React.useEffect(() => {
@@ -187,32 +188,32 @@ const Button = ({
       channel: channel ?? undefined,
       messageType: messageType ?? undefined,
       key: key ?? undefined,
-      controllerNumber: controllerNumber ?? undefined,
+      controllerNumber: controllerNumber ?? undefined
     };
 
-    return addSubscriber(address, event => {
+    return addSubscriber(address, (event) => {
       if (config.macros.length > 0) {
         executeMacros({
           variables: {
             simulatorId,
-            macros: config.macros.map(({id, args, ...macro}) => ({
+            macros: config.macros.map(({ id, args, ...macro }) => ({
               ...macro,
-              args: JSON.stringify(args),
-            })),
-          },
+              args: JSON.stringify(args)
+            }))
+          }
         });
       }
     });
   }, [
-    config,
-    addSubscriber,
-    channel,
-    controllerNumber,
-    key,
-    messageType,
-    executeMacros,
-    simulatorId,
-  ]);
+  config,
+  addSubscriber,
+  channel,
+  controllerNumber,
+  key,
+  messageType,
+  executeMacros,
+  simulatorId]
+  );
   return null;
 };
 
@@ -223,29 +224,29 @@ const BCF2000 = ({
   channel,
   messageType,
   keyVal: key,
-  controllerNumber,
+  controllerNumber
 }) => {
   const [controlId] = Object.entries(bcf2000Controls).find(([_prop, value]) => {
     if (Array.isArray(value)) {
       return value.find(
-        value =>
-          value.channel === channel &&
-          value.controllerNumber === controllerNumber &&
-          value.messageType === messageType,
+        (value) =>
+        value.channel === channel &&
+        value.controllerNumber === controllerNumber &&
+        value.messageType === messageType
       );
     } else {
       return (
         value.channel === channel &&
         value.controllerNumber === controllerNumber &&
-        value.messageType === messageType
-      );
+        value.messageType === messageType);
+
     }
   });
   // Buttons are identified by the control mapping
   if (
-    (actionMode === "macro" || actionMode === "momentaryMacro") &&
-    controlId.includes("button")
-  ) {
+  (actionMode === "macro" || actionMode === "momentaryMacro") &&
+  controlId.includes("button"))
+  {
     return (
       <Button
         simulatorId={simulatorId}
@@ -253,16 +254,16 @@ const BCF2000 = ({
         messageType={messageType}
         keyVal={key}
         controllerNumber={controllerNumber}
-        config={config}
-      />
-    );
+        config={config} />);
+
+
   }
   if (
-    actionMode === "toggle" &&
-    config.valueAssignmentComponent &&
-    messageType === "controlchange" &&
-    controlId.includes("button")
-  ) {
+  actionMode === "toggle" &&
+  config.valueAssignmentComponent &&
+  messageType === "controlchange" &&
+  controlId.includes("button"))
+  {
     return (
       <Toggle
         simulatorId={simulatorId}
@@ -270,16 +271,16 @@ const BCF2000 = ({
         config={config.componentConfig}
         channel={channel}
         keyVal={key}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
   if (
-    actionMode === "valueAssignment" &&
-    config.valueAssignmentComponent &&
-    messageType === "controlchange" &&
-    controlId.includes("slider")
-  ) {
+  actionMode === "valueAssignment" &&
+  config.valueAssignmentComponent &&
+  messageType === "controlchange" &&
+  controlId.includes("slider"))
+  {
     return (
       <Slider
         simulatorId={simulatorId}
@@ -287,16 +288,16 @@ const BCF2000 = ({
         config={config.componentConfig}
         channel={channel}
         keyVal={key}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
   if (
-    actionMode === "valueAssignment" &&
-    config.valueAssignmentComponent &&
-    messageType === "controlchange" &&
-    controlId.includes("rotor")
-  ) {
+  actionMode === "valueAssignment" &&
+  config.valueAssignmentComponent &&
+  messageType === "controlchange" &&
+  controlId.includes("rotor"))
+  {
     return (
       <Rotor
         simulatorId={simulatorId}
@@ -304,9 +305,9 @@ const BCF2000 = ({
         config={config.componentConfig}
         channel={channel}
         keyVal={key}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
 
   return null;

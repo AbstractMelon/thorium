@@ -1,7 +1,8 @@
 import React from "react";
-import {FormGroup, Label} from "helpers/reactstrap";
+import { FormGroup, Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {useQuery, useMutation} from "react-apollo";
+import { useQuery, useMutation } from "@apollo/client";
+
 import useQueryAndSubscription from "helpers/hooks/useQueryAndSubscribe";
 
 const MOTU_CHANNELS = gql`
@@ -46,17 +47,17 @@ const SET_MOTU = gql`
     motuUpdateChannel(id: $id, channelId: $channelId, channel: {mute: $mute})
   }
 `;
-const MotuChannelMuteToggle = ({value, setValue, config}) => {
+const MotuChannelMuteToggle = ({ value, setValue, config }) => {
   const valueSet = React.useRef(false);
-  const {data} = useQueryAndSubscription(
+  const { data } = useQueryAndSubscription(
     {
       query: MOTU_CHANNEL_QUERY,
-      variables: {id: config.id, channelId: config.channelId},
+      variables: { id: config.id, channelId: config.channelId }
     },
     {
       query: MOTU_CHANNEL_SUB,
-      variables: {id: config.id, channelId: config.channelId},
-    },
+      variables: { id: config.id, channelId: config.channelId }
+    }
   );
   const mute = data?.motuChannel?.mute;
 
@@ -64,8 +65,8 @@ const MotuChannelMuteToggle = ({value, setValue, config}) => {
     variables: {
       id: config.id,
       channelId: config.channelId,
-      mute: parseInt(value, 10),
-    },
+      mute: parseInt(value, 10)
+    }
   });
   // Update the parent component
   React.useEffect(() => {
@@ -88,11 +89,11 @@ const MotuChannelMuteToggle = ({value, setValue, config}) => {
 MotuChannelMuteToggle.actionModes = ["toggle"];
 MotuChannelMuteToggle.config = function ConfigMotuFader({
   setComponentConfig,
-  config,
+  config
 }) {
-  const {loading, data} = useQuery(MOTU_CHANNELS);
+  const { loading, data } = useQuery(MOTU_CHANNELS);
   if (loading || !data) return "Loading...";
-  const motu = data.motus.find(m => m.id === config.id);
+  const motu = data.motus.find((m) => m.id === config.id);
   return (
     <FormGroup className="macro-template">
       <div>
@@ -101,18 +102,18 @@ MotuChannelMuteToggle.config = function ConfigMotuFader({
           <div>
             <select
               value={config.id || "nothing"}
-              onChange={e =>
-                setComponentConfig({...config, id: e.target.value})
-              }
-            >
+              onChange={(e) =>
+              setComponentConfig({ ...config, id: e.target.value })
+              }>
+              
               <option value="nothing" disabled>
                 Choose a MOTU Device
               </option>
-              {data.motus.map(m => (
-                <option key={m.id} value={m.id}>
+              {data.motus.map((m) =>
+              <option key={m.id} value={m.id}>
                   {m.id}
                 </option>
-              ))}
+              )}
             </select>
           </div>
         </Label>
@@ -123,29 +124,29 @@ MotuChannelMuteToggle.config = function ConfigMotuFader({
           <div>
             <select
               value={config.channelId || "nothing"}
-              onChange={e =>
-                setComponentConfig({...config, channelId: e.target.value})
-              }
-            >
+              onChange={(e) =>
+              setComponentConfig({ ...config, channelId: e.target.value })
+              }>
+              
               <option value="nothing" disabled>
                 Choose a Channel
               </option>
               <optgroup label="Inputs">
-                {motu?.inputs.map(({id, name}) => (
-                  <option value={id}>{name}</option>
-                ))}
+                {motu?.inputs.map(({ id, name }) =>
+                <option value={id}>{name}</option>
+                )}
               </optgroup>
               <optgroup label="Outputs">
-                {motu?.outputs.map(({id, name}) => (
-                  <option value={id}>{name}</option>
-                ))}
+                {motu?.outputs.map(({ id, name }) =>
+                <option value={id}>{name}</option>
+                )}
               </optgroup>
             </select>
           </div>
         </Label>
       </div>
-    </FormGroup>
-  );
+    </FormGroup>);
+
 };
 
 export default MotuChannelMuteToggle;

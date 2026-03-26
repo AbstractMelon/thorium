@@ -1,12 +1,13 @@
 import React from "react";
-import {HullPlating, Simulator} from "generated/graphql";
+import { HullPlating, Simulator } from "generated/graphql";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Row, Col, Container, Button} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Row, Col, Container, Button } from "helpers/reactstrap";
 
 import DamageOverlay from "../helpers/DamageOverlay";
 import Tour from "helpers/tourHelper";
-import {HullPlatingModeConstants} from "./constants";
+import { HullPlatingModeConstants } from "./constants";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import RadiationBackground from "./videos/Radiation-Background.gif";
 import DisabledBackground from "./videos/Disabled-Background.gif";
@@ -23,7 +24,7 @@ import "./style.scss";
 interface HullPlatingProps {
   children: React.ReactNode;
   simulator: Simulator;
-  data?: {loading?: any; hullPlatings?: HullPlating[]};
+  data?: {loading?: any;hullPlatings?: HullPlating[];};
   client?: any;
 }
 
@@ -70,24 +71,24 @@ export const HULL_PLATING_QUERY = gql`
 `;
 
 const TrainingSteps = [
-  {
-    selector: ".activate-btn",
-    content:
-      "This system allows you to strengthen your ship's outer hull, reducing damage from difference types of projectiles or energy sources. To activate your armor, press the button here",
-  },
-  {
-    selector: ".mode-btns",
-    content:
-      "When the system is engaged, you can select the mode you would like to use. Each mode has different advantages. Try different modes to gain difference advantages",
-  },
-  {
-    selector: ".effective-chart",
-    content:
-      "This graph shows how well the armor is working. If the line is flat, it's not very effective. If the line moves more rapidly, the armor is more effective. If you change armor types, it will take some time for the armor to become effective again.",
-  },
-];
+{
+  selector: ".activate-btn",
+  content:
+  "This system allows you to strengthen your ship's outer hull, reducing damage from difference types of projectiles or energy sources. To activate your armor, press the button here"
+},
+{
+  selector: ".mode-btns",
+  content:
+  "When the system is engaged, you can select the mode you would like to use. Each mode has different advantages. Try different modes to gain difference advantages"
+},
+{
+  selector: ".effective-chart",
+  content:
+  "This graph shows how well the armor is working. If the line is flat, it's not very effective. If the line moves more rapidly, the armor is more effective. If you change armor types, it will take some time for the armor to become effective again."
+}];
 
-const HullPlatingComp: React.FC<HullPlatingProps> = props => {
+
+const HullPlatingComp: React.FC<HullPlatingProps> = (props) => {
   if (!props.data || props.data.loading) {
     return <div>No Values</div>;
   }
@@ -104,11 +105,11 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
     `;
     const variables = {
       id: hullPlating.id,
-      engaged: !hullPlating.engaged,
+      engaged: !hullPlating.engaged
     };
     props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
@@ -121,11 +122,11 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
       `;
       const variables = {
         id: hullPlating.id,
-        mode: mode,
+        mode: mode
       };
       props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     };
   };
@@ -143,12 +144,12 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
     }
     return (
       <img
-        style={{height: "90vh", marginTop: "-3vh"}}
+        style={{ height: "90vh", marginTop: "-3vh" }}
         draggable={false}
         alt="hull plating background"
-        src={src}
-      />
-    );
+        src={src} />);
+
+
   };
 
   const generateEnergyVideo = (hullPlating: HullPlating) => {
@@ -181,47 +182,47 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
     <Container fluid className="flex-column card-hullPlating">
       <DamageOverlay
         system={hullPlating}
-        message={`${hullPlating.displayName || hullPlating.name} Offline`}
-      />
+        message={`${hullPlating.displayName || hullPlating.name} Offline`} />
+      
       <SubscriptionHelper
         subscribe={() =>
-          (props as any).data.subscribeToMore({
-            document: HULL_PLATING_SUB,
-            variables: {simulatorId: props.simulator.id},
-            updateQuery: (previousResult: any, {subscriptionData}: any) => {
-              return Object.assign({}, previousResult, {
-                hullPlatings: subscriptionData.data.hullPlatingUpdate,
-              });
-            },
-          })
-        }
-      />
+        (props as any).data.subscribeToMore({
+          document: HULL_PLATING_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult: any, { subscriptionData }: any) => {
+            return Object.assign({}, previousResult, {
+              hullPlatings: subscriptionData.data.hullPlatingUpdate
+            });
+          }
+        })
+        } />
+      
       <Row>
         <Col sm={8}>
           <div className="hull-plating-img-parent">
             {generateHullPlatingImg(hullPlating)}
             <div className="hull-plating-activate-btn-parent">
               <div className="activate-btn">
-                {!hullPlating.engaged && (
-                  <Button
-                    onMouseDown={() => handleEngageClick()}
-                    color={"primary"}
-                    block={true}
-                    size={"lg"}
-                  >
+                {!hullPlating.engaged &&
+                <Button
+                  onMouseDown={() => handleEngageClick()}
+                  color={"primary"}
+                  block={true}
+                  size={"lg"}>
+                  
                     Engage{" "}
                   </Button>
-                )}
-                {hullPlating.engaged && (
-                  <Button
-                    onMouseDown={() => handleEngageClick()}
-                    color={"danger"}
-                    block={true}
-                    size={"lg"}
-                  >
+                }
+                {hullPlating.engaged &&
+                <Button
+                  onMouseDown={() => handleEngageClick()}
+                  color={"danger"}
+                  block={true}
+                  size={"lg"}>
+                  
                     Disengage
                   </Button>
-                )}
+                }
               </div>
             </div>
           </div>
@@ -229,16 +230,16 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
         <Col sm={4}>
           <div className="hull-plating-buttons-parent">
             <div className="mode-btns">
-              {HullPlatingModeConstants.map(each => {
+              {HullPlatingModeConstants.map((each) => {
                 // This isn't localized because you can't have FM's have dynamic ids (afaik). If we want to localize them, we'll just need to hard code them.
                 return (
                   <Button
                     color={each.color}
-                    onMouseDown={generateClickFunction(each.value)}
-                  >
+                    onMouseDown={generateClickFunction(each.value)}>
+                    
                     {each.name}
-                  </Button>
-                );
+                  </Button>);
+
               })}
             </div>
             <div className="effective-chart">
@@ -248,13 +249,13 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
         </Col>
       </Row>
       <Tour steps={TrainingSteps} />
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default graphql(HULL_PLATING_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: (ownProps as any).simulator.id},
-  }),
+    variables: { simulatorId: (ownProps as any).simulator.id }
+  })
 })(withApollo(HullPlatingComp as any));

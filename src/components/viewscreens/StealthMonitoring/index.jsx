@@ -1,5 +1,7 @@
-import React, {Component} from "react";
-import {Query, withApollo} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import StealthField from "./stealthField";
@@ -57,10 +59,10 @@ class StealthFieldData extends Component {
     this.getSystems();
   }
   getSystems = () => {
-    const {client} = this.props;
+    const { client } = this.props;
     client.query({
       query: SYSTEMS_QUERY,
-      variables: {simulatorId: this.props.simulator.id},
+      variables: { simulatorId: this.props.simulator.id }
     });
     this.timeout = setTimeout(this.getSystems, 1000);
   };
@@ -69,35 +71,35 @@ class StealthFieldData extends Component {
   }
   render() {
     return (
-      <Query query={QUERY} variables={{simulatorId: this.props.simulator.id}}>
-        {({loading, data, subscribeToMore}) => {
+      <Query query={QUERY} variables={{ simulatorId: this.props.simulator.id }}>
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {stealthField, systems} = data;
+          const { stealthField, systems } = data;
           if (!stealthField[0]) return <div>No Stealth Field</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      stealthField: subscriptionData.data.stealthFieldUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    stealthField: subscriptionData.data.stealthFieldUpdate
+                  });
+                }
+              })
+              }>
+              
               <StealthField
                 {...this.props}
                 {...stealthField[0]}
-                systems={systems || []}
-              />
-            </SubscriptionHelper>
-          );
+                systems={systems || []} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default withApollo(StealthFieldData);

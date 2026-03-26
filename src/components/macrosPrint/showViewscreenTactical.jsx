@@ -1,18 +1,19 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 
 class TacticalMapConfig extends Component {
-  selectTactical = mapId => {
-    let {updateArgs} = this.props;
+  selectTactical = (mapId) => {
+    let { updateArgs } = this.props;
     updateArgs("mapId", mapId);
   };
   render() {
-    const {tacticalData, args} = this.props;
+    const { tacticalData, args } = this.props;
     if (tacticalData.loading || !tacticalData.tacticalMaps) return null;
-    const {tacticalMaps} = this.props.tacticalData;
+    const { tacticalMaps } = this.props.tacticalData;
     if (!args) return null;
-    const map = tacticalMaps.find(t => t.id === args.mapId);
+    const map = tacticalMaps.find((t) => t.id === args.mapId);
     return (
       <div className="tacticalmap-config">
         <strong>Secondary Screen? </strong>
@@ -21,8 +22,8 @@ class TacticalMapConfig extends Component {
           <strong>Map Name</strong>
         </div>
         <div>{map ? map.name : ""}</div>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -40,6 +41,6 @@ const TACTICALMAP_QUERY = gql`
   }
 `;
 
-export default graphql(TACTICALMAP_QUERY, {name: "tacticalData"})(
-  withApollo(TacticalMapConfig),
+export default graphql(TACTICALMAP_QUERY, { name: "tacticalData" })(
+  withApollo(TacticalMapConfig)
 );

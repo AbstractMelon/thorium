@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import * as THREE from "three";
-import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
-import {withApollo} from "react-apollo";
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { withApollo } from "@apollo/client/react/hoc";
+
 import Arrow from "./arrow";
 import Circle from "./circle";
 
@@ -14,11 +15,11 @@ function degtorad(deg) {
 class ThreeView extends Component {
   constructor(props) {
     super(props);
-    const {width, height} = props.dimensions;
+    const { width, height } = props.dimensions;
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 
-    this.renderer = new THREE.WebGLRenderer({alpha: true});
+    this.renderer = new THREE.WebGLRenderer({ alpha: true });
     this.renderer.setSize(width, height);
 
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
@@ -45,34 +46,34 @@ class ThreeView extends Component {
     this.starboardArrow = new Arrow({
       rotation: new THREE.Euler(Math.PI / 2, 0, 0),
       position: new THREE.Vector3(1.2, 0, 0),
-      scale: arrowScaleVector,
+      scale: arrowScaleVector
     });
     this.portArrow = new Arrow({
       rotation: new THREE.Euler(Math.PI / 2, Math.PI, 0),
       position: new THREE.Vector3(-1.2, 0, 0),
-      scale: arrowScaleVector,
+      scale: arrowScaleVector
     });
 
     this.foreArrow = new Arrow({
       rotation: new THREE.Euler(Math.PI / 2, 0, Math.PI / 2),
       position: new THREE.Vector3(0, 0, 1.3),
-      scale: arrowScaleVector,
+      scale: arrowScaleVector
     });
     this.reverseArrow = new Arrow({
       rotation: new THREE.Euler(Math.PI / -2, 0, Math.PI / 2),
       position: new THREE.Vector3(0, 0, -1.3),
-      scale: arrowScaleVector,
+      scale: arrowScaleVector
     });
 
     this.upArrow = new Arrow({
       rotation: new THREE.Euler(0, 0, Math.PI / 2),
       position: new THREE.Vector3(0, 1, 0),
-      scale: arrowScaleVector,
+      scale: arrowScaleVector
     });
     this.downArrow = new Arrow({
       rotation: new THREE.Euler(0, 0, Math.PI / -2),
       position: new THREE.Vector3(0, -1, 0),
-      scale: arrowScaleVector,
+      scale: arrowScaleVector
     });
 
     this.objectGroup.add(this.starboardArrow);
@@ -86,21 +87,21 @@ class ThreeView extends Component {
     this.objectGroup.add(
       new Circle({
         rotation: new THREE.Euler(Math.PI / 2, 0, 0),
-        color: 0xff0000,
-      }),
+        color: 0xff0000
+      })
     );
     this.objectGroup.add(
-      new Circle({rotation: new THREE.Euler(0, 0, 0), color: 0x00ff00}),
+      new Circle({ rotation: new THREE.Euler(0, 0, 0), color: 0x00ff00 })
     );
     this.objectGroup.add(
       new Circle({
         rotation: new THREE.Euler(0, Math.PI / 2, 0),
-        color: 0x0000ff,
-      }),
+        color: 0x0000ff
+      })
     );
   };
   componentDidMount() {
-    const {assets} = this.props.simulator;
+    const { assets } = this.props.simulator;
     const meshSrc = `/assets${assets.mesh}`;
     // const texSrc = `/assets${assets.texture}`
     const objLoader = new OBJLoader();
@@ -113,19 +114,19 @@ class ThreeView extends Component {
       polygonOffsetFactor: 1, // positive value pushes polygon further away
       polygonOffsetUnits: 1,
       opacity: 0.3,
-      transparent: true,
+      transparent: true
     });
     const wireMat = new THREE.LineBasicMaterial({
       color,
       linewidth: 4,
       visible: true,
-      opacity: 0.7,
+      opacity: 0.7
       // transparent: true
     });
 
-    objLoader.load(meshSrc, obj => {
+    objLoader.load(meshSrc, (obj) => {
       obj.scale.set(0.2, 0.2, 0.2);
-      obj.children.forEach(child => {
+      obj.children.forEach((child) => {
         child.material = material;
         const geo = new THREE.EdgesGeometry(child.geometry); // or WireframeGeometry
         const wireframeMesh = new THREE.LineSegments(geo, wireMat);
@@ -134,23 +135,23 @@ class ThreeView extends Component {
       });
       this.objectGroup.add(obj);
     });
-    document
-      .getElementById("thrustersMount")
-      .appendChild(this.renderer.domElement);
+    document.
+    getElementById("thrustersMount").
+    appendChild(this.renderer.domElement);
     this.animating = true;
     this.animate();
   }
   componentDidUpdate() {
-    const {direction, rotation} = this.props;
+    const { direction, rotation } = this.props;
     const directions = [
-      "starboardArrow",
-      "portArrow",
-      "foreArrow",
-      "reverseArrow",
-      "upArrow",
-      "downArrow",
-    ];
-    directions.forEach(d => {
+    "starboardArrow",
+    "portArrow",
+    "foreArrow",
+    "reverseArrow",
+    "upArrow",
+    "downArrow"];
+
+    directions.forEach((d) => {
       this[d].visible = false;
     });
     if (direction.x > 0.2) this.portArrow.visible = true;
@@ -164,7 +165,7 @@ class ThreeView extends Component {
       const rot = new THREE.Euler(
         degtorad(rotation.pitch * -1),
         degtorad(rotation.yaw * -1 + 180),
-        degtorad(rotation.roll),
+        degtorad(rotation.roll)
       );
       this.objectGroup.rotation.setFromVector3(rot);
     }

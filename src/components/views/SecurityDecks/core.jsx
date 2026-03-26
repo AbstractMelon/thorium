@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {graphql, withApollo} from "react-apollo";
+import React, { Component } from "react";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import "./style.scss";
 import SubscriptionHelper from "helpers/subscriptionHelper";
@@ -32,7 +33,7 @@ class SecurityTeams extends Component {
     super(props);
     this.state = {
       selectedDeck: null,
-      selectedRoom: null,
+      selectedRoom: null
     };
   }
   _toggleDoors = (deckId, doors) => {
@@ -43,11 +44,11 @@ class SecurityTeams extends Component {
     `;
     const variables = {
       deckId,
-      doors,
+      doors
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   _toggleEvac = (deckId, evac) => {
@@ -58,11 +59,11 @@ class SecurityTeams extends Component {
     `;
     const variables = {
       deckId,
-      evac,
+      evac
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   _toggleGas() {
@@ -72,15 +73,15 @@ class SecurityTeams extends Component {
       }
     `;
     const deck = this.props.data.decks.find(
-      d => d.id === this.state.selectedDeck,
+      (d) => d.id === this.state.selectedDeck
     );
     const variables = {
       roomId: this.state.selectedRoom,
-      gas: !deck.rooms.find(r => r.id === this.state.selectedRoom).gas,
+      gas: !deck.rooms.find((r) => r.id === this.state.selectedRoom).gas
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   render() {
@@ -90,19 +91,19 @@ class SecurityTeams extends Component {
       <div className="core-securityDecks">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: DECK_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  decks: subscriptionData.data.decksUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: DECK_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                decks: subscriptionData.data.decksUpdate
+              });
+            }
+          })
+          } />
+        
         <table>
           <thead>
             <tr>
@@ -114,59 +115,59 @@ class SecurityTeams extends Component {
             </tr>
           </thead>
           <tbody>
-            {decks
-              .concat()
-              .sort((a, b) => {
-                if (a.number > b.number) return 1;
-                if (a.number < b.number) return -1;
-                return 0;
-              })
-              .map(d => (
-                <tr key={d.id}>
+            {decks.
+            concat().
+            sort((a, b) => {
+              if (a.number > b.number) return 1;
+              if (a.number < b.number) return -1;
+              return 0;
+            }).
+            map((d) =>
+            <tr key={d.id}>
                   <td>Deck {d.number}</td>
                   <td>
                     <input
-                      type="checkbox"
-                      checked={d.evac}
-                      onChange={evt =>
-                        this._toggleEvac(d.id, evt.target.checked)
-                      }
-                    />
+                  type="checkbox"
+                  checked={d.evac}
+                  onChange={(evt) =>
+                  this._toggleEvac(d.id, evt.target.checked)
+                  } />
+                
                   </td>
                   <td>
                     <input
-                      type="checkbox"
-                      checked={d.doors}
-                      onChange={evt =>
-                        this._toggleDoors(d.id, evt.target.checked)
-                      }
-                    />
+                  type="checkbox"
+                  checked={d.doors}
+                  onChange={(evt) =>
+                  this._toggleDoors(d.id, evt.target.checked)
+                  } />
+                
                   </td>
                   <td>
                     <TranzineSelect deck={d} />
                   </td>
-                  <td style={{textAlign: "center"}}>{d.crewCount}</td>
+                  <td style={{ textAlign: "center" }}>{d.crewCount}</td>
                 </tr>
-              ))}
+            )}
           </tbody>
         </table>
-      </div>
-    );
+      </div>);
+
   }
 }
 
-const TranzineSelect = ({deck}) => {
-  const tRooms = deck.rooms.filter(r => r.gas);
+const TranzineSelect = ({ deck }) => {
+  const tRooms = deck.rooms.filter((r) => r.gas);
   return (
     <select value="tranzine">
       <option value="tranzine" disabled>
         {tRooms.length === 0 ? "No Gas" : "Tranzine Active"}
       </option>
-      {tRooms.map(r => (
-        <option key={r.id}>{r.name}</option>
-      ))}
-    </select>
-  );
+      {tRooms.map((r) =>
+      <option key={r.id}>{r.name}</option>
+      )}
+    </select>);
+
 };
 
 export const DECK_CORE_QUERY = gql`
@@ -179,8 +180,8 @@ export const DECK_CORE_QUERY = gql`
 `;
 
 export default graphql(DECK_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(SecurityTeams));

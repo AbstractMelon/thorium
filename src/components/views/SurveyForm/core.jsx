@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Container, Row, Col, Input, Button} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Input, Button } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
 
@@ -46,44 +47,44 @@ class SurveyCore extends Component {
     `;
     const variables = {
       simulatorId: this.props.simulator.id,
-      id: this.state.survey,
+      id: this.state.survey
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
-    this.setState({survey: null});
+    this.setState({ survey: null });
   };
-  downloadResults = s => {
+  downloadResults = (s) => {
     // Map the results
     const results = [];
     results.push(
-      ["Name", "Station", "Client"].concat(s.form.map(f => f.title)),
+      ["Name", "Station", "Client"].concat(s.form.map((f) => f.title))
     );
-    s.results
-      .map(r =>
-        [r.name, r.station, r.client].concat(
-          r.form.map(f => {
-            if (s.form.find(m => m.id === f.id)) {
-              const option = s.form
-                .find(m => m.id === f.id)
-                .options.filter(o => f.value.split(",").includes(o.id))
-                .map(o => o.label)
-                .join("; ");
-              if (option) {
-                return option;
-              }
-            }
-            if (parseInt(f.value, 10)) {
-              return parseInt(f.value, 10);
-            }
-            return f.value;
-          }),
-        ),
-      )
-      .forEach(a => {
-        results.push(a);
-      });
+    s.results.
+    map((r) =>
+    [r.name, r.station, r.client].concat(
+      r.form.map((f) => {
+        if (s.form.find((m) => m.id === f.id)) {
+          const option = s.form.
+          find((m) => m.id === f.id).
+          options.filter((o) => f.value.split(",").includes(o.id)).
+          map((o) => o.label).
+          join("; ");
+          if (option) {
+            return option;
+          }
+        }
+        if (parseInt(f.value, 10)) {
+          return parseInt(f.value, 10);
+        }
+        return f.value;
+      })
+    )
+    ).
+    forEach((a) => {
+      results.push(a);
+    });
     let csvContent = "data:text/csv;charset=utf-8,";
     results.forEach(function (rowArray) {
       let row = rowArray.join(",");
@@ -98,58 +99,58 @@ class SurveyCore extends Component {
 
     link.click();
   };
-  endSurvey = e => {};
+  endSurvey = (e) => {};
   render() {
     const {
-      data: {loading, surveyform, allForms},
+      data: { loading, surveyform, allForms }
     } = this.props;
     if (loading || !surveyform || !allForms) return null;
     return (
       <Container className="surveyForm-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SURVEY_FORM_CORE_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  surveyform: subscriptionData.data.surveyformUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: SURVEY_FORM_CORE_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                surveyform: subscriptionData.data.surveyformUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={12}>
-            <div style={{display: "flex"}}>
+            <div style={{ display: "flex" }}>
               <Input
                 type="select"
                 value={this.state.survey || "nothing"}
-                onChange={e => this.setState({survey: e.target.value})}
-              >
+                onChange={(e) => this.setState({ survey: e.target.value })}>
+                
                 <option value="nothing" disabled>
                   Choose a new survey
                 </option>
-                {allForms.map(f => (
-                  <option key={`${f.id}-all`} value={f.id}>
+                {allForms.map((f) =>
+                <option key={`${f.id}-all`} value={f.id}>
                     {f.title}
                   </option>
-                ))}
+                )}
               </Input>
               <Button
                 disabled={!this.state.survey}
                 size="sm"
                 color="success"
-                onClick={this.startSurvey}
-              >
+                onClick={this.startSurvey}>
+                
                 Start
               </Button>
             </div>
             <p>
               <strong>Running Surveys:</strong>
             </p>
-            {surveyform.map(s => (
-              <Row key={`${s.id}-running`}>
+            {surveyform.map((s) =>
+            <Row key={`${s.id}-running`}>
                 <Col>
                   <p>{s.title}</p>
                 </Col>
@@ -158,24 +159,24 @@ class SurveyCore extends Component {
                 </Col>
                 <Col>
                   <Button
-                    size="sm"
-                    color="success"
-                    onClick={() => this.downloadResults(s)}
-                  >
+                  size="sm"
+                  color="success"
+                  onClick={() => this.downloadResults(s)}>
+                  
                     Results (CSV)
                   </Button>
                 </Col>
                 {/* {<Col>
-                  <Button size="sm" color="danger">
-                    End
-                  </Button>
+                 <Button size="sm" color="danger">
+                   End
+                 </Button>
                 </Col>} */}
               </Row>
-            ))}
+            )}
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -214,10 +215,10 @@ export const SURVEY_FORM_CORE_QUERY = gql`
   }
 `;
 export default graphql(SURVEY_FORM_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(SurveyCore));

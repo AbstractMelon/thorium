@@ -1,6 +1,7 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
-import {Container, Row, Col} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
+import { Container, Row, Col } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Loader from "./loader";
@@ -46,26 +47,26 @@ class RailgunLoadingData extends Component {
     return (
       <Query
         query={RAILGUN_LOADING_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {railgun} = data;
+          const { railgun } = data;
           if (!railgun[0]) return <div>No Railgun</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: RAILGUN_LOADING_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      railgun: subscriptionData.data.railgunUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: RAILGUN_LOADING_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    railgun: subscriptionData.data.railgunUpdate
+                  });
+                }
+              })
+              }>
+              
               <Container>
                 <Row>
                   <Col sm={7}>
@@ -73,11 +74,11 @@ class RailgunLoadingData extends Component {
                   </Col>
                 </Row>
               </Container>
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

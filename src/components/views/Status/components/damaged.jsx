@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Label} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 export const STATUS_DAMAGE_SUB = gql`
   subscription DamagedSub($simulatorId: ID) {
@@ -23,31 +24,31 @@ export const STATUS_DAMAGE_SUB = gql`
 class Damage extends Component {
   render() {
     if (this.props.data.loading || !this.props.data.systems) return null;
-    const {systems} = this.props.data;
+    const { systems } = this.props.data;
     return (
       <div className="damaged-systems-list">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_DAMAGE_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  systems: subscriptionData.data.systemsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_DAMAGE_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                systems: subscriptionData.data.systemsUpdate
+              });
+            }
+          })
+          } />
+        
         <Label>Damaged Systems</Label>
         <div className="status-field damage-list">
           {systems &&
-            systems
-              .filter(s => s.damage.damaged)
-              .map(s => <p key={s.id}>{s.displayName || s.name}</p>)}
+          systems.
+          filter((s) => s.damage.damaged).
+          map((s) => <p key={s.id}>{s.displayName || s.name}</p>)}
         </div>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -66,8 +67,8 @@ export const STATUS_DAMAGE_QUERY = gql`
 `;
 
 export default graphql(STATUS_DAMAGE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(Damage);

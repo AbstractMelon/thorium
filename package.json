@@ -30,12 +30,12 @@
     "start:electron": "BROWSER=none npm-run-all --parallel -l start:client start:server watch:electron",
     "build": "cross-env NODE_ENV=production npm-run-all build:*",
     "build:client": "vite build",
-    "build:server": "npx esbuild --bundle server/index.ts --outfile=build/server.js --platform=node",
+    "build:server": "esbuild --bundle server/index.ts --outfile=build/server.js --platform=node",
     "build:env": "node ./scripts/build-env.js",
     "build:copy": "cp package.json build/package.json",
     "generate:schema": "get-graphql-schema http://localhost:3001/graphql > src/schema.graphql",
     "generate:electron": "electron-builder -mwl",
-    "generate:apollo": "apollo service:push",
+    "generate:apollo": "rover graph publish \"${APOLLO_GRAPH_REF:-Thorium}\" --schema ./src/schema.graphql",
     "dist:electron": "electron-builder -mwl -p always",
     "pack:electron": "electron-builder -m",
     "generate:pkg": "NODE_ENV=production pkg build/package.json",
@@ -65,7 +65,9 @@
   },
   "proxy": "http://localhost:3001",
   "nodemonConfig": {
-    "watch": ["server/"],
+    "watch": [
+      "server/"
+    ],
     "ignore": [
       ".git",
       "./src/*",
@@ -81,8 +83,12 @@
     "last 1 safari version"
   ],
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint"],
-    "*.{css,scss}": ["stylelint"],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint"
+    ],
+    "*.{css,scss}": [
+      "stylelint"
+    ],
     "**/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx|graphql|vue)": [
       "prettier --write"
     ]
@@ -93,7 +99,9 @@
     }
   },
   "release": {
-    "branches": ["main"],
+    "branches": [
+      "main"
+    ],
     "tagFormat": "${version}",
     "plugins": [
       "@semantic-release/commit-analyzer",
@@ -197,6 +205,7 @@
     "zustand": "^2.2.3"
   },
   "devDependencies": {
+    "@apollo/rover": "^0.37.0",
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/node": "^7.6.3",
@@ -221,13 +230,13 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^10.0.27",
     "@eslint/js": "^9.21.0",
-    "@graphql-codegen/cli": "^1.12.0",
-    "@graphql-codegen/fragment-matcher": "^1.13.5",
-    "@graphql-codegen/introspection": "^1.12.0",
-    "@graphql-codegen/typescript": "^1.13.5",
-    "@graphql-codegen/typescript-operations": "^1.12.0",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.5",
-    "@graphql-codegen/typescript-resolvers": "^1.13.4",
+    "@graphql-codegen/cli": "^6.2.1",
+    "@graphql-codegen/fragment-matcher": "^6.0.0",
+    "@graphql-codegen/introspection": "^5.0.1",
+    "@graphql-codegen/typescript": "^5.0.9",
+    "@graphql-codegen/typescript-operations": "^5.0.9",
+    "@graphql-codegen/typescript-react-apollo": "^4.4.1",
+    "@graphql-codegen/typescript-resolvers": "^5.1.7",
     "@jagi/jest-transform-graphql": "^1.0.2",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/exec": "^5.0.0",
@@ -259,7 +268,6 @@
     "@vitejs/plugin-react": "^4.3.1",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "all-contributors-cli": "^6.20.0",
-    "apollo": "^2.22.0",
     "apollo-cache-hermes": "^0.8.9",
     "babel-plugin-import-glob": "^2.0.0",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
@@ -270,6 +278,7 @@
     "centered-pan-zoom": "^2.0.0",
     "cross-env": "^7.0.0",
     "electron": "^35.2.1",
+    "esbuild": "^0.21.5",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
@@ -281,9 +290,11 @@
     "history": "^5.0.0-beta.5",
     "husky": "^4.2.5",
     "is-ci": "^2.0.0",
+    "jest": "^26.6.3",
     "jest-environment-jsdom": "^26.0.0",
     "jest-transform-graphql": "^2.1.0",
     "jest-watch-select-projects": "^2.0.0",
+    "jest-watch-typeahead": "^0.6.5",
     "keycode": "^2.2.0",
     "lint-staged": "^10.2.4",
     "match-sorter": "^4.0.2",
@@ -291,9 +302,9 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "rc-menu": "^8.0.0-alpha.1",
+    "rc-slider": "^11.1.9",
     "react": "^16.13.0",
     "react-animated-number": "^0.4.4",
-    "react-apollo": "^4.0.0-beta.1",
     "react-color": "^2.17.3",
     "react-dom": "^16.13.0",
     "react-draggable": "^4.0.3",
@@ -306,7 +317,6 @@
     "react-mosaic-component": "^4.0.0",
     "react-promise-suspense": "^0.3.1",
     "react-qrcode-hook": "^1.1.0",
-    "react-rangeslider": "^2.2.0",
     "react-router-dom": "^6.0.0-alpha.4",
     "react-sortable-hoc": "^1.10.1",
     "react-table": "^6.10.3",
@@ -325,7 +335,6 @@
     "stylelint-scss": "^3.12.0",
     "svg-to-jsx": "^1.0.2",
     "ts-eager": "^2.0.2",
-    "ts-jest": "^26.0.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^5.1.6",

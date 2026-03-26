@@ -1,14 +1,15 @@
-import React, {Component} from "react";
-import {graphql, withApollo} from "react-apollo";
+import React, { Component } from "react";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
-import {Container, Row, Col, Card, Input, Button} from "helpers/reactstrap";
+import { Container, Row, Col, Card, Input, Button } from "helpers/reactstrap";
 import uuid from "uuid";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Printable from "helpers/printable";
 
 import "./style.scss";
 
-export const stardate = date => {
+export const stardate = (date) => {
   var calculatedDate = new Date(date).getTime() / 1000 / 60 / 60 / 30 / 2;
   var subtraction = Math.floor(calculatedDate);
   var finalDate = (calculatedDate - subtraction) * 100000;
@@ -26,16 +27,16 @@ export const OFFICER_LOG_SUB = gql`
 `;
 
 class OfficerLog extends Component {
-  state = {logText: null, selectedLog: null};
+  state = { logText: null, selectedLog: null };
   componentWillUnmount() {
     clearTimeout(this.scanning);
     this.scanning = null;
   }
   startLog = () => {
-    this.setState({logText: "", selectedLog: null});
+    this.setState({ logText: "", selectedLog: null });
   };
   cancelLog = () => {
-    this.setState({logText: null, selectedLog: null});
+    this.setState({ logText: null, selectedLog: null });
   };
   addLog = () => {
     const mutation = gql`
@@ -48,11 +49,11 @@ class OfficerLog extends Component {
       clientId: this.props.clientObj.id,
       flightId: this.props.flight.id,
       log: this.state.logText,
-      id,
+      id
     };
-    this.props.client.mutate({mutation, variables}).then(() => {
+    this.props.client.mutate({ mutation, variables }).then(() => {
       this.setState({
-        selectedLog: id,
+        selectedLog: id
       });
     });
   };
@@ -60,114 +61,114 @@ class OfficerLog extends Component {
     window.print();
   };
   render() {
-    const {loading, officerLogs} = this.props.data;
+    const { loading, officerLogs } = this.props.data;
     if (loading || !officerLogs) return null;
-    const {logText, selectedLog} = this.state;
+    const { logText, selectedLog } = this.state;
     const timestamp =
-      selectedLog &&
-      officerLogs.find(l => l.id === selectedLog) &&
-      officerLogs.find(l => l.id === selectedLog).timestamp;
+    selectedLog &&
+    officerLogs.find((l) => l.id === selectedLog) &&
+    officerLogs.find((l) => l.id === selectedLog).timestamp;
     return (
       <Container className="officer-log">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: OFFICER_LOG_SUB,
-              variables: {
-                clientId: this.props.clientObj.id,
-                flightId: this.props.flight.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  officerLogs: subscriptionData.data.officerLogsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: OFFICER_LOG_SUB,
+            variables: {
+              clientId: this.props.clientObj.id,
+              flightId: this.props.flight.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                officerLogs: subscriptionData.data.officerLogsUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={4}>
             <Card>
-              {officerLogs.map(l => (
-                <div
-                  key={l.id}
-                  className={`log-entry ${
-                    selectedLog === l.id ? "selected" : ""
-                  }`}
-                  onClick={() =>
-                    this.setState({selectedLog: l.id, logText: l.log})
-                  }
-                >
+              {officerLogs.map((l) =>
+              <div
+                key={l.id}
+                className={`log-entry ${
+                selectedLog === l.id ? "selected" : ""}`
+                }
+                onClick={() =>
+                this.setState({ selectedLog: l.id, logText: l.log })
+                }>
+                
                   <p className="stardate">{stardate(l.timestamp)}</p>
                   <p>
                     {l.log.substr(0, 60)}
                     {l.log.length > 60 && "..."}
                   </p>
                 </div>
-              ))}
+              )}
             </Card>
             <Button block color="primary" onClick={this.startLog}>
               Start Log
             </Button>
-            {this.props.simulator.hasPrinter && (
-              <Button block color="info" onClick={this.printLog}>
+            {this.props.simulator.hasPrinter &&
+            <Button block color="info" onClick={this.printLog}>
                 Print
               </Button>
-            )}
+            }
           </Col>
-          {logText !== null && (
-            <Col sm={8} style={{display: "flex", flexDirection: "column"}}>
+          {logText !== null &&
+          <Col sm={8} style={{ display: "flex", flexDirection: "column" }}>
               <div className="log-header">
                 <h4>Log of Officer: {this.props.clientObj.loginName}</h4>
                 <h4>Stardate: {stardate(timestamp || new Date())}</h4>
               </div>
               <Input
-                style={{flex: 1}}
-                type="textarea"
-                value={logText || ""}
-                disabled={selectedLog}
-                onChange={e => this.setState({logText: e.target.value})}
-              />
+              style={{ flex: 1 }}
+              type="textarea"
+              value={logText || ""}
+              disabled={selectedLog}
+              onChange={(e) => this.setState({ logText: e.target.value })} />
+            
               <Row>
                 <Col sm={6}>
                   <Button
-                    color="danger"
-                    disabled={selectedLog}
-                    block
-                    onClick={this.cancelLog}
-                  >
+                  color="danger"
+                  disabled={selectedLog}
+                  block
+                  onClick={this.cancelLog}>
+                  
                     Clear
                   </Button>
                 </Col>
                 <Col sm={6}>
                   <Button
-                    color="success"
-                    disabled={selectedLog}
-                    block
-                    onClick={this.addLog}
-                  >
+                  color="success"
+                  disabled={selectedLog}
+                  block
+                  onClick={this.addLog}>
+                  
                     Save
                   </Button>
                 </Col>
               </Row>
             </Col>
-          )}
+          }
         </Row>
         <Printable>
           <div>
             <h1>Officer Log &mdash; {this.props.clientObj.loginName}</h1>
-            {officerLogs.map(l => (
-              <div key={l.id} className={`log-entry`}>
+            {officerLogs.map((l) =>
+            <div key={l.id} className={`log-entry`}>
                 <p className="stardate">
                   <b>Stardate {stardate(l.timestamp)}</b>
                 </p>
                 <p>{l.log}</p>
               </div>
-            ))}
+            )}
           </div>
         </Printable>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -182,13 +183,13 @@ export const OFFICER_LOG_QUERY = gql`
 `;
 
 export default graphql(OFFICER_LOG_QUERY, {
-  options: ownProps => {
+  options: (ownProps) => {
     return {
       fetchPolicy: "cache-and-network",
       variables: {
         clientId: ownProps.clientObj.id,
-        flightId: ownProps.flight.id,
-      },
+        flightId: ownProps.flight.id
+      }
     };
-  },
+  }
 })(withApollo(OfficerLog));

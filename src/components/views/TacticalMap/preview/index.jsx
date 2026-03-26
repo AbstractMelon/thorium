@@ -1,14 +1,15 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import layerComps from "./layerComps";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 class TacticalMapPreview extends Component {
-  keypress = evt => {
+  keypress = (evt) => {
     const distance = 0.005;
     const ratio = 16 / 9;
     const wasd = ["KeyW", "KeyA", "KeyS", "KeyD"];
     const ijkl = ["KeyI", "KeyJ", "KeyK", "KeyL"];
-    const movement = {x: 0, y: 0};
+    const movement = { x: 0, y: 0 };
     switch (evt.code) {
       case "KeyW":
       case "KeyI":
@@ -32,21 +33,21 @@ class TacticalMapPreview extends Component {
       default:
         break;
     }
-    this.props.layers.forEach(l => {
+    this.props.layers.forEach((l) => {
       if (l.type === "objects") {
-        l.items.forEach(i => {
+        l.items.forEach((i) => {
           if (
-            (wasd.indexOf(evt.code) > -1 && i.wasd) ||
-            (ijkl.indexOf(evt.code) > -1 && i.ijkl)
-          ) {
+          wasd.indexOf(evt.code) > -1 && i.wasd ||
+          ijkl.indexOf(evt.code) > -1 && i.ijkl)
+          {
             this.props.updateObject(
               "destination",
               {
                 x: i.destination.x + movement.x,
                 y: i.destination.y + movement.y,
-                z: i.destination.z,
+                z: i.destination.z
               },
-              i,
+              i
             );
           }
         });
@@ -66,7 +67,7 @@ class TacticalMapPreview extends Component {
           toggleViewscreenVideo(viewscreenId: $viewscreenId)
         }
       `,
-      variables: {viewscreenId: this.props.viewscreen.id},
+      variables: { viewscreenId: this.props.viewscreen.id }
     });
   };
   render() {
@@ -85,41 +86,41 @@ class TacticalMapPreview extends Component {
       frozen,
       speed,
       viewscreen,
-      interval,
+      interval
     } = this.props;
     return (
       <div className="tactical-map-view">
         {layers &&
-          layers.map(l => {
-            const Comp = layerComps[l.type];
-            return (
-              <div
-                key={l.id}
-                className={`tactical-map-layer layer-${l.type}`}
-                onMouseDown={() => selectObject(null)}
-              >
+        layers.map((l) => {
+          const Comp = layerComps[l.type];
+          return (
+            <div
+              key={l.id}
+              className={`tactical-map-layer layer-${l.type}`}
+              onMouseDown={() => selectObject(null)}>
+              
                 <Comp
-                  {...l}
-                  interval={interval}
-                  simulatorId={simulatorId}
-                  core={core}
-                  frozen={frozen}
-                  selectObject={selectObject}
-                  tacticalMapId={tacticalMapId}
-                  objectId={objectId}
-                  layerId={layerId}
-                  updateObject={updateObject}
-                  removeObject={removeObject}
-                  updatePath={updatePath}
-                  removePath={removePath}
-                  speed={speed}
-                  viewscreen={viewscreen}
-                />
-              </div>
-            );
-          })}
-      </div>
-    );
+                {...l}
+                interval={interval}
+                simulatorId={simulatorId}
+                core={core}
+                frozen={frozen}
+                selectObject={selectObject}
+                tacticalMapId={tacticalMapId}
+                objectId={objectId}
+                layerId={layerId}
+                updateObject={updateObject}
+                removeObject={removeObject}
+                updatePath={updatePath}
+                removePath={removePath}
+                speed={speed}
+                viewscreen={viewscreen} />
+              
+              </div>);
+
+        })}
+      </div>);
+
   }
 }
 

@@ -1,10 +1,11 @@
 import React from "react";
-import {Query} from "react-apollo";
-import gql from "graphql-tag.macro";
-import {DeckDropdown, RoomDropdown} from "helpers/shipStructure";
+import { Query } from "@apollo/client/react/components";
 
-const DeckSelect = props => {
-  const {simulatorId, onChange, value, deckOnly} = props;
+import gql from "graphql-tag.macro";
+import { DeckDropdown, RoomDropdown } from "helpers/shipStructure";
+
+const DeckSelect = (props) => {
+  const { simulatorId, onChange, value, deckOnly } = props;
   return (
     <Query
       query={gql`
@@ -20,10 +21,10 @@ const DeckSelect = props => {
         }
       `}
       variables={{
-        simulatorId,
-      }}
-    >
-      {({loading, data}) => {
+        simulatorId
+      }}>
+      
+      {({ loading, data }) => {
         if (loading) return <p>Loading...</p>;
         let deck = null;
         const room = data?.decks?.reduce((prev, next) => {
@@ -33,7 +34,7 @@ const DeckSelect = props => {
             deck = next.id;
             return null;
           }
-          const foundRoom = next.rooms.find(r => r.id === value);
+          const foundRoom = next.rooms.find((r) => r.id === value);
           if (foundRoom) {
             deck = next.id;
             return foundRoom.id;
@@ -44,31 +45,31 @@ const DeckSelect = props => {
           <div
             style={{
               display: "flex",
-              flexWrap: "wrap",
-            }}
-          >
+              flexWrap: "wrap"
+            }}>
+            
             <DeckDropdown
               allDecks
               selectedDeck={deck}
               decks={data?.decks}
               size="sm"
-              setSelected={a => onChange(a.deck)}
-            />
-            {!deckOnly && (
-              <RoomDropdown
-                selectedDeck={deck}
-                selectedRoom={room}
-                size="sm"
-                decks={data?.decks}
-                disabled={!deck}
-                setSelected={a => onChange(a.room)}
-              />
-            )}
-          </div>
-        );
+              setSelected={(a) => onChange(a.deck)} />
+            
+            {!deckOnly &&
+            <RoomDropdown
+              selectedDeck={deck}
+              selectedRoom={room}
+              size="sm"
+              decks={data?.decks}
+              disabled={!deck}
+              setSelected={(a) => onChange(a.room)} />
+
+            }
+          </div>);
+
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 
 export default DeckSelect;

@@ -1,7 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo, Mutation} from "react-apollo";
-import {Container, Row, Col, Table, Button} from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Table, Button } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 const fragment = gql`
@@ -34,7 +36,7 @@ export const EXOCOMP_CORE_SUB = gql`
 `;
 
 class ExocompsCore extends Component {
-  state = {showHistory: false};
+  state = { showHistory: false };
   updateDifficulty = (id, diff) => {
     const mutation = gql`
       mutation ExocompDiff($id: ID!, $diff: Float!) {
@@ -43,17 +45,17 @@ class ExocompsCore extends Component {
     `;
     const variables = {
       id,
-      diff,
+      diff
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
-    const {showHistory} = this.state;
+    const { showHistory } = this.state;
     const {
-      data: {loading, exocomps},
+      data: { loading, exocomps }
     } = this.props;
     if (loading || !exocomps) return null;
     if (exocomps.length === 0) return <p>No Exocomps</p>;
@@ -61,19 +63,19 @@ class ExocompsCore extends Component {
       <Container className="core-exocomps">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: EXOCOMP_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  exocomps: subscriptionData.data.exocompsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: EXOCOMP_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                exocomps: subscriptionData.data.exocompsUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={showHistory ? 6 : 12}>
             <Table striped size="sm">
@@ -83,103 +85,103 @@ class ExocompsCore extends Component {
                   <th>Dest</th>
                   <th>State</th>
                   <th>Done</th>
-                  {!showHistory && (
-                    <th>
+                  {!showHistory &&
+                  <th>
                       Speed{" "}
                       <Button
-                        size="sm"
-                        color="info"
-                        onClick={() => this.setState({showHistory: true})}
-                      >
+                      size="sm"
+                      color="info"
+                      onClick={() => this.setState({ showHistory: true })}>
+                      
                         Show History
                       </Button>
                     </th>
-                  )}
+                  }
                 </tr>
               </thead>
               <tbody>
-                {exocomps.map((e, i) => (
-                  <Mutation
-                    mutation={
-                      e.damage.damaged
-                        ? gql`
+                {exocomps.map((e, i) =>
+                <Mutation
+                  mutation={
+                  e.damage.damaged ?
+                  gql`
                             mutation RepairSystem($systemId: ID!) {
                               repairSystem(systemId: $systemId)
                             }
-                          `
-                        : gql`
+                          ` :
+                  gql`
                             mutation DamageSystem($systemId: ID!) {
                               damageSystem(systemId: $systemId)
                             }
                           `
-                    }
-                    variables={{systemId: e.id}}
-                  >
-                    {action => (
-                      <tr
-                        key={e.id}
-                        onDoubleClick={action}
-                        className={e.damage.damaged ? "text-danger" : ""}
-                      >
+                  }
+                  variables={{ systemId: e.id }}>
+                  
+                    {(action) =>
+                  <tr
+                    key={e.id}
+                    onDoubleClick={action}
+                    className={e.damage.damaged ? "text-danger" : ""}>
+                    
                         <td>{i + 1}</td>
                         <td>
                           {e.destination ? e.destination.displayName : "None"}
                         </td>
                         <td>{e.state}</td>
                         <td>{Math.round(e.completion * 1000) / 10}%</td>
-                        {!showHistory && (
-                          <td>
+                        {!showHistory &&
+                    <td>
                             <input
-                              type="range"
-                              defaultValue={e.difficulty}
-                              onChange={evt =>
-                                this.updateDifficulty(e.id, evt.target.value)
-                              }
-                              min={0.001}
-                              max={0.5}
-                              step={0.005}
-                            />
+                        type="range"
+                        defaultValue={e.difficulty}
+                        onChange={(evt) =>
+                        this.updateDifficulty(e.id, evt.target.value)
+                        }
+                        min={0.001}
+                        max={0.5}
+                        step={0.005} />
+                      
                           </td>
-                        )}
+                    }
                       </tr>
-                    )}
+                  }
                   </Mutation>
-                ))}
+                )}
               </tbody>
             </Table>
             <small>Double click to break exocomp.</small>
           </Col>
-          {showHistory && (
-            <Col sm={6}>
+          {showHistory &&
+          <Col sm={6}>
               <Button
-                size="sm"
-                color="info"
-                onClick={() => this.setState({showHistory: false})}
-              >
+              size="sm"
+              color="info"
+              onClick={() => this.setState({ showHistory: false })}>
+              
                 Hide History
               </Button>
-              {exocomps
-                .reduce((prev, next, i) => {
-                  return prev.concat(
-                    next.logs.map(l => Object.assign({}, l, {number: i + 1})),
-                  );
-                }, [])
-                .sort((a, b) => {
-                  if (a.timestamp > b.timestamp) return -1;
-                  if (a.timestamp < b.timestamp) return 1;
-                  return 0;
-                })
-                .map((l, i) => (
-                  <p key={`log-${l.timestamp}-${i}`}>
+              {exocomps.
+            reduce((prev, next, i) => {
+              return prev.concat(
+                next.logs.map((l) => Object.assign({}, l, { number: i + 1 }))
+              );
+            }, []).
+            sort((a, b) => {
+              if (a.timestamp > b.timestamp) return -1;
+              if (a.timestamp < b.timestamp) return 1;
+              return 0;
+            }).
+            map((l, i) =>
+            <p key={`log-${l.timestamp}-${i}`}>
                     {new Date(l.timestamp).toLocaleTimeString()} - Exocomp #
                     {l.number}: {l.message}
                   </p>
-                ))}
+            )}
             </Col>
-          )}
+          }
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -193,10 +195,10 @@ export const EXOCOMP_CORE_QUERY = gql`
 `;
 
 export default graphql(EXOCOMP_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(ExocompsCore));

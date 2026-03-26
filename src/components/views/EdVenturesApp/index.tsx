@@ -1,21 +1,23 @@
-import gql from 'graphql-tag.macro'
-import React, { useMemo } from 'react'
-import { Query, graphql, withApollo } from 'react-apollo'
-import { Container, PopoverBody, PopoverHeader, Spinner, UncontrolledPopover } from "reactstrap"
-import { Input, Button } from "helpers/reactstrap"
-import SubscriptionHelper from 'helpers/subscriptionHelper'
-import "./style.scss"
+import gql from 'graphql-tag.macro';
+import React, { useMemo } from 'react';
+import { Query } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, PopoverBody, PopoverHeader, Spinner, UncontrolledPopover } from "reactstrap";
+import { Input, Button } from "helpers/reactstrap";
+import SubscriptionHelper from 'helpers/subscriptionHelper';
+import "./style.scss";
 const EdVenturesAppLogoQuery = gql`
     query EdVenturesAppLogo {
         getFirebaseLogoSrc
     }
-`
+`;
 
 const EdVenturesAppWebsiteQRCodeQuery = gql`
     query EdVenturesAppWebsiteQRCode {
         getFirebaseWebsiteQRCode
     }
-`
+`;
 
 const EdVenturesAppTextQuery = gql`
     query EdVenturesAppText {
@@ -27,7 +29,7 @@ const EdVenturesAppTextQuery = gql`
             EmailNotFound
         }
     }
-`
+`;
 
 const EdVenturesAppQuery = gql`
     query EdVenturesApp {
@@ -50,7 +52,7 @@ const EdVenturesAppQuery = gql`
             flightSubmissions
         }
     }
-`
+`;
 
 const EdVenturesAppSubscriptions = gql`
     subscription EdVenturesAppSubscriptions {
@@ -74,115 +76,115 @@ const EdVenturesAppSubscriptions = gql`
         }
     }
 
-`
+`;
 
 const querySelectorProofString = (str: string) => {
-    return str.replaceAll(/([!"#$%&'()* +,./:;<=>?@[\\\]^`{|}~])/g, '')
-}
+  return str.replaceAll(/([!"#$%&'()* +,./:;<=>?@[\\\]^`{|}~])/g, '');
+};
 
 function isValidEmail(email: string) {
-    // Regular expression for validating an email address
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  // Regular expression for validating an email address
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    // Test the email against the regex
-    return emailRegex.test(email);
+  // Test the email against the regex
+  return emailRegex.test(email);
 }
 
 const EdVenturesAppComp: React.FC<any> = (props) => {
-    const [checkingUserAccount, setCheckingUserAccount] = React.useState(false);
-    const [locked, setLocked] = React.useState(false);
-    const [email, setEmail] = React.useState('');
+  const [checkingUserAccount, setCheckingUserAccount] = React.useState(false);
+  const [locked, setLocked] = React.useState(false);
+  const [email, setEmail] = React.useState('');
 
-    const [showError, setShowError] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
 
-    const validEmail = useMemo(() => {
-        return isValidEmail(email);
-    }, [email])
+  const validEmail = useMemo(() => {
+    return isValidEmail(email);
+  }, [email]);
 
-    const onCheckClick = async () => {
-        if (!validEmail) {
-            setShowError(true);
-            return;
-        }
-        setCheckingUserAccount(true);
-        const firebaseUserExists = await props.client.query({
-            query: gql`
+  const onCheckClick = async () => {
+    if (!validEmail) {
+      setShowError(true);
+      return;
+    }
+    setCheckingUserAccount(true);
+    const firebaseUserExists = await props.client.query({
+      query: gql`
                 query getFirebaseUser($id: ID!) {
                     getFirebaseUser(id: $id)
                 }
             `,
-            variables: { id: email }
-        });
-        if (!firebaseUserExists.data.getFirebaseUser) {
-            // Create the user
-            await props.client.mutate({
-                mutation: gql`
+      variables: { id: email }
+    });
+    if (!firebaseUserExists.data.getFirebaseUser) {
+      // Create the user
+      await props.client.mutate({
+        mutation: gql`
                     mutation createFirebaseUser($id: ID!) {
                         createFirebaseUser(id: $id)
                     }
                 `,
-                variables: { id: email }
-            });
+        variables: { id: email }
+      });
 
-        }
-        // Set the user's station
-        const station = props.station.name;
-        await props.client.mutate({
-            mutation: gql`
+    }
+    // Set the user's station
+    const station = props.station.name;
+    await props.client.mutate({
+      mutation: gql`
                 mutation updateFirebaseUserStation($email: String!, $station: String!) {
                     updateFirebaseUserStation(email: $email, station: $station)
                 }
             `,
-            variables: { email, station }
-        });
-        setLocked(true);
-        setCheckingUserAccount(false)
-    };
+      variables: { email, station }
+    });
+    setLocked(true);
+    setCheckingUserAccount(false);
+  };
 
-    const { assets } = props.simulator;
-    const { getCurrentFirebaseSelections } = props.data;
-    if (getCurrentFirebaseSelections?.flightSubmissions?.includes(props.flight.id)) {
-        return <div />
-    }
-    return <Query query={EdVenturesAppTextQuery}>
+  const { assets } = props.simulator;
+  const { getCurrentFirebaseSelections } = props.data;
+  if (getCurrentFirebaseSelections?.flightSubmissions?.includes(props.flight.id)) {
+    return <div />;
+  }
+  return <Query query={EdVenturesAppTextQuery}>
         {({ loading, data }: any) => {
-            if (loading) {
-                return <div></div>
-            }
-            else if (!getCurrentFirebaseSelections || !data) {
-                return <div>No data</div>
-            }
-            const { Awards, EmailHeading, Heading, Subheading } = data.getFirebasePageText
-            return <Container fluid className="card-edVentureApp">
+      if (loading) {
+        return <div></div>;
+      } else
+      if (!getCurrentFirebaseSelections || !data) {
+        return <div>No data</div>;
+      }
+      const { Awards, EmailHeading, Heading, Subheading } = data.getFirebasePageText;
+      return <Container fluid className="card-edVentureApp">
                 <SubscriptionHelper
-                    subscribe={() =>
-                        props.data.subscribeToMore({
-                            document: EdVenturesAppSubscriptions,
-                            updateQuery: (previousResult: any, { subscriptionData }: any) => {
-                                if (!subscriptionData.data) return previousResult;
-                                return Object.assign({}, previousResult, {
-                                    getCurrentFirebaseSelections: subscriptionData.data.firebaseCurrentSelectionsUpdate
-                                });
-                            }
-                        })
-                    } />
+          subscribe={() =>
+          props.data.subscribeToMore({
+            document: EdVenturesAppSubscriptions,
+            updateQuery: (previousResult: any, { subscriptionData }: any) => {
+              if (!subscriptionData.data) return previousResult;
+              return Object.assign({}, previousResult, {
+                getCurrentFirebaseSelections: subscriptionData.data.firebaseCurrentSelectionsUpdate
+              });
+            }
+          })
+          } />
                 <div className='data-left-parent'>
                     <div className='logos-area'>
                         <Query query={EdVenturesAppLogoQuery}>
                             {({ loading, data }: any) => {
-                                if (loading) {
-                                    return <div></div>
-                                }
-                                return <img draggable={false} src={data.getFirebaseLogoSrc} height={'100%'} alt='eva logo' />
-                            }}
+                if (loading) {
+                  return <div></div>;
+                }
+                return <img draggable={false} src={data.getFirebaseLogoSrc} height={'100%'} alt='eva logo' />;
+              }}
                         </Query>
                         <Query query={EdVenturesAppWebsiteQRCodeQuery}>
                             {({ loading, data }: any) => {
-                                if (loading) {
-                                    return <div></div>
-                                }
-                                return <img draggable={false} src={data.getFirebaseWebsiteQRCode} height={'100%'} alt='eva logo' />
-                            }}
+                if (loading) {
+                  return <div></div>;
+                }
+                return <img draggable={false} src={data.getFirebaseWebsiteQRCode} height={'100%'} alt='eva logo' />;
+              }}
                         </Query>
                         <div className="ShipLogo">
                             <img draggable={false} src={`/assets/${assets.logo}`} height={'100%'} alt='simulator logo' />
@@ -192,7 +194,7 @@ const EdVenturesAppComp: React.FC<any> = (props) => {
                         <div>
                             <h2 className='heading-text-area'>{Heading}</h2>
                         </div>
-                        <h1 className='event-id-text' style={{ textTransform: 'none', fontFamily: "Saira", fontWeight: "normal"}}>{getCurrentFirebaseSelections.EventId}</h1>
+                        <h1 className='event-id-text' style={{ textTransform: 'none', fontFamily: "Saira", fontWeight: "normal" }}>{getCurrentFirebaseSelections.EventId}</h1>
                         <h6>
                             {Subheading}
                         </h6>
@@ -204,7 +206,7 @@ const EdVenturesAppComp: React.FC<any> = (props) => {
                         <h3>{Awards}</h3>
                         <div className='awards-group-parent'>
                             {getCurrentFirebaseSelections.Awards.map((award: any) => {
-                                return <React.Fragment>
+                return <React.Fragment>
                                     <div className='awards-group' id={querySelectorProofString(award.id)}>
                                         <img draggable={false} className='awards-image' src={award.ImageURL} alt='award logo' />
                                         <div>{award.Name}</div>
@@ -212,7 +214,7 @@ const EdVenturesAppComp: React.FC<any> = (props) => {
                                     <UncontrolledPopover trigger="legacy" placement="top" target={querySelectorProofString(award.id)}>
                                         <PopoverHeader>{award.Name}</PopoverHeader>
                                         <PopoverBody>
-                                            <div className='popover-body-parent' >
+                                            <div className='popover-body-parent'>
                                                 {award.Description}
                                                 <hr />
                                                 <div>{`Additional Class hours: ${award.ClassHours}`}</div>
@@ -220,8 +222,8 @@ const EdVenturesAppComp: React.FC<any> = (props) => {
                                             </div>
                                         </PopoverBody>
                                     </UncontrolledPopover>
-                                </React.Fragment>
-                            })}
+                                </React.Fragment>;
+              })}
                         </div>
 
                     </div>}
@@ -237,14 +239,14 @@ const EdVenturesAppComp: React.FC<any> = (props) => {
                                 {showError && !validEmail && <div className='invalid-email'>Invalid email address</div>}
                             </div>
                             <Button className="email-btn" onMouseDown={() => {
-                                if (locked) {
-                                    setLocked(false);
-                                }
-                                else {
-                                    onCheckClick();
-                                }
+                if (locked) {
+                  setLocked(false);
+                } else
+                {
+                  onCheckClick();
+                }
 
-                            }}>{locked ? "Change email" : "Link email"}</Button>
+              }}>{locked ? "Change email" : "Link email"}</Button>
                             {checkingUserAccount && <div><Spinner /></div>}
                         </div>
 
@@ -253,16 +255,16 @@ const EdVenturesAppComp: React.FC<any> = (props) => {
 
                 </div>
 
-            </Container>
-        }}
-    </Query>
+            </Container>;
+    }}
+    </Query>;
 
 
-}
+};
 
 
 export default graphql(EdVenturesAppQuery, {
-    options: (props: any) => ({
-        fetchPolicy: 'cache-and-network',
-    })
+  options: (props: any) => ({
+    fetchPolicy: 'cache-and-network'
+  })
 })(withApollo(EdVenturesAppComp));

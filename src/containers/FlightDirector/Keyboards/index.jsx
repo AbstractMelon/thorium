@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import {
   Container,
   Row,
@@ -6,9 +6,10 @@ import {
   ListGroup,
   Button,
   Label,
-  Input,
-} from "helpers/reactstrap";
-import {Query, Mutation} from "react-apollo";
+  Input } from
+"helpers/reactstrap";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import KeyboardList from "./keyboardList";
 import KeyboardControl from "./keyboardControl";
@@ -70,28 +71,28 @@ const RENAME_KEYBOARD = gql`
 
 class Keyboards extends Component {
   state = {
-    selectedKeyboard: null,
+    selectedKeyboard: null
   };
   render() {
-    const importKeyboard = evt => {
+    const importKeyboard = (evt) => {
       if (evt.target.files[0]) {
         const data = new FormData();
         Array.from(evt.target.files).forEach((f, index) =>
-          data.append(`files[${index}]`, f),
+        data.append(`files[${index}]`, f)
         );
         fetch(`/importKeyboard`, {
           method: "POST",
-          body: data,
+          body: data
         }).then(() => {
           window.location.reload();
         });
       }
     };
-    const {selectedKeyboard} = this.state;
+    const { selectedKeyboard } = this.state;
     return (
       <Query query={KEYBOARD_QUERY}>
-        {({loading, data, subscribeToMore}) => {
-          const {keyboard} = data || {};
+        {({ loading, data, subscribeToMore }) => {
+          const { keyboard } = data || {};
           if (loading || !keyboard) return null;
           return (
             <Container fluid className="survey-forms">
@@ -102,97 +103,97 @@ class Keyboards extends Component {
                   <div
                     style={{
                       maxHeight: "60vh",
-                      overflowY: "scroll",
-                    }}
-                  >
+                      overflowY: "scroll"
+                    }}>
+                    
                     <ListGroup>
                       <KeyboardList
                         keyboard={keyboard}
                         selectedKeyboard={selectedKeyboard}
-                        selectKeyboard={k =>
-                          this.setState({selectedKeyboard: k})
+                        selectKeyboard={(k) =>
+                        this.setState({ selectedKeyboard: k })
                         }
                         subscribe={() =>
-                          subscribeToMore({
-                            document: KEYBOARD_SUB,
-                            updateQuery: (prev, {subscriptionData}) => {
-                              if (!subscriptionData.data) return prev;
-                              return Object.assign({}, prev, {
-                                keyboard: subscriptionData.data.keyboardUpdate,
-                              });
-                            },
-                          })
-                        }
-                      />
+                        subscribeToMore({
+                          document: KEYBOARD_SUB,
+                          updateQuery: (prev, { subscriptionData }) => {
+                            if (!subscriptionData.data) return prev;
+                            return Object.assign({}, prev, {
+                              keyboard: subscriptionData.data.keyboardUpdate
+                            });
+                          }
+                        })
+                        } />
+                      
                     </ListGroup>
                   </div>
                   <Mutation mutation={ADD_KEYBOARD}>
-                    {addKeyboard => (
+                    {(addKeyboard) =>
+                    <Button
+                      color="success"
+                      block
+                      size="sm"
+                      onClick={() => {
+                        const name = prompt(
+                          "What is the name of the keyboard?"
+                        );
+                        name && addKeyboard({ variables: { name } });
+                      }}>
+                      
+                        Create Keyboard
+                      </Button>
+                    }
+                  </Mutation>
+
+                  {selectedKeyboard &&
+                  <Fragment>
+                      <Mutation mutation={RENAME_KEYBOARD}>
+                        {(renameKeyboard) =>
                       <Button
-                        color="success"
+                        color="warning"
                         block
                         size="sm"
                         onClick={() => {
                           const name = prompt(
-                            "What is the name of the keyboard?",
+                            "What is the new name of the keyboard?"
                           );
-                          name && addKeyboard({variables: {name}});
-                        }}
-                      >
-                        Create Keyboard
-                      </Button>
-                    )}
-                  </Mutation>
-
-                  {selectedKeyboard && (
-                    <Fragment>
-                      <Mutation mutation={RENAME_KEYBOARD}>
-                        {renameKeyboard => (
-                          <Button
-                            color="warning"
-                            block
-                            size="sm"
-                            onClick={() => {
-                              const name = prompt(
-                                "What is the new name of the keyboard?",
-                              );
-                              name &&
-                                renameKeyboard({
-                                  variables: {id: selectedKeyboard, name},
-                                });
-                            }}
-                          >
+                          name &&
+                          renameKeyboard({
+                            variables: { id: selectedKeyboard, name }
+                          });
+                        }}>
+                        
                             Rename Keyboard
                           </Button>
-                        )}
+                      }
                       </Mutation>
                       <Mutation mutation={REMOVE_KEYBOARD}>
-                        {removeKeyboard => (
-                          <Button
-                            size="sm"
-                            color="danger"
-                            block
-                            onClick={() => {
-                              removeKeyboard({
-                                variables: {id: selectedKeyboard},
-                              });
-                              this.setState({selectedKeyboard: null});
-                            }}
-                          >
+                        {(removeKeyboard) =>
+                      <Button
+                        size="sm"
+                        color="danger"
+                        block
+                        onClick={() => {
+                          removeKeyboard({
+                            variables: { id: selectedKeyboard }
+                          });
+                          this.setState({ selectedKeyboard: null });
+                        }}>
+                        
                             Remove Keyboard
                           </Button>
-                        )}
+                      }
                       </Mutation>
                       <Button
-                        as="a"
-                        block
-                        size="sm"
-                        href={`/exportKeyboard/${selectedKeyboard}`}
-                      >
+                      as="a"
+                      block
+                      size="sm"
+                      href={`/exportKeyboard/${selectedKeyboard}`}>
+                      
                         Export Keyboard
                       </Button>
                     </Fragment>
-                  )}
+                  }
                   <Label className=" btn-block ">
                     <div className="btn btn-sm btn-info btn-block">
                       Import Keyboard
@@ -201,18 +202,18 @@ class Keyboards extends Component {
                   </Label>
                 </Col>
                 <Col sm={9}>
-                  {selectedKeyboard && (
-                    <KeyboardControl
-                      keyboard={keyboard.find(k => k.id === selectedKeyboard)}
-                    />
-                  )}
+                  {selectedKeyboard &&
+                  <KeyboardControl
+                    keyboard={keyboard.find((k) => k.id === selectedKeyboard)} />
+
+                  }
                 </Col>
               </Row>
-            </Container>
-          );
+            </Container>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {useMutation, useQuery, useSubscription} from "react-apollo";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
+
 import {
   Container,
   Row,
@@ -9,12 +10,12 @@ import {
   Input,
   Card,
   InputGroup,
-  InputGroupAddon,
-} from "helpers/reactstrap";
+  InputGroupAddon } from
+"helpers/reactstrap";
 import "./style.scss";
 
 import Tour from "helpers/tourHelper";
-import {useSubscribeToMore} from "helpers/hooks/useQueryAndSubscribe";
+import { useSubscribeToMore } from "helpers/hooks/useQueryAndSubscribe";
 import ConvoPicker from "./convoPicker";
 import useFlightSessionStorage from "helpers/hooks/useFlightSessionStorage";
 
@@ -66,43 +67,43 @@ export const MESSAGING_QUERY = gql`
 `;
 
 export const trainingSteps = [
-  {
-    selector: "#nothing",
-    content: "Messaging allows you to send text messages between people within your ship.",
-  },
-  {
-    selector: ".message-dropdown",
-    content: "To send a message, click this button. A dropdown will appear showing you all of the options for places you can send your message.",
-  },
-  {
-    selector: ".convoList",
-    content: "This is your list of current conversations. Click on a conversation to see that conversation on the right side.",
-  },
-  {
-    selector: ".messages-list",
-    content: "The messages in the selected conversation appear here.",
-  },
-  {
-    selector: ".text-input",
-    content: "Type any message you want to send in this box. Press the enter key or the 'Send Message' button to send the message.",
-  },
-];
+{
+  selector: "#nothing",
+  content: "Messaging allows you to send text messages between people within your ship."
+},
+{
+  selector: ".message-dropdown",
+  content: "To send a message, click this button. A dropdown will appear showing you all of the options for places you can send your message."
+},
+{
+  selector: ".convoList",
+  content: "This is your list of current conversations. Click on a conversation to see that conversation on the right side."
+},
+{
+  selector: ".messages-list",
+  content: "The messages in the selected conversation appear here."
+},
+{
+  selector: ".text-input",
+  content: "Type any message you want to send in this box. Press the enter key or the 'Send Message' button to send the message."
+}];
+
 
 const SEND_MESSAGE = gql`
   mutation SendMessage($message: MessageInput!) {
     sendMessage(message: $message)
   }
 `;
-const Messaging = ({simulator, station, flight: {id: flightId}}) => {
+const Messaging = ({ simulator, station, flight: { id: flightId } }) => {
   const [messageInput, setMessageInput] = useFlightSessionStorage(
     flightId,
     "messagingMessageInput",
-    "",
+    ""
   );
   const [
-    selectedConversation,
-    setSelectedConversation,
-  ] = useFlightSessionStorage(flightId, "messagingSelectedConversation", null);
+  selectedConversation,
+  setSelectedConversation] =
+  useFlightSessionStorage(flightId, "messagingSelectedConversation", null);
 
   const messageHolder = React.useRef();
   // componentDidUpdate() {
@@ -117,9 +118,9 @@ const Messaging = ({simulator, station, flight: {id: flightId}}) => {
         simulatorId: simulator.id,
         destination: selectedConversation,
         sender: station.name,
-        content: messageInput,
-      },
-    },
+        content: messageInput
+      }
+    }
   });
   const sendMessage = () => {
     if (messageInput !== "") {
@@ -138,65 +139,65 @@ const Messaging = ({simulator, station, flight: {id: flightId}}) => {
     setTimeout(scrollElement, 100);
   }, []);
 
-  const {data, loading, subscribeToMore} = useQuery(MESSAGING_QUERY, {
-    variables: {simulatorId: simulator.id, station: station.name},
+  const { data, loading, subscribeToMore } = useQuery(MESSAGING_QUERY, {
+    variables: { simulatorId: simulator.id, station: station.name }
   });
   const config = React.useMemo(
     () => ({
-      variables: {simulatorId: simulator.id, station: station.name},
-      updateQuery: (previousResult, {subscriptionData}) => {
+      variables: { simulatorId: simulator.id, station: station.name },
+      updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data.sendMessage) return previousResult;
         setTimeout(scrollElement, 100);
         return Object.assign({}, previousResult, {
           messages: previousResult.messages.concat(
-            subscriptionData.data.sendMessage,
-          ),
+            subscriptionData.data.sendMessage
+          )
         });
-      },
+      }
     }),
-    [simulator.id, station.name],
+    [simulator.id, station.name]
   );
   useSubscribeToMore(subscribeToMore, MESSAGING_SUB, config);
-  const {data: teamsSub} = useSubscription(MESSAGING_TEAMS_SUB, {
-    variables: {simulatorId: simulator.id},
+  const { data: teamsSub } = useSubscription(MESSAGING_TEAMS_SUB, {
+    variables: { simulatorId: simulator.id }
   });
 
   if (loading) return null;
-  const {messages} = data;
+  const { messages } = data;
   const teams = teamsSub ? teamsSub.teamsUpdate : data.teams;
 
   const messageGroups = station.messageGroups;
-  const convoObj = messages
-    .filter(
-      m =>
-        !teams.find(
-          t =>
-            t.cleared === true &&
-            (t.name === m.sender || t.name === m.destination),
-        ),
+  const convoObj = messages.
+  filter(
+    (m) =>
+    !teams.find(
+      (t) =>
+      t.cleared === true && (
+      t.name === m.sender || t.name === m.destination)
     )
-    .reduce((prev, next) => {
-      if (next.sender === station.name) {
-        prev[next.destination] = Object.assign({}, next, {
-          convo: next.destination,
-        });
-      } else if (messageGroups.indexOf(next.destination) > -1) {
-        prev[next.destination] = Object.assign({}, next, {
-          convo: next.destination,
-        });
-      } else {
-        prev[next.sender] = Object.assign({}, next, {convo: next.sender});
-      }
-      return prev;
-    }, {});
+  ).
+  reduce((prev, next) => {
+    if (next.sender === station.name) {
+      prev[next.destination] = Object.assign({}, next, {
+        convo: next.destination
+      });
+    } else if (messageGroups.indexOf(next.destination) > -1) {
+      prev[next.destination] = Object.assign({}, next, {
+        convo: next.destination
+      });
+    } else {
+      prev[next.sender] = Object.assign({}, next, { convo: next.sender });
+    }
+    return prev;
+  }, {});
 
-  const conversations = Object.keys(convoObj)
-    .map(c => convoObj[c])
-    .sort((a, b) => {
-      if (new Date(a.timestamp) > new Date(b.timestamp)) return -1;
-      if (new Date(a.timestamp) < new Date(b.timestamp)) return 1;
-      return 0;
-    });
+  const conversations = Object.keys(convoObj).
+  map((c) => convoObj[c]).
+  sort((a, b) => {
+    if (new Date(a.timestamp) > new Date(b.timestamp)) return -1;
+    if (new Date(a.timestamp) < new Date(b.timestamp)) return 1;
+    return 0;
+  });
 
   return (
     <Container className="messages">
@@ -204,82 +205,82 @@ const Messaging = ({simulator, station, flight: {id: flightId}}) => {
         <Col sm={3}>
           <h4>Conversations</h4>
           <Card className="convoList">
-            {conversations.map(c => (
-              <li
-                className={`list-group-item ${
-                  c.convo === selectedConversation ? "selected" : ""
-                }`}
-                key={c.id}
-                onClick={() => setSelectedConversation(c.convo)}
-              >
+            {conversations.map((c) =>
+            <li
+              className={`list-group-item ${
+              c.convo === selectedConversation ? "selected" : ""}`
+              }
+              key={c.id}
+              onClick={() => setSelectedConversation(c.convo)}>
+              
                 <div>{c.convo}</div>
                 <div>
                   <small>
-                    {c.content
-                      ? `${c.content.substr(0, 25)}${
-                          c.content.length > 25 ? "..." : ""
-                        }`
-                      : null}
+                    {c.content ?
+                  `${c.content.substr(0, 25)}${
+                  c.content.length > 25 ? "..." : ""}` :
+
+                  null}
                   </small>
                 </div>
               </li>
-            ))}
+            )}
           </Card>
           <ConvoPicker
             simulator={simulator}
             station={station}
             setSelectedConversation={setSelectedConversation}
             messageGroups={messageGroups}
-            teams={teams}
-          />
+            teams={teams} />
+          
         </Col>
         <Col sm={9} className="messages-list">
           <h4>Messages</h4>
 
           <Card>
             <div className="message-holder" ref={messageHolder}>
-              {selectedConversation && (
-                <h2 className="convoHeader">
+              {selectedConversation &&
+              <h2 className="convoHeader">
                   Conversation with {selectedConversation}
                 </h2>
-              )}
-              {messages
-                .filter(
-                  m =>
-                    m.sender === selectedConversation ||
-                    m.destination === selectedConversation,
-                )
-                .map(m => (
-                  <p
-                    key={m.id}
-                    className={`message ${
-                      m.sender === station.name ? "sent" : ""
-                    }`}
-                  >
+              }
+              {messages.
+              filter(
+                (m) =>
+                m.sender === selectedConversation ||
+                m.destination === selectedConversation
+              ).
+              map((m) =>
+              <p
+                key={m.id}
+                className={`message ${
+                m.sender === station.name ? "sent" : ""}`
+                }>
+                
                     <strong>{m.sender}</strong>: {m.content}
                   </p>
-                ))}
+              )}
             </div>
           </Card>
           <form
             className="text-input"
             // eslint-disable-next-line
             action={"javascript:void(0);"}
-            onSubmit={sendMessage}
-          >
+            onSubmit={sendMessage}>
+            
             <InputGroup>
               <Input
                 data-testid="Messaging-Input"
                 disabled={!selectedConversation}
-                onChange={evt => setMessageInput(evt.target.value)}
-                value={messageInput}
-              />
+                onChange={(evt) => setMessageInput(evt.target.value)}
+                value={messageInput} />
+              
               <InputGroupAddon addonType="append">
                 <Button
                   disabled={!selectedConversation}
                   type="submit"
-                  color="primary"
-                >
+                  color="primary">
+                  
                   Send Message
                 </Button>
               </InputGroupAddon>
@@ -288,8 +289,8 @@ const Messaging = ({simulator, station, flight: {id: flightId}}) => {
         </Col>
       </Row>
       <Tour steps={trainingSteps} />
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default Messaging;
@@ -297,7 +298,7 @@ export default Messaging;
 export function scrollTo(element, to, duration) {
   if (duration <= 0) return;
   let difference = to - element.scrollTop;
-  let perTick = (difference / duration) * 10;
+  let perTick = difference / duration * 10;
 
   setTimeout(function () {
     element.scrollTop = element.scrollTop + perTick;

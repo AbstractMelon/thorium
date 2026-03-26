@@ -1,9 +1,11 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Container, Row, Col, Button, Media} from "helpers/reactstrap";
-import {graphql, withApollo, Mutation} from "react-apollo";
+import { Container, Row, Col, Button, Media } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {publish} from "helpers/pubsub";
+import { publish } from "helpers/pubsub";
 import CoreTargets from "./coreTargets";
 import "./style.scss";
 
@@ -79,15 +81,15 @@ class TargetingCore extends Component {
         name: "Target",
         size: 1,
         speed: 1,
-        quadrant: 1,
-      },
+        quadrant: 1
+      }
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  _removeTargetedContact = targetId => {
+  _removeTargetedContact = (targetId) => {
     const targeting = this.props.data.targeting[0];
     const mutation = gql`
       mutation RemoveTarget($id: ID!, $targetId: ID!) {
@@ -96,14 +98,14 @@ class TargetingCore extends Component {
     `;
     const variables = {
       id: targeting.id,
-      targetId,
+      targetId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  _setCoordinateTargeting = evt => {
+  _setCoordinateTargeting = (evt) => {
     const targeting = this.props.data.targeting[0];
     const mutation = gql`
       mutation SetCoordinateTargeting($id: ID!, $which: Boolean!) {
@@ -112,14 +114,14 @@ class TargetingCore extends Component {
     `;
     const variables = {
       id: targeting.id,
-      which: evt.target.checked,
+      which: evt.target.checked
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  untargetContact = targetId => {
+  untargetContact = (targetId) => {
     const targeting = this.props.data.targeting[0];
     const mutation = gql`
       mutation UntargetContact($systemId: ID!, $targetId: ID!) {
@@ -128,11 +130,11 @@ class TargetingCore extends Component {
     `;
     const variables = {
       systemId: targeting.id,
-      targetId,
+      targetId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   startRange = () => {
@@ -144,33 +146,33 @@ class TargetingCore extends Component {
     publish("setTargetingRange", null);
     document.removeEventListener("mouseup", this.endRange);
   };
-  changeRange = action => e => {
+  changeRange = (action) => (e) => {
     const targeting = this.props.data.targeting[0];
     publish("setTargetingRange", parseFloat(e.target.value));
     action({
-      variables: {id: targeting.id, range: parseFloat(e.target.value)},
+      variables: { id: targeting.id, range: parseFloat(e.target.value) }
     });
   };
   render() {
     if (this.props.data.loading || !this.props.data.targeting) return null;
     const targeting = this.props.data.targeting[0];
     if (!targeting) return <p>No Targeting Systems</p>;
-    const targetedContact = targeting.contacts.find(t => t.targeted);
+    const targetedContact = targeting.contacts.find((t) => t.targeted);
     return (
       <Container className="targeting-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: TARGETING_CORE_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  targeting: subscriptionData.data.targetingUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: TARGETING_CORE_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                targeting: subscriptionData.data.targetingUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={3}>Targeted System</Col>
           <Col sm={3}>
@@ -180,13 +182,13 @@ class TargetingCore extends Component {
                   clearAllTargetingContacts(id: $id)
                 }
               `}
-              variables={{id: targeting.id}}
-            >
-              {action => (
-                <Button color="secondary" size="sm" onClick={action}>
+              variables={{ id: targeting.id }}>
+              
+              {(action) =>
+              <Button color="secondary" size="sm" onClick={action}>
                   Clear All
                 </Button>
-              )}
+              }
             </Mutation>
           </Col>
           <Col sm={3}>
@@ -194,14 +196,14 @@ class TargetingCore extends Component {
               <input
                 type="checkbox"
                 onChange={this._setCoordinateTargeting}
-                checked={targeting.coordinateTargeting}
-              />{" "}
+                checked={targeting.coordinateTargeting} />
+              {" "}
               Coordinate Targeting
             </label>
           </Col>
           <Col sm={3}>
-            <div style={{display: "flex"}}>
-              <div style={{flex: 2}}>
+            <div style={{ display: "flex" }}>
+              <div style={{ flex: 2 }}>
                 Range: {Math.round(targeting.range * 100)}%{" "}
               </div>
               <Mutation
@@ -209,73 +211,73 @@ class TargetingCore extends Component {
                   mutation SetRange($id: ID!, $range: Float!) {
                     setTargetingRange(id: $id, range: $range)
                   }
-                `}
-              >
-                {action => (
-                  <input
-                    style={{flex: 3}}
-                    type="range"
-                    defaultValue={targeting.range}
-                    onMouseDown={this.startRange}
-                    onChange={this.changeRange(action)}
-                    min="0"
-                    max="1"
-                    step="0.01"
-                  />
-                )}
+                `}>
+                
+                {(action) =>
+                <input
+                  style={{ flex: 3 }}
+                  type="range"
+                  defaultValue={targeting.range}
+                  onMouseDown={this.startRange}
+                  onChange={this.changeRange(action)}
+                  min="0"
+                  max="1"
+                  step="0.01" />
+
+                }
               </Mutation>
             </div>
           </Col>
         </Row>
-        {targeting.coordinateTargeting ? (
+        {targeting.coordinateTargeting ?
+        <div>
+            {targeting.targetedSensorContact ?
           <div>
-            {targeting.targetedSensorContact ? (
-              <div>
                 <p>Targeted Contact</p>
                 <Media>
                   <Media left href="#">
                     <Media
-                      object
-                      src={`/assets${targeting.targetedSensorContact.picture}`}
-                      alt="Targeted Contact Image"
-                    />
+                  object
+                  src={`/assets${targeting.targetedSensorContact.picture}`}
+                  alt="Targeted Contact Image" />
+                
                   </Media>
                   <Media body>{targeting.targetedSensorContact.name}</Media>
                 </Media>
                 <Button
-                  block
-                  color="warning"
-                  size="sm"
-                  onClick={() =>
-                    this.untargetContact(targeting.targetedSensorContact.id)
-                  }
-                >
+              block
+              color="warning"
+              size="sm"
+              onClick={() =>
+              this.untargetContact(targeting.targetedSensorContact.id)
+              }>
+              
                   Unlock Target
                 </Button>
-              </div>
-            ) : (
-              <p>No target</p>
-            )}
-          </div>
-        ) : (
-          <CoreTargets
-            targetedContact={targetedContact}
-            removeTargetedContact={this._removeTargetedContact}
-            addTargetClass={this._addTargetClass}
-            targeting={targeting}
-          />
-        )}
-      </Container>
-    );
+              </div> :
+
+          <p>No target</p>
+          }
+          </div> :
+
+        <CoreTargets
+          targetedContact={targetedContact}
+          removeTargetedContact={this._removeTargetedContact}
+          addTargetClass={this._addTargetClass}
+          targeting={targeting} />
+
+        }
+      </Container>);
+
   }
 }
 
 export default graphql(TARGETING_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
 
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(TargetingCore));

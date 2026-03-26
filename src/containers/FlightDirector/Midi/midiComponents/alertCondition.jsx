@@ -3,7 +3,8 @@ import useQueryAndSubscription from "helpers/hooks/useQueryAndSubscribe";
 import gql from "graphql-tag.macro";
 import Slider from "./slider";
 import Button from "./button";
-import {useMutation} from "react-apollo";
+import { useMutation } from "@apollo/client";
+
 
 const ALERT_CORE_SUB = gql`
   subscription SimulatorsSub($id: ID) {
@@ -29,40 +30,40 @@ const CHANGE_ALERT_LEVEL = gql`
   }
 `;
 
-export const AlertConditionSlider = ({simulator}) => {
-  const {loading, data} = useQueryAndSubscription(
-    {query: ALERT_CORE_QUERY, variables: {id: simulator.id}},
-    {query: ALERT_CORE_SUB, variables: {id: simulator.id}},
+export const AlertConditionSlider = ({ simulator }) => {
+  const { loading, data } = useQueryAndSubscription(
+    { query: ALERT_CORE_QUERY, variables: { id: simulator.id } },
+    { query: ALERT_CORE_SUB, variables: { id: simulator.id } }
   );
   const [changeAlertLevel] = useMutation(CHANGE_ALERT_LEVEL);
   const alertLevel = parseInt(loading ? 5 : data.simulators[0].alertlevel, 10);
 
   function updateAlertLevel(value) {
-    const aVal = Math.max(1, Math.round((value / 127) * 5));
+    const aVal = Math.max(1, Math.round(value / 127 * 5));
     if (aVal !== alertLevel) {
-      changeAlertLevel({variables: {id: simulator.id, level: String(aVal)}});
+      changeAlertLevel({ variables: { id: simulator.id, level: String(aVal) } });
     }
   }
   return (
     <Slider
       controllerNumber={81}
       setValue={updateAlertLevel}
-      value={(alertLevel / 5) * 127}
-    />
-  );
+      value={alertLevel / 5 * 127} />);
+
+
 };
 
-export const AlertConditionButton = ({simulator, controllerNumber, level}) => {
-  const {loading, data} = useQueryAndSubscription(
-    {query: ALERT_CORE_QUERY, variables: {id: simulator.id}},
-    {query: ALERT_CORE_SUB, variables: {id: simulator.id}},
+export const AlertConditionButton = ({ simulator, controllerNumber, level }) => {
+  const { loading, data } = useQueryAndSubscription(
+    { query: ALERT_CORE_QUERY, variables: { id: simulator.id } },
+    { query: ALERT_CORE_SUB, variables: { id: simulator.id } }
   );
   const [changeAlertLevel] = useMutation(CHANGE_ALERT_LEVEL);
   const alertLevel = loading ? "5" : data.simulators[0].alertlevel;
 
   function updateAlertLevel(value) {
     if (value > 0) {
-      changeAlertLevel({variables: {id: simulator.id, level}});
+      changeAlertLevel({ variables: { id: simulator.id, level } });
     }
   }
 
@@ -70,7 +71,7 @@ export const AlertConditionButton = ({simulator, controllerNumber, level}) => {
     <Button
       controllerNumber={controllerNumber}
       setValue={updateAlertLevel}
-      value={alertLevel === level ? 127 : 0}
-    ></Button>
-  );
+      value={alertLevel === level ? 127 : 0}>
+    </Button>);
+
 };

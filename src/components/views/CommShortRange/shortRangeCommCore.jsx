@@ -1,18 +1,19 @@
-import React, {Component} from "react";
-import {Container, Row, Col, ButtonGroup, Button} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Container, Row, Col, ButtonGroup, Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 
 class CommShortRange extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedCall: null,
-      selectedArrow: null,
+      selectedArrow: null
     };
   }
   _commHail = () => {
-    const {id} = this.props;
+    const { id } = this.props;
     const mutation = gql`
       mutation CommAddArrow($id: ID!, $commArrowInput: CommArrowInput!) {
         commAddArrow(id: $id, commArrowInput: $commArrowInput)
@@ -21,16 +22,16 @@ class CommShortRange extends Component {
     const variables = {
       id,
       commArrowInput: {
-        signal: this.state.selectedCall,
-      },
+        signal: this.state.selectedCall
+      }
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   _commCancel = () => {
-    const {id} = this.props;
+    const { id } = this.props;
     const mutation = gql`
       mutation CommRemoveArrow($id: ID!, $arrowId: ID!) {
         commRemoveArrow(id: $id, arrowId: $arrowId)
@@ -38,121 +39,121 @@ class CommShortRange extends Component {
     `;
     const variables = {
       id,
-      arrowId: this.state.selectedArrow,
+      arrowId: this.state.selectedArrow
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     this.setState({
-      selectedArrow: null,
+      selectedArrow: null
     });
   };
   _commConnect = () => {
-    const {id} = this.props;
+    const { id } = this.props;
     const mutation = gql`
       mutation CommConnectHail($id: ID!) {
         connectHail(id: $id)
       }
     `;
     const variables = {
-      id,
+      id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   commReject = () => {
-    const {id} = this.props;
+    const { id } = this.props;
     const mutation = gql`
       mutation CancelHail($id: ID!) {
         cancelHail(id: $id, core: true)
       }
     `;
     const variables = {
-      id,
+      id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   getSignal() {
-    const {signals, frequency} = this.props;
+    const { signals, frequency } = this.props;
     return signals.reduce((prev, next) => {
       if (next.range.upper > frequency && next.range.lower < frequency)
-        return next;
+      return next;
       return prev;
     }, {});
   }
   render() {
-    const {selectedCall, selectedArrow} = this.state;
-    const {frequency, amplitude, state, signals, arrows} = this.props;
+    const { selectedCall, selectedArrow } = this.state;
+    const { frequency, amplitude, state, signals, arrows } = this.props;
     return (
       <Container fluid className="shortRangeComm-core">
         <Row>
-          <Col sm="12" style={{height: "100%"}}>
+          <Col sm="12" style={{ height: "100%" }}>
             <p>
               Freq: {Math.round(frequency * 37700 + 37700) / 100} MHz - Amp:{" "}
               {Math.round(amplitude * 100) / 100} - {this.getSignal().name}
             </p>
             <div>
               External Call
-              {state === "hailing" ? (
-                <ButtonGroup>
+              {state === "hailing" ?
+              <ButtonGroup>
                   <Button onClick={this._commConnect} size="sm" color="info">
                     Hailing - Connect
                   </Button>
                   <Button onClick={this.commReject} size="sm" color="warning">
                     Reject
                   </Button>
-                </ButtonGroup>
-              ) : null}
+                </ButtonGroup> :
+              null}
             </div>
             <select
               value={selectedCall || ""}
-              onChange={e => {
-                this.setState({selectedCall: e.target.value});
-              }}
-            >
+              onChange={(e) => {
+                this.setState({ selectedCall: e.target.value });
+              }}>
+              
               <option value={null}>---</option>
               {signals.length === 0 && <option value="random">Random</option>}
-              {signals.map(s => {
+              {signals.map((s) => {
                 return (
                   <option key={s.id} value={s.id}>
                     {s.name}
-                  </option>
-                );
+                  </option>);
+
               })}
             </select>
             <Button
               size="sm"
               color="primary"
               disabled={!selectedCall}
-              onClick={this._commHail}
-            >
+              onClick={this._commHail}>
+              
               Hail
             </Button>
             <p>Current Comms</p>
             <div className="commList">
-              {arrows.map(a => {
-                const signal = signals.find(s => s.id === a.signal);
+              {arrows.map((a) => {
+                const signal = signals.find((s) => s.id === a.signal);
                 return (
                   <p
                     key={a.id}
                     onClick={() => {
-                      this.setState({selectedArrow: a.id});
+                      this.setState({ selectedArrow: a.id });
                     }}
                     className={`${a.connected ? "text-success" : ""} ${
-                      a.muted ? "text-purple" : ""
-                    } ${a.id === selectedArrow ? "selected" : ""}`}
-                  >
+                    a.muted ? "text-purple" : ""} ${
+                    a.id === selectedArrow ? "selected" : ""}`}>
+                    
                     {signal && signal.name} -{" "}
                     {Math.round(a.frequency * 37700 + 37700) / 100} MHz
                     {a.muted && ` - Muted`}
-                  </p>
-                );
+                  </p>);
+
               })}
             </div>
             <Button
@@ -160,14 +161,14 @@ class CommShortRange extends Component {
               onClick={this._commCancel}
               size="sm"
               block
-              color="primary"
-            >
+              color="primary">
+              
               Cancel
             </Button>
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 

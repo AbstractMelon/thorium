@@ -1,8 +1,9 @@
 import React from "react";
-import {FormGroup, Label, Input} from "helpers/reactstrap";
+import { FormGroup, Label, Input } from "helpers/reactstrap";
 import GenericSystemConfig from "./Generic";
 import gql from "graphql-tag.macro";
-import {Mutation, Query} from "react-apollo";
+import { Mutation, Query } from "@apollo/client/react/components";
+
 
 const PHASER_QUERY = gql`
   query Phaser($id: ID!) {
@@ -16,18 +17,18 @@ const PHASER_QUERY = gql`
     }
   }
 `;
-const Phasers = props => {
-  const {id} = props;
+const Phasers = (props) => {
+  const { id } = props;
   return (
     <GenericSystemConfig {...props}>
-      <Query query={PHASER_QUERY} variables={{id}}>
-        {({data, loading}) => {
+      <Query query={PHASER_QUERY} variables={{ id }}>
+        {({ data, loading }) => {
           if (loading) return null;
-          const {phaser} = data;
+          const { phaser } = data;
           return (
             <FormGroup className="beams">
               <div>
-                <Label style={{display: "inline-block"}}>
+                <Label style={{ display: "inline-block" }}>
                   Beams: {phaser.beams.length}
                   <Mutation
                     mutation={gql`
@@ -35,29 +36,29 @@ const Phasers = props => {
                         setPhaserBeamCount(id: $id, beamCount: $count)
                       }
                     `}
-                    refetchQueries={[{query: PHASER_QUERY, variables: {id}}]}
-                  >
-                    {action => (
-                      <Input
-                        type="range"
-                        min="1"
-                        max="12"
-                        defaultValue={phaser.beams.length}
-                        onMouseUp={evt => {
-                          action({
-                            variables: {
-                              id,
-                              count: parseInt(evt.target.value, 10),
-                            },
-                          });
-                        }}
-                      />
-                    )}
+                    refetchQueries={[{ query: PHASER_QUERY, variables: { id } }]}>
+                    
+                    {(action) =>
+                    <Input
+                      type="range"
+                      min="1"
+                      max="12"
+                      defaultValue={phaser.beams.length}
+                      onMouseUp={(evt) => {
+                        action({
+                          variables: {
+                            id,
+                            count: parseInt(evt.target.value, 10)
+                          }
+                        });
+                      }} />
+
+                    }
                   </Mutation>
                 </Label>
               </div>
               <div>
-                <Label style={{display: "inline-block"}}>
+                <Label style={{ display: "inline-block" }}>
                   Hold To Charge:
                   <Mutation
                     mutation={gql`
@@ -68,25 +69,25 @@ const Phasers = props => {
                         )
                       }
                     `}
-                    refetchQueries={[{query: PHASER_QUERY, variables: {id}}]}
-                  >
-                    {action => (
-                      <Input
-                        type="checkbox"
-                        style={{padding: 0, margin: 0}}
-                        defaultChecked={phaser.holdToCharge}
-                        onChange={evt => {
-                          action({
-                            variables: {id, holdToCharge: evt.target.checked},
-                          });
-                        }}
-                      />
-                    )}
+                    refetchQueries={[{ query: PHASER_QUERY, variables: { id } }]}>
+                    
+                    {(action) =>
+                    <Input
+                      type="checkbox"
+                      style={{ padding: 0, margin: 0 }}
+                      defaultChecked={phaser.holdToCharge}
+                      onChange={(evt) => {
+                        action({
+                          variables: { id, holdToCharge: evt.target.checked }
+                        });
+                      }} />
+
+                    }
                   </Mutation>
                 </Label>
               </div>
               <div>
-                <Label style={{display: "inline-block"}}>
+                <Label style={{ display: "inline-block" }}>
                   <span>
                     Charge Speed (only for hold to charge, lower is slower):{" "}
                     {phaser.chargeSpeed}
@@ -96,34 +97,34 @@ const Phasers = props => {
                           setPhaserChargeSpeed(id: $id, speed: $speed)
                         }
                       `}
-                      refetchQueries={[{query: PHASER_QUERY, variables: {id}}]}
-                    >
-                      {action => (
-                        <Input
-                          type="range"
-                          min="0.05"
-                          max="3"
-                          step="0.01"
-                          defaultValue={phaser.chargeSpeed}
-                          onMouseUp={evt => {
-                            action({
-                              variables: {
-                                id,
-                                speed: parseFloat(evt.target.value),
-                              },
-                            });
-                          }}
-                        />
-                      )}
+                      refetchQueries={[{ query: PHASER_QUERY, variables: { id } }]}>
+                      
+                      {(action) =>
+                      <Input
+                        type="range"
+                        min="0.05"
+                        max="3"
+                        step="0.01"
+                        defaultValue={phaser.chargeSpeed}
+                        onMouseUp={(evt) => {
+                          action({
+                            variables: {
+                              id,
+                              speed: parseFloat(evt.target.value)
+                            }
+                          });
+                        }} />
+
+                      }
                     </Mutation>
                   </span>
                 </Label>
               </div>
-            </FormGroup>
-          );
+            </FormGroup>);
+
         }}
       </Query>
-    </GenericSystemConfig>
-  );
+    </GenericSystemConfig>);
+
 };
 export default Phasers;

@@ -1,51 +1,52 @@
-import React, {Fragment, Component} from "react";
-import {Button, Input, Label} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { Fragment, Component } from "react";
+import { Button, Input, Label } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {publish} from "helpers/pubsub";
+import { publish } from "helpers/pubsub";
 
 import "./style.scss";
 
 const speeds = [
-  {value: "1000", label: "Instant"},
-  {value: "5", label: "Warp"},
-  {value: "1", label: "Very Fast"},
-  {value: "0.6", label: "Fast"},
-  {value: "0.4", label: "Moderate"},
-  {value: "0.2", label: "Slow"},
-  {value: "0.05", label: "Very Slow"},
-];
+{ value: "1000", label: "Instant" },
+{ value: "5", label: "Warp" },
+{ value: "1", label: "Very Fast" },
+{ value: "0.6", label: "Fast" },
+{ value: "0.4", label: "Moderate" },
+{ value: "0.2", label: "Slow" },
+{ value: "0.05", label: "Very Slow" }];
+
 
 class BattleCore extends Component {
-  updateSpeed = action => e => {
-    const {sensors} = this.props;
+  updateSpeed = (action) => (e) => {
+    const { sensors } = this.props;
     action({
       variables: {
         id: sensors.id,
-        speed: parseFloat(e.target.value),
-      },
+        speed: parseFloat(e.target.value)
+      }
     });
   };
-  updateHitpoints = action => e => {
-    const {sensors} = this.props;
+  updateHitpoints = (action) => (e) => {
+    const { sensors } = this.props;
     action({
       variables: {
         id: sensors.id,
-        hitpoints: parseFloat(e.target.value),
-      },
+        hitpoints: parseFloat(e.target.value)
+      }
     });
   };
-  updateMissPercent = action => e => {
-    const {sensors} = this.props;
+  updateMissPercent = (action) => (e) => {
+    const { sensors } = this.props;
     action({
       variables: {
         id: sensors.id,
-        miss: parseFloat(e.target.value),
-      },
+        miss: parseFloat(e.target.value)
+      }
     });
   };
   render() {
-    const {contacts, simulator, sensors} = this.props;
+    const { contacts, simulator, sensors } = this.props;
     if (!sensors) return <p>No Sensors</p>;
     return (
       <div className="battle-core">
@@ -56,22 +57,22 @@ class BattleCore extends Component {
               mutation UpdateSpeed($id: ID!, $speed: Float!) {
                 setSensorsDefaultSpeed(id: $id, speed: $speed)
               }
-            `}
-          >
-            {action => (
-              <Input
-                type="select"
-                name="select"
-                onChange={this.updateSpeed(action)}
-                defaultValue={sensors.defaultSpeed}
-              >
-                {speeds.map(s => (
-                  <option key={s.value} value={s.value}>
+            `}>
+            
+            {(action) =>
+            <Input
+              type="select"
+              name="select"
+              onChange={this.updateSpeed(action)}
+              defaultValue={sensors.defaultSpeed}>
+              
+                {speeds.map((s) =>
+              <option key={s.value} value={s.value}>
                     {s.label}
                   </option>
-                ))}
+              )}
               </Input>
-            )}
+            }
           </Mutation>
         </div>
         <div className="flex-row ">
@@ -83,17 +84,17 @@ class BattleCore extends Component {
               mutation UpdateHP($id: ID!, $hitpoints: Int!) {
                 setSensorsDefaultHitpoints(id: $id, hp: $hitpoints)
               }
-            `}
-          >
-            {action => (
-              <Input
-                type="range"
-                min="1"
-                max="10"
-                defaultValue={sensors.defaultHitpoints}
-                onChange={this.updateHitpoints(action)}
-              />
-            )}
+            `}>
+            
+            {(action) =>
+            <Input
+              type="range"
+              min="1"
+              max="10"
+              defaultValue={sensors.defaultHitpoints}
+              onChange={this.updateHitpoints(action)} />
+
+            }
           </Mutation>
         </div>
         <div className="flex-row">
@@ -108,33 +109,33 @@ class BattleCore extends Component {
               mutation UpdateMissPercent($id: ID!, $miss: Float!) {
                 setSensorsMissPercent(id: $id, miss: $miss)
               }
-            `}
-          >
-            {action => (
-              <Input
-                type="range"
-                min="0"
-                max="1"
-                step={0.01}
-                defaultValue={sensors.missPercent}
-                onChange={this.updateMissPercent(action)}
-              />
-            )}
+            `}>
+            
+            {(action) =>
+            <Input
+              type="range"
+              min="0"
+              max="1"
+              step={0.01}
+              defaultValue={sensors.missPercent}
+              onChange={this.updateMissPercent(action)} />
+
+            }
           </Mutation>
         </div>
         <div className="flex-max">
-          {contacts.map(c => (
-            <div key={c.id} className="flex-row">
+          {contacts.map((c) =>
+          <div key={c.id} className="flex-row">
               <img
-                onMouseEnter={() => publish("battle-contact-hover", {id: c.id})}
-                onMouseLeave={() => publish("battle-contact-leave", {id: c.id})}
-                src={`/assets${c.icon}`}
-                draggable="false"
-                alt="Hostile Contact"
-              />
+              onMouseEnter={() => publish("battle-contact-hover", { id: c.id })}
+              onMouseLeave={() => publish("battle-contact-leave", { id: c.id })}
+              src={`/assets${c.icon}`}
+              draggable="false"
+              alt="Hostile Contact" />
+            
               <span>{c.name}</span>
               <Mutation
-                mutation={gql`
+              mutation={gql`
                   mutation FireProjectile(
                     $simulatorId: ID!
                     $contactId: ID!
@@ -150,51 +151,51 @@ class BattleCore extends Component {
                       miss: $miss
                     )
                   }
-                `}
-              >
-                {action => (
-                  <Fragment>
+                `}>
+              
+                {(action) =>
+              <Fragment>
                     <Button
-                      size="sm"
-                      color="warning"
-                      onClick={() => {
-                        action({
-                          variables: {
-                            simulatorId: simulator.id,
-                            contactId: c.id,
-                            speed: sensors.defaultSpeed,
-                            hitpoints: sensors.defaultHitpoints,
-                            miss: false,
-                          },
-                        });
-                      }}
-                    >
+                  size="sm"
+                  color="warning"
+                  onClick={() => {
+                    action({
+                      variables: {
+                        simulatorId: simulator.id,
+                        contactId: c.id,
+                        speed: sensors.defaultSpeed,
+                        hitpoints: sensors.defaultHitpoints,
+                        miss: false
+                      }
+                    });
+                  }}>
+                  
                       Fire
                     </Button>
                     <Button
-                      size="sm"
-                      color="info"
-                      onClick={() => {
-                        action({
-                          variables: {
-                            simulatorId: simulator.id,
-                            contactId: c.id,
-                            speed: sensors.defaultSpeed,
-                            hitpoints: sensors.defaultHitpoints,
-                            miss: true,
-                          },
-                        });
-                      }}
-                    >
+                  size="sm"
+                  color="info"
+                  onClick={() => {
+                    action({
+                      variables: {
+                        simulatorId: simulator.id,
+                        contactId: c.id,
+                        speed: sensors.defaultSpeed,
+                        hitpoints: sensors.defaultHitpoints,
+                        miss: true
+                      }
+                    });
+                  }}>
+                  
                       Miss
                     </Button>
                   </Fragment>
-                )}
+              }
               </Mutation>
               <Label check>
                 Auto-fire
                 <Mutation
-                  mutation={gql`
+                mutation={gql`
                     mutation SensorContact(
                       $simulatorId: ID!
                       $id: ID!
@@ -206,28 +207,28 @@ class BattleCore extends Component {
                       )
                     }
                   `}
-                  variables={{
-                    simulatorId: simulator.id,
-                    id: c.id,
-                    autoFire: !c.autoFire,
-                  }}
-                >
-                  {action => (
-                    <Input
-                      checked={c.autoFire}
-                      onChange={action}
-                      style={{margin: "0 2px"}}
-                      type="checkbox"
-                    />
-                  )}
+                variables={{
+                  simulatorId: simulator.id,
+                  id: c.id,
+                  autoFire: !c.autoFire
+                }}>
+                
+                  {(action) =>
+                <Input
+                  checked={c.autoFire}
+                  onChange={action}
+                  style={{ margin: "0 2px" }}
+                  type="checkbox" />
+
+                }
                 </Mutation>
               </Label>
             </div>
-          ))}
+          )}
           <small>Hover icon to highlight sensor contact</small>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 }
 export default BattleCore;

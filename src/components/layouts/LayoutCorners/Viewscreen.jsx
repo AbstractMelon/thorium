@@ -1,11 +1,12 @@
 import React from "react";
 import Views from "components/views";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import "./layout.scss";
 import "./theme.scss";
 
-const Viewscreen = withApollo(props => {
-  let {simulator, station} = props;
+const Viewscreen = withApollo((props) => {
+  let { simulator, station } = props;
   let alertClass = `alertColor${simulator.alertlevel || 5}`;
   return (
     <div className="viewscreen">
@@ -28,8 +29,8 @@ const Viewscreen = withApollo(props => {
           <h2 className="station-name">{station.name}</h2>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 });
 
 export default Viewscreen;

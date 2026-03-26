@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Mutation} from "react-apollo";
+import React, { Component } from "react";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import {
   Button,
@@ -9,14 +10,14 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-} from "helpers/reactstrap";
+  ModalFooter } from
+"helpers/reactstrap";
 
 class AddUserModal extends Component {
   state = {};
   render() {
-    const {name, password, level} = this.state;
-    const {id, modal, toggle} = this.props;
+    const { name, password, level } = this.state;
+    const { id, modal, toggle } = this.props;
     return (
       <Modal isOpen={modal} toggle={toggle} className="modal-themed">
         <ModalHeader toggle={toggle}>Create User</ModalHeader>
@@ -25,8 +26,8 @@ class AddUserModal extends Component {
             <Label>Username</Label>
             <Input
               value={name}
-              onChange={e => this.setState({name: e.target.value})}
-            />
+              onChange={(e) => this.setState({ name: e.target.value })} />
+            
           </FormGroup>
           <FormGroup>
             <Label>Password</Label>
@@ -34,31 +35,31 @@ class AddUserModal extends Component {
               type="text"
               className="txtPassword"
               value={password}
-              onChange={e => this.setState({password: e.target.value})}
-            />
+              onChange={(e) => this.setState({ password: e.target.value })} />
+            
           </FormGroup>
           <FormGroup>
             <Label>Level</Label>
             <Input
               type="select"
               value={level || ""}
-              style={{padding: 0}}
-              onChange={e => this.setState({level: e.target.value})}
-            >
-              <option value="" disabled style={{color: "black"}}>
+              style={{ padding: 0 }}
+              onChange={(e) => this.setState({ level: e.target.value })}>
+              
+              <option value="" disabled style={{ color: "black" }}>
                 Select a Level
               </option>
-              {Array(10)
-                .fill(0)
-                .map((_, i) => (
-                  <option
-                    key={`level-pick-${i}`}
-                    value={i + 1}
-                    style={{color: "black"}}
-                  >
+              {Array(10).
+              fill(0).
+              map((_, i) =>
+              <option
+                key={`level-pick-${i}`}
+                value={i + 1}
+                style={{ color: "black" }}>
+                
                     Level {i + 1}
                   </option>
-                ))}
+              )}
             </Input>
           </FormGroup>
         </ModalBody>
@@ -73,28 +74,28 @@ class AddUserModal extends Component {
             `}
             variables={{
               id,
-              user: {name, password, level: parseInt(level, 10)},
-            }}
-          >
-            {action => (
-              <Button
-                disabled={!level || !name || !password}
-                color="primary"
-                onClick={() => {
-                  action();
-                  toggle();
-                }}
-              >
+              user: { name, password, level: parseInt(level, 10) }
+            }}>
+            
+            {(action) =>
+            <Button
+              disabled={!level || !name || !password}
+              color="primary"
+              onClick={() => {
+                action();
+                toggle();
+              }}>
+              
                 Create User
               </Button>
-            )}
+            }
           </Mutation>
           <Button color="secondary" onClick={toggle}>
             Cancel
           </Button>
         </ModalFooter>
-      </Modal>
-    );
+      </Modal>);
+
   }
 }
 

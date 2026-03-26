@@ -1,10 +1,11 @@
 import React from "react";
 import gql from "graphql-tag.macro";
 import useQueryAndSubscription from "helpers/hooks/useQueryAndSubscribe";
-import {Container, ListGroup, ListGroupItem, Button} from "reactstrap";
+import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import "./style.scss";
-import {useMutation} from "react-apollo";
-import {stardate} from "components/views/OfficerLog";
+import { useMutation } from "@apollo/client";
+
+import { stardate } from "components/views/OfficerLog";
 
 const fragment = gql`
   fragment RecordTemplate on RecordSnippet {
@@ -56,24 +57,24 @@ const RENAME_TEMPLATE = gql`
 `;
 
 const Records = () => {
-  const {data, loading} = useQueryAndSubscription(
-    {query: QUERY},
-    {query: SUBSCRIPTION},
+  const { data, loading } = useQueryAndSubscription(
+    { query: QUERY },
+    { query: SUBSCRIPTION }
   );
   const [selectedTemplate, setSelectedTemplate] = React.useState(null);
   const [selectedRecord, setSelectedRecord] = React.useState(null);
 
   const [addTemplate] = useMutation(ADD_TEMPLATE);
   const [removeTemplate] = useMutation(REMOVE_TEMPLATE, {
-    variables: {id: selectedTemplate},
+    variables: { id: selectedTemplate }
   });
   const [renameTemplate] = useMutation(RENAME_TEMPLATE);
   if (loading || !data) return <p>Loading...</p>;
-  const {recordTemplates} = data;
+  const { recordTemplates } = data;
 
-  const templateObj = recordTemplates.find(r => r.id === selectedTemplate);
+  const templateObj = recordTemplates.find((r) => r.id === selectedTemplate);
   const recordObj =
-    templateObj && templateObj.records.find(r => r.id === selectedRecord);
+  templateObj && templateObj.records.find((r) => r.id === selectedRecord);
 
   function updateRecord(id, values) {}
   return (
@@ -82,15 +83,15 @@ const Records = () => {
       <div className="records-row">
         <div className="records-list">
           <ListGroup>
-            {recordTemplates.map(r => (
-              <ListGroupItem
-                key={r.id}
-                active={r.id === selectedTemplate}
-                onClick={() => setSelectedTemplate(r.id)}
-              >
+            {recordTemplates.map((r) =>
+            <ListGroupItem
+              key={r.id}
+              active={r.id === selectedTemplate}
+              onClick={() => setSelectedTemplate(r.id)}>
+              
                 {r.name}
               </ListGroupItem>
-            ))}
+            )}
           </ListGroup>
           <Button
             color="success"
@@ -98,67 +99,67 @@ const Records = () => {
             block
             onClick={() => {
               const name = window.prompt(
-                "What is the name of the new record template?",
+                "What is the name of the new record template?"
               );
               if (!name) return;
-              addTemplate({variables: {name}});
-            }}
-          >
+              addTemplate({ variables: { name } });
+            }}>
+            
             Add Record Template
           </Button>
-          {selectedTemplate && (
-            <>
+          {selectedTemplate &&
+          <>
               <Button
-                color="danger"
-                size="sm"
-                block
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      "Are you sure you want to remove this record template?",
-                    )
-                  ) {
-                    removeTemplate();
-                    setSelectedTemplate(null);
-                  }
-                }}
-              >
+              color="danger"
+              size="sm"
+              block
+              onClick={() => {
+                if (
+                window.confirm(
+                  "Are you sure you want to remove this record template?"
+                ))
+                {
+                  removeTemplate();
+                  setSelectedTemplate(null);
+                }
+              }}>
+              
                 Remove Record Template
               </Button>
               <Button
-                color="warning"
-                size="sm"
-                block
-                onClick={() => {
-                  const name = window.prompt(
-                    "What is the new name of the interface?",
-                    recordObj.name,
-                  );
-                  if (!name) return;
-                  renameTemplate({
-                    variables: {id: selectedTemplate, name},
-                  });
-                }}
-              >
+              color="warning"
+              size="sm"
+              block
+              onClick={() => {
+                const name = window.prompt(
+                  "What is the new name of the interface?",
+                  recordObj.name
+                );
+                if (!name) return;
+                renameTemplate({
+                  variables: { id: selectedTemplate, name }
+                });
+              }}>
+              
                 Rename Record Template
               </Button>
             </>
-          )}
+          }
         </div>
         <div className="records">
-          {templateObj && (
-            <>
+          {templateObj &&
+          <>
               <h3>Records</h3>
               <ListGroup>
-                {templateObj.records.map(r => (
-                  <ListGroupItem
-                    key={r.id}
-                    active={r.id === selectedRecord}
-                    onClick={() => setSelectedRecord(r.id)}
-                  >
+                {templateObj.records.map((r) =>
+              <ListGroupItem
+                key={r.id}
+                active={r.id === selectedRecord}
+                onClick={() => setSelectedRecord(r.id)}>
+                
                     {r.category} - {stardate(r.timestamp)}
                   </ListGroupItem>
-                ))}
+              )}
               </ListGroup>
               <select className="btn btn-primary btn-block" value="first">
                 <option value="first" disabled>
@@ -180,22 +181,22 @@ const Records = () => {
                 <option value="add">Create one...</option>
               </select>
             </>
-          )}
+          }
         </div>
         <div className="records-config">
-          {recordObj && (
-            <>
+          {recordObj &&
+          <>
               <h3>Config</h3>
               <div>
                 <label>
                   Category
                   <select
-                    className="btn btn-primary btn-block"
-                    value={recordObj.category}
-                    onChange={e =>
-                      updateRecord(recordObj.id, {category: e.target.value})
-                    }
-                  >
+                  className="btn btn-primary btn-block"
+                  value={recordObj.category}
+                  onChange={(e) =>
+                  updateRecord(recordObj.id, { category: e.target.value })
+                  }>
+                  
                     <option value="Engines">Engines</option>
                     <option value="Navigation">Navigation</option>
                     <option value="Weapons">Weapons</option>
@@ -214,22 +215,22 @@ const Records = () => {
                 <label>
                   Contents
                   <textarea
-                    value={recordObj.contents}
-                    onChange={e =>
-                      updateRecord(recordObj.id, {contents: e.target.value})
-                    }
-                  ></textarea>
+                  value={recordObj.contents}
+                  onChange={(e) =>
+                  updateRecord(recordObj.id, { contents: e.target.value })
+                  }>
+                </textarea>
                 </label>
               </div>
               <div>
                 <label>
                   <input
-                    type="checkbox"
-                    checked={recordObj.modified}
-                    onChange={e =>
-                      updateRecord(recordObj.id, {modified: e.target.checked})
-                    }
-                  />{" "}
+                  type="checkbox"
+                  checked={recordObj.modified}
+                  onChange={(e) =>
+                  updateRecord(recordObj.id, { modified: e.target.checked })
+                  } />
+                {" "}
                   Modified
                   <small>
                     Indicates if a record was modified. This can be detected by
@@ -238,11 +239,11 @@ const Records = () => {
                 </label>
               </div>
             </>
-          )}
+          }
         </div>
       </div>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default Records;

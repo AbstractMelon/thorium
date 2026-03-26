@@ -1,13 +1,14 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Cores} from "../";
-import {Button, ButtonGroup} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Cores } from "../";
+import { Button, ButtonGroup } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import CoreFeedConfig from "./config";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 import "./style.scss";
-import {FaTimes} from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
 export const COREFEED_SUB = gql`
   subscription CoreFeedUpdate($simulatorId: ID) {
@@ -29,23 +30,23 @@ class CoreFeed extends Component {
     super(props);
     const storedAllowed = localStorage.getItem("allowed_coreFeed");
     const allowed = storedAllowed ? JSON.parse(storedAllowed) : {};
-    this.state = {components: {}, allowed};
+    this.state = { components: {}, allowed };
   }
-  ignoreCoreFeed = id => {
+  ignoreCoreFeed = (id) => {
     const mutation = gql`
       mutation IgnoreCoreFeed($id: ID) {
         ignoreCoreFeed(id: $id)
       }
     `;
-    const variables = {id};
+    const variables = { id };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  collapseCoreFeed = id => {
+  collapseCoreFeed = (id) => {
     this.setState({
-      components: Object.assign({}, this.state.components, {[id]: false}),
+      components: Object.assign({}, this.state.components, { [id]: false })
     });
   };
   ignoreAll = () => {
@@ -54,57 +55,57 @@ class CoreFeed extends Component {
         ignoreCoreFeed(id: $id)
       }
     `;
-    const variables = {id: this.props.simulator.id};
+    const variables = { id: this.props.simulator.id };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   collapseAll = () => {
     const coreFeed = this.props.data.coreFeed.concat();
     this.setState({
-      components: coreFeed.reduce((acc, cf) => ({...acc, [cf.id]: false}), {}),
+      components: coreFeed.reduce((acc, cf) => ({ ...acc, [cf.id]: false }), {})
     });
   };
-  showComponent = id => {
+  showComponent = (id) => {
     this.setState({
-      components: Object.assign({}, this.state.components, {[id]: true}),
+      components: Object.assign({}, this.state.components, { [id]: true })
     });
   };
   toggle = () => {
     const storedAllowed = localStorage.getItem("allowed_coreFeed");
     const allowed = storedAllowed ? JSON.parse(storedAllowed) : {};
-    this.setState({config: !this.state.config, allowed});
+    this.setState({ config: !this.state.config, allowed });
   };
-  coreFeedFilter = c => {
-    const {allowed} = this.state;
+  coreFeedFilter = (c) => {
+    const { allowed } = this.state;
     if (c.ignored) return false;
     if (c.component === "MessagingCore" && allowed.MessagingCore === false)
-      return false;
+    return false;
     if (allowed[c.component] === false) return false;
     return true;
   };
   render() {
     if (this.props.data.loading || !this.props.data.coreFeed) return null;
     const coreFeed = this.props.data.coreFeed.concat().reverse();
-    const {components, config} = this.state;
+    const { components, config } = this.state;
     return (
       <div className="coreFeed-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: COREFEED_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  coreFeed: subscriptionData.data.coreFeedUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: COREFEED_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                coreFeed: subscriptionData.data.coreFeedUpdate
+              });
+            }
+          })
+          } />
+        
         <p>Core Feed</p>
         <ButtonGroup>
           <Button color="warning" size="sm" onClick={this.toggle}>
@@ -119,73 +120,73 @@ class CoreFeed extends Component {
         </ButtonGroup>
         <p>Click on core feed notification for contextual component.</p>
         <div className="coreFeed-items">
-          {coreFeed.length ? (
-            coreFeed
-              .filter(this.coreFeedFilter)
-              .filter((c, i) => (i < 50 ? true : false))
-              .map(c => {
-                if (components[c.id] && c.component && Cores[c.component]) {
-                  const CoreComponent = Cores[c.component];
-                  return (
-                    <div
-                      key={`${c.id}-component`}
-                      className="core-feed-component"
-                    >
+          {coreFeed.length ?
+          coreFeed.
+          filter(this.coreFeedFilter).
+          filter((c, i) => i < 50 ? true : false).
+          map((c) => {
+            if (components[c.id] && c.component && Cores[c.component]) {
+              const CoreComponent = Cores[c.component];
+              return (
+                <div
+                  key={`${c.id}-component`}
+                  className="core-feed-component">
+                  
                       {c.component.replace("Core", "")}
                       <CoreComponent {...this.props} />
-                      <div style={{display: "flex"}}>
+                      <div style={{ display: "flex" }}>
                         <Button
-                          color="warning"
-                          style={{flex: 1}}
-                          size="sm"
-                          onClick={() => this.collapseCoreFeed(c.id)}
-                        >
+                      color="warning"
+                      style={{ flex: 1 }}
+                      size="sm"
+                      onClick={() => this.collapseCoreFeed(c.id)}>
+                      
                           Collapse
                         </Button>{" "}
                         <Button
-                          color="info"
-                          style={{flex: 1}}
-                          size="sm"
-                          onClick={() => this.ignoreCoreFeed(c.id)}
-                        >
+                      color="info"
+                      style={{ flex: 1 }}
+                      size="sm"
+                      onClick={() => this.ignoreCoreFeed(c.id)}>
+                      
                           Ignore
                         </Button>
                       </div>
-                    </div>
-                  );
-                }
-                return (
-                  <div key={`${c.id}-alert`}>
+                    </div>);
+
+            }
+            return (
+              <div key={`${c.id}-alert`}>
                     <div
-                      className={`alert alert-${c.color} alert-dismissible`}
-                      onClick={() => this.showComponent(c.id)}
-                    >
+                  className={`alert alert-${c.color} alert-dismissible`}
+                  onClick={() => this.showComponent(c.id)}>
+                  
                       <strong className="alert-heading">
                         {DateTime.fromJSDate(
-                          new Date(parseInt(c.timestamp)),
-                        ).toFormat("h:mm:ssa")}{" "}
+                      new Date(parseInt(c.timestamp))
+                    ).toFormat("h:mm:ssa")}{" "}
                         - {c.title}
                       </strong>
                       {c.body && <p>{c.body}</p>}
                       <FaTimes
-                        className="pull-right"
-                        onClick={e => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          this.ignoreCoreFeed(c.id);
-                        }}
-                      />
+                    className="pull-right"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      this.ignoreCoreFeed(c.id);
+                    }} />
+                  
                     </div>
-                  </div>
-                );
-              })
-          ) : (
-            <p>No feed items...</p>
-          )}
+                  </div>);
+
+          }) :
+
+          <p>No feed items...</p>
+          }
         </div>
         <CoreFeedConfig modal={config} toggle={this.toggle} />
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -204,10 +205,10 @@ export const COREFEED_QUERY = gql`
   }
 `;
 export default graphql(COREFEED_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(CoreFeed));

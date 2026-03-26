@@ -1,40 +1,41 @@
-import React, {Component} from "react";
-import {Row, Col, Container} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Row, Col, Container } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import Measure from "react-measure";
 import Tour from "helpers/tourHelper";
 
 import Grid from "./gridDom";
 import TorpedoLoading from "../TorpedoLoading";
-import {/*PhaserArc, */ PhaserBeam, PhaserFire} from "../PhaserCharging";
+import { /*PhaserArc, */PhaserBeam, PhaserFire } from "../PhaserCharging";
 import DamageOverlay from "../helpers/DamageOverlay";
 import TargetControls from "./targetControls";
 import Coordinates from "./coordinates";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 const trainingSteps = [
-  {
-    selector: ".targeting-screen",
-    content:
-      "This screen is used to target and attack contacts outside the ship. Be careful - the weapons on your ship are dangerous.",
-  },
-  {
-    selector: ".targeting-area",
-    content:
-      "Use this area to lock onto a target. Once a target is locked on, you will be able to accurately fire your weapons at it.",
-  },
-  {
-    selector: ".phaser-holder",
-    content:
-      "You can fire your phasers from this area. Phasers are energy weapons which you must first charge before you can fire them. Phasers are effective against shielding systems. Press and hold the fire button to fire your phasers. Keep an eye on the heat - if your phasers overheat, you won't be able to fire them until they cool down.",
-  },
-  {
-    selector: ".torpedos",
-    content:
-      "Here you can fire your torpedos at the target. Torpedos are explosive projectile weapons and can deal more damage than phasers. However, you have a limited supply so use them wisely.",
-  },
-];
+{
+  selector: ".targeting-screen",
+  content:
+  "This screen is used to target and attack contacts outside the ship. Be careful - the weapons on your ship are dangerous."
+},
+{
+  selector: ".targeting-area",
+  content:
+  "Use this area to lock onto a target. Once a target is locked on, you will be able to accurately fire your weapons at it."
+},
+{
+  selector: ".phaser-holder",
+  content:
+  "You can fire your phasers from this area. Phasers are energy weapons which you must first charge before you can fire them. Phasers are effective against shielding systems. Press and hold the fire button to fire your phasers. Keep an eye on the heat - if your phasers overheat, you won't be able to fire them until they cool down."
+},
+{
+  selector: ".torpedos",
+  content:
+  "Here you can fire your torpedos at the target. Torpedos are explosive projectile weapons and can deal more damage than phasers. However, you have a limited supply so use them wisely."
+}];
+
 
 export const TARGETING_QUERY = gql`
   query Targeting($simulatorId: ID) {
@@ -188,21 +189,21 @@ export const TARGETING_PHASERS_SUB = gql`
 `;
 
 export function targetingMessage(targeting) {
-  const clickMoving = targeting.contacts.find(c => c.clickToTarget && c.moving);
-  const follow = targeting.contacts.find(c => c.moving && !c.clickToTarget);
-  const stationary = targeting.contacts.find(c => !c.moving);
+  const clickMoving = targeting.contacts.find((c) => c.clickToTarget && c.moving);
+  const follow = targeting.contacts.find((c) => c.moving && !c.clickToTarget);
+  const stationary = targeting.contacts.find((c) => !c.moving);
 
   return `${clickMoving ? "Click" : ""}${clickMoving && follow ? " or " : ""}${
-    follow ? "Follow a contact with your mouse" : ""
-  }${clickMoving || follow ? " to target. " : ""}${
-    stationary ? "Click non-moving contacts to target." : ""
-  }`;
+  follow ? "Follow a contact with your mouse" : ""}${
+  clickMoving || follow ? " to target. " : ""}${
+  stationary ? "Click non-moving contacts to target." : ""}`;
+
 }
 
 class Targeting extends Component {
   constructor(props) {
     super(props);
-    this.state = {disabledPhasers: {}};
+    this.state = { disabledPhasers: {} };
     this.targetingSubscription = null;
     this.phasersSubscription = null;
     this.phaserLoopId = null;
@@ -214,11 +215,11 @@ class Targeting extends Component {
         }
       `;
       const variables = {
-        id: phasers.id,
+        id: phasers.id
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     };
     this.stopCoolant = () => {
@@ -230,11 +231,11 @@ class Targeting extends Component {
       `;
       const variables = {
         id: phasers.id,
-        beamId: null,
+        beamId: null
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     };
   }
@@ -247,14 +248,14 @@ class Targeting extends Component {
     `;
     const variables = {
       systemId: targeting.id,
-      targetId,
+      targetId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
-  untargetContact = targetId => {
+  untargetContact = (targetId) => {
     const targeting = this.props.data.targeting[0];
     const mutation = gql`
       mutation UntargetContact($systemId: ID!, $targetId: ID!) {
@@ -263,11 +264,11 @@ class Targeting extends Component {
     `;
     const variables = {
       systemId: targeting.id,
-      targetId,
+      targetId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   targetSystem = (targetId, system) => {
@@ -280,11 +281,11 @@ class Targeting extends Component {
     const variables = {
       systemId: targeting.id,
       targetId,
-      system,
+      system
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   chargePhasers(beamId) {
@@ -296,11 +297,11 @@ class Targeting extends Component {
     `;
     const variables = {
       id: phasers.id,
-      beamId,
+      beamId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     if (phasers.holdToCharge) {
       document.addEventListener("mouseup", this.stopCharging);
@@ -315,11 +316,11 @@ class Targeting extends Component {
       }
     `;
     const variables = {
-      id: phasers.id,
+      id: phasers.id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   dischargePhasers(beamId) {
@@ -331,11 +332,11 @@ class Targeting extends Component {
     `;
     const variables = {
       id: phasers.id,
-      beamId,
+      beamId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   coolPhasers(beamId) {
@@ -347,11 +348,11 @@ class Targeting extends Component {
     `;
     const variables = {
       id: phasers.id,
-      beamId,
+      beamId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     document.addEventListener("mouseup", this.stopCoolant);
     document.addEventListener("touchend", this.stopCoolant);
@@ -370,22 +371,22 @@ class Targeting extends Component {
     `;
     const variables = {
       id: phasers.id,
-      beamId,
+      beamId
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     this.setState({
       disabledPhasers: Object.assign({}, this.state.disabledPhasers, {
-        [beamId]: true,
-      }),
+        [beamId]: true
+      })
     });
     setTimeout(() => {
       this.setState({
         disabledPhasers: Object.assign({}, this.state.disabledPhasers, {
-          [beamId]: false,
-        }),
+          [beamId]: false
+        })
       });
     }, 3000);
     document.addEventListener("mouseup", this.mouseup);
@@ -397,107 +398,107 @@ class Targeting extends Component {
     const targeting = this.props.data.targeting && this.props.data.targeting[0];
     const phasers = this.props.data.phasers && this.props.data.phasers[0];
     if (!targeting) return <p>No Targeting</p>;
-    const targetedContact = targeting.contacts.find(t => t.targeted);
+    const targetedContact = targeting.contacts.find((t) => t.targeted);
     const damaged =
-      (targeting.power &&
-        targeting.power.powerLevels &&
-        targeting.power.power < targeting.power.powerLevels[0]) ||
-      (targeting.damage && targeting.damage.damaged);
+    targeting.power &&
+    targeting.power.powerLevels &&
+    targeting.power.power < targeting.power.powerLevels[0] ||
+    targeting.damage && targeting.damage.damaged;
     return (
       <Container fluid className="targeting-control flex-column">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: TARGETING_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  targeting: subscriptionData.data.targetingUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: TARGETING_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                targeting: subscriptionData.data.targetingUpdate
+              });
+            }
+          })
+          } />
+        
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: TARGETING_PHASERS_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  phasers: subscriptionData.data.phasersUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: TARGETING_PHASERS_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                phasers: subscriptionData.data.phasersUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm="5" className="targeting-area">
             <DamageOverlay system={targeting} message="Targeting Offline" />
-            {targeting.coordinateTargeting ? (
-              <Coordinates targeting={targeting} client={this.props.client} />
-            ) : (
-              <div style={{height: "100%", minHeight: "40vh"}}>
+            {targeting.coordinateTargeting ?
+            <Coordinates targeting={targeting} client={this.props.client} /> :
+
+            <div style={{ height: "100%", minHeight: "40vh" }}>
                 <Measure
-                  bounds
-                  onResize={contentRect => {
-                    this.setState({dimensions: contentRect.bounds});
-                  }}
-                >
-                  {({measureRef}) => (
-                    <div
-                      ref={measureRef}
-                      style={{height: "100%", minHeight: "40vh"}}
-                    >
+                bounds
+                onResize={(contentRect) => {
+                  this.setState({ dimensions: contentRect.bounds });
+                }}>
+                
+                  {({ measureRef }) =>
+                <div
+                  ref={measureRef}
+                  style={{ height: "100%", minHeight: "40vh" }}>
+                  
                       <Grid
-                        dimensions={this.state.dimensions}
-                        interference={targeting.interference}
-                        targetContact={this.targetContact.bind(this)}
-                        untargetContact={this.untargetContact.bind(this)}
-                        targets={damaged ? [] : targeting.contacts}
-                      />
+                    dimensions={this.state.dimensions}
+                    interference={targeting.interference}
+                    targetContact={this.targetContact.bind(this)}
+                    untargetContact={this.untargetContact.bind(this)}
+                    targets={damaged ? [] : targeting.contacts} />
+                  
                     </div>
-                  )}
+                }
                 </Measure>
                 <small>{targetingMessage(targeting)}</small>
               </div>
-            )}
+            }
           </Col>
           <Col sm="7">
             <DamageOverlay
               system={phasers}
-              message={`${phasers.displayName} Offline`}
-            />
+              message={`${phasers.displayName} Offline`} />
+            
             <div className="phaser-holder">
               {phasers &&
-                phasers.beams.map((p, i, arr) =>
-                  arr.length > 2 ||
-                  this.props.station.cards.find(
-                    c => c.component === "PhaserCharging",
-                  ) ? (
-                    <PhaserFire
-                      key={p.id}
-                      {...p}
-                      disabled={this.state.disabledPhasers[p.id]}
-                      index={i + 1}
-                      firePhasers={this.firePhasers.bind(this)}
-                      coolPhasers={this.coolPhasers.bind(this)}
-                    />
-                  ) : (
-                    <PhaserBeam
-                      key={p.id}
-                      {...p}
-                      name={phasers.displayName || phasers.name}
-                      disabled={this.state.disabledPhasers[p.id]}
-                      index={i + 1}
-                      chargePhasers={this.chargePhasers.bind(this)}
-                      dischargePhasers={this.dischargePhasers.bind(this)}
-                      coolPhasers={this.coolPhasers.bind(this)}
-                      firePhasers={this.firePhasers.bind(this)}
-                      targeting={true}
-                    />
-                  ),
-                )}
+              phasers.beams.map((p, i, arr) =>
+              arr.length > 2 ||
+              this.props.station.cards.find(
+                (c) => c.component === "PhaserCharging"
+              ) ?
+              <PhaserFire
+                key={p.id}
+                {...p}
+                disabled={this.state.disabledPhasers[p.id]}
+                index={i + 1}
+                firePhasers={this.firePhasers.bind(this)}
+                coolPhasers={this.coolPhasers.bind(this)} /> :
+
+
+              <PhaserBeam
+                key={p.id}
+                {...p}
+                name={phasers.displayName || phasers.name}
+                disabled={this.state.disabledPhasers[p.id]}
+                index={i + 1}
+                chargePhasers={this.chargePhasers.bind(this)}
+                dischargePhasers={this.dischargePhasers.bind(this)}
+                coolPhasers={this.coolPhasers.bind(this)}
+                firePhasers={this.firePhasers.bind(this)}
+                targeting={true} />
+
+
+              )}
             </div>
             <Row>
               <Col sm="8">
@@ -508,50 +509,50 @@ class Targeting extends Component {
           </Col>
         </Row>
         <Row className="target-area flex-max">
-          <Col sm={6} style={{paddingTop: "20px"}}>
+          <Col sm={6} style={{ paddingTop: "20px" }}>
             <TargetControls
               targetedContact={
-                targeting.coordinateTargeting
-                  ? targeting.targetedSensorContact
-                  : targetedContact
+              targeting.coordinateTargeting ?
+              targeting.targetedSensorContact :
+              targetedContact
               }
               untargetContact={this.untargetContact}
-              targetSystem={this.targetSystem}
-            />
+              targetSystem={this.targetSystem} />
+            
           </Col>
-          <Col sm={6} className="torpedos" style={{height: "100%"}}>
+          <Col sm={6} className="torpedos" style={{ height: "100%" }}>
             <TorpedoLoading
               simulator={this.props.simulator}
               maxLaunchers={
-                this.props.station.cards.find(
-                  c => c.component === "TorpedoLoading",
-                )
-                  ? 1
-                  : 2
+              this.props.station.cards.find(
+                (c) => c.component === "TorpedoLoading"
+              ) ?
+              1 :
+              2
               }
-              targeting={true}
-            />
+              targeting={true} />
+            
           </Col>
         </Row>
         <Tour steps={trainingSteps} client={this.props.clientObj} />
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
-const PhaserCoolant = ({coolant}) => {
+const PhaserCoolant = ({ coolant }) => {
   return (
     <div>
       <p>Coolant</p>
       <div className="chargeHolder coolantHolder">
-        <div className="coolant" style={{width: `${coolant * 100}%`}} />
+        <div className="coolant" style={{ width: `${coolant * 100}%` }} />
       </div>
-    </div>
-  );
+    </div>);
+
 };
 export default graphql(TARGETING_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(Targeting));

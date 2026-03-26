@@ -1,7 +1,8 @@
 import React from "react";
-import {useMutation} from "react-apollo";
+import { useMutation } from "@apollo/client";
+
 import gql from "graphql-tag.macro";
-import {Button, Row, Col, Container, Input} from "helpers/reactstrap";
+import { Button, Row, Col, Container, Input } from "helpers/reactstrap";
 import useFlightSessionStorage from "helpers/hooks/useFlightSessionStorage";
 
 const SEND_MESSAGE = gql`
@@ -19,19 +20,19 @@ const MessageComposer = ({
   cancel,
   simulator,
   station,
-  flight: {id: flightId},
+  flight: { id: flightId }
 }) => {
   const [message, setMessage] = useFlightSessionStorage(
     flightId,
     "composerMessage",
-    "",
+    ""
   );
   const [to, setTo] = useFlightSessionStorage(flightId, "composerTo", "");
 
-  const updateTo = e => {
+  const updateTo = (e) => {
     setTo(e.target.value);
   };
-  const updateMessage = e => {
+  const updateMessage = (e) => {
     setMessage(e.target.value);
   };
   const [sendMessageMutation] = useMutation(SEND_MESSAGE, {
@@ -39,8 +40,8 @@ const MessageComposer = ({
       id: simulator.id,
       message: `To: ${to}
 ${message}`,
-      sender: station.name,
-    },
+      sender: station.name
+    }
   });
   const sendMessage = () => {
     sendMessageMutation();
@@ -66,44 +67,44 @@ ${message}`,
             style={{
               width: "100%",
               height: "20vw",
-              resize: "none",
+              resize: "none"
             }}
             value={message}
-            onChange={updateMessage}
-          />
+            onChange={updateMessage} />
+          
         </Col>
       </Row>
       <Row>
-        <Col sm={{size: 6}}>
-          {cancel ? (
-            <Button color="danger" onClick={cancel} block>
+        <Col sm={{ size: 6 }}>
+          {cancel ?
+          <Button color="danger" onClick={cancel} block>
               Cancel
-            </Button>
-          ) : (
-            <Button
-              color="danger"
-              onClick={() => {
-                setTo("");
-                setMessage("");
-              }}
-              block
-            >
+            </Button> :
+
+          <Button
+            color="danger"
+            onClick={() => {
+              setTo("");
+              setMessage("");
+            }}
+            block>
+            
               Clear
             </Button>
-          )}
+          }
         </Col>
         <Col sm={6}>
           <Button
             onClick={sendMessage}
             disabled={message.length === 0 || to.length === 0}
-            block
-          >
+            block>
+            
             Queue for Sending
           </Button>
         </Col>
       </Row>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default MessageComposer;

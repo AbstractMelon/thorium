@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import DilithiumStress from "./dilithiumStress";
@@ -39,33 +40,33 @@ class DilithiumStressData extends Component {
     return (
       <Query
         query={DILITHIUM_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {reactors} = data;
+          const { reactors } = data;
           if (!reactors[0]) return <div>No Reactor</div>;
-          const Reactor = reactors.find(r => r.model === "reactor");
+          const Reactor = reactors.find((r) => r.model === "reactor");
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: DILITHIUM_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      reactors: subscriptionData.data.reactorUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: DILITHIUM_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    reactors: subscriptionData.data.reactorUpdate
+                  });
+                }
+              })
+              }>
+              
               <DilithiumStress {...this.props} {...Reactor} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default DilithiumStressData;

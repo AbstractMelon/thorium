@@ -1,7 +1,8 @@
-import React, {Fragment} from "react";
-import {Query} from "react-apollo";
+import React, { Fragment } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {FormGroup, Label, Input} from "helpers/reactstrap";
+import { FormGroup, Label, Input } from "helpers/reactstrap";
 import SoundPicker from "helpers/soundPicker";
 
 const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
@@ -21,84 +22,84 @@ const MOVIE_QUERY = gql`
 `;
 
 const renderButtons = ({
-  args: {action, asset, voice, message},
+  args: { action, asset, voice, message },
   args,
-  updateArgs,
+  updateArgs
 }) => {
   if (action === "sound")
-    return (
-      <SoundPicker
-        selectedSound={asset || "nothing"}
-        setSound={sound => updateArgs("asset", sound)}
-      />
-    );
+  return (
+    <SoundPicker
+      selectedSound={asset || "nothing"}
+      setSound={(sound) => updateArgs("asset", sound)} />);
+
+
   if (action === "movie")
-    return (
-      <Query query={MOVIE_QUERY}>
-        {({loading, data}) => {
-          if (loading || !data) return <p>Loading</p>;
-          const {assetFolders} = data;
-          return (
-            <Input
-              type="select"
-              value={asset || "nothing"}
-              onChange={e => updateArgs("asset", e.target.value)}
-            >
+  return (
+    <Query query={MOVIE_QUERY}>
+        {({ loading, data }) => {
+        if (loading || !data) return <p>Loading</p>;
+        const { assetFolders } = data;
+        return (
+          <Input
+            type="select"
+            value={asset || "nothing"}
+            onChange={(e) => updateArgs("asset", e.target.value)}>
+            
               <option value="nothing" disabled>
                 Select a Movie
               </option>
-              {assetFolders[0]
-                ? assetFolders[0].objects
-                    .concat()
-                    .sort((a, b) => {
-                      if (a.name > b.name) return 1;
-                      if (a.name < b.name) return -1;
-                      return 0;
-                    })
-                    .map(c => (
-                      <option key={c.id} value={c.fullPath}>
+              {assetFolders[0] ?
+            assetFolders[0].objects.
+            concat().
+            sort((a, b) => {
+              if (a.name > b.name) return 1;
+              if (a.name < b.name) return -1;
+              return 0;
+            }).
+            map((c) =>
+            <option key={c.id} value={c.fullPath}>
                         {c.name}
                       </option>
-                    ))
-                : null}
-            </Input>
-          );
-        }}
-      </Query>
-    );
+            ) :
+            null}
+            </Input>);
+
+      }}
+      </Query>);
+
   if (action === "speak")
-    return (
-      <Fragment>
+  return (
+    <Fragment>
         <Input
-          type="select"
-          value={voice}
-          onChange={e => updateArgs("voice", e.target.value)}
-        >
-          {voices.map(c => (
-            <option key={c.name} value={c.name}>
+        type="select"
+        value={voice}
+        onChange={(e) => updateArgs("voice", e.target.value)}>
+        
+          {voices.map((c) =>
+        <option key={c.name} value={c.name}>
               {c.name}
             </option>
-          ))}
+        )}
         </Input>
         <Input
-          placeholder="Message"
-          value={message}
-          onChange={e => updateArgs("message", e.target.value)}
-        />
-      </Fragment>
-    );
-  if (action === "message")
-    return (
-      <Input
         placeholder="Message"
         value={message}
-        onChange={e => updateArgs("message", e.target.value)}
-      />
-    );
+        onChange={(e) => updateArgs("message", e.target.value)} />
+      
+      </Fragment>);
+
+  if (action === "message")
+  return (
+    <Input
+      placeholder="Message"
+      value={message}
+      onChange={(e) => updateArgs("message", e.target.value)} />);
+
+
   return null;
 };
 
-const TriggerAction = ({updateArgs, args, noStations, stations, clients}) => {
+const TriggerAction = ({ updateArgs, args, noStations, stations, clients }) => {
   return (
     <div>
       <p>Performs the action on all stations in the simulator.</p>
@@ -107,8 +108,8 @@ const TriggerAction = ({updateArgs, args, noStations, stations, clients}) => {
         <Input
           type="select"
           value={args.action || "nothing"}
-          onChange={e => updateArgs("action", e.target.value)}
-        >
+          onChange={(e) => updateArgs("action", e.target.value)}>
+          
           <option disabled value="nothing">
             Pick an action
           </option>
@@ -140,41 +141,41 @@ const TriggerAction = ({updateArgs, args, noStations, stations, clients}) => {
             Space EdVentures Token Screen
           </option>
         </Input>
-        {noStations || (
-          <Input
-            type="select"
-            onChange={e => updateArgs("stationId", e.target.value)}
-            value={args.stationId}
-          >
+        {noStations ||
+        <Input
+          type="select"
+          onChange={(e) => updateArgs("stationId", e.target.value)}
+          value={args.stationId}>
+          
             <option value="all">All Stations</option>
             <option value="random">Random Station</option>
             <option value="bridge">Bridge stations</option>
             <option value="viewscreen">Viewscreens</option>
 
-            {stations && stations.length > 0 && (
-              <optgroup label="Stations">
-                {stations.map(c => (
-                  <option value={c.name} key={c.name}>
+            {stations && stations.length > 0 &&
+          <optgroup label="Stations">
+                {stations.map((c) =>
+            <option value={c.name} key={c.name}>
                     {c.name}
                   </option>
-                ))}
-              </optgroup>
             )}
-            {clients && clients.length > 0 && (
-              <optgroup label="Clients">
-                {clients.map(c => (
-                  <option value={c.id} key={c.id}>
+              </optgroup>
+          }
+            {clients && clients.length > 0 &&
+          <optgroup label="Clients">
+                {clients.map((c) =>
+            <option value={c.id} key={c.id}>
                     {c.id}
                   </option>
-                ))}
-              </optgroup>
             )}
+              </optgroup>
+          }
           </Input>
-        )}
-        {renderButtons({args, updateArgs})}
+        }
+        {renderButtons({ args, updateArgs })}
       </FormGroup>
-    </div>
-  );
+    </div>);
+
 };
 
 export default TriggerAction;

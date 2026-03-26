@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import Preview from "components/views/TacticalMap/preview";
-import {useSubscribeToMore} from "helpers/hooks/useQueryAndSubscribe";
-import {useQuery} from "@apollo/client";
+import { useSubscribeToMore } from "helpers/hooks/useQueryAndSubscribe";
+import { useQuery } from "@apollo/client";
 //import "./style.scss";
 
 const fragment = gql`
@@ -116,7 +117,7 @@ class TacticalMapViewscreen extends Component {
     tacticalMapId: null,
     layerId: null,
     objectId: null,
-    layers: {},
+    layers: {}
   };
   // componentDidUpdate(prevProps) {
   //   const {tacticalMap} = this.props;
@@ -137,32 +138,32 @@ class TacticalMapViewscreen extends Component {
   //     }
   //   }
   // }
-  selectLayer = layerId => {
-    this.setState({layerId, objectId: null});
+  selectLayer = (layerId) => {
+    this.setState({ layerId, objectId: null });
   };
-  selectObject = object => {
+  selectObject = (object) => {
     if (object) {
-      this.setState({layerId: object.layerId, objectId: object.id});
+      this.setState({ layerId: object.layerId, objectId: object.id });
     } else {
-      this.setState({objectId: null});
+      this.setState({ objectId: null });
     }
   };
   updateObject = (key, value, object) => {
-    const {tacticalMapId} = this.props;
+    const { tacticalMapId } = this.props;
     const variables = {
       mapId: tacticalMapId,
       layerId: object ? object.layerId : this.state.layerId,
       item: {
         id: object ? object.id : this.state.objectId,
         [key]:
-          value === true
-            ? true
-            : value === false
-            ? false
-            : isNaN(Number(value))
-            ? value
-            : Number(value),
-      },
+        value === true ?
+        true :
+        value === false ?
+        false :
+        isNaN(Number(value)) ?
+        value :
+        Number(value)
+      }
     };
     const mutation = gql`
       mutation UpdateTacticalItem(
@@ -175,75 +176,75 @@ class TacticalMapViewscreen extends Component {
     `;
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
-    const {core, tacticalMap} = this.props;
+    const { core, tacticalMap } = this.props;
     return (
       <div
         className="viewscreen-tacticalMap"
         style={{
-          transform: !core ? `scale(${window.innerWidth / 1920})` : null,
-        }}
-      >
-        {tacticalMap && (
-          <Preview
-            simulatorId={this.props.simulator.id}
-            viewscreen={this.props.viewscreen}
-            core={
-              !(this.props.station && this.props.station.name === "Viewscreen")
-            }
-            interval={tacticalMap.interval}
-            frozen={tacticalMap.frozen}
-            layers={tacticalMap.layers}
-            selectObject={this.selectObject}
-            objectId={this.state.objectId}
-            updateObject={this.updateObject}
-          />
-        )}
-      </div>
-    );
+          transform: !core ? `scale(${window.innerWidth / 1920})` : null
+        }}>
+        
+        {tacticalMap &&
+        <Preview
+          simulatorId={this.props.simulator.id}
+          viewscreen={this.props.viewscreen}
+          core={
+          !(this.props.station && this.props.station.name === "Viewscreen")
+          }
+          interval={tacticalMap.interval}
+          frozen={tacticalMap.frozen}
+          layers={tacticalMap.layers}
+          selectObject={this.selectObject}
+          objectId={this.state.objectId}
+          updateObject={this.updateObject} />
+
+        }
+      </div>);
+
   }
 }
 
-const TacticalMapViewscreenData = props => {
-  const {tacticalMapId} = JSON.parse(props.viewscreen.data);
-  const {loading, data, subscribeToMore} = useQuery(TACTICALMAP_QUERY, {
+const TacticalMapViewscreenData = (props) => {
+  const { tacticalMapId } = JSON.parse(props.viewscreen.data);
+  const { loading, data, subscribeToMore } = useQuery(TACTICALMAP_QUERY, {
     skip: !tacticalMapId,
-    variables: {id: tacticalMapId},
+    variables: { id: tacticalMapId }
   });
   const config = React.useMemo(
     () => ({
       variables: {
         id: tacticalMapId,
-        lowInterval: props.core,
+        lowInterval: props.core
       },
-      updateQuery: (previousResult, {subscriptionData}) => {
+      updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) return previousResult;
         return Object.assign({}, previousResult, {
-          tacticalMap: subscriptionData.data.tacticalMapUpdate,
+          tacticalMap: subscriptionData.data.tacticalMapUpdate
         });
-      },
+      }
     }),
-    [tacticalMapId, props.core],
+    [tacticalMapId, props.core]
   );
   useSubscribeToMore(
     subscribeToMore,
     TACTICALMAP_SUB,
-    config,
+    config
     // props.core && props.preview
   );
   if (loading || !data) return null;
-  const {tacticalMap} = data;
+  const { tacticalMap } = data;
   if (!tacticalMap) return null;
   return (
     <TacticalMapViewscreen
       {...props}
       tacticalMap={tacticalMap}
-      tacticalMapId={tacticalMapId}
-    />
-  );
+      tacticalMapId={tacticalMapId} />);
+
+
 };
 
 export default withApollo(TacticalMapViewscreenData);

@@ -1,8 +1,10 @@
 import React from "react";
-import {Query} from "react-apollo";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import { Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
 
@@ -40,78 +42,78 @@ const DecontaminationCore = ({
   deconProgram,
   deconOffset,
   deconLocation,
-  autoFinishDecon,
-}) => (
-  <div className="decontamination-core">
+  autoFinishDecon
+}) =>
+<div className="decontamination-core">
     <label>
       <Mutation
-        mutation={gql`
+      mutation={gql`
           mutation AutoDecon($id: ID!, $finish: Boolean!) {
             setDeconAutoFinish(id: $id, finish: $finish)
           }
-        `}
-      >
-        {action => (
-          <input
-            type="checkbox"
-            checked={autoFinishDecon}
-            onChange={e => action({variables: {id, finish: e.target.checked}})}
-          />
-        )}
+        `}>
+      
+        {(action) =>
+      <input
+        type="checkbox"
+        checked={autoFinishDecon}
+        onChange={(e) => action({ variables: { id, finish: e.target.checked } })} />
+
+      }
       </Mutation>{" "}
       Auto-finish Decon Program
     </label>
-    {deconActive ? (
-      <div>
+    {deconActive ?
+  <div>
         <p className="text-danger">Decon Active</p>
         <p>Program: {deconProgram}</p>
         <p>Location: {deconLocation}</p>
         <p>Offset: {Math.round(deconOffset)}%</p>
         <Mutation
-          mutation={gql`
+      mutation={gql`
             mutation FinishProgram($id: ID!) {
               completeDeconProgram(id: $id)
             }
           `}
-          variables={{id}}
-        >
-          {action => (
-            <Button size="sm" color="warning" onClick={action}>
+      variables={{ id }}>
+      
+          {(action) =>
+      <Button size="sm" color="warning" onClick={action}>
               Finish Program
             </Button>
-          )}
+      }
         </Mutation>
-      </div>
-    ) : (
-      <p>No active decon program</p>
-    )}
-  </div>
-);
+      </div> :
 
-const DeconData = props => (
-  <Query query={DECON_CORE_QUERY} variables={{simulatorId: props.simulator.id}}>
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {sickbay} = data;
-      if (!sickbay[0]) return <div>No Sickbay</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: DECON_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  sickbay: subscriptionData.data.sickbayUpdate,
-                });
-              },
-            })
+  <p>No active decon program</p>
+  }
+  </div>;
+
+
+const DeconData = (props) =>
+<Query query={DECON_CORE_QUERY} variables={{ simulatorId: props.simulator.id }}>
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { sickbay } = data;
+    if (!sickbay[0]) return <div>No Sickbay</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: DECON_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              sickbay: subscriptionData.data.sickbayUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <DecontaminationCore {...props} {...sickbay[0]} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default DeconData;

@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import VideoViewscreen from "./videoViewscreen";
@@ -40,32 +41,32 @@ class TemplateData extends Component {
     return (
       <Query
         query={VIEWSCREEN_CORE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {viewscreens} = data;
+          const { viewscreens } = data;
           if (viewscreens.length === 0) return <div>No Viewscreens</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: VIEWSCREEN_CORE_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      viewscreens: subscriptionData.data.viewscreensUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: VIEWSCREEN_CORE_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    viewscreens: subscriptionData.data.viewscreensUpdate
+                  });
+                }
+              })
+              }>
+              
               <VideoViewscreen {...this.props} viewscreens={viewscreens} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default TemplateData;

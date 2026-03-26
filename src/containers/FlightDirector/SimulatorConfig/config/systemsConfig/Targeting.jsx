@@ -1,7 +1,8 @@
 import React from "react";
 import GenericSystemConfig from "./Generic";
 import gql from "graphql-tag.macro";
-import {Query, Mutation} from "react-apollo";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 
 const TARGETING_QUERY = gql`
   query Targeting($id: ID!) {
@@ -12,15 +13,15 @@ const TARGETING_QUERY = gql`
   }
 `;
 
-const Targeting = props => {
-  const {id} = props;
+const Targeting = (props) => {
+  const { id } = props;
   return (
     <GenericSystemConfig {...props}>
-      <Query query={TARGETING_QUERY} variables={{id}}>
-        {({data, loading}) => {
+      <Query query={TARGETING_QUERY} variables={{ id }}>
+        {({ data, loading }) => {
           if (loading) return null;
           const {
-            targeting: [targeting],
+            targeting: [targeting]
           } = data;
           return (
             <div>
@@ -31,25 +32,25 @@ const Targeting = props => {
                     setTargetingRange(id: $id, range: $range)
                   }
                 `}
-                refetchQueries={[{query: TARGETING_QUERY, variables: {id}}]}
-              >
-                {action => (
-                  <input
-                    type="range"
-                    defaultValue={targeting.range}
-                    onChange={e =>
-                      action({
-                        variables: {
-                          id: targeting.id,
-                          range: parseFloat(e.target.value),
-                        },
-                      })
+                refetchQueries={[{ query: TARGETING_QUERY, variables: { id } }]}>
+                
+                {(action) =>
+                <input
+                  type="range"
+                  defaultValue={targeting.range}
+                  onChange={(e) =>
+                  action({
+                    variables: {
+                      id: targeting.id,
+                      range: parseFloat(e.target.value)
                     }
-                    min="0"
-                    max="1"
-                    step="0.01"
-                  />
-                )}
+                  })
+                  }
+                  min="0"
+                  max="1"
+                  step="0.01" />
+
+                }
               </Mutation>
               <div>
                 <small>
@@ -57,11 +58,11 @@ const Targeting = props => {
                   the first ring, 66% is the second, etc.
                 </small>
               </div>
-            </div>
-          );
+            </div>);
+
         }}
       </Query>
-    </GenericSystemConfig>
-  );
+    </GenericSystemConfig>);
+
 };
 export default Targeting;

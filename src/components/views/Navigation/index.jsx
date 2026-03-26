@@ -1,8 +1,9 @@
-import React, {Component} from "react";
-import {Row, Col, Container} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Row, Col, Container } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {InputGroup, InputGroupAddon, Button, Input} from "helpers/reactstrap";
-import {graphql, withApollo} from "react-apollo";
+import { InputGroup, InputGroupAddon, Button, Input } from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import DamageOverlay from "../helpers/DamageOverlay";
 import Keypad from "./keypad";
 import Tour from "helpers/tourHelper";
@@ -13,12 +14,12 @@ import "./style.scss";
 import CourseNumber from "./courseNumbers";
 
 const trainingSteps = [
-  {
-    selector: ".number-pad",
-    content:
-      "Using the number pad, input the calculated course coordinates in the current destination fields to set course.",
-  },
-];
+{
+  selector: ".number-pad",
+  content:
+  "Using the number pad, input the calculated course coordinates in the current destination fields to set course."
+}];
+
 
 export const NAVIGATION_SUB = gql`
   subscription NavigationUpdate($simulatorId: ID) {
@@ -58,7 +59,7 @@ class Navigation extends Component {
       calculatedCourse: {},
       selectedField: null,
       enteredCourse: {},
-      scanning: false,
+      scanning: false
     };
     this.scanning = null;
     this.subscription = null;
@@ -81,19 +82,19 @@ class Navigation extends Component {
         clearTimeout(this.scanning);
         this.scanning = null;
       }
-      const oldNavigation = prevProps.data.loading
-        ? {}
-        : prevProps.data.navigation[0];
-      let {destination, calculatedCourse, enteredCourse} = this.state;
+      const oldNavigation = prevProps.data.loading ?
+      {} :
+      prevProps.data.navigation[0];
+      let { destination, calculatedCourse, enteredCourse } = this.state;
       const {
         destination: newDestination = {},
         calculatedCourse: newCalculatedCourse = {},
-        currentCourse: newCurrentCourse = {},
+        currentCourse: newCurrentCourse = {}
       } = navigation;
       const {
         destination: oldDestination = {},
         calculatedCourse: oldCalculatedCourse = {},
-        currentCourse: oldCurrentCourse = {},
+        currentCourse: oldCurrentCourse = {}
       } = oldNavigation;
       let update = false;
       if (newDestination !== oldDestination) {
@@ -101,18 +102,18 @@ class Navigation extends Component {
         destination = newDestination;
       }
       if (
-        newCalculatedCourse.x !== oldCalculatedCourse.x ||
-        newCalculatedCourse.y !== oldCalculatedCourse.y ||
-        newCalculatedCourse.z !== oldCalculatedCourse.z
-      ) {
+      newCalculatedCourse.x !== oldCalculatedCourse.x ||
+      newCalculatedCourse.y !== oldCalculatedCourse.y ||
+      newCalculatedCourse.z !== oldCalculatedCourse.z)
+      {
         update = true;
         calculatedCourse = newCalculatedCourse;
       }
       if (
-        newCurrentCourse.x !== oldCurrentCourse.x ||
-        newCurrentCourse.y !== oldCurrentCourse.y ||
-        newCurrentCourse.z !== oldCurrentCourse.z
-      ) {
+      newCurrentCourse.x !== oldCurrentCourse.x ||
+      newCurrentCourse.y !== oldCurrentCourse.y ||
+      newCurrentCourse.z !== oldCurrentCourse.z)
+      {
         update = true;
         enteredCourse = newCurrentCourse;
       }
@@ -120,16 +121,16 @@ class Navigation extends Component {
         this.setState({
           destination,
           calculatedCourse,
-          enteredCourse,
+          enteredCourse
         });
       }
     }
   }
 
-  updateDestination = e => {
+  updateDestination = (e) => {
     e.preventDefault();
     this.setState({
-      destination: e.target.value,
+      destination: e.target.value
     });
   };
   keydown(e) {
@@ -141,7 +142,7 @@ class Navigation extends Component {
       enteredCourse = {
         x: "",
         y: "",
-        z: "",
+        z: ""
       };
     }
     if (!e.which) {
@@ -155,64 +156,64 @@ class Navigation extends Component {
     newValue += key;
     newValue = newValue.slice(0, 10);
     this.setState({
-      enteredCourse: {...enteredCourse, [selectedField]: newValue},
-      selectedField,
+      enteredCourse: { ...enteredCourse, [selectedField]: newValue },
+      selectedField
     });
   }
   clear() {
-    const {enteredCourse, selectedField} = this.state;
+    const { enteredCourse, selectedField } = this.state;
     if (
-      selectedField === null ||
-      enteredCourse[selectedField] === null ||
-      enteredCourse[selectedField] === ""
-    ) {
+    selectedField === null ||
+    enteredCourse[selectedField] === null ||
+    enteredCourse[selectedField] === "")
+    {
       this.setState({
         enteredCourse: {},
-        selectedField: null,
+        selectedField: null
       });
       return;
     }
-    enteredCourse[selectedField] = enteredCourse[selectedField]
-      ? enteredCourse[selectedField].slice(
-          0,
-          enteredCourse[selectedField].length - 1,
-        )
-      : "";
+    enteredCourse[selectedField] = enteredCourse[selectedField] ?
+    enteredCourse[selectedField].slice(
+      0,
+      enteredCourse[selectedField].length - 1
+    ) :
+    "";
     this.setState({
-      enteredCourse,
+      enteredCourse
     });
   }
   enter() {
-    const {enteredCourse, selectedField} = this.state;
+    const { enteredCourse, selectedField } = this.state;
     if (selectedField === null) {
       this.setState({
-        selectedField: "x",
+        selectedField: "x"
       });
       return;
     }
     if (
-      enteredCourse[selectedField] === null ||
-      enteredCourse[selectedField] === ""
-    ) {
+    enteredCourse[selectedField] === null ||
+    enteredCourse[selectedField] === "")
+    {
       return;
     }
     if (
-      selectedField === "z" &&
-      enteredCourse[selectedField] !== null &&
-      enteredCourse[selectedField] !== ""
-    ) {
+    selectedField === "z" &&
+    enteredCourse[selectedField] !== null &&
+    enteredCourse[selectedField] !== "")
+    {
       this.inputDestination();
       return;
     }
     if (selectedField === "x") {
       this.setState({
-        selectedField: "y",
+        selectedField: "y"
       });
       return;
     }
     if (selectedField === "y") {
       this.setState({
-        selectedField: "z",
+        selectedField: "z"
       });
       return;
     }
@@ -226,11 +227,11 @@ class Navigation extends Component {
     `;
     const variables = {
       id: navigation.id,
-      destination: this.state.destination,
+      destination: this.state.destination
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   cancelCalc() {
@@ -242,11 +243,11 @@ class Navigation extends Component {
     `;
     const variables = {
       id: navigation.id,
-      destination: this.state.destination,
+      destination: this.state.destination
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   inputDestination() {
@@ -261,38 +262,38 @@ class Navigation extends Component {
       id: navigation.id,
       x: course.x,
       y: course.y,
-      z: course.z,
+      z: course.z
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
 
     // Do a little entering effect.
     this.setState({
       scanning: true,
-      selectedField: "x",
+      selectedField: "x"
     });
     setTimeout(() => {
       this.setState({
         scanning: false,
-        selectedField: "y",
+        selectedField: "y"
       });
     }, 250);
     setTimeout(() => {
       this.setState({
-        selectedField: "z",
+        selectedField: "z"
       });
     }, 500);
     setTimeout(() => {
       this.setState({
-        selectedField: null,
+        selectedField: null
       });
     }, 750);
   }
   render() {
     if (this.props.data.loading || !this.props.data.navigation) return null;
-    const {enteredCourse, selectedField} = this.state;
+    const { enteredCourse, selectedField } = this.state;
     const navigation = this.props.data.navigation[0];
     if (!navigation) return <p>No Navigation System</p>;
     const scanning = this.state.scanning || navigation.scanning;
@@ -300,71 +301,71 @@ class Navigation extends Component {
       <Container fluid className="cardNavigation">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: NAVIGATION_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  navigation: subscriptionData.data.navigationUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: NAVIGATION_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                navigation: subscriptionData.data.navigationUpdate
+              });
+            }
+          })
+          } />
+        
         <DamageOverlay
           system={navigation}
-          message={`Navigation System Offline`}
-        />
+          message={`Navigation System Offline`} />
+        
         <Row>
           <Col xl={6} lg={5}>
-            {navigation.calculate && (
-              <Row>
-                {navigation.scanning ? (
-                  <Col sm="12">
+            {navigation.calculate &&
+            <Row>
+                {navigation.scanning ?
+              <Col sm="12">
                     <Button
-                      block
-                      size="lg"
-                      style={{marginTop: "55px"}}
-                      color="warning"
-                      onClick={this.cancelCalc.bind(this)}
-                    >
+                  block
+                  size="lg"
+                  style={{ marginTop: "55px" }}
+                  color="warning"
+                  onClick={this.cancelCalc.bind(this)}>
+                  
                       Cancel Scan
                     </Button>
-                  </Col>
-                ) : (
-                  <Col sm="12">
+                  </Col> :
+
+              <Col sm="12">
                     <label htmlFor="destination">
                       <h3>Desired Destination:</h3>
                     </label>
                     <form
-                      // eslint-disable-next-line
-                      action={"javascript:void(0);"}
-                      onSubmit={this.calc}
-                    >
+                // eslint-disable-next-line
+                action={"javascript:void(0);"}
+                onSubmit={this.calc}>
+                  
                       <InputGroup>
                         <Input
-                          id="destination"
-                          type="text"
-                          style={{height: "55px"}}
-                          value={this.state.destination}
-                          onChange={this.updateDestination}
-                          className="form-control no-keypad"
-                        />
+                      id="destination"
+                      type="text"
+                      style={{ height: "55px" }}
+                      value={this.state.destination}
+                      onChange={this.updateDestination}
+                      className="form-control no-keypad" />
+                    
                         <InputGroupAddon addonType="append">
                           <Button
-                            onClick={this.calc}
-                            color="secondary"
-                            style={{marginTop: "-1px", height: "56px"}}
-                          >
+                        onClick={this.calc}
+                        color="secondary"
+                        style={{ marginTop: "-1px", height: "56px" }}>
+                        
                             Calculate Coordinates
                           </Button>
                         </InputGroupAddon>
                       </InputGroup>
                     </form>
                   </Col>
-                )}
+              }
               </Row>
-            )}
+            }
             <Row>
               <Col className="col-sm-12">
                 <NavigationScanner scanning={scanning} />
@@ -373,58 +374,58 @@ class Navigation extends Component {
           </Col>
           <Col className="course-numbers">
             {navigation.calculate && <CourseNumber {...navigation} />}
-            {!navigation.thrusters && (
-              <div className="currentCourse card">
+            {!navigation.thrusters &&
+            <div className="currentCourse card">
                 <label>Current Destination</label>
                 <Row>
                   <Col className="col-sm-3">X:</Col>
                   <Col
-                    onClick={() => this.setState({selectedField: "x"})}
-                    className={`col-sm-8 numBox ${
-                      selectedField === "x" ? "selected" : ""
-                    }`}
-                  >
+                  onClick={() => this.setState({ selectedField: "x" })}
+                  className={`col-sm-8 numBox ${
+                  selectedField === "x" ? "selected" : ""}`
+                  }>
+                  
                     {enteredCourse.x}
                   </Col>
                 </Row>
                 <Row>
                   <Col className="col-sm-3">Y:</Col>
                   <Col
-                    onClick={() => this.setState({selectedField: "y"})}
-                    className={`col-sm-8 numBox ${
-                      selectedField === "y" ? "selected" : ""
-                    }`}
-                  >
+                  onClick={() => this.setState({ selectedField: "y" })}
+                  className={`col-sm-8 numBox ${
+                  selectedField === "y" ? "selected" : ""}`
+                  }>
+                  
                     {enteredCourse.y}
                   </Col>
                 </Row>
                 <Row>
                   <Col className="col-sm-3">Z:</Col>
                   <Col
-                    onClick={() => this.setState({selectedField: "z"})}
-                    className={`col-sm-8 numBox ${
-                      selectedField === "z" ? "selected" : ""
-                    }`}
-                  >
+                  onClick={() => this.setState({ selectedField: "z" })}
+                  className={`col-sm-8 numBox ${
+                  selectedField === "z" ? "selected" : ""}`
+                  }>
+                  
                     {enteredCourse.z}
                   </Col>
                 </Row>
               </div>
-            )}
+            }
           </Col>
-          {!navigation.thrusters && (
-            <Col className="number-pad">
+          {!navigation.thrusters &&
+          <Col className="number-pad">
               <Keypad
-                keydown={this.keydown.bind(this)}
-                clear={this.clear.bind(this)}
-                enter={this.enter.bind(this)}
-              />
+              keydown={this.keydown.bind(this)}
+              clear={this.clear.bind(this)}
+              enter={this.enter.bind(this)} />
+            
             </Col>
-          )}
+          }
         </Row>
         <Tour steps={trainingSteps} client={this.props.clientObj} />
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -459,8 +460,8 @@ export const NAVIGATION_QUERY = gql`
 `;
 
 export default graphql(NAVIGATION_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(Navigation));

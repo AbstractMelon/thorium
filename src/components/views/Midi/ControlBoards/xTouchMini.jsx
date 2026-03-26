@@ -1,7 +1,8 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {useMidi} from "helpers/midi";
-import {useMutation} from "react-apollo";
+import { useMidi } from "helpers/midi";
+import { useMutation } from "@apollo/client";
+
 import LiveDataComponents from "../LiveData";
 
 const EXECUTE_MACRO = gql`
@@ -18,9 +19,9 @@ const Button = ({
   channel,
   messageType,
   keyVal,
-  controllerNumber,
+  controllerNumber
 }) => {
-  const {addSubscriber} = useMidi();
+  const { addSubscriber } = useMidi();
   const [executeMacros] = useMutation(EXECUTE_MACRO);
 
   React.useEffect(() => {
@@ -29,48 +30,48 @@ const Button = ({
       channel: channel ?? undefined,
       messageType: messageType ?? undefined,
       key: keyVal ?? undefined,
-      controllerNumber: controllerNumber ?? undefined,
+      controllerNumber: controllerNumber ?? undefined
     };
-    return addSubscriber(address, event => {
+    return addSubscriber(address, (event) => {
       // Buttons are identified with the 'noteon' message type
       if (event.value === 1 && config.macros.length > 0) {
         executeMacros({
           variables: {
             simulatorId,
-            macros: config.macros.map(({id, args, ...macro}) => ({
+            macros: config.macros.map(({ id, args, ...macro }) => ({
               ...macro,
-              args: JSON.stringify(args),
-            })),
-          },
+              args: JSON.stringify(args)
+            }))
+          }
         });
       } else if (
-        event.value === 0 &&
-        actionMode === "momentaryMacro" &&
-        config.upMacros.length > 0
-      ) {
+      event.value === 0 &&
+      actionMode === "momentaryMacro" &&
+      config.upMacros.length > 0)
+      {
         executeMacros({
           variables: {
             simulatorId,
-            macros: config.upMacros.map(({id, args, ...macro}) => ({
+            macros: config.upMacros.map(({ id, args, ...macro }) => ({
               ...macro,
-              args: JSON.stringify(args),
-            })),
-          },
+              args: JSON.stringify(args)
+            }))
+          }
         });
       }
     });
   }, [
-    config,
-    actionMode,
-    addSubscriber,
-    channel,
-    controllerNumber,
-    deviceName,
-    keyVal,
-    messageType,
-    executeMacros,
-    simulatorId,
-  ]);
+  config,
+  actionMode,
+  addSubscriber,
+  channel,
+  controllerNumber,
+  deviceName,
+  keyVal,
+  messageType,
+  executeMacros,
+  simulatorId]
+  );
   return null;
 };
 
@@ -79,18 +80,18 @@ const Slider = ({
   componentName,
   deviceName,
   channel,
-  config = {},
+  config = {}
 }) => {
   const [value, setValue] = React.useState(0);
   const Comp = LiveDataComponents[componentName];
 
-  const {addSubscriber} = useMidi();
+  const { addSubscriber } = useMidi();
   React.useEffect(() => {
     return addSubscriber(
-      {name: deviceName, channel, messageType: "pitchbendchange"},
-      ({value: val}) => {
+      { name: deviceName, channel, messageType: "pitchbendchange" },
+      ({ value: val }) => {
         setValue(val);
-      },
+      }
     );
   }, [addSubscriber, channel, deviceName, setValue]);
   if (!Comp) return null;
@@ -99,9 +100,9 @@ const Slider = ({
       simulatorId={simulatorId}
       config={config}
       value={value}
-      setValue={noop}
-    />
-  );
+      setValue={noop} />);
+
+
 };
 
 function noop() {}
@@ -112,10 +113,10 @@ const Rotor = ({
   config = {},
   deviceName,
   channel,
-  controllerNumber,
+  controllerNumber
 }) => {
   const [value, setValue] = React.useState(0);
-  const {addSubscriber, sendOutput} = useMidi();
+  const { addSubscriber, sendOutput } = useMidi();
   const Comp = LiveDataComponents[componentName];
   React.useEffect(() => {
     return addSubscriber(
@@ -123,17 +124,17 @@ const Rotor = ({
         name: deviceName,
         channel,
         messageType: "controlchange",
-        controllerNumber,
+        controllerNumber
       },
-      ({value: val}) => {
+      ({ value: val }) => {
         setValue(
-          v =>
-            Math.round(
-              Math.min(1, Math.max(0, v + (val > 64 ? 64 - val : val) / 100)) *
-                100,
-            ) / 100,
+          (v) =>
+          Math.round(
+            Math.min(1, Math.max(0, v + (val > 64 ? 64 - val : val) / 100)) *
+            100
+          ) / 100
         );
-      },
+      }
     );
   }, [addSubscriber, channel, setValue, deviceName, controllerNumber]);
 
@@ -144,7 +145,7 @@ const Rotor = ({
       name: deviceName,
       messageType: "controlchange",
       controllerNumber: controllerNumber + 32,
-      value: Math.round(value * mult + offset),
+      value: Math.round(value * mult + offset)
     });
   }, [value, sendOutput, deviceName, controllerNumber]);
   if (!Comp) return null;
@@ -153,9 +154,9 @@ const Rotor = ({
       simulatorId={simulatorId}
       config={config}
       value={value}
-      setValue={setValue}
-    />
-  );
+      setValue={setValue} />);
+
+
 };
 
 const Toggle = ({
@@ -166,10 +167,10 @@ const Toggle = ({
   channel,
   messageType,
   keyVal,
-  controllerNumber,
+  controllerNumber
 }) => {
   const [value, setValue] = React.useState(0);
-  const {addSubscriber, sendOutput} = useMidi();
+  const { addSubscriber, sendOutput } = useMidi();
   const Comp = LiveDataComponents[componentName];
   React.useEffect(() => {
     return addSubscriber(
@@ -178,23 +179,23 @@ const Toggle = ({
         channel: channel ?? undefined,
         messageType: messageType ?? undefined,
         key: keyVal ?? undefined,
-        controllerNumber: controllerNumber ?? undefined,
+        controllerNumber: controllerNumber ?? undefined
       },
-      ({value}) => {
+      ({ value }) => {
         if (value === 1) {
-          setValue(val => (val === 0 ? 1 : 0));
+          setValue((val) => val === 0 ? 1 : 0);
         }
-      },
+      }
     );
   }, [
-    addSubscriber,
-    channel,
-    setValue,
-    deviceName,
-    controllerNumber,
-    messageType,
-    keyVal,
-  ]);
+  addSubscriber,
+  channel,
+  setValue,
+  deviceName,
+  controllerNumber,
+  messageType,
+  keyVal]
+  );
 
   React.useEffect(() => {
     sendOutput({
@@ -203,26 +204,26 @@ const Toggle = ({
       messageType: messageType ?? undefined,
       key: keyVal ?? undefined,
       controllerNumber: controllerNumber ?? undefined,
-      value: value === 0 ? 0 : 127,
+      value: value === 0 ? 0 : 127
     });
   }, [
-    value,
-    sendOutput,
-    deviceName,
-    controllerNumber,
-    channel,
-    messageType,
-    keyVal,
-  ]);
+  value,
+  sendOutput,
+  deviceName,
+  controllerNumber,
+  channel,
+  messageType,
+  keyVal]
+  );
   if (!Comp) return null;
   return (
     <Comp
       simulatorId={simulatorId}
       config={config}
       value={value}
-      setValue={setValue}
-    />
-  );
+      setValue={setValue} />);
+
+
 };
 
 const XTouchMini = ({
@@ -233,12 +234,12 @@ const XTouchMini = ({
   channel,
   messageType,
   keyVal,
-  controllerNumber,
+  controllerNumber
 }) => {
   if (
-    (actionMode === "macro" || actionMode === "momentaryMacro") &&
-    messageType === "noteon"
-  ) {
+  (actionMode === "macro" || actionMode === "momentaryMacro") &&
+  messageType === "noteon")
+  {
     return (
       <Button
         simulatorId={simulatorId}
@@ -248,15 +249,15 @@ const XTouchMini = ({
         channel={channel}
         messageType={messageType}
         keyVal={keyVal}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
   if (
-    actionMode === "toggle" &&
-    messageType === "noteon" &&
-    config.valueAssignmentComponent
-  ) {
+  actionMode === "toggle" &&
+  messageType === "noteon" &&
+  config.valueAssignmentComponent)
+  {
     return (
       <Toggle
         simulatorId={simulatorId}
@@ -267,15 +268,15 @@ const XTouchMini = ({
         channel={channel}
         messageType={messageType}
         keyVal={keyVal}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
   if (
-    actionMode === "valueAssignment" &&
-    config.valueAssignmentComponent &&
-    messageType === "pitchbendchange"
-  ) {
+  actionMode === "valueAssignment" &&
+  config.valueAssignmentComponent &&
+  messageType === "pitchbendchange")
+  {
     return (
       <Slider
         simulatorId={simulatorId}
@@ -285,15 +286,15 @@ const XTouchMini = ({
         channel={channel}
         messageType={messageType}
         keyVal={keyVal}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
   if (
-    actionMode === "valueAssignment" &&
-    config.valueAssignmentComponent &&
-    messageType === "controlchange"
-  ) {
+  actionMode === "valueAssignment" &&
+  config.valueAssignmentComponent &&
+  messageType === "controlchange")
+  {
     return (
       <Rotor
         simulatorId={simulatorId}
@@ -303,9 +304,9 @@ const XTouchMini = ({
         channel={channel}
         messageType={messageType}
         keyVal={keyVal}
-        controllerNumber={controllerNumber}
-      />
-    );
+        controllerNumber={controllerNumber} />);
+
+
   }
   return null;
 };

@@ -1,7 +1,8 @@
 import React from "react";
 import Assets from "../../../containers/FlightDirector/SimulatorConfig/config/Assets";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 
 const query = gql`
   query Flights($id: ID!) {
@@ -42,15 +43,15 @@ const query = gql`
     }
   }
 `;
-const AssetsCore = props => {
+const AssetsCore = (props) => {
   return (
     <Assets
       update={() => {
-        props.client.query({query, variables: {id: props.flight.id}});
+        props.client.query({ query, variables: { id: props.flight.id } });
       }}
-      selectedSimulator={props.simulator}
-    />
-  );
+      selectedSimulator={props.simulator} />);
+
+
 };
 
 export default withApollo(AssetsCore);

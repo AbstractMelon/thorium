@@ -1,5 +1,7 @@
 import React from "react";
-import {withApollo, Query} from "react-apollo";
+import { Query } from "@apollo/client/react/components";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Buttons from "./buttons";
@@ -53,7 +55,7 @@ export const CRM_CORE_SUB = gql`
   }
   ${fragment}
 `;
-const CrmCore = ({fighterImage, fighterIcon, enemyIcon, ...props}) => {
+const CrmCore = ({ fighterImage, fighterIcon, enemyIcon, ...props }) => {
   const [imagePick, setImagePick] = React.useState(null);
 
   if (imagePick) {
@@ -64,9 +66,9 @@ const CrmCore = ({fighterImage, fighterIcon, enemyIcon, ...props}) => {
         enemyIcon={enemyIcon}
         imagePick={imagePick}
         setImagePick={setImagePick}
-        {...props}
-      />
-    );
+        {...props} />);
+
+
   }
   return (
     <div className="crm-core">
@@ -89,34 +91,34 @@ const CrmCore = ({fighterImage, fighterIcon, enemyIcon, ...props}) => {
 
       <Fighters {...props} />
       <Stats {...props} />
-    </div>
-  );
+    </div>);
+
 };
 
-const CrmData = props => (
-  <Query query={CRM_CORE_QUERY} variables={{simulatorId: props.simulator.id}}>
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {crm} = data;
-      if (!crm) return <div>No CRM System</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: CRM_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  crm: subscriptionData.data.crmUpdate,
-                });
-              },
-            })
+const CrmData = (props) =>
+<Query query={CRM_CORE_QUERY} variables={{ simulatorId: props.simulator.id }}>
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { crm } = data;
+    if (!crm) return <div>No CRM System</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: CRM_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              crm: subscriptionData.data.crmUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <CrmCore {...props} {...crm} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default withApollo(CrmData);

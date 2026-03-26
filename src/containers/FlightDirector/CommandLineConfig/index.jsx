@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import CommandLineConfig from "./commandLineConfig";
@@ -37,28 +38,28 @@ class CommandLineData extends Component {
   render() {
     return (
       <Query query={QUERY}>
-        {({loading, data, subscribeToMore}) => {
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {commandLine} = data;
+          const { commandLine } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      commandLine: subscriptionData.data.commandLineUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    commandLine: subscriptionData.data.commandLineUpdate
+                  });
+                }
+              })
+              }>
+              
               <CommandLineConfig {...this.props} commandLines={commandLine} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

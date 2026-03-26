@@ -1,9 +1,10 @@
 import React from "react";
-import {FormGroup, Label} from "helpers/reactstrap";
-import {Query} from "react-apollo";
+import { FormGroup, Label } from "helpers/reactstrap";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 
-export default ({updateArgs, args, client}) => {
+export default ({ updateArgs, args, client }) => {
   return (
     <FormGroup className="macro-addTrigger">
       <Label>Trigger</Label>
@@ -15,29 +16,29 @@ export default ({updateArgs, args, client}) => {
               name
             }
           }
-        `}
-      >
-        {({loading, data}) => {
+        `}>
+        
+        {({ loading, data }) => {
           if (loading || !data) return null;
-          const {triggers} = data;
+          const { triggers } = data;
           return (
             <select
               className={"form-control"}
               type="select"
               value={args.trigger}
-              onChange={e => updateArgs("trigger", e.target.value)}
-            >
+              onChange={(e) => updateArgs("trigger", e.target.value)}>
+              
               <option value="nothing">Select a trigger.</option>
 
-              {triggers.map(c => (
-                <option key={c.id} value={c.id}>
+              {triggers.map((c) =>
+              <option key={c.id} value={c.id}>
                   {c.name}
                 </option>
-              ))}
-            </select>
-          );
+              )}
+            </select>);
+
         }}
       </Query>
-    </FormGroup>
-  );
+    </FormGroup>);
+
 };

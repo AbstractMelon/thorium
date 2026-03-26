@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Container, Row, Col, Card} from "helpers/reactstrap";
-import {throttle} from "helpers/debounce";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Card } from "helpers/reactstrap";
+import { throttle } from "helpers/debounce";
 import AnimatedNumber from "react-animated-number";
 import Slider from "./slider";
 import ThrusterRotor from "./thrusterRotor";
@@ -10,27 +11,27 @@ import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
 
 const sliderColors = [
-  {
-    backgroundColor: "rgba(128,0,0,0.9)",
-    borderColor: "rgba(255,0,0,0.3)",
-    className: "text-danger",
-  },
-  {
-    backgroundColor: "rgba(0,128,0,0.9)",
-    borderColor: "rgba(0,255,0,0.3)",
-    className: "text-success",
-  },
-  {
-    backgroundColor: "rgba(128,0,128,0.9)",
-    borderColor: "rgba(255,0,255,0.3)",
-    className: "text-info",
-  },
-  {
-    backgroundColor: "rgba(0,0,128,0.9)",
-    borderColor: "rgba(0,0,255,0.3)",
-    className: "text-warning",
-  },
-];
+{
+  backgroundColor: "rgba(128,0,0,0.9)",
+  borderColor: "rgba(255,0,0,0.3)",
+  className: "text-danger"
+},
+{
+  backgroundColor: "rgba(0,128,0,0.9)",
+  borderColor: "rgba(0,255,0,0.3)",
+  className: "text-success"
+},
+{
+  backgroundColor: "rgba(128,0,128,0.9)",
+  borderColor: "rgba(255,0,255,0.3)",
+  className: "text-info"
+},
+{
+  backgroundColor: "rgba(0,0,128,0.9)",
+  borderColor: "rgba(0,0,255,0.3)",
+  className: "text-warning"
+}];
+
 export const NAV_THRUSTER_SUB = gql`
   subscription ThrusterSub($simulatorId: ID) {
     rotationChange(simulatorId: $simulatorId) {
@@ -86,10 +87,10 @@ export const NAV_ENGINE_SUB = gql`
 `;
 
 class AdvancedNavigation extends Component {
-  state = {velocity: 0, acceleration: 0};
+  state = { velocity: 0, acceleration: 0 };
   changeThrusters = (which, rot) => {
     const thrusters = this.props.data.thrusters[0];
-    const {yaw, pitch, roll} = thrusters.rotation;
+    const { yaw, pitch, roll } = thrusters.rotation;
     const mutation = gql`
       mutation SetThrusterRotation($id: ID!, $rotation: RotationInput) {
         rotationSet(id: $id, rotation: $rotation)
@@ -101,12 +102,12 @@ class AdvancedNavigation extends Component {
         yaw,
         pitch,
         roll,
-        [which]: rot,
-      },
+        [which]: rot
+      }
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   handleSlider = throttle((engine, value) => {
@@ -117,44 +118,44 @@ class AdvancedNavigation extends Component {
     `;
     const variables = {
       id: engine.id,
-      acceleration: engine.useAcceleration ? value * 2 - 1 : value,
+      acceleration: engine.useAcceleration ? value * 2 - 1 : value
     };
     if (variables.acceleration === 1) variables.acceleration = 0.99;
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }, 250);
   getCurrentSpeed() {
     const velocity =
-      this.props.data.engines && this.props.data.engines.length > 0
-        ? this.props.data.engines[0].velocity
-        : 0;
-    const speed = this.props.data.engines
-      .reduce((prev, next) => {
-        return prev.concat(next.speeds);
-      }, [])
-      .reduce((prev, next) => {
-        if (isNaN(parseFloat(next.velocity))) return prev;
-        if (next.velocity > velocity) return prev;
-        if (!prev) return next;
-        if (next.velocity > prev.velocity) return next;
-        return prev;
-      }, null);
+    this.props.data.engines && this.props.data.engines.length > 0 ?
+    this.props.data.engines[0].velocity :
+    0;
+    const speed = this.props.data.engines.
+    reduce((prev, next) => {
+      return prev.concat(next.speeds);
+    }, []).
+    reduce((prev, next) => {
+      if (isNaN(parseFloat(next.velocity))) return prev;
+      if (next.velocity > velocity) return prev;
+      if (!prev) return next;
+      if (next.velocity > prev.velocity) return next;
+      return prev;
+    }, null);
     return speed ? speed.text : "Full Stop";
   }
   engineSpeedClass = () => {
     const engines = this.props.data.engines;
-    return sliderColors[engines.findIndex(e => e.on === true)]
-      ? sliderColors[engines.findIndex(e => e.on === true)].className
-      : "text-danger";
+    return sliderColors[engines.findIndex((e) => e.on === true)] ?
+    sliderColors[engines.findIndex((e) => e.on === true)].className :
+    "text-danger";
   };
   velocity = () => {
     const engines = this.props.data.engines;
     return engines[0] ? engines[0].velocity : 0;
   };
-  getInitialValue = ({speeds, velocity}) => {
-    const speedIndex = speeds.findIndex(s => s.velocity === velocity);
+  getInitialValue = ({ speeds, velocity }) => {
+    const speedIndex = speeds.findIndex((s) => s.velocity === velocity);
     return speedIndex / (speeds.length - 1);
   };
   render() {
@@ -162,63 +163,63 @@ class AdvancedNavigation extends Component {
     const thrusters = this.props.data.thrusters[0];
     const engines = this.props.data.engines;
     if (!thrusters) return null;
-    const {yaw, pitch, roll} = thrusters.rotation;
-    const {yaw: yawr, pitch: pitchr, roll: rollr} = thrusters.rotationRequired;
-    const {assets} = this.props.simulator;
+    const { yaw, pitch, roll } = thrusters.rotation;
+    const { yaw: yawr, pitch: pitchr, roll: rollr } = thrusters.rotationRequired;
+    const { assets } = this.props.simulator;
     return (
       <Container fluid className="card-advanced-navigation">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: NAV_THRUSTER_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  thrusters: [subscriptionData.data.rotationChange],
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: NAV_THRUSTER_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                thrusters: [subscriptionData.data.rotationChange]
+              });
+            }
+          })
+          } />
+        
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: NAV_ENGINE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  engines: previousResult.engines.map(e => {
-                    if (e.id === subscriptionData.data.engineUpdate.id) {
-                      return subscriptionData.data.engineUpdate;
-                    }
-                    return Object.assign({}, e, {
-                      on: false,
-                      velocity: subscriptionData.data.engineUpdate.velocity,
-                    });
-                  }),
-                });
-              },
-            })
-          }
-        />
-        <Row style={{height: "100%"}}>
+          this.props.data.subscribeToMore({
+            document: NAV_ENGINE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                engines: previousResult.engines.map((e) => {
+                  if (e.id === subscriptionData.data.engineUpdate.id) {
+                    return subscriptionData.data.engineUpdate;
+                  }
+                  return Object.assign({}, e, {
+                    on: false,
+                    velocity: subscriptionData.data.engineUpdate.velocity
+                  });
+                })
+              });
+            }
+          })
+          } />
+        
+        <Row style={{ height: "100%" }}>
           <Col
             sm={8}
             style={{
               display: "flex",
               justifyContent: "space-between",
-              flexDirection: "column",
-            }}
-          >
+              flexDirection: "column"
+            }}>
+            
             <Row>
               <Col sm={4}>
                 <Card
-                  className={`${this.engineSpeedClass()} crystal-display one-line`}
-                >
+                  className={`${this.engineSpeedClass()} crystal-display one-line`}>
+                  
                   {this.getCurrentSpeed()}
                 </Card>
               </Col>
@@ -231,15 +232,15 @@ class AdvancedNavigation extends Component {
               <Col sm={4}>
                 {Math.round(yawr) === Math.round(yaw) &&
                 Math.round(pitchr) === Math.round(pitch) &&
-                Math.round(rollr) === Math.round(roll) ? (
-                  <Card className="text-success crystal-display">
+                Math.round(rollr) === Math.round(roll) ?
+                <Card className="text-success crystal-display">
                     On Course
-                  </Card>
-                ) : (
-                  <Card className="text-danger crystal-display">
+                  </Card> :
+
+                <Card className="text-danger crystal-display">
                     Off Course
                   </Card>
-                )}
+                }
               </Col>
               <Col sm={5}>
                 <Card className="crystal-display">
@@ -252,8 +253,8 @@ class AdvancedNavigation extends Component {
                 <label>Course Bearing</label>
               </Col>
             </Row>
-            <Row style={{flex: "1"}}>
-              <Col sm={{size: 8, offset: 2}} className="ship-image">
+            <Row style={{ flex: "1" }}>
+              <Col sm={{ size: 8, offset: 2 }} className="ship-image">
                 <div
                   alt="ship"
                   style={{
@@ -262,10 +263,10 @@ class AdvancedNavigation extends Component {
                     backgroundImage: `url("/assets${assets.side}")`,
                     backgroundSize: "contain",
                     backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
+                    backgroundRepeat: "no-repeat"
                   }}
-                  draggable="false"
-                />
+                  draggable="false" />
+                
               </Col>
             </Row>
             <Row>
@@ -274,71 +275,71 @@ class AdvancedNavigation extends Component {
                   label="Yaw"
                   text="success"
                   rotation={yaw}
-                  onChange={rot => this.changeThrusters("yaw", rot)}
-                />
+                  onChange={(rot) => this.changeThrusters("yaw", rot)} />
+                
               </Col>
               <Col sm={4}>
                 <ThrusterRotor
                   label="Pitch"
                   text="info"
                   rotation={pitch}
-                  onChange={rot => this.changeThrusters("pitch", rot)}
-                />
+                  onChange={(rot) => this.changeThrusters("pitch", rot)} />
+                
               </Col>
               <Col sm={4}>
                 <ThrusterRotor
                   label="Roll"
                   text="warning"
                   rotation={roll}
-                  onChange={rot => this.changeThrusters("roll", rot)}
-                />
+                  onChange={(rot) => this.changeThrusters("roll", rot)} />
+                
               </Col>
             </Row>
           </Col>
           <Col sm={4}>
-            <Row style={{height: "100%"}}>
-              {engines.map((e, i) => (
-                <Col key={e.id} style={{height: "80%"}}>
+            <Row style={{ height: "100%" }}>
+              {engines.map((e, i) =>
+              <Col key={e.id} style={{ height: "80%" }}>
                   <p>
                     {e.name} {e.useAcceleration ? "Acceleration" : "Velocity"}
                   </p>
                   <Slider
-                    snap={e.useAcceleration}
-                    numbers={
-                      e.useAcceleration
-                        ? Array(e.speeds.length)
-                            .fill(0)
-                            .map((_, index) => index + 1)
-                            .reverse()
-                            .concat(0)
-                            .concat(
-                              Array(e.speeds.length)
-                                .fill(0)
-                                .map((_, index) => (index + 1) * -1),
-                            )
-                        : e.speeds
-                            .map(sp => sp.number)
-                            .reverse()
-                            .concat(0)
-                    }
-                    disabled={engines.find(
-                      eng => eng.id !== e.id && eng.on === true,
-                    )}
-                    defaultLevel={
-                      e.useAcceleration ? 0.5 : this.getInitialValue(e)
-                    }
-                    sliderStyle={sliderColors[i]}
-                    onChange={(value, numbers) =>
-                      this.handleSlider(e, value, numbers)
-                    }
-                  />
+                  snap={e.useAcceleration}
+                  numbers={
+                  e.useAcceleration ?
+                  Array(e.speeds.length).
+                  fill(0).
+                  map((_, index) => index + 1).
+                  reverse().
+                  concat(0).
+                  concat(
+                    Array(e.speeds.length).
+                    fill(0).
+                    map((_, index) => (index + 1) * -1)
+                  ) :
+                  e.speeds.
+                  map((sp) => sp.number).
+                  reverse().
+                  concat(0)
+                  }
+                  disabled={engines.find(
+                    (eng) => eng.id !== e.id && eng.on === true
+                  )}
+                  defaultLevel={
+                  e.useAcceleration ? 0.5 : this.getInitialValue(e)
+                  }
+                  sliderStyle={sliderColors[i]}
+                  onChange={(value, numbers) =>
+                  this.handleSlider(e, value, numbers)
+                  } />
+                
                 </Col>
-              ))}
+              )}
             </Row>
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -356,16 +357,16 @@ class VelocityDisplay extends Component {
           stepPrecision={0}
           value={this.props.velocity}
           duration={500}
-          formatValue={n =>
-            `${
-              n
-                ? n.toLocaleString()
-                : console.error("Must add velocity to ship config") || n
-            } km/s`
-          }
-        />
-      </Card>
-    );
+          formatValue={(n) =>
+          `${
+          n ?
+          n.toLocaleString() :
+          console.error("Must add velocity to ship config") || n} km/s`
+
+          } />
+        
+      </Card>);
+
   }
 }
 export const NAV_QUERY = gql`
@@ -417,10 +418,10 @@ export const NAV_QUERY = gql`
   }
 `;
 export default graphql(NAV_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(AdvancedNavigation));

@@ -1,11 +1,12 @@
 import React from "react";
-import {Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import { Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 
 function distance3d(coord2, coord1) {
-  const {x: x1, y: y1, z: z1} = coord1;
-  let {x: x2, y: y2, z: z2} = coord2;
+  const { x: x1, y: y1, z: z1 } = coord1;
+  let { x: x2, y: y2, z: z2 } = coord2;
   return Math.sqrt((x2 -= x1) * x2 + (y2 -= y1) * y2 + (z2 -= z1) * z2);
 }
 
@@ -17,7 +18,7 @@ const Controls = ({
   shield,
   shieldRaised,
   targeted,
-  center,
+  center
 }) => {
   const firePhaserBeam = (fire, stop) => () => {
     fire();
@@ -35,30 +36,30 @@ const Controls = ({
             crmFirePhaser(id: $id, clientId: $clientId, target: $targetId)
           }
         `}
-        variables={{id, clientId, targetId: targeted}}
-      >
-        {fire => (
-          <Mutation
-            mutation={gql`
+        variables={{ id, clientId, targetId: targeted }}>
+        
+        {(fire) =>
+        <Mutation
+          mutation={gql`
               mutation StopPhaser($id: ID!, $clientId: ID!) {
                 crmStopPhaser(id: $id, clientId: $clientId)
               }
             `}
-            variables={{id, clientId}}
-          >
-            {stop => (
-              <Button
-                block
-                className="phaser-fire-button"
-                color="warning"
-                disabled={phaserLevel < 0.05 || !targeted}
-                onMouseDown={firePhaserBeam(fire, stop)}
-              >
+          variables={{ id, clientId }}>
+          
+            {(stop) =>
+          <Button
+            block
+            className="phaser-fire-button"
+            color="warning"
+            disabled={phaserLevel < 0.05 || !targeted}
+            onMouseDown={firePhaserBeam(fire, stop)}>
+            
                 Fire Phaser
               </Button>
-            )}
+          }
           </Mutation>
-        )}
+        }
       </Mutation>
       <Mutation
         mutation={gql`
@@ -66,19 +67,19 @@ const Controls = ({
             crmFireTorpedo(id: $id, clientId: $clientId, target: $target)
           }
         `}
-        variables={{id, clientId, target: targeted}}
-      >
-        {action => (
-          <Button
-            block
-            className="torpedo-fire-button"
-            color="warning"
-            disabled={!torpedoLoaded || !targeted}
-            onClick={action}
-          >
+        variables={{ id, clientId, target: targeted }}>
+        
+        {(action) =>
+        <Button
+          block
+          className="torpedo-fire-button"
+          color="warning"
+          disabled={!torpedoLoaded || !targeted}
+          onClick={action}>
+          
             Fire Torpedo
           </Button>
-        )}
+        }
       </Mutation>
       <Mutation
         mutation={gql`
@@ -86,19 +87,19 @@ const Controls = ({
             crmSetShieldState(id: $id, clientId: $clientId, shield: $shield)
           }
         `}
-        variables={{id, clientId, shield: !shieldRaised}}
-      >
-        {action => (
-          <Button
-            block
-            className="shield-raise-button"
-            color="info"
-            onClick={action}
-            disabled={shield === 0}
-          >
+        variables={{ id, clientId, shield: !shieldRaised }}>
+        
+        {(action) =>
+        <Button
+          block
+          className="shield-raise-button"
+          color="info"
+          onClick={action}
+          disabled={shield === 0}>
+          
             {shieldRaised ? "Lower" : "Raise"} Shields
           </Button>
-        )}
+        }
       </Mutation>
       <Mutation
         mutation={gql`
@@ -108,22 +109,22 @@ const Controls = ({
         `}
         variables={{
           id,
-          clientId,
-        }}
-      >
-        {action => (
-          <Button
-            block
-            className="fighter-dock-button"
-            color="danger"
-            disabled={distance3d({x: 0, y: 0, z: 0}, {...center, z: 0}) > 25}
-            onClick={action}
-          >
+          clientId
+        }}>
+        
+        {(action) =>
+        <Button
+          block
+          className="fighter-dock-button"
+          color="danger"
+          disabled={distance3d({ x: 0, y: 0, z: 0 }, { ...center, z: 0 }) > 25}
+          onClick={action}>
+          
             Dock Fighter
           </Button>
-        )}
+        }
       </Mutation>
-    </div>
-  );
+    </div>);
+
 };
 export default Controls;

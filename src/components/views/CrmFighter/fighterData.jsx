@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Crm from "./crm";
@@ -46,41 +47,41 @@ export const CRM_FIGHTER_DATA_SUB = gql`
 class FighterData extends Component {
   state = {};
   render() {
-    const {crm} = this.props;
+    const { crm } = this.props;
     return (
       <Query
         query={CRM_FIGHTER_DATA_QUERY}
         variables={{
           simulatorId: this.props.simulator.id,
-          clientId: this.props.clientObj.id,
-        }}
-      >
-        {({loading, data, subscribeToMore}) => {
+          clientId: this.props.clientObj.id
+        }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {crmFighter} = data;
+          const { crmFighter } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: CRM_FIGHTER_DATA_SUB,
-                  variables: {
-                    simulatorId: this.props.simulator.id,
-                    clientId: this.props.clientObj.id,
-                  },
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      crmFighter: subscriptionData.data.crmFighterUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: CRM_FIGHTER_DATA_SUB,
+                variables: {
+                  simulatorId: this.props.simulator.id,
+                  clientId: this.props.clientObj.id
+                },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    crmFighter: subscriptionData.data.crmFighterUpdate
+                  });
+                }
+              })
+              }>
+              
               <Crm {...this.props} crm={crm} fighter={crmFighter} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default FighterData;

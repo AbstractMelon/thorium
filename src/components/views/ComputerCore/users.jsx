@@ -1,13 +1,14 @@
-import React, {Component, Fragment} from "react";
-import {Row, Col, Table, Button} from "helpers/reactstrap";
+import React, { Component, Fragment } from "react";
+import { Row, Col, Table, Button } from "helpers/reactstrap";
 import UserModal from "./addUserModal";
-import {Mutation} from "react-apollo";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 class Users extends Component {
   state = {};
   render() {
-    const {selectedUser, modal} = this.state;
-    const {users, selectedLevel, id} = this.props;
+    const { selectedUser, modal } = this.state;
+    const { users, selectedLevel, id } = this.props;
     return (
       <Fragment>
         <Row>
@@ -21,19 +22,19 @@ class Users extends Component {
                 </tr>
               </thead>
               <tbody>
-                {users
-                  .filter(u => u.level === selectedLevel)
-                  .map(u => (
-                    <tr
-                      key={u.id}
-                      className={selectedUser === u.id ? "selected" : ""}
-                      onClick={() => this.setState({selectedUser: u.id})}
-                    >
+                {users.
+                filter((u) => u.level === selectedLevel).
+                map((u) =>
+                <tr
+                  key={u.id}
+                  className={selectedUser === u.id ? "selected" : ""}
+                  onClick={() => this.setState({ selectedUser: u.id })}>
+                  
                       <td>{u.name}</td>
                       <td>········</td>
                       <td>Level {u.level}</td>
                     </tr>
-                  ))}
+                )}
               </tbody>
             </Table>
           </Col>
@@ -43,42 +44,42 @@ class Users extends Component {
             <Button
               color="success"
               block
-              onClick={() => this.setState({modal: true})}
-            >
+              onClick={() => this.setState({ modal: true })}>
+              
               Add User
             </Button>
           </Col>
-          <Col sm={{size: 5, offset: 2}}>
+          <Col sm={{ size: 5, offset: 2 }}>
             <Mutation
               mutation={gql`
                 mutation RemoveUser($id: ID!, $userId: ID!) {
                   removeComputerCoreUser(id: $id, userId: $userId)
                 }
               `}
-              variables={{id, userId: selectedUser}}
-            >
-              {action => (
-                <Button
-                  color="danger"
-                  block
-                  disabled={!selectedUser}
-                  onClick={action}
-                >
+              variables={{ id, userId: selectedUser }}>
+              
+              {(action) =>
+              <Button
+                color="danger"
+                block
+                disabled={!selectedUser}
+                onClick={action}>
+                
                   Remove User
                 </Button>
-              )}
+              }
             </Mutation>
           </Col>
         </Row>
-        {modal && (
-          <UserModal
-            id={id}
-            modal={modal}
-            toggle={() => this.setState({modal: false})}
-          />
-        )}
-      </Fragment>
-    );
+        {modal &&
+        <UserModal
+          id={id}
+          modal={modal}
+          toggle={() => this.setState({ modal: false })} />
+
+        }
+      </Fragment>);
+
   }
 }
 

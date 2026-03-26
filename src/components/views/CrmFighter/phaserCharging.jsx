@@ -1,7 +1,8 @@
-import React, {useRef, useEffect, useState} from "react";
-import {Button} from "helpers/reactstrap";
+import React, { useRef, useEffect, useState } from "react";
+import { Button } from "helpers/reactstrap";
 import useAnimationFrame from "helpers/hooks/useAnimationFrame";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 
 function useMouseHold(callback, mouseupCallback = () => {}) {
@@ -18,13 +19,13 @@ function useMouseHold(callback, mouseupCallback = () => {}) {
     document.addEventListener("mouseup", mouseup);
     document.addEventListener("touchend", mouseup);
   }
-  useAnimationFrame(delta => {
+  useAnimationFrame((delta) => {
     callback(delta);
   }, activeRef.current);
 
-  return {mousedown};
+  return { mousedown };
 }
-const PhaserCharging = ({id, clientId, client, phaserLevel = 0}) => {
+const PhaserCharging = ({ id, clientId, client, phaserLevel = 0 }) => {
   const [phasers, setPhasers] = useState(phaserLevel);
   const phaserRef = useRef(phaserLevel);
   useEffect(() => {
@@ -42,12 +43,12 @@ const PhaserCharging = ({id, clientId, client, phaserLevel = 0}) => {
       variables: {
         id,
         clientId,
-        phaser: phaserRef.current,
-      },
+        phaser: phaserRef.current
+      }
     });
   }
-  const {mousedown} = useMouseHold(delta => {
-    setPhasers(p => {
+  const { mousedown } = useMouseHold((delta) => {
+    setPhasers((p) => {
       phaserRef.current = Math.min(1, p + delta / (5 * 1000));
       return Math.min(1, p + delta / (5 * 1000));
     });
@@ -60,16 +61,16 @@ const PhaserCharging = ({id, clientId, client, phaserLevel = 0}) => {
           className="charge-bar"
           style={{
             height: `${phasers * 100}%`,
-            top: `${(1 - phasers) * 100}%`,
-          }}
-        />
+            top: `${(1 - phasers) * 100}%`
+          }} />
+        
       </div>
 
       <Button color="warning" onMouseDown={mousedown} onTouchStart={mousedown}>
         Charge
       </Button>
-    </div>
-  );
+    </div>);
+
 };
 
 export default withApollo(PhaserCharging);

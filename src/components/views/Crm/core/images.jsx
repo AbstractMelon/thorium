@@ -1,6 +1,7 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import FileExplorer from "components/views/TacticalMap/fileExplorer";
 
 const Images = ({
@@ -11,9 +12,9 @@ const Images = ({
   setImagePick,
   refetchQueries = [],
   client,
-  id,
+  id
 }) => {
-  const images = {fighterImage, fighterIcon, enemyIcon};
+  const images = { fighterImage, fighterIcon, enemyIcon };
   const mutations = {
     fighterImage: gql`
       mutation Image($id: ID!, $image: String!) {
@@ -29,26 +30,26 @@ const Images = ({
       mutation Image($id: ID!, $image: String!) {
         crmSetEnemyIcon(id: $id, image: $image)
       }
-    `,
+    `
   };
   return (
     <FileExplorer
       directory={
-        imagePick === "fighterImage"
-          ? "/Docking Images"
-          : "/Sensor Contacts/Icons"
+      imagePick === "fighterImage" ?
+      "/Docking Images" :
+      "/Sensor Contacts/Icons"
       }
       selectedFiles={[images[imagePick]]}
       onClick={(evt, container) => {
-        const variables = {id, image: container.fullPath};
+        const variables = { id, image: container.fullPath };
         client.mutate({
           mutation: mutations[imagePick],
           variables,
-          refetchQueries,
+          refetchQueries
         });
         setImagePick(null);
-      }}
-    />
-  );
+      }} />);
+
+
 };
 export default withApollo(Images);

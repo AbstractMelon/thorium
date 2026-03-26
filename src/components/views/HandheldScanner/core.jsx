@@ -1,5 +1,6 @@
 import React from "react";
-import {Query} from "react-apollo";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import ScannerCore from "./scannerCore";
@@ -32,35 +33,35 @@ export const HANDHELD_SCANNER_SUBSCRIPTION = gql`
   ${fragment}
 `;
 
-const ScannerData = props => {
-  const {simulator} = props;
+const ScannerData = (props) => {
+  const { simulator } = props;
   return (
     <Query
       query={HANDHELD_SCANNER_QUERY}
-      variables={{simulatorId: simulator.id}}
-    >
-      {({loading, data, subscribeToMore}) => {
+      variables={{ simulatorId: simulator.id }}>
+      
+      {({ loading, data, subscribeToMore }) => {
         if (loading || !data) return null;
-        const {scanners} = data;
+        const { scanners } = data;
         return (
           <SubscriptionHelper
             subscribe={() =>
-              subscribeToMore({
-                document: HANDHELD_SCANNER_SUBSCRIPTION,
-                variables: {simulatorId: simulator.id},
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    scanners: subscriptionData.data.scannersUpdate,
-                  });
-                },
-              })
-            }
-          >
+            subscribeToMore({
+              document: HANDHELD_SCANNER_SUBSCRIPTION,
+              variables: { simulatorId: simulator.id },
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  scanners: subscriptionData.data.scannersUpdate
+                });
+              }
+            })
+            }>
+            
             <ScannerCore {...props} scanners={scanners} />
-          </SubscriptionHelper>
-        );
+          </SubscriptionHelper>);
+
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 export default ScannerData;

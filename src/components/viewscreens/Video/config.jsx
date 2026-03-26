@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import FileExplorer from "components/views/TacticalMap/fileExplorer";
-import {Button} from "helpers/reactstrap";
+import { Button } from "helpers/reactstrap";
 const ADD_CACHE_MUTATION = gql`
   mutation AddCache($clientId: ID!, $cacheItem: String!) {
     clientAddCache(client: $clientId, cacheItem: $cacheItem)
@@ -14,91 +15,91 @@ class VideoConfig extends Component {
     const oldData = JSON.parse(prevProps.data);
     const data = JSON.parse(this.props.data);
     if (
-      !Array.isArray(data.asset) &&
-      data.asset !== oldData.asset &&
-      this.props.selectedClient
-    ) {
+    !Array.isArray(data.asset) &&
+    data.asset !== oldData.asset &&
+    this.props.selectedClient)
+    {
       this.props.client.mutate({
         mutation: ADD_CACHE_MUTATION,
         variables: {
           clientId: this.props.selectedClient,
-          cacheItem: data.asset,
-        },
+          cacheItem: data.asset
+        }
       });
     }
   }
   togglePause = () => {
     this.props.viewscreen &&
-      this.props.client.mutate({
-        mutation: gql`
+    this.props.client.mutate({
+      mutation: gql`
           mutation ToggleVideo($viewscreenId: ID) {
             toggleViewscreenVideo(viewscreenId: $viewscreenId)
           }
         `,
-        variables: {
-          viewscreenId: this.props.viewscreen.id,
-        },
-      });
+      variables: {
+        viewscreenId: this.props.viewscreen.id
+      }
+    });
   };
   render() {
-    let {data, updateData, simple} = this.props;
+    let { data, updateData, simple } = this.props;
     data = JSON.parse(data);
     return (
-      <div style={{height: "100%", display: "flex", flexDirection: "column"}}>
+      <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <Button
           size="sm"
           color="info"
           onClick={this.togglePause}
-          disabled={!this.props.viewscreen}
-        >
+          disabled={!this.props.viewscreen}>
+          
           Toggle Video Paused
         </Button>
         <div>
-          <div style={{float: "left", marginLeft: "5px"}}>
+          <div style={{ float: "left", marginLeft: "5px" }}>
             <label>
               <input
                 checked={data.autoplay}
                 type="checkbox"
-                onChange={evt =>
-                  updateData(
-                    JSON.stringify(
-                      Object.assign({}, data, {autoplay: evt.target.checked}),
-                    ),
+                onChange={(evt) =>
+                updateData(
+                  JSON.stringify(
+                    Object.assign({}, data, { autoplay: evt.target.checked })
                   )
-                }
-              />{" "}
+                )
+                } />
+              {" "}
               Autoplay
             </label>
           </div>
-          <div style={{float: "left", marginLeft: "5px"}}>
+          <div style={{ float: "left", marginLeft: "5px" }}>
             <label>
               <input
                 checked={data.loop}
                 type="checkbox"
-                onChange={evt =>
-                  updateData(
-                    JSON.stringify(
-                      Object.assign({}, data, {loop: evt.target.checked}),
-                    ),
+                onChange={(evt) =>
+                updateData(
+                  JSON.stringify(
+                    Object.assign({}, data, { loop: evt.target.checked })
                   )
-                }
-              />{" "}
+                )
+                } />
+              {" "}
               Loop
             </label>
           </div>
-          <div style={{float: "left", marginLeft: "5px"}}>
+          <div style={{ float: "left", marginLeft: "5px" }}>
             <label>
               <input
                 checked={data.overlay}
                 type="checkbox"
-                onChange={evt =>
-                  updateData(
-                    JSON.stringify(
-                      Object.assign({}, data, {overlay: evt.target.checked}),
-                    ),
+                onChange={(evt) =>
+                updateData(
+                  JSON.stringify(
+                    Object.assign({}, data, { overlay: evt.target.checked })
                   )
-                }
-              />{" "}
+                )
+                } />
+              {" "}
               Overlay
             </label>
           </div>
@@ -107,17 +108,17 @@ class VideoConfig extends Component {
               <input
                 checked={data.randomVideo}
                 type="checkbox"
-                onChange={evt =>
-                  updateData(
-                    JSON.stringify(
-                      Object.assign({}, data, {
-                        randomVideo: evt.target.checked,
-                        asset: data.asset ? data.asset[0] : null,
-                      }),
-                    ),
+                onChange={(evt) =>
+                updateData(
+                  JSON.stringify(
+                    Object.assign({}, data, {
+                      randomVideo: evt.target.checked,
+                      asset: data.asset ? data.asset[0] : null
+                    })
                   )
-                }
-              />{" "}
+                )
+                } />
+              {" "}
               Random Video
             </label>
           </div>
@@ -126,14 +127,14 @@ class VideoConfig extends Component {
               <input
                 checked={data.advance}
                 type="checkbox"
-                onChange={evt =>
-                  updateData(
-                    JSON.stringify(
-                      Object.assign({}, data, {advance: evt.target.checked}),
-                    ),
+                onChange={(evt) =>
+                updateData(
+                  JSON.stringify(
+                    Object.assign({}, data, { advance: evt.target.checked })
                   )
-                }
-              />{" "}
+                )
+                } />
+              {" "}
               Auto-Advance Mission Timeline on Complete
             </label>
           </div>
@@ -143,14 +144,14 @@ class VideoConfig extends Component {
               <select
                 value={data.speed || "1"}
                 type="select"
-                onChange={evt =>
-                  updateData(
-                    JSON.stringify(
-                      Object.assign({}, data, {speed: evt.target.value}),
-                    ),
+                onChange={(evt) =>
+                updateData(
+                  JSON.stringify(
+                    Object.assign({}, data, { speed: evt.target.value })
                   )
-                }
-              >
+                )
+                }>
+                
                 <option value="0.125">1/8 Speed</option>
                 <option value="0.25">1/4 Speed</option>
                 <option value="0.5">1/2 Speed</option>
@@ -167,29 +168,29 @@ class VideoConfig extends Component {
           </div>
         </div>
         {data.randomVideo && <small>Click to toggle multiple videos.</small>}
-        <div style={{flex: 1, overflowY: "auto"}}>
+        <div style={{ flex: 1, overflowY: "auto" }}>
           <FileExplorer
             simple={simple}
             directory="/Viewscreen/Videos"
             selectedFiles={
-              data.asset && data.asset.length ? data.asset : [data.asset]
+            data.asset && data.asset.length ? data.asset : [data.asset]
             }
             onClick={(evt, container) => {
               let path = container.fullPath;
               if (data.randomVideo) {
                 path =
-                  data.asset && data.asset.includes(path)
-                    ? data.asset.filter(a => a !== path)
-                    : [data.asset].concat(path).flat();
+                data.asset && data.asset.includes(path) ?
+                data.asset.filter((a) => a !== path) :
+                [data.asset].concat(path).flat();
               }
               updateData(
-                JSON.stringify(Object.assign({}, data, {asset: path})),
+                JSON.stringify(Object.assign({}, data, { asset: path }))
               );
-            }}
-          />
+            }} />
+          
         </div>
-      </div>
-    );
+      </div>);
+
   }
 }
 

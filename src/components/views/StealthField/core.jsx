@@ -1,8 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Container, Row, Col, Button} from "helpers/reactstrap";
-import {Mutation, Query, withApollo} from "react-apollo";
-import {OutputField} from "../../generic/core";
+import { Container, Row, Col, Button } from "helpers/reactstrap";
+import { Mutation, Query } from "@apollo/client/react/components";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { OutputField } from "../../generic/core";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import "./style.scss";
@@ -26,7 +28,7 @@ export const STEALTH_CORE_SUB = gql`
   }
 `;
 
-function isAligned({fore, aft, port, starboard}) {
+function isAligned({ fore, aft, port, starboard }) {
   return fore === 0.5 && aft === 0.5 && port === 0.5 && starboard === 0.5;
 }
 
@@ -35,7 +37,7 @@ class StealthFieldCore extends Component {
     this.refetchSystems();
   }
   refetchSystems = () => {
-    const {refetch} = this.props;
+    const { refetch } = this.props;
     refetch();
     this.timeout = setTimeout(this.refetchSystems, 1000);
   };
@@ -49,8 +51,8 @@ class StealthFieldCore extends Component {
     return sys.displayName || sys.name;
   }
   toggleStealth = () => {
-    const {stealthField} = this.props;
-    const {id, state} = stealthField;
+    const { stealthField } = this.props;
+    const { id, state } = stealthField;
     let mutation;
     if (!state) {
       mutation = gql`
@@ -65,10 +67,10 @@ class StealthFieldCore extends Component {
         }
       `;
     }
-    const variables = {id};
+    const variables = { id };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   fluxCharge = () => {
@@ -78,25 +80,25 @@ class StealthFieldCore extends Component {
       }
     `;
     const variables = {
-      id: this.props.stealthField.id,
+      id: this.props.stealthField.id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
-    const {systems, stealthField} = this.props;
+    const { systems, stealthField } = this.props;
     // Calculate the systems that are highest
     let alertHigh = false;
-    const highSystems = systems
-      .filter(s => s.stealthFactor > 0.5)
-      .map(s => {
-        if (s.stealthFactor > 0.8) {
-          alertHigh = true;
-        }
-        return s;
-      });
+    const highSystems = systems.
+    filter((s) => s.stealthFactor > 0.5).
+    map((s) => {
+      if (s.stealthFactor > 0.8) {
+        alertHigh = true;
+      }
+      return s;
+    });
 
     const sysStyle = {};
     if (highSystems.length > 0) {
@@ -105,7 +107,7 @@ class StealthFieldCore extends Component {
     }
     const highSystemsText = highSystems.reduce((prev, s, i) => {
       let returnString = `${this.systemName(s)} (${Math.round(
-        s.stealthFactor * 100,
+        s.stealthFactor * 100
       )})`;
       if (i < highSystems.length - 1) returnString += ", ";
       return prev + returnString;
@@ -121,22 +123,22 @@ class StealthFieldCore extends Component {
               mutation ToggleChangeAlert($id: ID!, $change: Boolean!) {
                 stealthChangeAlert(id: $id, change: $change)
               }
-            `}
-          >
-            {action => (
-              <input
-                type="checkbox"
-                checked={stealthField.changeAlert}
-                onChange={e =>
-                  action({
-                    variables: {
-                      id: stealthField.id,
-                      change: e.target.checked,
-                    },
-                  })
+            `}>
+            
+            {(action) =>
+            <input
+              type="checkbox"
+              checked={stealthField.changeAlert}
+              onChange={(e) =>
+              action({
+                variables: {
+                  id: stealthField.id,
+                  change: e.target.checked
                 }
-              />
-            )}
+              })
+              } />
+
+            }
           </Mutation>
           Change simulator alert color when stealthed
         </label>
@@ -144,8 +146,8 @@ class StealthFieldCore extends Component {
           <Col sm="12">
             <OutputField
               onClick={this.toggleStealth}
-              alert={stealthField.state}
-            >
+              alert={stealthField.state}>
+              
               {stealthField.state ? "Activated" : "Deactivated"}
             </OutputField>
           </Col>
@@ -154,25 +156,25 @@ class StealthFieldCore extends Component {
               id="stealth-systems"
               style={sysStyle}
               alert={alertHigh}
-              title={highSystemsText}
-            >
-              {highSystems.length === 0
-                ? "No Alert Systems"
-                : highSystems.length > 1
-                ? `${highSystems.length} Alert Systems`
-                : `${highSystems[0] && highSystems[0].name} (${Math.round(
-                    highSystems[0] ? highSystems[0].stealthFactor * 100 : 0,
-                  )})`}
+              title={highSystemsText}>
+              
+              {highSystems.length === 0 ?
+              "No Alert Systems" :
+              highSystems.length > 1 ?
+              `${highSystems.length} Alert Systems` :
+              `${highSystems[0] && highSystems[0].name} (${Math.round(
+                highSystems[0] ? highSystems[0].stealthFactor * 100 : 0
+              )})`}
             </OutputField>
-            {stealthField && stealthField.charge && (
-              <OutputField alert={!isAligned(stealthField.quadrants)}>
+            {stealthField && stealthField.charge &&
+            <OutputField alert={!isAligned(stealthField.quadrants)}>
                 {isAligned(stealthField.quadrants) ? "Aligned" : "Misaligned"}
               </OutputField>
-            )}
+            }
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -206,59 +208,59 @@ export const STEALTH_SYSTEMS_CORE_QUERY = gql`
   }
 `;
 
-const StealthFieldData = props => {
+const StealthFieldData = (props) => {
   return (
     <Query
       query={STEALTH_CORE_QUERY}
       variables={{
-        simulatorId: props.simulator.id,
-      }}
-    >
-      {({loading, data, error, subscribeToMore}) => {
+        simulatorId: props.simulator.id
+      }}>
+      
+      {({ loading, data, error, subscribeToMore }) => {
         if (loading || !data) return null;
         const stealthField = data.stealthField[0];
         if (!stealthField) return <p>No Stealth Field Systems</p>;
         return (
           <SubscriptionHelper
             subscribe={() =>
-              subscribeToMore({
-                document: STEALTH_CORE_SUB,
-                variables: {
-                  simulatorId: props.simulator.id,
-                },
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    stealthField: subscriptionData.data.stealthFieldUpdate,
-                  });
-                },
-              })
-            }
-          >
+            subscribeToMore({
+              document: STEALTH_CORE_SUB,
+              variables: {
+                simulatorId: props.simulator.id
+              },
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  stealthField: subscriptionData.data.stealthFieldUpdate
+                });
+              }
+            })
+            }>
+            
             <Query
               query={STEALTH_SYSTEMS_CORE_QUERY}
               variables={{
-                simulatorId: props.simulator.id,
+                simulatorId: props.simulator.id
               }}
-              pollInterval={500}
-            >
-              {({data: systemsData, startPolling, refetch}) => (
-                <StealthFieldCore
-                  {...props}
-                  stealthField={stealthField}
-                  systems={
-                    systemsData && systemsData.systems
-                      ? systemsData.systems
-                      : []
-                  }
-                  startPolling={startPolling}
-                  refetch={refetch}
-                />
-              )}
+              pollInterval={500}>
+              
+              {({ data: systemsData, startPolling, refetch }) =>
+              <StealthFieldCore
+                {...props}
+                stealthField={stealthField}
+                systems={
+                systemsData && systemsData.systems ?
+                systemsData.systems :
+                []
+                }
+                startPolling={startPolling}
+                refetch={refetch} />
+
+              }
             </Query>
-          </SubscriptionHelper>
-        );
+          </SubscriptionHelper>);
+
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 export default withApollo(StealthFieldData);

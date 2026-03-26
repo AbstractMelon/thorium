@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import NavigationScanner from "components/views/Navigation/NavigationScanner";
-import {Container, Row, Col, Card, CardBody} from "helpers/reactstrap";
+import { Container, Row, Col, Card, CardBody } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
 import "../../views/Navigation/style.scss";
@@ -26,18 +27,18 @@ class CourseCalculationViewscreen extends Component {
   state = {};
   componentDidUpdate(prevProps) {
     const data = JSON.parse(this.props.viewscreen.data);
-    const scanning = data.reactive
-      ? this.props.data.navigation && this.props.data.navigation[0].scanning
-      : data.scanning;
+    const scanning = data.reactive ?
+    this.props.data.navigation && this.props.data.navigation[0].scanning :
+    data.scanning;
     if (scanning !== this.state.scanning) {
       this.setState(
         {
-          scanning,
+          scanning
         },
         () => {
           cancelAnimationFrame(this.looping);
           this.loop();
-        },
+        }
       );
     }
   }
@@ -49,7 +50,7 @@ class CourseCalculationViewscreen extends Component {
       this.setState({
         x: Math.random(),
         y: Math.random(),
-        z: Math.random(),
+        z: Math.random()
       });
       this.looping = requestAnimationFrame(this.loop);
     }
@@ -57,25 +58,25 @@ class CourseCalculationViewscreen extends Component {
   render() {
     const data = JSON.parse(this.props.viewscreen.data);
     if (this.props.data.loading || !this.props.data.navigation) return null;
-    const {destination, calculatedCourse = {x: 0, y: 0, z: 0}} = data.reactive
-      ? this.props.data.navigation[0]
-      : data;
-    const {scanning, x, y, z} = this.state;
+    const { destination, calculatedCourse = { x: 0, y: 0, z: 0 } } = data.reactive ?
+    this.props.data.navigation[0] :
+    data;
+    const { scanning, x, y, z } = this.state;
     return (
       <div className="viewscreen-courseCalculation">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: NAV_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  navigation: subscriptionData.data.navigationUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: NAV_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                navigation: subscriptionData.data.navigationUpdate
+              });
+            }
+          })
+          } />
+        
         <Container>
           <h1>
             Course Calculation
@@ -87,8 +88,8 @@ class CourseCalculationViewscreen extends Component {
             </Col>
             <Col sm={6}>
               <Card>
-                {!data.reactive && data.thrusters ? (
-                  <CardBody>
+                {!data.reactive && data.thrusters ?
+                <CardBody>
                     <div>
                       Yaw:
                       {"  "}
@@ -109,41 +110,41 @@ class CourseCalculationViewscreen extends Component {
                         {scanning ? Math.floor(z * 360) : calculatedCourse.z}˚
                       </span>
                     </div>
-                  </CardBody>
-                ) : (
-                  <CardBody>
+                  </CardBody> :
+
+                <CardBody>
                     <div>
                       X:{" "}
                       <span className="course-text">
-                        {scanning
-                          ? Math.floor(x * 99999) / 100
-                          : calculatedCourse.x}
+                        {scanning ?
+                      Math.floor(x * 99999) / 100 :
+                      calculatedCourse.x}
                       </span>
                     </div>
                     <div>
                       Y:{" "}
                       <span className="course-text">
-                        {scanning
-                          ? Math.floor(y * 99999) / 100
-                          : calculatedCourse.y}
+                        {scanning ?
+                      Math.floor(y * 99999) / 100 :
+                      calculatedCourse.y}
                       </span>
                     </div>
                     <div>
                       Z:{" "}
                       <span className="course-text">
-                        {scanning
-                          ? Math.floor(z * 99999) / 100
-                          : calculatedCourse.z}
+                        {scanning ?
+                      Math.floor(z * 99999) / 100 :
+                      calculatedCourse.z}
                       </span>
                     </div>
                   </CardBody>
-                )}
+                }
               </Card>
             </Col>
           </Row>
         </Container>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -163,10 +164,10 @@ const INTERNAL_QUERY = gql`
 `;
 
 export default graphql(INTERNAL_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(CourseCalculationViewscreen);

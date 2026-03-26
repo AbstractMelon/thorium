@@ -1,10 +1,11 @@
 import React from "react";
-import {FormGroup, Input, Label} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
-import {GENERIC_QUERY} from "./index";
+import { FormGroup, Input, Label } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
+import { GENERIC_QUERY } from "./index";
 import gql from "graphql-tag.macro";
 
-const Power = ({id, simulatorId, heatRate}) => {
+const Power = ({ id, simulatorId, heatRate }) => {
   return (
     <FormGroup>
       <Label>Heat Rate (lower is slower)</Label>
@@ -14,20 +15,20 @@ const Power = ({id, simulatorId, heatRate}) => {
             setHeatRate(id: $id, rate: $rate)
           }
         `}
-        refetchQueries={[{query: GENERIC_QUERY, variables: {id, simulatorId}}]}
-      >
-        {action => (
-          <Input
-            type="number"
-            min={0}
-            defaultValue={heatRate}
-            onChange={e =>
-              action({variables: {id, rate: parseFloat(e.target.value)}})
-            }
-          />
-        )}
+        refetchQueries={[{ query: GENERIC_QUERY, variables: { id, simulatorId } }]}>
+        
+        {(action) =>
+        <Input
+          type="number"
+          min={0}
+          defaultValue={heatRate}
+          onChange={(e) =>
+          action({ variables: { id, rate: parseFloat(e.target.value) } })
+          } />
+
+        }
       </Mutation>
-    </FormGroup>
-  );
+    </FormGroup>);
+
 };
 export default Power;

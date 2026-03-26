@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import {
   Container,
   Row,
@@ -7,27 +7,29 @@ import {
   Card,
   CardBody,
   ListGroup,
-  ListGroupItem,
-} from "helpers/reactstrap";
+  ListGroupItem } from
+"helpers/reactstrap";
 import Tour from "helpers/tourHelper";
-import {Mutation, withApollo} from "react-apollo";
+import { Mutation } from "@apollo/client/react/components";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 
 import ReportView from "./reportView";
 import useSoundEffect from "helpers/hooks/useSoundEffect";
 
 import "./style.scss";
-import {FaSyncAlt} from "react-icons/fa";
+import { FaSyncAlt } from "react-icons/fa";
 
 function systemClasses(s, selected) {
-  const task = s.tasks ? s.tasks.find(t => !t.verified) || {} : {};
+  const task = s.tasks ? s.tasks.find((t) => !t.verified) || {} : {};
   return `${selected ? "selected" : ""} ${
-    s.damage && s.damage.requested ? "requested" : ""
-  } ${s.damage ? (s.damage?.report ? "report" : "") : "report"} ${
-    (s.damage ? s.damage.validate : task.verifyRequested) ? "validate" : ""
-  } ${s.damage && s.damage.destroyed ? "destroyed" : ""}`;
+  s.damage && s.damage.requested ? "requested" : ""} ${
+  s.damage ? s.damage?.report ? "report" : "" : "report"} ${
+  (s.damage ? s.damage.validate : task.verifyRequested) ? "validate" : ""} ${
+  s.damage && s.damage.destroyed ? "destroyed" : ""}`;
 }
-const FlexBox = ({c, setCodeEntry}) => {
+const FlexBox = ({ c, setCodeEntry }) => {
   const playSound = useSoundEffect();
   return (
     <li
@@ -35,54 +37,54 @@ const FlexBox = ({c, setCodeEntry}) => {
       onClick={() => {
         playSound("buttonClick");
         setCodeEntry(c);
-      }}
-    >
+      }}>
+      
       {c}
-    </li>
-  );
+    </li>);
+
 };
 class DamageControl extends Component {
   state = {
     selectedSystem: null,
     reactivationCodeModal: false,
-    codeEntry: "",
+    codeEntry: ""
   };
   trainingSteps = () => {
-    const {which} = this.props;
+    const { which } = this.props;
     if (which === "rnd") {
       return [
-        {
-          selector: ".damaged-systems",content: "At certain times during the mission, you may be able to complete Research and Development reports. These reports allow you to upgrade, improve, and activate ship systems.",
-        },
-        {
-          selector: ".request-report",content: "If a research and development report hasn't been compiled, you need to request a report by clicking on this button.",
-        },
-        {
-          selector: ".damageReport-text",content: "When a system may be upgraded instructions to perform the upgrade will appear here. Follow them exactly.",
-        },
-        {
-          selector: ".damage-control",content: "Sometimes, a system needs a reactivation code to be entered before it can be upgraded. Click the 'Enter Reactivation Code' button, then press the symbols listed in your upgrade report. Once the reactivation code is accepted, the report will be complete.",
-        },
-      ];
+      {
+        selector: ".damaged-systems", content: "At certain times during the mission, you may be able to complete Research and Development reports. These reports allow you to upgrade, improve, and activate ship systems."
+      },
+      {
+        selector: ".request-report", content: "If a research and development report hasn't been compiled, you need to request a report by clicking on this button."
+      },
+      {
+        selector: ".damageReport-text", content: "When a system may be upgraded instructions to perform the upgrade will appear here. Follow them exactly."
+      },
+      {
+        selector: ".damage-control", content: "Sometimes, a system needs a reactivation code to be entered before it can be upgraded. Click the 'Enter Reactivation Code' button, then press the symbols listed in your upgrade report. Once the reactivation code is accepted, the report will be complete."
+      }];
+
     }
     return [
-      {
-        selector: ".damaged-systems",
-        content: "The ship’s systems are intelligent enough to know when they’re damaged, and to understand generally how they can be fixed. A list of damaged systems appears here. Click a system to see the damage report",
-      },
-      {
-        selector: ".request-report",
-        content: "If a damage report hasn't been compiled, you need to request a damage report by clicking on this button.",
-      },
-      {
-        selector: ".damageReport-text",
-        content: "When a system is damaged, instructions to troubleshoot and repair the damaged system will appear here. Follow them exactly.",
-      },
-      {
-        selector: ".damage-control",
-        content: "Occasionally a system needs a reactivation code to be entered before it can be repaired. Click the 'Enter Reactivation Code' button, then press the symbols listed in your damage report. Once the reactivation code is accepted, the system will be repaired.",
-      },
-    ];
+    {
+      selector: ".damaged-systems",
+      content: "The ship’s systems are intelligent enough to know when they’re damaged, and to understand generally how they can be fixed. A list of damaged systems appears here. Click a system to see the damage report"
+    },
+    {
+      selector: ".request-report",
+      content: "If a damage report hasn't been compiled, you need to request a damage report by clicking on this button."
+    },
+    {
+      selector: ".damageReport-text",
+      content: "When a system is damaged, instructions to troubleshoot and repair the damaged system will appear here. Follow them exactly."
+    },
+    {
+      selector: ".damage-control",
+      content: "Occasionally a system needs a reactivation code to be entered before it can be repaired. Click the 'Enter Reactivation Code' button, then press the symbols listed in your damage report. Once the reactivation code is accepted, the system will be repaired."
+    }];
+
   };
   systemName(sys) {
     if (sys.type === "Shield" && sys.name !== "Shields") {
@@ -91,36 +93,36 @@ class DamageControl extends Component {
     return sys.displayName || sys.name;
   }
   selectSystem(id) {
-    const {systems, taskReports} = this.props;
-    const systemObj = systems.find(s => s.id === id);
-    const taskReport = taskReports.find(t => t.id === id);
+    const { systems, taskReports } = this.props;
+    const systemObj = systems.find((s) => s.id === id);
+    const taskReport = taskReports.find((t) => t.id === id);
     const system = taskReport ? taskReport.system : systemObj;
     this.setState({
       selectedSystem: id,
-      codeEntry: system.damage.reactivationCode || "",
+      codeEntry: system.damage.reactivationCode || ""
     });
   }
   toggle = () => {
     this.setState({
-      reactivationCodeModal: !this.state.reactivationCodeModal,
+      reactivationCodeModal: !this.state.reactivationCodeModal
     });
   };
   cancelReactivationCode = () => {
     this.setState({
       reactivationCodeModal: false,
-      codeEntry: "",
+      codeEntry: ""
     });
   };
-  setCodeEntry = c => {
+  setCodeEntry = (c) => {
     if ((this.state.codeEntry + c).length <= 8) {
       this.setState({
-        codeEntry: this.state.codeEntry + c,
+        codeEntry: this.state.codeEntry + c
       });
     }
   };
   clearCodeEntry = () => {
     this.setState({
-      codeEntry: "",
+      codeEntry: ""
     });
   };
 
@@ -139,80 +141,80 @@ class DamageControl extends Component {
         )
       }
     `;
-    const {systems = [], taskReports = []} = this.props;
-    const system = systems.find(s => s.id === this.state.selectedSystem);
+    const { systems = [], taskReports = [] } = this.props;
+    const system = systems.find((s) => s.id === this.state.selectedSystem);
 
     const taskReport = taskReports.find(
-      s => s.id === this.state.selectedSystem,
+      (s) => s.id === this.state.selectedSystem
     );
     const variables = {
       systemId: system ? system.id : taskReport && taskReport.system.id,
       code: this.state.codeEntry,
-      station: this.props.station.name,
+      station: this.props.station.name
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
   render() {
-    const {selectedSystem, reactivationCodeModal, codeEntry} = this.state;
+    const { selectedSystem, reactivationCodeModal, codeEntry } = this.state;
     const {
       systems = [],
       stepDamage,
       verifyStep,
       which,
-      taskReports = [],
+      taskReports = []
     } = this.props;
-    const damagedSystem = systems.find(s => selectedSystem === s.id) || {
-      ...taskReports.find(s => s.id === selectedSystem),
-      damage: {},
+    const damagedSystem = systems.find((s) => selectedSystem === s.id) || {
+      ...taskReports.find((s) => s.id === selectedSystem),
+      damage: {}
     };
     const system =
-      (selectedSystem && systems.find(s => s.id === selectedSystem)) ||
-      taskReports.find(s => s.id === selectedSystem);
+    selectedSystem && systems.find((s) => s.id === selectedSystem) ||
+    taskReports.find((s) => s.id === selectedSystem);
 
-    const reportList = systems
-      .filter(
-        s => s.damage.damaged && !taskReports.find(t => t.system.id === s.id),
-      )
-      .map(s => ({
-        ...s,
-        className: systemClasses(s),
-        active: selectedSystem === s.id,
-        type: "legacy",
-        onClick: s.damage.destroyed ? () => {} : () => this.selectSystem(s.id),
-        name: this.systemName(s),
-        children: (
-          <Fragment>
+    const reportList = systems.
+    filter(
+      (s) => s.damage.damaged && !taskReports.find((t) => t.system.id === s.id)
+    ).
+    map((s) => ({
+      ...s,
+      className: systemClasses(s),
+      active: selectedSystem === s.id,
+      type: "legacy",
+      onClick: s.damage.destroyed ? () => {} : () => this.selectSystem(s.id),
+      name: this.systemName(s),
+      children:
+      <Fragment>
             {s.damage.validate ? <FaSyncAlt className="fa-spin" /> : null}{" "}
             {this.systemName(s)}
           </Fragment>
-        ),
-      }))
-      .concat(
-        taskReports.map(t => {
-          const task = t.tasks ? t.tasks.find(tt => !tt.verified) || {} : {};
-          return {
-            ...t,
-            className: systemClasses(t),
-            active: selectedSystem === t.id,
-            type: "task",
-            onClick: () => this.selectSystem(t.id),
-            children: (
-              <Fragment>
-                {task.verifyRequested ? (
-                  <FaSyncAlt className="fa-spin" />
-                ) : null}{" "}
+
+    })).
+    concat(
+      taskReports.map((t) => {
+        const task = t.tasks ? t.tasks.find((tt) => !tt.verified) || {} : {};
+        return {
+          ...t,
+          className: systemClasses(t),
+          active: selectedSystem === t.id,
+          type: "task",
+          onClick: () => this.selectSystem(t.id),
+          children:
+          <Fragment>
+                {task.verifyRequested ?
+            <FaSyncAlt className="fa-spin" /> :
+            null}{" "}
                 {t.name}
               </Fragment>
-            ),
-          };
-        }),
-      );
 
-    const selectedSystemObj = reportList.find(s => s.id === selectedSystem);
+        };
+      })
+    );
+
+    const selectedSystemObj = reportList.find((s) => s.id === selectedSystem);
 
     return (
       <Container fluid className="damage-control">
@@ -220,123 +222,123 @@ class DamageControl extends Component {
           <Col
             sm="3"
             className={`damage-list ${
-              damagedSystem.damage.neededReactivationCode
-                ? "reactivation-code"
-                : ""
-            }`}
-          >
+            damagedSystem.damage.neededReactivationCode ?
+            "reactivation-code" :
+            ""}`
+            }>
+            
             <h4>
               {" "}
-              {which === "rnd" ?"Available R&D Reports" : which === "engineering" ?"Engineering Bypass" :"Damaged Systems"}
+              {which === "rnd" ? "Available R&D Reports" : which === "engineering" ? "Engineering Bypass" : "Damaged Systems"}
             </h4>
 
-            {reactivationCodeModal ? (
-              <Card>
+            {reactivationCodeModal ?
+            <Card>
                 <CardBody className="damaged-systems">
                   <div className="reactivation-modal">
                     <ul className="flex-boxes">
-                      {["¥", "Ω", "∏", "§", "-", "∆", "£", "∑", "∂"].map(c => (
-                        <FlexBox c={c} setCodeEntry={this.setCodeEntry} />
-                      ))}
+                      {["¥", "Ω", "∏", "§", "-", "∆", "£", "∑", "∂"].map((c) =>
+                    <FlexBox c={c} setCodeEntry={this.setCodeEntry} />
+                    )}
                     </ul>
                     <Row>
                       <Col sm={5}>
                         <Button
-                          block
-                          color="danger"
-                          onClick={this.cancelReactivationCode}
-                        >
+                        block
+                        color="danger"
+                        onClick={this.cancelReactivationCode}>
+                        
                           Cancel
                         </Button>
                       </Col>
-                      <Col sm={{size: 5, offset: 2}}>
+                      <Col sm={{ size: 5, offset: 2 }}>
                         <Button
-                          block
-                          color="warning"
-                          onClick={this.clearCodeEntry}
-                        >
+                        block
+                        color="warning"
+                        onClick={this.clearCodeEntry}>
+                        
                           Clear
                         </Button>
                       </Col>
                     </Row>
                   </div>
                 </CardBody>
-              </Card>
-            ) : (
-              <ListGroup className="damaged-systems">
-                {reportList.map(s => (
-                  <ListGroupItem key={s.id} {...s} />
-                ))}
+              </Card> :
+
+            <ListGroup className="damaged-systems">
+                {reportList.map((s) =>
+              <ListGroupItem key={s.id} {...s} />
+              )}
               </ListGroup>
-            )}
-            {reactivationCodeModal ? (
-              <Button
-                block
-                size="lg"
-                color="primary"
-                onClick={this.reactivateCode}
-              >
+            }
+            {reactivationCodeModal ?
+            <Button
+              block
+              size="lg"
+              color="primary"
+              onClick={this.reactivateCode}>
+              
                 Reactivate
-              </Button>
-            ) : system?.damage?.report ? null : (
-              <Mutation
-                mutation={gql`
+              </Button> :
+            system?.damage?.report ? null :
+            <Mutation
+              mutation={gql`
                   mutation RequestReport($systemId: ID!) {
                     requestDamageReport(systemId: $systemId)
                   }
                 `}
-                variables={{
-                  systemId: selectedSystem,
-                }}
-              >
-                {action => (
-                  <Button
-                    block
-                    className="request-report"
-                    disabled={
-                      !selectedSystemObj || damagedSystem.damage.requested
-                    }
-                    onClick={action}
-                    color="primary"
-                  >
-                    {which === "rnd" ?"Request Report" : which === "engineering" ?"Request Engineering Report" :"Request Damage Report"}
-                  </Button>
-                )}
-              </Mutation>
-            )}
-            {(damagedSystem.damage.neededReactivationCode ||
-              damagedSystem.tasks) && (
+              variables={{
+                systemId: selectedSystem
+              }}>
+              
+                {(action) =>
               <Button
                 block
-                color={codeEntry ? "warning" : "primary"}
-                onClick={reactivationCodeModal ? () => {} : this.toggle}
-              >
-                {codeEntry ? (
-                  <span>
+                className="request-report"
+                disabled={
+                !selectedSystemObj || damagedSystem.damage.requested
+                }
+                onClick={action}
+                color="primary">
+                
+                    {which === "rnd" ? "Request Report" : which === "engineering" ? "Request Engineering Report" : "Request Damage Report"}
+                  </Button>
+              }
+              </Mutation>
+            }
+            {(damagedSystem.damage.neededReactivationCode ||
+            damagedSystem.tasks) &&
+            <Button
+              block
+              color={codeEntry ? "warning" : "primary"}
+              onClick={reactivationCodeModal ? () => {} : this.toggle}>
+              
+                {codeEntry ?
+              <span>
                     <span className={codeEntry ? "reactivate-button" : ""}>
                       {codeEntry}
                     </span>
                     {reactivationCodeModal ? "" : " - Reactivating"}
-                  </span>
-                ) : (
-                  "Enter Reactivation Code..."
-                )}
+                  </span> :
+
+              "Enter Reactivation Code..."
+              }
               </Button>
-            )}
+            }
           </Col>
           <Col sm="9" className="damage-report">
             <ReportView
               system={system}
               stepDamage={stepDamage}
               verifyStep={verifyStep}
-              type={system && system.tasks ? "task" : "legacy"}
-            />
+              type={system && system.tasks ? "task" : "legacy"} />
+            
           </Col>
         </Row>
 
         <Tour steps={this.trainingSteps()} client={this.props.clientObj} />
-      </Container>
-    );
+      </Container>);
+
   }
 }
 

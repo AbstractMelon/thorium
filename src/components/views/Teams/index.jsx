@@ -1,16 +1,17 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import {
   Container,
   Row,
   Col,
   ListGroup,
   ListGroupItem,
-  Button,
-} from "helpers/reactstrap";
+  Button } from
+"helpers/reactstrap";
 import Tour from "helpers/tourHelper";
-import {capitalCase} from "change-case";
+import { capitalCase } from "change-case";
 import training from "./training";
 import TeamConfig from "./teamConfig";
 import SubscriptionHelper from "helpers/subscriptionHelper";
@@ -60,22 +61,22 @@ export const TEAM_SUB = gql`
 
 class Teams extends Component {
   state = {
-    selectedTeam: {},
+    selectedTeam: {}
   };
   componentDidUpdate(prevProps) {
     const {
-      data: {teams},
+      data: { teams }
     } = this.props;
-    const {selectedTeam} = this.state;
+    const { selectedTeam } = this.state;
     if (
-      selectedTeam &&
-      selectedTeam.id &&
-      teams &&
-      selectedTeam.id !== "newTeam" &&
-      !teams.find(t => t.id === selectedTeam.id)
-    ) {
+    selectedTeam &&
+    selectedTeam.id &&
+    teams &&
+    selectedTeam.id !== "newTeam" &&
+    !teams.find((t) => t.id === selectedTeam.id))
+    {
       this.setState({
-        selectedTeam: {},
+        selectedTeam: {}
       });
     }
   }
@@ -88,28 +89,28 @@ class Teams extends Component {
     const team = Object.assign(
       {
         type: this.props.teamType || "damage",
-        simulatorId: this.props.simulator.id,
+        simulatorId: this.props.simulator.id
       },
-      this.state.selectedTeam,
+      this.state.selectedTeam
     );
-    team.officers = team.officers
-      .filter(Boolean)
-      .reduce((prev, next) => prev.concat(next.id), []);
+    team.officers = team.officers.
+    filter(Boolean).
+    reduce((prev, next) => prev.concat(next.id), []);
     team.location = team.location && team.location.id;
     delete team.id;
     delete team.creating;
     const variables = {
-      team,
+      team
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     this.setState({
-      selectedTeam: {},
+      selectedTeam: {}
     });
   };
-  commitTeam = ({id, key, value}) => {
+  commitTeam = ({ id, key, value }) => {
     const mutation = gql`
       mutation UpdateTeam($team: TeamInput!) {
         updateTeam(team: $team)
@@ -118,49 +119,49 @@ class Teams extends Component {
     const team = Object.assign(
       {
         type: this.props.teamType || "damage",
-        simulatorId: this.props.simulator.id,
+        simulatorId: this.props.simulator.id
       },
-      this.state.selectedTeam,
+      this.state.selectedTeam
     );
-    team.officers = team.officers
-      .filter(Boolean)
-      .reduce((prev, next) => prev.concat(next.id), []);
+    team.officers = team.officers.
+    filter(Boolean).
+    reduce((prev, next) => prev.concat(next.id), []);
     team.location = team.location && team.location.id;
     delete team.__typename;
     const variables = {
-      team: team,
+      team: team
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  assignOfficer = crewId => {
-    const {selectedTeam} = this.state;
-    const {data} = this.props;
-    const {crew} = data;
-    const officer = crew.find(c => c.id === crewId);
+  assignOfficer = (crewId) => {
+    const { selectedTeam } = this.state;
+    const { data } = this.props;
+    const { crew } = data;
+    const officer = crew.find((c) => c.id === crewId);
     selectedTeam &&
-      selectedTeam.id &&
-      this.setState({
-        selectedTeam: Object.assign({}, selectedTeam, {
-          officers: selectedTeam.officers.concat(officer),
-        }),
-      });
-  };
-  removeOfficer = ({id}, teamId) => {
-    const {selectedTeam} = this.state;
     selectedTeam.id &&
-      this.setState({
-        selectedTeam: Object.assign({}, selectedTeam, {
-          officers: selectedTeam.officers.filter(o => o.id !== id),
-        }),
-      });
+    this.setState({
+      selectedTeam: Object.assign({}, selectedTeam, {
+        officers: selectedTeam.officers.concat(officer)
+      })
+    });
   };
-  removeTeam = teamId => {
+  removeOfficer = ({ id }, teamId) => {
+    const { selectedTeam } = this.state;
+    selectedTeam.id &&
+    this.setState({
+      selectedTeam: Object.assign({}, selectedTeam, {
+        officers: selectedTeam.officers.filter((o) => o.id !== id)
+      })
+    });
+  };
+  removeTeam = (teamId) => {
     this.setState(
       {
-        selectedTeam: null,
+        selectedTeam: null
       },
       () => {
         const mutation = gql`
@@ -169,120 +170,120 @@ class Teams extends Component {
           }
         `;
         const variables = {
-          teamId,
+          teamId
         };
         this.props.client.mutate({
           mutation,
-          variables,
+          variables
         });
-      },
+      }
     );
   };
   render() {
-    const {data, teamType = "damage"} = this.props;
-    const {loading, teams, crew, decks} = data;
+    const { data, teamType = "damage" } = this.props;
+    const { loading, teams, crew, decks } = data;
     if (loading || !teams || !crew || !decks) return null;
-    const {selectedTeam} = this.state;
+    const { selectedTeam } = this.state;
     if (!teams) return null;
-    const assignedOfficers = teams
-      .concat(selectedTeam)
-      .reduce((prev, next) => {
-        if (!next) return prev;
-        return prev.concat(next.officers ? next.officers.filter(Boolean) : {});
-      }, [])
-      .map(o => o.id);
+    const assignedOfficers = teams.
+    concat(selectedTeam).
+    reduce((prev, next) => {
+      if (!next) return prev;
+      return prev.concat(next.officers ? next.officers.filter(Boolean) : {});
+    }, []).
+    map((o) => o.id);
     if (crew.length === 0) return <p>Need crew for teams</p>;
     return (
       <Container fluid className="damage-teams">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: TEAM_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-                teamType: this.props.teamType || "damage",
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  teams: subscriptionData.data.teamsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: TEAM_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id,
+              teamType: this.props.teamType || "damage"
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                teams: subscriptionData.data.teamsUpdate
+              });
+            }
+          })
+          } />
+        
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: CREW_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-                teamType: this.props.teamType || "damage",
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  crew: subscriptionData.data.crewUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: CREW_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id,
+              teamType: this.props.teamType || "damage"
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                crew: subscriptionData.data.crewUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={3}>
             <ListGroup className="team-list">
-              {teams.map(t => (
-                <ListGroupItem
-                  key={t.id}
-                  onClick={() => {
-                    this.setState({selectedTeam: t});
-                  }}
-                  active={selectedTeam && t.id === selectedTeam.id}
-                >
+              {teams.map((t) =>
+              <ListGroupItem
+                key={t.id}
+                onClick={() => {
+                  this.setState({ selectedTeam: t });
+                }}
+                active={selectedTeam && t.id === selectedTeam.id}>
+                
                   {t.name}
                 </ListGroupItem>
-              ))}
+              )}
             </ListGroup>
             <Button
               block
               color="success"
               className="new-team"
               onClick={() =>
-                this.setState({
-                  selectedTeam: {
-                    id: "newTeam",
-                    name: "",
-                    orders: "",
-                    location: null,
-                    officers: [],
-                    creating: true,
-                  },
-                })
-              }
-            >
+              this.setState({
+                selectedTeam: {
+                  id: "newTeam",
+                  name: "",
+                  orders: "",
+                  location: null,
+                  officers: [],
+                  creating: true
+                }
+              })
+              }>
+              
               New {capitalCase(teamType)} Team
             </Button>
           </Col>
-          <Col sm={{size: 8, offset: 1}} className="damage-team-entry">
-            {selectedTeam && selectedTeam.id && (
-              <TeamConfig
-                key={selectedTeam ? selectedTeam.id : "no-team"}
-                selectedTeam={selectedTeam}
-                decks={decks}
-                teamType={teamType}
-                crew={crew}
-                assignedOfficers={assignedOfficers}
-                update={team => this.setState({selectedTeam: team})}
-                createTeam={this.createTeam}
-                commitTeam={this.commitTeam}
-                assignOfficer={this.assignOfficer}
-                removeOfficer={this.removeOfficer}
-                removeTeam={this.removeTeam}
-              />
-            )}
+          <Col sm={{ size: 8, offset: 1 }} className="damage-team-entry">
+            {selectedTeam && selectedTeam.id &&
+            <TeamConfig
+              key={selectedTeam ? selectedTeam.id : "no-team"}
+              selectedTeam={selectedTeam}
+              decks={decks}
+              teamType={teamType}
+              crew={crew}
+              assignedOfficers={assignedOfficers}
+              update={(team) => this.setState({ selectedTeam: team })}
+              createTeam={this.createTeam}
+              commitTeam={this.commitTeam}
+              assignOfficer={this.assignOfficer}
+              removeOfficer={this.removeOfficer}
+              removeTeam={this.removeTeam} />
+
+            }
           </Col>
         </Row>
         <Tour steps={training[teamType]} client={this.props.clientObj} />
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -329,11 +330,11 @@ export const TEAMS_QUERY = gql`
   }
 `;
 export default graphql(TEAMS_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
       teamType: ownProps.teamType || "damage",
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(Teams));

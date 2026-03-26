@@ -1,8 +1,9 @@
-import React, {useState} from "react";
-import {Label, Input, Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { useState } from "react";
+import { Label, Input, Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-const SpaceEdventuresToken = ({clientObj}) => {
+const SpaceEdventuresToken = ({ clientObj }) => {
   const [email, setEmail] = useState("");
   const style = {
     height: "100%",
@@ -11,18 +12,18 @@ const SpaceEdventuresToken = ({clientObj}) => {
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    textAlign: "center",
+    textAlign: "center"
   };
   return (
-    <div style={{height: "100%"}}>
+    <div style={{ height: "100%" }}>
       <img
         src={require("./logo.svg")}
         alt="space edventures"
-        style={{maxWidth: "500px", maxHeight: "100px"}}
-      />
-      <div style={{display: "flex", height: "80%"}}>
+        style={{ maxWidth: "500px", maxHeight: "100px" }} />
+      
+      <div style={{ display: "flex", height: "80%" }}>
         <div style={style}>
-          <h2 style={{maxWidth: "50vw"}}>
+          <h2 style={{ maxWidth: "50vw" }}>
             You have earned Space EdVentures points during this flight. Use the
             following token to redeem your points on SpaceEdVentures.org:
           </h2>
@@ -34,7 +35,7 @@ const SpaceEdventuresToken = ({clientObj}) => {
             and earn rewards.
           </p>
         </div>
-        <div style={{flex: 1}} />
+        <div style={{ flex: 1 }} />
         <div style={style}>
           <Mutation
             mutation={gql`
@@ -42,54 +43,54 @@ const SpaceEdventuresToken = ({clientObj}) => {
                 clientSetEmail(client: $clientId, email: $email)
               }
             `}
-            variables={{clientId: clientObj.id, email}}
-          >
-            {action =>
-              clientObj.email ? (
-                <div>
-                  <h2 style={{maxWidth: "50vw"}}>
+            variables={{ clientId: clientObj.id, email }}>
+            
+            {(action) =>
+            clientObj.email ?
+            <div>
+                  <h2 style={{ maxWidth: "50vw" }}>
                     Your email has been set to {clientObj.email}
                   </h2>
                   <Button
-                    onClick={() =>
-                      action({
-                        variables: {clientId: clientObj.id, email: ""},
-                      })
-                    }
-                  >
+                onClick={() =>
+                action({
+                  variables: { clientId: clientObj.id, email: "" }
+                })
+                }>
+                
                     Change Email Address
                   </Button>
-                </div>
-              ) : (
-                <div>
-                  <h2 style={{maxWidth: "50vw"}}>
+                </div> :
+
+            <div>
+                  <h2 style={{ maxWidth: "50vw" }}>
                     Enter your email below if you would like to be sent an email
                     with this token and redemption instructions.
                   </h2>
                   <form // eslint-disable-next-line
-                    action={"javascript:void(0);"}
-                    onSubmit={action}
-                    style={{margin: "20px"}}
-                  >
-                    <Label style={{width: "100%"}}>
+              action={"javascript:void(0);"}
+              onSubmit={action}
+              style={{ margin: "20px" }}>
+                
+                    <Label style={{ width: "100%" }}>
                       Email
                       <Input
-                        style={{width: "100%"}}
-                        type="email"
-                        required
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                      />
+                    style={{ width: "100%" }}
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} />
+                  
                     </Label>
                     <div>
                       <Button type="submit">Set Email Address</Button>
                     </div>
                   </form>
                 </div>
-              )
+
             }
           </Mutation>
-          <div style={{maxWidth: "50vw"}}>
+          <div style={{ maxWidth: "50vw" }}>
             <p>
               Your email address will only be used once to send you this token.
               Your email address is only saved if you register for a Space
@@ -98,7 +99,7 @@ const SpaceEdventuresToken = ({clientObj}) => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 export default SpaceEdventuresToken;

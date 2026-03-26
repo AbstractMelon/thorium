@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import ComputerCore from "./computerCore";
 import "./style.scss";
@@ -55,32 +56,32 @@ class ComputerCoreData extends Component {
     return (
       <Query
         query={COMPUTER_CORE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {computerCore} = data;
+          const { computerCore } = data;
           if (!computerCore[0]) return <div>No Computer Core</div>;
           return (
             <ComputerCore
               {...this.props}
               {...computerCore[0]}
               subscribe={() =>
-                subscribeToMore({
-                  document: COMPUTER_CORE_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      computerCore: subscriptionData.data.computerCoreUpdate,
-                    });
-                  },
-                })
-              }
-            />
-          );
+              subscribeToMore({
+                document: COMPUTER_CORE_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    computerCore: subscriptionData.data.computerCoreUpdate
+                  });
+                }
+              })
+              } />);
+
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default ComputerCoreData;

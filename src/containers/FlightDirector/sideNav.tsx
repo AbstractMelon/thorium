@@ -36,8 +36,8 @@ import {
   FaSlidersH,
   FaLightbulb,
   FaRegStar,
+  FaShieldAlt
 } from "react-icons/fa";
-import { AiOutlineFieldBinary } from "react-icons/ai";
 
 import IssueTracker from "../../components/admin/IssueTracker";
 
@@ -146,7 +146,7 @@ const links: (NavLinkI | null)[] = [
   },
   {
     name: "Hacker Preset Config",
-    icon: AiOutlineFieldBinary,
+    icon: FaShieldAlt,
     link: "/config/hacker",
   },
   // {

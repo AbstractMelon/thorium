@@ -1,8 +1,9 @@
 import React from "react";
-import {Mutation} from "react-apollo";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag";
 
-export const CompImage = ({id, interfaceId, config}) => {
+export const CompImage = ({ id, interfaceId, config }) => {
   return (
     <Mutation
       mutation={gql`
@@ -10,21 +11,21 @@ export const CompImage = ({id, interfaceId, config}) => {
           triggerInterfaceObject(id: $id, objectId: $objectId)
         }
       `}
-      variables={{id: interfaceId, objectId: id}}
-    >
-      {action => (
-        <div onClick={() => action().catch(err => console.error(err))}>
+      variables={{ id: interfaceId, objectId: id }}>
+      
+      {(action) =>
+      <div onClick={() => action().catch((err) => console.error(err))}>
           <img
-            style={{
-              width: parseFloat(config.width) || 50,
-              height: parseFloat(config.height),
-              resizeMode: "stretch",
-            }}
-            alt=""
-            src={`/assets${config.src}`}
-          />
+          style={{
+            width: parseFloat(config.width) || 50,
+            height: parseFloat(config.height),
+            resizeMode: "stretch"
+          }}
+          alt=""
+          src={`/assets${config.src}`} />
+        
         </div>
-      )}
-    </Mutation>
-  );
+      }
+    </Mutation>);
+
 };

@@ -1,14 +1,15 @@
-import React, {Fragment} from "react";
-import {Row, Button, Col} from "helpers/reactstrap";
-import {withApollo} from "react-apollo";
+import React, { Fragment } from "react";
+import { Row, Button, Col } from "helpers/reactstrap";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import HeatBar from "./heatbar";
 import DamageOverlay from "../helpers/DamageOverlay";
 import EngineButtons from "./engineButtons";
 
-export default withApollo(props => {
-  const {engines, setSpeed, locked} = props;
-  const applyCoolant = ({id, heat}) => {
+export default withApollo((props) => {
+  const { engines, setSpeed, locked } = props;
+  const applyCoolant = ({ id, heat }) => {
     if (heat < 0.01) return;
     const mutation = gql`
       mutation CoolEngine($id: ID!, $state: Boolean) {
@@ -17,16 +18,16 @@ export default withApollo(props => {
     `;
     const variables = {
       id,
-      state: true,
+      state: true
     };
     props.client.mutate({
       mutation,
-      variables,
+      variables
     });
-    document.addEventListener("mouseup",()=>stopCoolant(id),{once:true});
-    document.addEventListener("touchend",()=>stopCoolant(id),{once:true});
+    document.addEventListener("mouseup", () => stopCoolant(id), { once: true });
+    document.addEventListener("touchend", () => stopCoolant(id), { once: true });
   };
-  const stopCoolant = id => {
+  const stopCoolant = (id) => {
     const mutation = gql`
       mutation CoolEngine($id: ID!, $state: Boolean) {
         engineCool(id: $id, state: $state)
@@ -34,11 +35,11 @@ export default withApollo(props => {
     `;
     const variables = {
       id: id,
-      state: false,
+      state: false
     };
     props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   return (
@@ -48,12 +49,12 @@ export default withApollo(props => {
           engine={engines[0]}
           locked={locked}
           engines={engines}
-          setSpeed={setSpeed}
-        />
+          setSpeed={setSpeed} />
+        
         <DamageOverlay
           system={engines[0]}
-          message={`${engines[0].displayName || engines[0].name} Offline`}
-        />
+          message={`${engines[0].displayName || engines[0].name} Offline`} />
+        
       </Col>
       <Col sm={2} className="flex-column">
         <Row className="flex-max">
@@ -61,26 +62,26 @@ export default withApollo(props => {
             <HeatBar
               label="Heat"
               background="linear-gradient(to bottom, #440000 0%,#aa0000 50%,#440000 100%)"
-              level={engines[0].heat}
-            />
+              level={engines[0].heat} />
+            
           </Col>
           <Col sm={6} className="coolant">
             <HeatBar
               label="Coolant"
               background="linear-gradient(to bottom, #004488 0%,#0088aa 50%,#004488 100%)"
-              level={engines[0].coolant}
-            />
+              level={engines[0].coolant} />
+            
           </Col>
         </Row>
         <Row>
-          <Col lg={{size: 10, offset: 1}} xl={{size: 8, offset: 2}}>
+          <Col lg={{ size: 10, offset: 1 }} xl={{ size: 8, offset: 2 }}>
             <Button
               block
               className="cool-engines"
               color="info"
-              onMouseDown={()=>applyCoolant(engines[0])}
-              onTouchStart={()=>applyCoolant(engines[0])}
-            >
+              onMouseDown={() => applyCoolant(engines[0])}
+              onTouchStart={() => applyCoolant(engines[0])}>
+              
               Coolant
             </Button>
           </Col>
@@ -93,25 +94,25 @@ export default withApollo(props => {
             <HeatBar
               label="Heat"
               background="linear-gradient(to bottom, #440000 0%,#aa0000 50%,#440000 100%)"
-              level={engines[1].heat}
-            />
+              level={engines[1].heat} />
+            
           </Col>
           <Col sm={6}>
             <HeatBar
               label="Coolant"
               background="linear-gradient(to bottom, #004488 0%,#0088aa 50%,#004488 100%)"
-              level={engines[1].coolant}
-            />
+              level={engines[1].coolant} />
+            
           </Col>
         </Row>
         <Row>
-          <Col lg={{size: 10, offset: 1}} xl={{size: 8, offset: 2}}>
+          <Col lg={{ size: 10, offset: 1 }} xl={{ size: 8, offset: 2 }}>
             <Button
               block
               color="info"
-              onMouseDown={()=>applyCoolant(engines[1])}
-              onTouchStart={()=>applyCoolant(engines[1])}
-            >
+              onMouseDown={() => applyCoolant(engines[1])}
+              onTouchStart={() => applyCoolant(engines[1])}>
+              
               Coolant
             </Button>
           </Col>
@@ -122,13 +123,13 @@ export default withApollo(props => {
           engine={engines[1]}
           locked={locked}
           engines={engines}
-          setSpeed={setSpeed}
-        />
+          setSpeed={setSpeed} />
+        
         <DamageOverlay
           system={engines[1]}
-          message={`${engines[1].displayName || engines[1].name} Offline`}
-        />
+          message={`${engines[1].displayName || engines[1].name} Offline`} />
+        
       </Col>
-    </Fragment>
-  );
+    </Fragment>);
+
 });

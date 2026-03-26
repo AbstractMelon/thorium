@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {useMutation} from "react-apollo";
+import { useMutation } from "@apollo/client";
+
 import gql from "graphql-tag.macro";
 import Tour from "reactour";
 import "./tourHelper.scss";
-import {FaVolumeUp} from "react-icons/fa";
-import {ClientContext} from "components/client/client";
-import {isMedia} from "../components/client/Card";
+import { FaVolumeUp } from "react-icons/fa";
+import { ClientContext } from "components/client/client";
+import { isMedia } from "../components/client/Card";
 
 const synth = window.speechSynthesis;
 
@@ -30,13 +31,13 @@ const TourHelper = ({
   steps,
   innerKey = undefined,
   training: propsTraining = undefined,
-  onRequestClose = null,
+  onRequestClose = null
 }) => {
-  const {client = {}, station = {}, simulator = {}} = React.useContext(
-    ClientContext,
+  const { client = {}, station = {}, simulator = {} } = React.useContext(
+    ClientContext
   );
 
-  const speak = stepNum => {
+  const speak = (stepNum) => {
     synth && synth.cancel();
     const step = steps[stepNum - 1];
     if (typeof step.content === "string") {
@@ -47,26 +48,26 @@ const TourHelper = ({
     ReactDOM.render(step.content, div);
     setTimeout(
       () => synth.speak(new SpeechSynthesisUtterance(div.innerText)),
-      100,
+      100
     );
   };
-  let {id} = client;
+  let { id } = client;
   let training = propsTraining ?? client.training;
 
   const [setClientTraining] = useMutation(SET_CLIENT_TRAINING, {
-    variables: {id, training: false},
+    variables: { id, training: false }
   });
 
   // If we are in training mode and the station has audio or video training, don't show the tour.
   if (station.training && isMedia(station.training) && simulator.training)
-    return null;
+  return null;
   if (!steps) return null;
   return (
     <Tour
       key={innerKey}
       steps={steps}
       isOpen={training || false}
-      onAfterOpen={target => {
+      onAfterOpen={(target) => {
         const node = document.getElementById("___reactour");
         if (node) {
           node.style.transform = "translateZ(-10px)";
@@ -80,10 +81,10 @@ const TourHelper = ({
         return (
           <div className="tour-speaker" onClick={() => speak(current)}>
             <FaVolumeUp size="1em" /> Speak This
-          </div>
-        );
-      }}
-    />
-  );
+          </div>);
+
+      }} />);
+
+
 };
 export default TourHelper;

@@ -1,6 +1,7 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import Tour from "helpers/tourHelper";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
@@ -10,27 +11,27 @@ import Shield6 from "./shield-6";
 import "./style.scss";
 
 const trainingSteps = [
-  {
-    selector: ".number-pad",
-    content:
-      "Shields use energy fields to protect your ship from outside dangers, including asteroids, radiation, and enemy weapons. Shields also block transporter signals and can disrupt communications, so there may be times when you need to lower the shields.",
-  },
-  {
-    selector: ".integrity",
-    content:
-      "As your shields protect you, they slowly lose integrity. Keep track of your integrity to know where your weak points are.",
-  },
-  {
-    selector: ".frequency",
-    content:
-      "The shield frequency controls how often the shields recalibrate. Your shields will protect you regardless of the frequency, but in some circumstances you may need to change it. Click and hold on the arrows to change the frequency. The longer you hold, the faster the frequency changes.",
-  },
-  {
-    selector: ".shield-activate",
-    content:
-      "These controls allow you to raise and lower the shields. When the shields are raised, your ship is protected.",
-  },
-];
+{
+  selector: ".number-pad",
+  content:
+  "Shields use energy fields to protect your ship from outside dangers, including asteroids, radiation, and enemy weapons. Shields also block transporter signals and can disrupt communications, so there may be times when you need to lower the shields."
+},
+{
+  selector: ".integrity",
+  content:
+  "As your shields protect you, they slowly lose integrity. Keep track of your integrity to know where your weak points are."
+},
+{
+  selector: ".frequency",
+  content:
+  "The shield frequency controls how often the shields recalibrate. Your shields will protect you regardless of the frequency, but in some circumstances you may need to change it. Click and hold on the arrows to change the frequency. The longer you hold, the faster the frequency changes."
+},
+{
+  selector: ".shield-activate",
+  content:
+  "These controls allow you to raise and lower the shields. When the shields are raised, your ship is protected."
+}];
+
 
 export const SHIELD_SUB = gql`
   subscription ShieldSub($simulatorId: ID) {
@@ -57,7 +58,7 @@ class ShieldControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      disabledButton: {},
+      disabledButton: {}
     };
     this.shieldSub = null;
     this.freqLoop = null;
@@ -91,29 +92,29 @@ class ShieldControl extends Component {
       `;
     }
     if (shields === "down" || shields === "up") {
-      let variables = {id: this.props.simulator.id};
+      let variables = { id: this.props.simulator.id };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     } else {
-      let variables = {id: shields.id};
+      let variables = { id: shields.id };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
     // Disable the buttons temporarily
     this.setState({
       disabledButton: Object.assign({}, this.state.disabledButton, {
-        [shields.id ? shields.id : shields]: true,
-      }),
+        [shields.id ? shields.id : shields]: true
+      })
     });
     setTimeout(() => {
       this.setState({
         disabledButton: Object.assign({}, this.state.disabledButton, {
-          [shields.id ? shields.id : shields]: false,
-        }),
+          [shields.id ? shields.id : shields]: false
+        })
       });
     }, 3000);
   }
@@ -126,19 +127,19 @@ class ShieldControl extends Component {
       <Fragment>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SHIELD_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  shields: subscriptionData.data.shieldsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: SHIELD_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                shields: subscriptionData.data.shieldsUpdate
+              });
+            }
+          })
+          } />
+        
         {(() => {
           if (shields.length === 1) {
             return (
@@ -146,9 +147,9 @@ class ShieldControl extends Component {
                 shields={shields}
                 state={this.state}
                 _toggleShields={this._toggleShields.bind(this)}
-                simulator={this.props.simulator}
-              />
-            );
+                simulator={this.props.simulator} />);
+
+
           }
           if (shields.length === 4) {
             return (
@@ -156,9 +157,9 @@ class ShieldControl extends Component {
                 shields={shields}
                 state={this.state}
                 _toggleShields={this._toggleShields.bind(this)}
-                simulator={this.props.simulator}
-              />
-            );
+                simulator={this.props.simulator} />);
+
+
           }
           if (shields.length === 6) {
             return (
@@ -166,15 +167,15 @@ class ShieldControl extends Component {
                 shields={shields}
                 state={this.state}
                 _toggleShields={this._toggleShields.bind(this)}
-                simulator={this.props.simulator}
-              />
-            );
+                simulator={this.props.simulator} />);
+
+
           }
           return "Invalid Shield Configuration";
         })()}
         <Tour steps={trainingSteps} client={this.props.clientObj} />
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 
@@ -200,8 +201,8 @@ export const SHIELD_QUERY = gql`
   }
 `;
 export default graphql(SHIELD_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(ShieldControl));

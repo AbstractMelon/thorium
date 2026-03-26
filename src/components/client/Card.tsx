@@ -8,13 +8,14 @@ import SoundPlayer from "./soundPlayer";
 import Lighting from "./lighting";
 import Reset from "./reset";
 import TrainingPlayer from "helpers/trainingPlayer";
-import {subscribe, publish} from "../../helpers/pubsub";
-import {useMutation} from "react-apollo";
+import { subscribe, publish } from "../../helpers/pubsub";
+import { useMutation } from "@apollo/client";
+
 import gql from "graphql-tag.macro";
-import {playSound} from "../generic/SoundPlayer";
-import {randomFromList} from "helpers/randomFromList";
+import { playSound } from "../generic/SoundPlayer";
+import { randomFromList } from "helpers/randomFromList";
 import styled from "styled-components";
-import {Simulator, Station, Flight, Client} from "generated/graphql";
+import { Simulator, Station, Flight, Client } from "generated/graphql";
 
 const Blackout = styled.div`
   width: 100vw;
@@ -42,13 +43,13 @@ const CardRenderer: React.FC<
   CardFrameProps & {
     changeCard: (name: any) => void;
     card: string;
-  }
-> = props => {
-  const {simulator, station, flight, client, card, changeCard} = props;
+  }> =
+(props) => {
+  const { simulator, station, flight, client, card, changeCard } = props;
   const layoutName = station.layout || simulator.layout || "LayoutCorners";
 
   let LayoutComponent = (Layouts[layoutName] ||
-    Layouts.LayoutCorners) as React.ElementType;
+  Layouts.LayoutCorners) as React.ElementType;
   if (station.name === "Viewscreen") {
     LayoutComponent = Layouts[layoutName + "Viewscreen"] || LayoutComponent;
   }
@@ -57,17 +58,17 @@ const CardRenderer: React.FC<
       <Keyboard
         keyboard={station?.name?.replace("keyboard:", "")}
         simulator={simulator}
-        clientObj={client}
-      />
-    );
+        clientObj={client} />);
+
+
   }
   if (station?.name?.match(/interface-id:.{8}-.{4}-.{4}-.{4}-.{12}/gi)) {
     return (
       <InterfaceCard
         interfaceId={station?.name?.replace("interface-id:", "")}
-        simulator={simulator}
-      />
-    );
+        simulator={simulator} />);
+
+
   }
   if (station.name.includes("dmxSet:")) {
     return <Lighting clientId={client.id} simulator={simulator} />;
@@ -85,27 +86,27 @@ const CardRenderer: React.FC<
       simulator={simulator}
       station={station}
       cardName={card}
-      changeCard={changeCard}
-    />
-  );
+      changeCard={changeCard} />);
+
+
 };
 
 export function isMedia(src = "") {
   const extensions = [
-    ".wav",
-    ".mp4",
-    ".mp3",
-    ".mov",
-    ".ogg",
-    ".ogv",
-    ".aac",
-    ".m4a",
-    ".m4v",
-    ".webm",
-    ".mpg",
-    ".mpeg",
-  ];
-  return extensions.find(e => src.toLowerCase().indexOf(e) > -1);
+  ".wav",
+  ".mp4",
+  ".mp3",
+  ".mov",
+  ".ogg",
+  ".ogv",
+  ".aac",
+  ".m4a",
+  ".m4v",
+  ".webm",
+  ".mpg",
+  ".mpeg"];
+
+  return extensions.find((e) => src.toLowerCase().indexOf(e) > -1);
 }
 
 const SET_TRAINING_MUTATION = gql`
@@ -120,13 +121,13 @@ const CHANGE_CARD_MUTATION = gql`
   }
 `;
 
-const CardFrame: React.FC<CardFrameProps> = props => {
+const CardFrame: React.FC<CardFrameProps> = (props) => {
   const {
-    station: {cards, widgets, training: stationTraining},
+    station: { cards, widgets, training: stationTraining },
     station,
     simulator,
-    simulator: {soundEffects, caps, flipped, training: simTraining},
-    client,
+    simulator: { soundEffects, caps, flipped, training: simTraining },
+    client
   } = props;
   const cardChanged = React.useRef(false);
   const [visible, setVisible] = React.useState(false);
@@ -136,31 +137,31 @@ const CardFrame: React.FC<CardFrameProps> = props => {
   }, []);
   const [changeCardMutation] = useMutation(CHANGE_CARD_MUTATION);
   const changeCard = React.useCallback(
-    name => {
-      const card = cards?.find(c => c.name === name) ? name : cards?.[0]?.name;
+    (name) => {
+      const card = cards?.find((c) => c.name === name) ? name : cards?.[0]?.name;
       if (cardChanged.current || cardName === card) return;
       cardChanged.current = true;
-      setTimeout(() => (cardChanged.current = false), 500);
+      setTimeout(() => cardChanged.current = false, 500);
       if (soundEffects?.cardChange) {
         playSound({
-          url: `/assets${randomFromList(soundEffects.cardChange)}`,
+          url: `/assets${randomFromList(soundEffects.cardChange)}`
         });
       }
-      changeCardMutation({variables: {id: client.id, card: name}});
+      changeCardMutation({ variables: { id: client.id, card: name } });
     },
-    [cards, changeCardMutation, cardName, client.id, soundEffects],
+    [cards, changeCardMutation, cardName, client.id, soundEffects]
   );
 
   React.useEffect(() => {
     return subscribe(
       "cardChangeRequest",
-      (payload: {changeToCard: string[]}) => {
+      (payload: {changeToCard: string[];}) => {
         // Searching in order of priority, find a matching card by component (card
         // names may have been changed to protect the innocent) then change to that card's name.
         let found = false;
         for (let i = 0; i < payload.changeToCard.length; i++) {
           let matchingCard = cards?.find(
-            c => c.component === payload.changeToCard[i],
+            (c) => c.component === payload.changeToCard[i]
           );
           if (matchingCard) {
             changeCard(matchingCard.name);
@@ -169,29 +170,29 @@ const CardFrame: React.FC<CardFrameProps> = props => {
           }
         }
         if (!found) {
-          const widgetName = payload.changeToCard.find(c =>
-            widgets?.includes(c),
+          const widgetName = payload.changeToCard.find((c) =>
+          widgets?.includes(c)
           );
           if (widgetName) {
             publish("widgetOpen", widgetName);
           }
         }
-      },
+      }
     );
   }, [cards, changeCard, widgets]);
 
   const [stopTraining] = useMutation(SET_TRAINING_MUTATION, {
     variables: {
       id: client.id,
-      training: false,
-    },
+      training: false
+    }
   });
   return (
     <div
       className={`client-container ${caps ? "all-caps" : ""} ${
-        flipped ? "client-flipped" : ""
-      } ${visible ? "visible" : ""}`}
-    >
+      flipped ? "client-flipped" : ""} ${
+      visible ? "visible" : ""}`}>
+      
       <ActionsMixin {...props} changeCard={changeCard} />
       {client.cracked && <div className="cracked-screen" />}
       <CardRenderer
@@ -201,32 +202,32 @@ const CardFrame: React.FC<CardFrameProps> = props => {
         client={{
           ...client,
           training:
-            simTraining && stationTraining && isMedia(stationTraining)
-              ? false
-              : client.training,
-        }}
-      />
+          simTraining && stationTraining && isMedia(stationTraining) ?
+          false :
+          client.training
+        }} />
+      
       {client && <Reset station={station} clientId={client.id} />}
       {simTraining &&
-        stationTraining &&
-        client.training &&
-        isMedia(stationTraining) && (
-          <TrainingPlayer
-            src={`/assets${stationTraining}`}
-            close={stopTraining}
-          />
-        )}
-      {client.offlineState !== "blackout" && (
-        <Alerts
-          key={`alerts-${simulator ? simulator.id : "simulator"}-${
-            station ? station.name : "station"
-          }`}
-          simulator={simulator}
-          station={station}
-        />
-      )}
-    </div>
-  );
+      stationTraining &&
+      client.training &&
+      isMedia(stationTraining) &&
+      <TrainingPlayer
+        src={`/assets${stationTraining}`}
+        close={stopTraining} />
+
+      }
+      {client.offlineState !== "blackout" &&
+      <Alerts
+        key={`alerts-${simulator ? simulator.id : "simulator"}-${
+        station ? station.name : "station"}`
+        }
+        simulator={simulator}
+        station={station} />
+
+      }
+    </div>);
+
 };
 
 export default CardFrame;

@@ -1,8 +1,9 @@
 import React from "react";
-import {Query, Mutation} from "react-apollo";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Button} from "helpers/reactstrap";
-import {OutputField} from "../../generic/core";
+import { Button } from "helpers/reactstrap";
+import { OutputField } from "../../generic/core";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
 
@@ -44,7 +45,7 @@ const fragments = {
         powerLevels
       }
     }
-  `,
+  `
 };
 
 export const TRANSWARP_CORE_QUERY = gql`
@@ -66,43 +67,43 @@ export const TRANSWARP_CORE_SUB = gql`
   ${fragments.transwarpFragment}
 `;
 
-const TranswarpCore = ({id, quad1, quad2, quad3, quad4, active, power}) => {
-  const requiredPower = Object.values({quad1, quad2, quad3, quad4})
-    .map(q =>
-      Object.values(q).reduce(
-        (prev, next) => prev + parseInt(next.required, 10),
-        0,
-      ),
-    )
-    .reduce((prev, next) => prev + parseInt(next, 10), 0);
-  const usedPower = Object.values({quad1, quad2, quad3, quad4})
-    .map(q =>
-      Object.values(q).reduce(
-        (prev, next) => prev + parseInt(next.value, 10),
-        0,
-      ),
-    )
-    .reduce((prev, next) => prev + parseInt(next, 10), 0);
+const TranswarpCore = ({ id, quad1, quad2, quad3, quad4, active, power }) => {
+  const requiredPower = Object.values({ quad1, quad2, quad3, quad4 }).
+  map((q) =>
+  Object.values(q).reduce(
+    (prev, next) => prev + parseInt(next.required, 10),
+    0
+  )
+  ).
+  reduce((prev, next) => prev + parseInt(next, 10), 0);
+  const usedPower = Object.values({ quad1, quad2, quad3, quad4 }).
+  map((q) =>
+  Object.values(q).reduce(
+    (prev, next) => prev + parseInt(next.value, 10),
+    0
+  )
+  ).
+  reduce((prev, next) => prev + parseInt(next, 10), 0);
   // Power total is current power level divided by the max power level times 300
   const powerTotal =
-    (power.power / power.powerLevels[power.powerLevels.length - 1]) * 300;
+  power.power / power.powerLevels[power.powerLevels.length - 1] * 300;
   return (
     <div className="transwarp-core">
       <div>
         Power Used:{" "}
-        <OutputField style={{display: "inline-block", minWidth: "4ch"}}>
+        <OutputField style={{ display: "inline-block", minWidth: "4ch" }}>
           {usedPower}
         </OutputField>
       </div>
       <div>
         Power Required:{" "}
-        <OutputField style={{display: "inline-block", minWidth: "4ch"}}>
+        <OutputField style={{ display: "inline-block", minWidth: "4ch" }}>
           {requiredPower}
         </OutputField>
       </div>
       <div>
         Power Available:{" "}
-        <OutputField style={{display: "inline-block", minWidth: "4ch"}}>
+        <OutputField style={{ display: "inline-block", minWidth: "4ch" }}>
           {powerTotal}
         </OutputField>
       </div>
@@ -113,34 +114,34 @@ const TranswarpCore = ({id, quad1, quad2, quad3, quad4, active, power}) => {
               setTranswarpActive(id: $id, active: $active)
             }
           `}
-          variables={{id, active: !active}}
-        >
-          {action => (
-            <OutputField alert={active} onDoubleClick={action}>
+          variables={{ id, active: !active }}>
+          
+          {(action) =>
+          <OutputField alert={active} onDoubleClick={action}>
               {active ? "Active" : "Deactivated"}
             </OutputField>
-          )}
+          }
         </Mutation>
       </div>
-      <div style={{display: "flex"}}>
+      <div style={{ display: "flex" }}>
         <Mutation
           mutation={gql`
             mutation Flux($id: ID!) {
               fluxTranswarp(id: $id)
             }
           `}
-          variables={{id}}
-        >
-          {action => (
-            <Button
-              size="sm"
-              style={{flex: 1}}
-              color="warning"
-              onClick={action}
-            >
+          variables={{ id }}>
+          
+          {(action) =>
+          <Button
+            size="sm"
+            style={{ flex: 1 }}
+            color="warning"
+            onClick={action}>
+            
               Flux
             </Button>
-          )}
+          }
         </Mutation>
         <Mutation
           mutation={gql`
@@ -148,51 +149,51 @@ const TranswarpCore = ({id, quad1, quad2, quad3, quad4, active, power}) => {
               normalTranswarp(id: $id)
             }
           `}
-          variables={{id}}
-        >
-          {action => (
-            <Button
-              size="sm"
-              style={{flex: 1}}
-              color="primary"
-              onClick={action}
-            >
+          variables={{ id }}>
+          
+          {(action) =>
+          <Button
+            size="sm"
+            style={{ flex: 1 }}
+            color="primary"
+            onClick={action}>
+            
               Normal
             </Button>
-          )}
+          }
         </Mutation>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
-const TranswarpData = props => (
-  <Query
-    query={TRANSWARP_CORE_QUERY}
-    variables={{simulatorId: props.simulator.id}}
-  >
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {transwarp} = data;
-      if (!transwarp[0]) return <div>No Transwarp</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: TRANSWARP_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  transwarp: subscriptionData.data.transwarpUpdate,
-                });
-              },
-            })
+const TranswarpData = (props) =>
+<Query
+  query={TRANSWARP_CORE_QUERY}
+  variables={{ simulatorId: props.simulator.id }}>
+  
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { transwarp } = data;
+    if (!transwarp[0]) return <div>No Transwarp</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: TRANSWARP_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              transwarp: subscriptionData.data.transwarpUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <TranswarpCore {...props} {...transwarp[0]} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default TranswarpData;

@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import gql from "graphql-tag.macro";
-import {Mutation} from "react-apollo";
+import { Mutation } from "@apollo/client/react/components";
+
 
 const SpeedAsker = ({
   speedAsking,
@@ -11,23 +12,23 @@ const SpeedAsker = ({
   draggingContacts,
   remove,
   destroy,
-  triggerUpdate,
+  triggerUpdate
 }) => {
-  const contacts = draggingContacts
-    .map(c => c.id)
-    .filter((a, i, arr) => arr.indexOf(a) === i);
+  const contacts = draggingContacts.
+  map((c) => c.id).
+  filter((a, i, arr) => arr.indexOf(a) === i);
   return ReactDOM.createPortal(
     <div
       className="speed-container"
       style={{
-        transform: `translate(${speedAsking.x}px, ${speedAsking.y}px)`,
-      }}
-    >
-      {speeds.map(s => (
-        <p key={s.value} onClick={() => triggerUpdate(s.value)}>
+        transform: `translate(${speedAsking.x}px, ${speedAsking.y}px)`
+      }}>
+      
+      {speeds.map((s) =>
+      <p key={s.value} onClick={() => triggerUpdate(s.value)}>
           {s.label}
         </p>
-      ))}
+      )}
       <p onClick={() => triggerUpdate("timed")}>Timed</p>
       <p onClick={cancelMove}>Cancel</p>
       <Mutation
@@ -35,20 +36,20 @@ const SpeedAsker = ({
           mutation DeleteContact($id: ID!, $contact: SensorContactInput!) {
             removeSensorContact(id: $id, contact: $contact)
           }
-        `}
-      >
-        {action => (
-          <p
-            onClick={() => {
-              contacts.forEach(c =>
-                action({variables: {id: sensorsId, contact: {id: c}}}),
-              );
-              cancelMove();
-            }}
-          >
+        `}>
+        
+        {(action) =>
+        <p
+          onClick={() => {
+            contacts.forEach((c) =>
+            action({ variables: { id: sensorsId, contact: { id: c } } })
+            );
+            cancelMove();
+          }}>
+          
             Remove
           </p>
-        )}
+        }
       </Mutation>
       <Mutation
         mutation={gql`
@@ -56,21 +57,21 @@ const SpeedAsker = ({
             destroySensorContact(id: $id, contacts: $contacts)
           }
         `}
-        variables={{id: sensorsId, contacts}}
-      >
-        {action => (
-          <p
-            onClick={() => {
-              action();
-              cancelMove();
-            }}
-          >
+        variables={{ id: sensorsId, contacts }}>
+        
+        {(action) =>
+        <p
+          onClick={() => {
+            action();
+            cancelMove();
+          }}>
+          
             Destroy
           </p>
-        )}
+        }
       </Mutation>
     </div>,
-    document.body,
+    document.body
   );
 };
 export default SpeedAsker;

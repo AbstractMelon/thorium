@@ -1,5 +1,6 @@
 import React from "react";
-import {Query} from "react-apollo";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import MacroConfig from "./macroConfig";
@@ -40,31 +41,31 @@ const SUBSCRIPTION = gql`
   ${fragment}
 `;
 
-const MacrosData = props => {
+const MacrosData = (props) => {
   return (
     <Query query={QUERY}>
-      {({loading, data, subscribeToMore}) => {
+      {({ loading, data, subscribeToMore }) => {
         if (loading || !data) return null;
-        const {macroButtons} = data;
+        const { macroButtons } = data;
         return (
           <SubscriptionHelper
             subscribe={() =>
-              subscribeToMore({
-                document: SUBSCRIPTION,
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    macroButtons: subscriptionData.data.macroButtonsUpdate,
-                  });
-                },
-              })
-            }
-          >
+            subscribeToMore({
+              document: SUBSCRIPTION,
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  macroButtons: subscriptionData.data.macroButtonsUpdate
+                });
+              }
+            })
+            }>
+            
             <MacroConfig {...props} macros={macroButtons} />
-          </SubscriptionHelper>
-        );
+          </SubscriptionHelper>);
+
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 
 export default MacrosData;

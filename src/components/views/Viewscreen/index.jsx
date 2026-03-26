@@ -1,6 +1,7 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import * as ViewscreenCards from "components/viewscreens";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import SoundPlayer from "../../client/soundPlayer";
@@ -28,9 +29,9 @@ const VIEWSCREEN_SUB = gql`
 
 export class Viewscreen extends Component {
   sub = null;
-  keydown = e => {
+  keydown = (e) => {
     const variables = {
-      simulatorId: this.props.simulator.id,
+      simulatorId: this.props.simulator.id
     };
     const mutation = gql`
       mutation AutoAdvance($simulatorId: ID!, $prev: Boolean) {
@@ -40,14 +41,14 @@ export class Viewscreen extends Component {
     if (e.which === 39 || e.which === 33) {
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
     if (e.which === 37 || e.which === 34) {
       variables.prev = true;
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
@@ -63,19 +64,19 @@ export class Viewscreen extends Component {
       return <ViewscreenComponent {...this.props} />;
     }
     const {
-      data: {loading, viewscreens},
-      clientObj,
+      data: { loading, viewscreens },
+      clientObj
     } = this.props;
     if (loading || !viewscreens) return null;
-    const viewscreen = viewscreens.find(v => v.id === clientObj.id);
+    const viewscreen = viewscreens.find((v) => v.id === clientObj.id);
     if (!viewscreen) return <div>No Viewscreen</div>;
     if (ViewscreenCards[viewscreen.component]) {
       const ViewscreenComponent = ViewscreenCards[viewscreen.component];
       return (
         <div className="main-viewscreen">
           <ViewscreenComponent {...this.props} viewscreen={viewscreen} />
-        </div>
-      );
+        </div>);
+
     }
     if (!viewscreen) {
       return <div>No Viewscreen Component for {viewscreen.component}</div>;
@@ -83,29 +84,29 @@ export class Viewscreen extends Component {
   }
   renderPip() {
     const {
-      data: {loading, viewscreens},
-      clientObj,
+      data: { loading, viewscreens },
+      clientObj
     } = this.props;
     if (loading || !viewscreens) return null;
-    const viewscreen = viewscreens.find(v => v.id === clientObj.id);
+    const viewscreen = viewscreens.find((v) => v.id === clientObj.id);
     if (!viewscreen) return null;
     if (!viewscreen.pictureInPicture) return null;
     const pip = viewscreen.pictureInPicture;
     if (ViewscreenCards[pip.component]) {
       const ViewscreenComponent = ViewscreenCards[pip.component];
-      const sizes = {small: 0.25, medium: 0.33, large: 0.45};
+      const sizes = { small: 0.25, medium: 0.33, large: 0.45 };
       return (
         <div
-          className={`viewscreen-picture-in-picture pip-size-${pip.size} pip-position-${pip.position}`}
-        >
+          className={`viewscreen-picture-in-picture pip-size-${pip.size} pip-position-${pip.position}`}>
+          
           <ViewscreenScaleContext.Provider value={sizes[pip.size]}>
             <ViewscreenComponent
               {...this.props}
-              viewscreen={{...pip, data: JSON.stringify(pip.data)}}
-            />
+              viewscreen={{ ...pip, data: JSON.stringify(pip.data) }} />
+            
           </ViewscreenScaleContext.Provider>
-        </div>
-      );
+        </div>);
+
     }
     return null;
   }
@@ -115,28 +116,28 @@ export class Viewscreen extends Component {
 
     return (
       <Fragment>
-        {this.props.clientObj.soundPlayer && (
-          <SoundPlayer {...this.props} invisible />
-        )}
+        {this.props.clientObj.soundPlayer &&
+        <SoundPlayer {...this.props} invisible />
+        }
         <SubscriptionHelper
           subscribe={() => {
             return this.props.data.subscribeToMore({
               document: VIEWSCREEN_SUB,
               variables: {
-                simulatorId: this.props.simulator.id,
+                simulatorId: this.props.simulator.id
               },
-              updateQuery: (previousResult, {subscriptionData}) => {
+              updateQuery: (previousResult, { subscriptionData }) => {
                 return Object.assign({}, previousResult, {
-                  viewscreens: subscriptionData.data.viewscreensUpdate,
+                  viewscreens: subscriptionData.data.viewscreensUpdate
                 });
-              },
+              }
             });
-          }}
-        />
+          }} />
+        
         {this.renderComponent()}
         {this.renderPip()}
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 
@@ -157,10 +158,10 @@ const VIEWSCREEN_QUERY = gql`
   }
 `;
 export default graphql(VIEWSCREEN_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(Viewscreen));

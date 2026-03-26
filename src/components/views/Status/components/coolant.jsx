@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Label} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import Dots from "./dots";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 export const STATUS_COOLANT_SUB = gql`
@@ -22,21 +23,21 @@ class Coolant extends Component {
       <div>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_COOLANT_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  coolant: subscriptionData.data.coolantUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_COOLANT_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                coolant: subscriptionData.data.coolantUpdate
+              });
+            }
+          })
+          } />
+        
         <Label>Coolant</Label>
         <Dots level={coolant.coolant} color="rgb(40,60,255)" />
-      </div>
-    );
+      </div>);
+
   }
 }
 export const STATUS_COOLANT_QUERY = gql`
@@ -49,8 +50,8 @@ export const STATUS_COOLANT_QUERY = gql`
 `;
 
 export default graphql(STATUS_COOLANT_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(Coolant);

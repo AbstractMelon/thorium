@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import Tour from "helpers/tourHelper";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
@@ -10,21 +11,21 @@ import TorpedoFire from "./torpedoFire";
 import TorpedoLoader from "./loader";
 
 const trainingSteps = [
-  {
-    selector: ".torpedo-loading",
-    content:
-      "Torpedos are explosive projectile weapons. You can use this screen to load torpedos into your launchers.",
-  },
-  {
-    selector: ".torpedoButton",
-    content: "Click the load button to see the available torpedos.",
-  },
-  {
-    selector: ".torpedoPickScroll",
-    content:
-      "Click on one of the torpedos to load it into your launcher. Recognize that some torpedos have different properties. For example, photon torpedos travel quickly but carry a smaller payload, thus causing less damage. Quantum torpedos do not travel as quickly, but are many times more explosive than photon torpedos.",
-  },
-];
+{
+  selector: ".torpedo-loading",
+  content:
+  "Torpedos are explosive projectile weapons. You can use this screen to load torpedos into your launchers."
+},
+{
+  selector: ".torpedoButton",
+  content: "Click the load button to see the available torpedos."
+},
+{
+  selector: ".torpedoPickScroll",
+  content:
+  "Click on one of the torpedos to load it into your launcher. Recognize that some torpedos have different properties. For example, photon torpedos travel quickly but carry a smaller payload, thus causing less damage. Quantum torpedos do not travel as quickly, but are many times more explosive than photon torpedos."
+}];
+
 
 export const TORPEDO_SUB = gql`
   subscription TorpedosUpdate($simulatorId: ID!) {
@@ -62,45 +63,45 @@ class TorpedoLoading extends Component {
     return (
       <div
         className={`torpedo-loading ${
-          torpedos.length > (this.props.maxLaunchers || Infinity)
-            ? "fire-grid"
-            : ""
-        }`}
-      >
+        torpedos.length > (this.props.maxLaunchers || Infinity) ?
+        "fire-grid" :
+        ""}`
+        }>
+        
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: TORPEDO_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  torpedos: subscriptionData.data.torpedosUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: TORPEDO_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                torpedos: subscriptionData.data.torpedosUpdate
+              });
+            }
+          })
+          } />
+        
 
-        {torpedos.map(t => {
+        {torpedos.map((t) => {
           if (torpedos.length > (this.props.maxLaunchers || Infinity)) {
             return (
-              <TorpedoFire key={t.id} torpedo={t} client={this.props.client} />
-            );
+              <TorpedoFire key={t.id} torpedo={t} client={this.props.client} />);
+
           }
           return (
             <TorpedoLoader
               key={t.id}
               torpedo={t}
               targeting={this.props.targeting}
-              client={this.props.client}
-            />
-          );
+              client={this.props.client} />);
+
+
         })}
-        {this.props.clientObj && (
-          <Tour steps={trainingSteps} client={this.props.clientObj} />
-        )}
-      </div>
-    );
+        {this.props.clientObj &&
+        <Tour steps={trainingSteps} client={this.props.clientObj} />
+        }
+      </div>);
+
   }
 }
 
@@ -133,8 +134,8 @@ export const TORPEDO_QUERY = gql`
 `;
 
 export default graphql(TORPEDO_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(TorpedoLoading));

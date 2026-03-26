@@ -1,11 +1,12 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Container, Row, Col, Button, Input} from "helpers/reactstrap";
-import {graphql, withApollo} from "react-apollo";
-import {OutputField, TypingField} from "../../generic/core";
+import { Container, Row, Col, Button, Input } from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { OutputField, TypingField } from "../../generic/core";
 import "./style.scss";
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {FaRandom, FaRetweet} from "react-icons/fa";
+import { FaRandom, FaRetweet } from "react-icons/fa";
 
 export const NAVIGATION_CORE_SUB = gql`
   subscription NavigationUpdate($simulatorId: ID) {
@@ -50,29 +51,29 @@ class NavigationCore extends Component {
     super(props);
     this.subscription = null;
     this.state = {
-      calculatedCourse: null,
+      calculatedCourse: null
     };
   }
   componentDidUpdate(prevProps) {
     if (!this.props.data.loading) {
       const navigation =
-        this.props.data.navigation && this.props.data.navigation[0];
+      this.props.data.navigation && this.props.data.navigation[0];
       if (!navigation) return;
       if (!this.state.calculatedCourse && navigation) {
         return this.setState({
-          calculatedCourse: navigation.calculatedCourse,
+          calculatedCourse: navigation.calculatedCourse
         });
       }
       const oldNavigation =
-        prevProps.data.navigation && prevProps.data.navigation[0];
+      prevProps.data.navigation && prevProps.data.navigation[0];
       if (navigation && oldNavigation) {
         if (
-          navigation.calculatedCourse.x !== oldNavigation.calculatedCourse.x ||
-          navigation.calculatedCourse.y !== oldNavigation.calculatedCourse.y ||
-          navigation.calculatedCourse.z !== oldNavigation.calculatedCourse.z
-        ) {
+        navigation.calculatedCourse.x !== oldNavigation.calculatedCourse.x ||
+        navigation.calculatedCourse.y !== oldNavigation.calculatedCourse.y ||
+        navigation.calculatedCourse.z !== oldNavigation.calculatedCourse.z)
+        {
           this.setState({
-            calculatedCourse: navigation.calculatedCourse,
+            calculatedCourse: navigation.calculatedCourse
           });
         }
       }
@@ -83,8 +84,8 @@ class NavigationCore extends Component {
       calculatedCourse: {
         x: Math.round(Math.random() * 100000) / 100,
         y: Math.round(Math.random() * 100000) / 100,
-        z: Math.round(Math.random() * 100000) / 100,
-      },
+        z: Math.round(Math.random() * 100000) / 100
+      }
     });
   }
   randomDegs = () => {
@@ -92,8 +93,8 @@ class NavigationCore extends Component {
       calculatedCourse: {
         x: `${Math.round(Math.random() * 360)}˚`,
         y: `${Math.round(Math.random() * 360)}˚`,
-        z: `${Math.round(Math.random() * 360)}˚`,
-      },
+        z: `${Math.round(Math.random() * 360)}˚`
+      }
     });
   };
   unknownCourse() {
@@ -101,8 +102,8 @@ class NavigationCore extends Component {
       calculatedCourse: {
         x: "No",
         y: "Course",
-        z: "Available",
-      },
+        z: "Available"
+      }
     });
   }
   sendCourse() {
@@ -117,11 +118,11 @@ class NavigationCore extends Component {
       id: navigation.id,
       x: String(course.x),
       y: String(course.y),
-      z: String(course.z),
+      z: String(course.z)
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   toggleCalculate(e) {
@@ -133,19 +134,19 @@ class NavigationCore extends Component {
     const navigation = this.props.data.navigation[0];
     const variables = {
       id: navigation.id,
-      which: e.target.checked,
+      which: e.target.checked
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
-  setPreset = e => {
+  setPreset = (e) => {
     const course = this.props.data.navigation[0].presets.find(
-      p => p.name === e.target.value,
+      (p) => p.name === e.target.value
     );
     this.setState({
-      calculatedCourse: course.course,
+      calculatedCourse: course.course
     });
   };
   toggleThrusters = () => {
@@ -157,11 +158,11 @@ class NavigationCore extends Component {
     `;
     const variables = {
       id: navigation.id,
-      thrusters: !navigation.thrusters,
+      thrusters: !navigation.thrusters
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
@@ -173,33 +174,33 @@ class NavigationCore extends Component {
       <Container className="docking-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: NAVIGATION_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  navigation: subscriptionData.data.navigationUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: NAVIGATION_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                navigation: subscriptionData.data.navigationUpdate
+              });
+            }
+          })
+          } />
+        
         <label>
           <input
             type="checkbox"
             checked={navigation.calculate}
-            onChange={this.toggleCalculate.bind(this)}
-          />
+            onChange={this.toggleCalculate.bind(this)} />
+          
           Calculate
         </label>
         <label>
           <input
             type="checkbox"
             checked={navigation.thrusters}
-            onChange={this.toggleThrusters}
-          />
+            onChange={this.toggleThrusters} />
+          
           Thrusters
         </label>
         <Row>
@@ -210,7 +211,7 @@ class NavigationCore extends Component {
         </Row>
         <Row>
           <Col sm="1">
-            <p style={{textAlign: "right"}}>
+            <p style={{ textAlign: "right" }}>
               {navigation.thrusters ? "Yaw" : "X"}
             </p>
           </Col>
@@ -222,16 +223,16 @@ class NavigationCore extends Component {
               input
               controlled
               value={calculatedCourse.x}
-              onChange={evt =>
-                this.setState({
-                  calculatedCourse: Object.assign(
-                    {},
-                    this.state.calculatedCourse,
-                    {x: evt.target.value},
-                  ),
-                })
-              }
-            />
+              onChange={(evt) =>
+              this.setState({
+                calculatedCourse: Object.assign(
+                  {},
+                  this.state.calculatedCourse,
+                  { x: evt.target.value }
+                )
+              })
+              } />
+            
           </Col>
           <Col sm="5">
             <Row>
@@ -241,8 +242,8 @@ class NavigationCore extends Component {
                   block
                   size="sm"
                   color="info"
-                  disabled={navigation.thrusters}
-                >
+                  disabled={navigation.thrusters}>
+                  
                   <FaRandom />
                 </Button>
               </Col>
@@ -251,8 +252,8 @@ class NavigationCore extends Component {
                   onClick={this.randomDegs}
                   block
                   size="sm"
-                  color="warning"
-                >
+                  color="warning">
+                  
                   <FaRetweet />
                 </Button>
               </Col>
@@ -261,7 +262,7 @@ class NavigationCore extends Component {
         </Row>
         <Row>
           <Col sm="1">
-            <p style={{textAlign: "right"}}>
+            <p style={{ textAlign: "right" }}>
               {navigation.thrusters ? "Pitch" : "Y"}
             </p>
           </Col>
@@ -273,31 +274,31 @@ class NavigationCore extends Component {
               input
               controlled
               value={calculatedCourse.y}
-              onChange={evt =>
-                this.setState({
-                  calculatedCourse: Object.assign(
-                    {},
-                    this.state.calculatedCourse,
-                    {y: evt.target.value},
-                  ),
-                })
-              }
-            />{" "}
+              onChange={(evt) =>
+              this.setState({
+                calculatedCourse: Object.assign(
+                  {},
+                  this.state.calculatedCourse,
+                  { y: evt.target.value }
+                )
+              })
+              } />
+            {" "}
           </Col>
           <Col sm="5">
             <Button
               onClick={this.sendCourse.bind(this)}
               block
               size="sm"
-              color="primary"
-            >
+              color="primary">
+              
               Send
             </Button>
           </Col>
         </Row>
         <Row>
           <Col sm="1">
-            <p style={{textAlign: "right"}}>
+            <p style={{ textAlign: "right" }}>
               {navigation.thrusters ? "Roll" : "Z"}
             </p>
           </Col>
@@ -309,24 +310,24 @@ class NavigationCore extends Component {
               input
               controlled
               value={calculatedCourse.z}
-              onChange={evt =>
-                this.setState({
-                  calculatedCourse: Object.assign(
-                    {},
-                    this.state.calculatedCourse,
-                    {z: evt.target.value},
-                  ),
-                })
-              }
-            />{" "}
+              onChange={(evt) =>
+              this.setState({
+                calculatedCourse: Object.assign(
+                  {},
+                  this.state.calculatedCourse,
+                  { z: evt.target.value }
+                )
+              })
+              } />
+            {" "}
           </Col>
           <Col sm="5">
             <Button
               onClick={this.unknownCourse.bind(this)}
               block
               size="sm"
-              color="secondary"
-            >
+              color="secondary">
+              
               Unknown
             </Button>
           </Col>
@@ -339,22 +340,22 @@ class NavigationCore extends Component {
           </Col>
           <Col sm="4">
             <Input
-              style={{height: "20px"}}
+              style={{ height: "20px" }}
               type="select"
               value="select"
-              onChange={this.setPreset}
-            >
+              onChange={this.setPreset}>
+              
               <option value="select">Presets</option>
-              {navigation.presets.map(p => (
-                <option key={p.name} value={p.name}>
+              {navigation.presets.map((p) =>
+              <option key={p.name} value={p.name}>
                   {p.name}
                 </option>
-              ))}
+              )}
             </Input>
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -397,10 +398,10 @@ export const NAVIGATION_CORE_QUERY = gql`
 `;
 
 export default graphql(NAVIGATION_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(NavigationCore));

@@ -1,6 +1,8 @@
 import React from "react";
-import {Container, Button, Input} from "helpers/reactstrap";
-import {Query, Mutation, useQuery} from "react-apollo";
+import { Container, Button, Input } from "helpers/reactstrap";
+import { useQuery } from "@apollo/client";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import "./settings.scss";
 const QUERY = gql`
@@ -29,9 +31,9 @@ const FirebaseManagerQuery = gql`
   query HasFirebase {
     hasFirebaseConnection
   }
-`
+`;
 const Settings = () => {
-  const {loading, data} = useQuery(QUERY);
+  const { loading, data } = useQuery(QUERY);
 
   if (loading) return <p>Loading</p>;
 
@@ -54,15 +56,15 @@ const Settings = () => {
                 mutation TrackingPref($pref: Boolean!) {
                   setTrackingPreference(pref: $pref)
                 }
-              `}
-            >
-              {action => (
-                <input
-                  type="checkbox"
-                  defaultChecked={data.thorium.doTrack}
-                  onChange={e => action({variables: {pref: e.target.checked}})}
-                />
-              )}
+              `}>
+              
+              {(action) =>
+              <input
+                type="checkbox"
+                defaultChecked={data.thorium.doTrack}
+                onChange={(e) => action({ variables: { pref: e.target.checked } })} />
+
+              }
             </Mutation>{" "}
             Opt in to tracking
             <div>
@@ -87,15 +89,15 @@ const Settings = () => {
                   }
                 }
               `}
-              refetchQueries={[{query: QUERY}]}
-            >
-              {action => (
-                <input
-                  defaultValue={data.thorium.spaceEdventuresToken}
-                  type="password"
-                  onBlur={e => action({variables: {token: e.target.value}})}
-                />
-              )}
+              refetchQueries={[{ query: QUERY }]}>
+              
+              {(action) =>
+              <input
+                defaultValue={data.thorium.spaceEdventuresToken}
+                type="password"
+                onBlur={(e) => action({ variables: { token: e.target.value } })} />
+
+              }
             </Mutation>
           </label>
           <div>
@@ -106,88 +108,88 @@ const Settings = () => {
             </small>
           </div>
           {data.thorium.spaceEdventuresCenter &&
-            data.thorium.spaceEdventuresCenter.id && (
-              <div>
+          data.thorium.spaceEdventuresCenter.id &&
+          <div>
                 <h4>
                   Connected to SpaceEdventures.org center:{" "}
                   {data.thorium.spaceEdventuresCenter.name}
                 </h4>
               </div>
-            )}
+          }
         </div>
       </section>
       <section>
         <div>
           <h3>Google Sheets Connections</h3>
           <Query query={GoogleSheetsQuery}>
-            {({loading, data}) => {
+            {({ loading, data }) => {
               if (loading || !data) return null;
-              const {googleSheets} = data;
+              const { googleSheets } = data;
               return (
                 <Mutation
                   mutation={gql`
                     mutation Authorize {
                       googleSheetsAuthorize
                     }
-                  `}
-                >
-                  {(action, {data}) =>
-                    googleSheets ? (
-                      <div>
+                  `}>
+                  
+                  {(action, { data }) =>
+                  googleSheets ?
+                  <div>
                         <p>Connected to Google Sheets: {googleSheets}</p>
                         <Mutation
-                          mutation={gql`
+                      mutation={gql`
                             mutation Revoke {
                               googleSheetsRevoke
                             }
                           `}
-                          awaitRefetchQueries
-                          refetchQueries={[{query: GoogleSheetsQuery}]}
-                        >
-                          {action => (
-                            <Button onClick={action}>Revoke Connection</Button>
-                          )}
+                      awaitRefetchQueries
+                      refetchQueries={[{ query: GoogleSheetsQuery }]}>
+                      
+                          {(action) =>
+                      <Button onClick={action}>Revoke Connection</Button>
+                      }
                         </Mutation>
-                      </div>
-                    ) : data && data.googleSheetsAuthorize ? (
-                      <div>
+                      </div> :
+                  data && data.googleSheetsAuthorize ?
+                  <div>
                         <label>
                           Paste Access Token Here
                           <Mutation
-                            mutation={gql`
+                        mutation={gql`
                               mutation Authenticate($token: String!) {
                                 googleSheetsCompleteAuthorize(token: $token)
                               }
                             `}
-                            awaitRefetchQueries
-                            refetchQueries={[{query: GoogleSheetsQuery}]}
-                          >
-                            {complete => (
-                              <Input
-                                onChange={e =>
-                                  complete({
-                                    variables: {token: e.target.value},
-                                  })
-                                }
-                              />
-                            )}
+                        awaitRefetchQueries
+                        refetchQueries={[{ query: GoogleSheetsQuery }]}>
+                        
+                            {(complete) =>
+                        <Input
+                          onChange={(e) =>
+                          complete({
+                            variables: { token: e.target.value }
+                          })
+                          } />
+
+                        }
                           </Mutation>
                         </label>
-                      </div>
-                    ) : (
-                      <Button
-                        onClick={() =>
-                          action().then(({data: {googleSheetsAuthorize}}) =>
-                            window.open(googleSheetsAuthorize),
-                          )
-                        }
-                      >
+                      </div> :
+
+                  <Button
+                    onClick={() =>
+                    action().then(({ data: { googleSheetsAuthorize } }) =>
+                    window.open(googleSheetsAuthorize)
+                    )
+                    }>
+                    
                         Connect Google Sheets
                       </Button>
-                    )
+
                   }
-                </Mutation>
-              );
+                </Mutation>);
+
             }}
           </Query>
         </div>
@@ -201,18 +203,18 @@ const Settings = () => {
             const { hasFirebaseConnection } = data;
             return (
               <div style={{ marginTop: '1rem' }}>
-                {hasFirebaseConnection ? (
-                  <p><span aria-label="Rocket ship" role="img">🚀</span> Connected to EVA <span aria-label="Rocket ship" role="img">🚀</span></p>
-                ) : (
-                  <p>Not connected to EVA. If you would like to use the EVA integration, please check your firebase.json file and restart the server.</p>
-                )}
-              </div>
-            );
+                {hasFirebaseConnection ?
+                <p><span aria-label="Rocket ship" role="img">🚀</span> Connected to EVA <span aria-label="Rocket ship" role="img">🚀</span></p> :
+
+                <p>Not connected to EVA. If you would like to use the EVA integration, please check your firebase.json file and restart the server.</p>
+                }
+              </div>);
+
           }}
         </Query>
       </section>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default Settings;

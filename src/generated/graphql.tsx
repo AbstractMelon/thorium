@@ -1,539 +1,539 @@
 import gql from 'graphql-tag.macro';
 import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  /** The `BigInt` scalar type represents non-fractional signed whole numeric values. BigInt can represent values between -(2^53) + 1 and 2^53 - 1.  */
-  BigInt: any;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: {[key: string]: any};
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  BigInt: { input: any; output: any; }
+  JSON: { input: {[key: string]: any}; output: {[key: string]: any}; }
 };
 
 export type Action = {
   __typename?: 'Action';
-  action?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  voice?: Maybe<Scalars['String']>;
-  duration?: Maybe<Scalars['Float']>;
+  action?: Maybe<Scalars['String']['output']>;
+  duration?: Maybe<Scalars['Float']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  voice?: Maybe<Scalars['String']['output']>;
 };
 
 export type ActionInput = {
-  id?: Maybe<Scalars['ID']>;
-  event?: Maybe<Scalars['String']>;
-  args?: Maybe<Scalars['String']>;
-  delay?: Maybe<Scalars['Int']>;
-  noCancelOnReset?: Maybe<Scalars['Boolean']>;
-  needsConfig?: Maybe<Scalars['Boolean']>;
+  args?: InputMaybe<Scalars['String']['input']>;
+  delay?: InputMaybe<Scalars['Int']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  needsConfig?: InputMaybe<Scalars['Boolean']['input']>;
+  noCancelOnReset?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AdvancedNavStarsData = {
   __typename?: 'AdvancedNavStarsData';
-  velocity: Scalars['Float'];
-  activating: Scalars['Boolean'];
+  activating: Scalars['Boolean']['output'];
+  velocity: Scalars['Float']['output'];
 };
 
 export type AdvancedNavigationAndAstrometrics = SystemInterface & {
   __typename?: 'AdvancedNavigationAndAstrometrics';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  extra?: Maybe<Scalars['Boolean']>;
-  damage?: Maybe<Damage>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  power?: Maybe<Power>;
-  flightSets: Array<FlightSet>;
-  currentLocation: BasicCoordinate;
-  coolantLevel: Scalars['Float'];
-  heatLevel: Scalars['Float'];
-  flightPaths: Array<NamedNavigationRoute>;
-  engineStatus: Scalars['String'];
-  hasEmergencyPower: Scalars['Boolean'];
-  startingStartupTime: Scalars['Float'];
-  remainingEta: Scalars['Float'];
-  totalEta: Scalars['Float'];
-  flightPathCoords: Array<FullCoordinate>;
-  remainingStartupTime?: Maybe<Scalars['Float']>;
-  showEta: Scalars['Boolean'];
-  showFlightSet: Scalars['Boolean'];
-  currentFlightSet?: Maybe<FlightSet>;
+  coolantLevel: Scalars['Float']['output'];
   currentFlightPath?: Maybe<NavigationRoute>;
-  currentLocationName?: Maybe<Scalars['String']>;
-  currentLocationUrl?: Maybe<Scalars['String']>;
+  currentFlightSet?: Maybe<FlightSet>;
+  currentLocation: BasicCoordinate;
+  currentLocationName?: Maybe<Scalars['String']['output']>;
+  currentLocationUrl?: Maybe<Scalars['String']['output']>;
+  damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  engineStatus: Scalars['String']['output'];
+  extra?: Maybe<Scalars['Boolean']['output']>;
+  flightPathCoords: Array<FullCoordinate>;
+  flightPaths: Array<NamedNavigationRoute>;
+  flightSetPathMap: Scalars['String']['output'];
+  flightSets: Array<FlightSet>;
+  hasEmergencyPower: Scalars['Boolean']['output'];
+  heatLevel: Scalars['Float']['output'];
+  id?: Maybe<Scalars['ID']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  probeAssignments: Scalars['String']['output'];
   probes: Array<FsProbe>;
-  flightSetPathMap: Scalars['String'];
-  probeAssignments: Scalars['String'];
+  remainingEta: Scalars['Float']['output'];
+  remainingStartupTime?: Maybe<Scalars['Float']['output']>;
+  showEta: Scalars['Boolean']['output'];
+  showFlightSet: Scalars['Boolean']['output'];
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  startingStartupTime: Scalars['Float']['output'];
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  totalEta: Scalars['Float']['output'];
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Ambiance = {
   __typename?: 'Ambiance';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  asset: Scalars['String'];
-  volume: Scalars['Float'];
-  channel: Array<Scalars['Int']>;
-  playbackRate: Scalars['Float'];
+  asset: Scalars['String']['output'];
+  channel: Array<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  playbackRate: Scalars['Float']['output'];
+  volume: Scalars['Float']['output'];
 };
 
 export type AmbianceInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  asset?: Maybe<Scalars['String']>;
-  volume?: Maybe<Scalars['Float']>;
-  channel?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  playbackRate?: Maybe<Scalars['Float']>;
+  asset?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  playbackRate?: InputMaybe<Scalars['Float']['input']>;
+  volume?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type AppearanceComponent = {
   __typename?: 'AppearanceComponent';
+  cloudMapAsset?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  emissiveColor?: Maybe<Scalars['String']['output']>;
+  emissiveIntensity?: Maybe<Scalars['Float']['output']>;
+  materialMapAsset?: Maybe<Scalars['String']['output']>;
   meshType?: Maybe<MeshTypeEnum>;
-  modelAsset?: Maybe<Scalars['String']>;
-  materialMapAsset?: Maybe<Scalars['String']>;
-  ringMapAsset?: Maybe<Scalars['String']>;
-  cloudMapAsset?: Maybe<Scalars['String']>;
-  emissiveColor?: Maybe<Scalars['String']>;
-  emissiveIntensity?: Maybe<Scalars['Float']>;
-  color?: Maybe<Scalars['String']>;
-  scale?: Maybe<Scalars['Float']>;
+  modelAsset?: Maybe<Scalars['String']['output']>;
+  ringMapAsset?: Maybe<Scalars['String']['output']>;
+  scale?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Asset = {
   __typename?: 'Asset';
-  assetKey: Scalars['String'];
-  url: Scalars['String'];
+  assetKey: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type AssetFolder = {
   __typename?: 'AssetFolder';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  folderPath: Scalars['String'];
-  fullPath: Scalars['String'];
+  folderPath: Scalars['String']['output'];
+  fullPath: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   objects: Array<AssetObject>;
 };
 
 export type AssetObject = {
   __typename?: 'AssetObject';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  folderPath: Scalars['String'];
-  fullPath: Scalars['String'];
-  url: Scalars['String'];
+  folderPath: Scalars['String']['output'];
+  fullPath: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type BasicCoordinate = {
   __typename?: 'BasicCoordinate';
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 export type BasicCoordinateInput = {
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type BehaviorComponent = {
   __typename?: 'BehaviorComponent';
   behavior: Behaviors;
-  targetId?: Maybe<Scalars['ID']>;
   destination?: Maybe<EntityCoordinates>;
+  targetId?: Maybe<Scalars['ID']['output']>;
 };
 
 export enum Behaviors {
-  HoldPosition = 'holdPosition',
-  Wander = 'wander',
-  Follow = 'follow',
+  Attack = 'attack',
   Avoid = 'avoid',
-  Attack = 'attack'
+  Follow = 'follow',
+  HoldPosition = 'holdPosition',
+  Wander = 'wander'
 }
-
 
 export type Card = {
   __typename?: 'Card';
-  name: Scalars['String'];
-  component: Scalars['String'];
-  hidden?: Maybe<Scalars['Boolean']>;
-  assigned?: Maybe<Scalars['Boolean']>;
-  newStation?: Maybe<Scalars['Boolean']>;
+  assigned?: Maybe<Scalars['Boolean']['output']>;
+  component: Scalars['String']['output'];
+  hidden?: Maybe<Scalars['Boolean']['output']>;
+  name: Scalars['String']['output'];
+  newStation?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type CardInput = {
-  name?: Maybe<Scalars['String']>;
-  component?: Maybe<Scalars['String']>;
+  component?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum ChannelModeMessageType {
+  Allnotesoff = 'allnotesoff',
   Allsoundoff = 'allsoundoff',
-  Resetallcontrollers = 'resetallcontrollers',
   Localcontroloff = 'localcontroloff',
   Localcontrolon = 'localcontrolon',
-  Allnotesoff = 'allnotesoff',
+  Monomodeon = 'monomodeon',
   Omnimodeoff = 'omnimodeoff',
   Omnimodeon = 'omnimodeon',
-  Monomodeon = 'monomodeon',
-  Polymodeon = 'polymodeon'
+  Polymodeon = 'polymodeon',
+  Resetallcontrollers = 'resetallcontrollers'
 }
 
 export type Chart = {
   __typename?: 'Chart';
-  id?: Maybe<Scalars['ID']>;
-  admitTime?: Maybe<Scalars['String']>;
-  dischargeTime?: Maybe<Scalars['String']>;
-  bloodPressure?: Maybe<Scalars['String']>;
-  heartRate?: Maybe<Scalars['Float']>;
-  temperature?: Maybe<Scalars['Float']>;
-  o2levels?: Maybe<Scalars['Float']>;
-  symptoms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  diagnosis?: Maybe<Array<Maybe<Scalars['String']>>>;
-  treatment?: Maybe<Scalars['String']>;
-  treatmentRequest?: Maybe<Scalars['Boolean']>;
+  admitTime?: Maybe<Scalars['String']['output']>;
+  bloodPressure?: Maybe<Scalars['String']['output']>;
+  diagnosis?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  dischargeTime?: Maybe<Scalars['String']['output']>;
+  heartRate?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  o2levels?: Maybe<Scalars['Float']['output']>;
   painPoints?: Maybe<Array<Maybe<PainPoint>>>;
+  symptoms?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  temperature?: Maybe<Scalars['Float']['output']>;
+  treatment?: Maybe<Scalars['String']['output']>;
+  treatmentRequest?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ChartInput = {
-  id?: Maybe<Scalars['ID']>;
-  admitTime?: Maybe<Scalars['String']>;
-  dischargeTime?: Maybe<Scalars['String']>;
-  bloodPressure?: Maybe<Scalars['String']>;
-  heartRate?: Maybe<Scalars['Float']>;
-  temperature?: Maybe<Scalars['Float']>;
-  o2levels?: Maybe<Scalars['Float']>;
-  symptoms?: Maybe<Array<Maybe<Scalars['String']>>>;
-  treatment?: Maybe<Scalars['String']>;
-  treatmentRequest?: Maybe<Scalars['Boolean']>;
-  painPoints?: Maybe<Array<Maybe<PainPointInput>>>;
+  admitTime?: InputMaybe<Scalars['String']['input']>;
+  bloodPressure?: InputMaybe<Scalars['String']['input']>;
+  dischargeTime?: InputMaybe<Scalars['String']['input']>;
+  heartRate?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  o2levels?: InputMaybe<Scalars['Float']['input']>;
+  painPoints?: InputMaybe<Array<InputMaybe<PainPointInput>>>;
+  symptoms?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  temperature?: InputMaybe<Scalars['Float']['input']>;
+  treatment?: InputMaybe<Scalars['String']['input']>;
+  treatmentRequest?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Client = {
   __typename?: 'Client';
-  id: Scalars['ID'];
-  label?: Maybe<Scalars['String']>;
-  connected?: Maybe<Scalars['Boolean']>;
-  flight?: Maybe<Flight>;
-  simulator?: Maybe<Simulator>;
-  station?: Maybe<Station>;
-  loginName?: Maybe<Scalars['String']>;
-  loginState?: Maybe<Scalars['String']>;
-  ping?: Maybe<Scalars['String']>;
-  offlineState?: Maybe<Scalars['String']>;
-  movie?: Maybe<Scalars['String']>;
-  training?: Maybe<Scalars['Boolean']>;
-  soundPlayer?: Maybe<Scalars['Boolean']>;
-  caches?: Maybe<Array<Maybe<Scalars['String']>>>;
-  hypercard?: Maybe<Scalars['String']>;
-  overlay?: Maybe<Scalars['Boolean']>;
-  cracked?: Maybe<Scalars['Boolean']>;
-  commandLineOutput?: Maybe<Array<Maybe<Scalars['String']>>>;
+  caches?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  cards?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   commandLineFeedback?: Maybe<Array<Maybe<CommandLineFeedback>>>;
+  commandLineOutput?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  connected?: Maybe<Scalars['Boolean']['output']>;
+  cracked?: Maybe<Scalars['Boolean']['output']>;
   currentCard?: Maybe<Card>;
-  token?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  mobile?: Maybe<Scalars['Boolean']>;
-  cards?: Maybe<Array<Maybe<Scalars['String']>>>;
+  email?: Maybe<Scalars['String']['output']>;
+  flight?: Maybe<Flight>;
+  hypercard?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   keypad?: Maybe<Keypad>;
+  label?: Maybe<Scalars['String']['output']>;
+  loginName?: Maybe<Scalars['String']['output']>;
+  loginState?: Maybe<Scalars['String']['output']>;
+  mobile?: Maybe<Scalars['Boolean']['output']>;
+  movie?: Maybe<Scalars['String']['output']>;
+  offlineState?: Maybe<Scalars['String']['output']>;
+  overlay?: Maybe<Scalars['Boolean']['output']>;
+  ping?: Maybe<Scalars['String']['output']>;
+  simulator?: Maybe<Simulator>;
+  soundPlayer?: Maybe<Scalars['Boolean']['output']>;
+  station?: Maybe<Station>;
+  token?: Maybe<Scalars['String']['output']>;
+  training?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ColoredCoordinate = {
   __typename?: 'ColoredCoordinate';
-  color: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  color: Scalars['String']['output'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 export type ColoredCoordinateInput = {
-  color: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  color: Scalars['String']['input'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type CommArrow = {
   __typename?: 'CommArrow';
-  id?: Maybe<Scalars['ID']>;
-  signal?: Maybe<Scalars['ID']>;
-  frequency?: Maybe<Scalars['Float']>;
-  connected?: Maybe<Scalars['Boolean']>;
-  muted?: Maybe<Scalars['Boolean']>;
+  connected?: Maybe<Scalars['Boolean']['output']>;
+  frequency?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  muted?: Maybe<Scalars['Boolean']['output']>;
+  signal?: Maybe<Scalars['ID']['output']>;
 };
 
 export type CommArrowExtended = {
   __typename?: 'CommArrowExtended';
-  id?: Maybe<Scalars['ID']>;
-  signal?: Maybe<Scalars['ID']>;
-  range?: Maybe<Scalars['String']>;
-  frequency?: Maybe<Scalars['Float']>;
-  connected?: Maybe<Scalars['Boolean']>;
+  connected?: Maybe<Scalars['Boolean']['output']>;
+  frequency?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  range?: Maybe<Scalars['String']['output']>;
+  signal?: Maybe<Scalars['ID']['output']>;
 };
 
 export type CommArrowInput = {
-  id?: Maybe<Scalars['ID']>;
-  signal?: Maybe<Scalars['ID']>;
-  frequency?: Maybe<Scalars['Float']>;
-  connected?: Maybe<Scalars['Boolean']>;
+  connected?: InputMaybe<Scalars['Boolean']['input']>;
+  frequency?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  signal?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type CommRange = {
   __typename?: 'CommRange';
-  lower?: Maybe<Scalars['Float']>;
-  upper?: Maybe<Scalars['Float']>;
+  lower?: Maybe<Scalars['Float']['output']>;
+  upper?: Maybe<Scalars['Float']['output']>;
 };
 
 export type CommRanges = {
   __typename?: 'CommRanges';
-  military?: Maybe<CommRange>;
   commercial?: Maybe<CommRange>;
-  priority?: Maybe<CommRange>;
   emergency?: Maybe<CommRange>;
+  military?: Maybe<CommRange>;
+  priority?: Maybe<CommRange>;
 };
 
 export type CommSignal = {
   __typename?: 'CommSignal';
-  id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   range?: Maybe<CommRange>;
-  color?: Maybe<Scalars['String']>;
 };
 
 export type CommSignalExtended = {
   __typename?: 'CommSignalExtended';
-  id?: Maybe<Scalars['ID']>;
-  color?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   ranges?: Maybe<CommRanges>;
 };
 
 export type CommSignalInput = {
-  id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  range?: Maybe<RangeInput>;
-  color?: Maybe<Scalars['String']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  range?: InputMaybe<RangeInput>;
 };
 
 export type CommUpdateInput = {
-  state?: Maybe<Scalars['String']>;
-  frequency?: Maybe<Scalars['Float']>;
-  amplitude?: Maybe<Scalars['Float']>;
+  amplitude?: InputMaybe<Scalars['Float']['input']>;
+  frequency?: InputMaybe<Scalars['Float']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CommandLine = {
   __typename?: 'CommandLine';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   commands?: Maybe<Array<Maybe<CommandLineCommand>>>;
-  components?: Maybe<Scalars['JSON']>;
-  connections?: Maybe<Scalars['JSON']>;
-  values?: Maybe<Scalars['JSON']>;
-  config?: Maybe<Scalars['JSON']>;
+  components?: Maybe<Scalars['JSON']['output']>;
+  config?: Maybe<Scalars['JSON']['output']>;
+  connections?: Maybe<Scalars['JSON']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  values?: Maybe<Scalars['JSON']['output']>;
 };
 
 export type CommandLineCommand = {
   __typename?: 'CommandLineCommand';
-  name?: Maybe<Scalars['String']>;
-  help?: Maybe<Scalars['String']>;
-  hidden?: Maybe<Scalars['Boolean']>;
+  help?: Maybe<Scalars['String']['output']>;
+  hidden?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type CommandLineFeedback = {
   __typename?: 'CommandLineFeedback';
-  id?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
-  command?: Maybe<Scalars['String']>;
-  approve?: Maybe<Scalars['String']>;
-  deny?: Maybe<Scalars['String']>;
+  approve?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['ID']['output']>;
+  command?: Maybe<Scalars['String']['output']>;
+  deny?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   triggers?: Maybe<Array<Maybe<TimelineItem>>>;
 };
 
 export type ComputerCore = {
   __typename?: 'ComputerCore';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  users?: Maybe<Array<Maybe<ComputerCoreUser>>>;
-  files?: Maybe<Array<Maybe<ComputerCoreFile>>>;
-  virii?: Maybe<Array<Maybe<ComputerCoreVirus>>>;
-  terminals?: Maybe<Array<Maybe<ComputerCoreTerminals>>>;
-  history?: Maybe<Array<Maybe<Scalars['String']>>>;
-  hackingActive?: Maybe<Scalars['Boolean']>;
   activeHackingPreset?: Maybe<HackingPreset>;
-  hackingState?: Maybe<Scalars['String']>;
-  hackingPortScanFrequency?: Maybe<Scalars['Float']>;
-  hackingLog: Array<Scalars['String']>;
+  files?: Maybe<Array<Maybe<ComputerCoreFile>>>;
+  hackingActive?: Maybe<Scalars['Boolean']['output']>;
+  hackingLog: Array<Scalars['String']['output']>;
+  hackingPortScanFrequency?: Maybe<Scalars['Float']['output']>;
   hackingPorts: HackingPorts;
+  hackingState?: Maybe<Scalars['String']['output']>;
+  history?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  terminals?: Maybe<Array<Maybe<ComputerCoreTerminals>>>;
+  users?: Maybe<Array<Maybe<ComputerCoreUser>>>;
+  virii?: Maybe<Array<Maybe<ComputerCoreVirus>>>;
 };
 
 export type ComputerCoreFile = {
   __typename?: 'ComputerCoreFile';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Int']>;
-  corrupted?: Maybe<Scalars['Boolean']>;
-  restoring?: Maybe<Scalars['Boolean']>;
+  corrupted?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  level?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  restoring?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ComputerCoreFileInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Int']>;
-  corrupted?: Maybe<Scalars['Boolean']>;
-  restoring?: Maybe<Scalars['Boolean']>;
+  corrupted?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  level?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  restoring?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ComputerCoreTerminals = {
   __typename?: 'ComputerCoreTerminals';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Terminal_Status>;
 };
 
 export type ComputerCoreUser = {
   __typename?: 'ComputerCoreUser';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  hacker?: Maybe<Scalars['Boolean']>;
-  level?: Maybe<Scalars['Int']>;
+  hacker?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  level?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
 };
 
 export type ComputerCoreUserInput = {
-  name?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  hacker?: Maybe<Scalars['Boolean']>;
-  level?: Maybe<Scalars['Int']>;
+  hacker?: InputMaybe<Scalars['Boolean']['input']>;
+  level?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ComputerCoreVirus = {
   __typename?: 'ComputerCoreVirus';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type Coolant = {
   __typename?: 'Coolant';
-  temperature?: Maybe<Scalars['Float']>;
-  quantity?: Maybe<Scalars['Float']>;
-  rate?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']['output']>;
+  rate?: Maybe<Scalars['Float']['output']>;
+  temperature?: Maybe<Scalars['Float']['output']>;
 };
 
 export type CoolantRegulator = {
   __typename?: 'CoolantRegulator';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
   coolant?: Maybe<Coolant>;
-  damage?: Maybe<Scalars['Float']>;
+  damage?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type CoolantTank = SystemInterface & {
   __typename?: 'CoolantTank';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  coolant?: Maybe<Scalars['Float']>;
-  coolantRate?: Maybe<Scalars['Float']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
+  coolantRate?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Coordinates = {
   __typename?: 'Coordinates';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-  z?: Maybe<Scalars['Float']>;
+  x?: Maybe<Scalars['Float']['output']>;
+  y?: Maybe<Scalars['Float']['output']>;
+  z?: Maybe<Scalars['Float']['output']>;
 };
 
 export type CoordinatesInput = {
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-  z?: Maybe<Scalars['Float']>;
+  x?: InputMaybe<Scalars['Float']['input']>;
+  y?: InputMaybe<Scalars['Float']['input']>;
+  z?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type CoreFeed = {
   __typename?: 'CoreFeed';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  component?: Maybe<Scalars['String']>;
-  ignored?: Maybe<Scalars['Boolean']>;
-  timestamp?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  component?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  ignored?: Maybe<Scalars['Boolean']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type CoreLayout = {
   __typename?: 'CoreLayout';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  config?: Maybe<Scalars['String']>;
+  config?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type CoreLayoutInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  config?: Maybe<Scalars['String']>;
+  config?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Countermeasure = {
   __typename?: 'Countermeasure';
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  active: Scalars['Boolean']['output'];
+  availablePower: Scalars['Float']['output'];
+  buildPercentage: Scalars['Float']['output'];
+  building: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  locked: Scalars['Boolean']['output'];
   modules: Array<CountermeasureModule>;
-  locked: Scalars['Boolean'];
-  active: Scalars['Boolean'];
-  building: Scalars['Boolean'];
-  totalPowerUsed: Scalars['Float'];
-  readyToLaunch: Scalars['Boolean'];
-  powerUsage: Scalars['Float'];
-  availablePower: Scalars['Float'];
-  buildPercentage: Scalars['Float'];
-  note: Scalars['String'];
+  name: Scalars['String']['output'];
+  note: Scalars['String']['output'];
+  powerUsage: Scalars['Float']['output'];
+  readyToLaunch: Scalars['Boolean']['output'];
+  totalPowerUsed: Scalars['Float']['output'];
 };
 
 export type CountermeasureConfigOptions = {
   __typename?: 'CountermeasureConfigOptions';
-  type: Scalars['String'];
-  label: Scalars['String'];
+  label: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type CountermeasureModule = {
   __typename?: 'CountermeasureModule';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  description: Scalars['String'];
-  powerRequirement: Scalars['Float'];
-  resourceRequirements: CountermeasureResources;
+  activated: Scalars['Boolean']['output'];
+  buildProgress: Scalars['Float']['output'];
+  config: Scalars['JSON']['output'];
   configurationOptions: Array<CountermeasureConfigOptions>;
-  config: Scalars['JSON'];
-  buildProgress: Scalars['Float'];
-  activated: Scalars['Boolean'];
+  description: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  powerRequirement: Scalars['Float']['output'];
+  resourceRequirements: CountermeasureResources;
 };
 
 export type CountermeasureResources = {
   __typename?: 'CountermeasureResources';
-  copper: Scalars['Float'];
-  titanium: Scalars['Float'];
-  carbon: Scalars['Float'];
-  plastic: Scalars['Float'];
-  plasma: Scalars['Float'];
+  carbon: Scalars['Float']['output'];
+  copper: Scalars['Float']['output'];
+  plasma: Scalars['Float']['output'];
+  plastic: Scalars['Float']['output'];
+  titanium: Scalars['Float']['output'];
 };
 
 export type CountermeasureSlot = {
@@ -561,183 +561,183 @@ export enum CountermeasureSlotEnum {
 
 export type Countermeasures = SystemInterface & {
   __typename?: 'Countermeasures';
-  id: Scalars['ID'];
-  simulatorId?: Maybe<Scalars['ID']>;
-  class?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  displayName: Scalars['String'];
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
+  class?: Maybe<Scalars['String']['output']>;
   damage: Damage;
-  power: Power;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  displayName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  launched: Array<Countermeasure>;
   locations?: Maybe<Array<Maybe<Room>>>;
   materials: CountermeasureResources;
+  name: Scalars['String']['output'];
+  power: Power;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
   slots: CountermeasureSlot;
-  launched: Array<Countermeasure>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Crew = {
   __typename?: 'Crew';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  age?: Maybe<Scalars['Int']>;
-  rank?: Maybe<Scalars['String']>;
-  position?: Maybe<Scalars['String']>;
-  killed?: Maybe<Scalars['Boolean']>;
-  location?: Maybe<Deck>;
-  workRoom?: Maybe<Room>;
-  restRoom?: Maybe<Room>;
-  inventory?: Maybe<Array<Maybe<InventoryItem>>>;
+  age?: Maybe<Scalars['Int']['output']>;
   charts?: Maybe<Array<Maybe<Chart>>>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  gender?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  inventory?: Maybe<Array<Maybe<InventoryItem>>>;
+  killed?: Maybe<Scalars['Boolean']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Deck>;
+  name?: Maybe<Scalars['String']['output']>;
+  position?: Maybe<Scalars['String']['output']>;
+  rank?: Maybe<Scalars['String']['output']>;
+  restRoom?: Maybe<Room>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  workRoom?: Maybe<Room>;
 };
 
 export type CrewCountInput = {
-  crew?: Maybe<Scalars['ID']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  crew?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type CrewInput = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  age?: Maybe<Scalars['String']>;
-  rank?: Maybe<Scalars['String']>;
-  position?: Maybe<Scalars['String']>;
-  killed?: Maybe<Scalars['Boolean']>;
-  workRoom?: Maybe<Scalars['Int']>;
-  restRoom?: Maybe<Scalars['Int']>;
+  age?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  killed?: InputMaybe<Scalars['Boolean']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  position?: InputMaybe<Scalars['String']['input']>;
+  rank?: InputMaybe<Scalars['String']['input']>;
+  restRoom?: InputMaybe<Scalars['Int']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  workRoom?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Crm = SystemInterface & {
   __typename?: 'Crm';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
+  activated?: Maybe<Scalars['Boolean']['output']>;
+  attacking?: Maybe<Scalars['Boolean']['output']>;
   damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  password?: Maybe<Scalars['String']>;
-  activated?: Maybe<Scalars['Boolean']>;
-  fighterImage?: Maybe<Scalars['String']>;
-  fighters?: Maybe<Array<Maybe<CrmFighter>>>;
+  displayName?: Maybe<Scalars['String']['output']>;
   enemies?: Maybe<Array<Maybe<CrmFighter>>>;
-  fighterStrength?: Maybe<Scalars['Float']>;
-  enemyStrength?: Maybe<Scalars['Float']>;
-  fighterCount?: Maybe<Scalars['Int']>;
-  enemyCount?: Maybe<Scalars['Int']>;
-  fighterDestroyedCount?: Maybe<Scalars['Int']>;
-  enemyDestroyedCount?: Maybe<Scalars['Int']>;
-  fighterIcon?: Maybe<Scalars['String']>;
-  enemyIcon?: Maybe<Scalars['String']>;
-  attacking?: Maybe<Scalars['Boolean']>;
-  interval?: Maybe<Scalars['Float']>;
+  enemyCount?: Maybe<Scalars['Int']['output']>;
+  enemyDestroyedCount?: Maybe<Scalars['Int']['output']>;
+  enemyIcon?: Maybe<Scalars['String']['output']>;
+  enemyStrength?: Maybe<Scalars['Float']['output']>;
+  fighterCount?: Maybe<Scalars['Int']['output']>;
+  fighterDestroyedCount?: Maybe<Scalars['Int']['output']>;
+  fighterIcon?: Maybe<Scalars['String']['output']>;
+  fighterImage?: Maybe<Scalars['String']['output']>;
+  fighterStrength?: Maybe<Scalars['Float']['output']>;
+  fighters?: Maybe<Array<Maybe<CrmFighter>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  interval?: Maybe<Scalars['Float']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
   phasers?: Maybe<Array<Maybe<CrmPhaserShot>>>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
   torpedos?: Maybe<Array<Maybe<CrmTorpedo>>>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type CrmFighter = {
   __typename?: 'CrmFighter';
-  id?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
+  attacking?: Maybe<Scalars['Boolean']['output']>;
   client?: Maybe<Client>;
-  icon?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  speed?: Maybe<Scalars['Float']>;
-  strength?: Maybe<Scalars['Float']>;
-  attacking?: Maybe<Scalars['Boolean']>;
-  hull?: Maybe<Scalars['Float']>;
-  shield?: Maybe<Scalars['Float']>;
-  shieldRaised?: Maybe<Scalars['Boolean']>;
-  phaserLevel?: Maybe<Scalars['Float']>;
-  torpedoCount?: Maybe<Scalars['Int']>;
-  torpedoLoaded?: Maybe<Scalars['Boolean']>;
-  destroyed?: Maybe<Scalars['Boolean']>;
-  docked?: Maybe<Scalars['Boolean']>;
+  clientId?: Maybe<Scalars['ID']['output']>;
+  destroyed?: Maybe<Scalars['Boolean']['output']>;
+  docked?: Maybe<Scalars['Boolean']['output']>;
+  frags?: Maybe<Scalars['Int']['output']>;
+  hull?: Maybe<Scalars['Float']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  phaserLevel?: Maybe<Scalars['Float']['output']>;
   position?: Maybe<Coordinates>;
+  shield?: Maybe<Scalars['Float']['output']>;
+  shieldRaised?: Maybe<Scalars['Boolean']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
+  speed?: Maybe<Scalars['Float']['output']>;
+  strength?: Maybe<Scalars['Float']['output']>;
+  torpedoCount?: Maybe<Scalars['Int']['output']>;
+  torpedoLoaded?: Maybe<Scalars['Boolean']['output']>;
   velocity?: Maybe<Coordinates>;
-  frags?: Maybe<Scalars['Int']>;
 };
 
 export type CrmPhaserShot = {
   __typename?: 'CrmPhaserShot';
-  target?: Maybe<Coordinates>;
   destination?: Maybe<Coordinates>;
+  target?: Maybe<Coordinates>;
 };
 
 export type CrmTorpedo = {
   __typename?: 'CrmTorpedo';
-  id?: Maybe<Scalars['ID']>;
+  destroyed?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   position?: Maybe<Coordinates>;
-  destroyed?: Maybe<Scalars['Boolean']>;
 };
 
 export enum Damage_Step_Types {
-  Required = 'required',
-  Optional = 'optional'
+  Optional = 'optional',
+  Required = 'required'
 }
 
 export enum Damage_Types {
   Default = 'default',
-  Rnd = 'rnd',
-  Engineering = 'engineering'
+  Engineering = 'engineering',
+  Rnd = 'rnd'
 }
 
 export enum DmxChannelProperty {
-  Red = 'red',
-  Green = 'green',
-  Blue = 'blue',
   Amber = 'amber',
-  White = 'white',
-  Uv = 'uv',
-  Intensity = 'intensity',
-  Strobe = 'strobe',
-  Generic = 'generic',
+  Blue = 'blue',
   Focus = 'focus',
-  Nothing = 'nothing'
+  Generic = 'generic',
+  Green = 'green',
+  Intensity = 'intensity',
+  Nothing = 'nothing',
+  Red = 'red',
+  Strobe = 'strobe',
+  Uv = 'uv',
+  White = 'white'
 }
 
 export type DmxConfig = {
   __typename?: 'DMXConfig';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  config: Scalars['JSON'];
-  actionStrength: Scalars['Float'];
+  actionStrength: Scalars['Float']['output'];
+  config: Scalars['JSON']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type DmxDevice = {
   __typename?: 'DMXDevice';
-  id: Scalars['ID'];
-  class: Scalars['String'];
-  name: Scalars['String'];
   channels: Array<DmxChannelProperty>;
+  class: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type DmxFixture = {
   __typename?: 'DMXFixture';
-  id: Scalars['ID'];
-  class: Scalars['String'];
-  name: Scalars['String'];
-  clientId?: Maybe<Scalars['String']>;
-  DMXDeviceId: Scalars['String'];
   DMXDevice: DmxDevice;
-  simulatorId: Scalars['String'];
-  channel: Scalars['Int'];
+  DMXDeviceId: Scalars['String']['output'];
+  channel: Scalars['Int']['output'];
+  class: Scalars['String']['output'];
+  clientId?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   mode: DmxFixtureMode;
-  tags: Array<Scalars['String']>;
+  name: Scalars['String']['output'];
   passiveChannels: DmxPassiveChannels;
+  simulatorId: Scalars['String']['output'];
+  tags: Array<Scalars['String']['output']>;
 };
 
 export enum DmxFixtureMode {
@@ -747,574 +747,574 @@ export enum DmxFixtureMode {
 
 export type DmxPassiveChannels = {
   __typename?: 'DMXPassiveChannels';
-  amber?: Maybe<Scalars['Int']>;
-  white?: Maybe<Scalars['Int']>;
-  uv?: Maybe<Scalars['Int']>;
-  intensity?: Maybe<Scalars['Int']>;
-  strobe?: Maybe<Scalars['Int']>;
-  generic?: Maybe<Scalars['Int']>;
-  nothing?: Maybe<Scalars['Int']>;
-  color?: Maybe<Scalars['String']>;
+  amber?: Maybe<Scalars['Int']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  generic?: Maybe<Scalars['Int']['output']>;
+  intensity?: Maybe<Scalars['Int']['output']>;
+  nothing?: Maybe<Scalars['Int']['output']>;
+  strobe?: Maybe<Scalars['Int']['output']>;
+  uv?: Maybe<Scalars['Int']['output']>;
+  white?: Maybe<Scalars['Int']['output']>;
 };
 
 export type DmxPassiveChannelsInput = {
-  amber?: Maybe<Scalars['Int']>;
-  white?: Maybe<Scalars['Int']>;
-  uv?: Maybe<Scalars['Int']>;
-  intensity?: Maybe<Scalars['Int']>;
-  strobe?: Maybe<Scalars['Int']>;
-  generic?: Maybe<Scalars['Int']>;
-  nothing?: Maybe<Scalars['Int']>;
-  color?: Maybe<Scalars['String']>;
+  amber?: InputMaybe<Scalars['Int']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  generic?: InputMaybe<Scalars['Int']['input']>;
+  intensity?: InputMaybe<Scalars['Int']['input']>;
+  nothing?: InputMaybe<Scalars['Int']['input']>;
+  strobe?: InputMaybe<Scalars['Int']['input']>;
+  uv?: InputMaybe<Scalars['Int']['input']>;
+  white?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type DmxSet = {
   __typename?: 'DMXSet';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  fixtureIds: Array<Scalars['String']>;
+  fixtureIds: Array<Scalars['String']['output']>;
   fixtures: Array<DmxFixture>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export enum Docking_Direction {
-  Unspecified = 'unspecified',
   Arriving = 'arriving',
-  Departing = 'departing'
+  Departing = 'departing',
+  Unspecified = 'unspecified'
 }
 
 export enum Docking_Types {
-  Shuttlebay = 'shuttlebay',
   Dockingport = 'dockingport',
+  Shuttlebay = 'shuttlebay',
   Specialized = 'specialized'
 }
 
 export type Damage = {
   __typename?: 'Damage';
-  damaged?: Maybe<Scalars['Boolean']>;
-  destroyed?: Maybe<Scalars['Boolean']>;
-  report?: Maybe<Scalars['String']>;
+  currentStep?: Maybe<Scalars['Int']['output']>;
+  damaged?: Maybe<Scalars['Boolean']['output']>;
+  destroyed?: Maybe<Scalars['Boolean']['output']>;
+  neededReactivationCode?: Maybe<Scalars['String']['output']>;
+  reactivationCode?: Maybe<Scalars['String']['output']>;
+  report?: Maybe<Scalars['String']['output']>;
   reportSteps?: Maybe<Array<Maybe<DamageReportStep>>>;
-  requested?: Maybe<Scalars['Boolean']>;
-  reactivationCode?: Maybe<Scalars['String']>;
-  neededReactivationCode?: Maybe<Scalars['String']>;
-  currentStep?: Maybe<Scalars['Int']>;
-  validate?: Maybe<Scalars['Boolean']>;
+  requested?: Maybe<Scalars['Boolean']['output']>;
+  taskReportDamage?: Maybe<Scalars['Boolean']['output']>;
+  validate?: Maybe<Scalars['Boolean']['output']>;
   which?: Maybe<Damage_Types>;
-  taskReportDamage?: Maybe<Scalars['Boolean']>;
 };
 
 export type DamageReportStep = {
   __typename?: 'DamageReportStep';
-  id?: Maybe<Scalars['ID']>;
-  text?: Maybe<Scalars['String']>;
-  validate?: Maybe<Scalars['Boolean']>;
-  validated?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
+  validate?: Maybe<Scalars['Boolean']['output']>;
+  validated?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type DamageStep = {
   __typename?: 'DamageStep';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   args?: Maybe<DamageStepArgs>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type DamageStepArgs = {
   __typename?: 'DamageStepArgs';
-  end?: Maybe<Scalars['Boolean']>;
-  cleanup?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<Scalars['String']>;
-  orders?: Maybe<Scalars['String']>;
-  room?: Maybe<Scalars['String']>;
-  preamble?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  code?: Maybe<Scalars['String']>;
-  backup?: Maybe<Scalars['String']>;
-  inventory?: Maybe<Scalars['String']>;
-  destination?: Maybe<Scalars['String']>;
-  equipment?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-  reactivate?: Maybe<Scalars['Boolean']>;
+  backup?: Maybe<Scalars['String']['output']>;
+  cleanup?: Maybe<Scalars['Boolean']['output']>;
+  code?: Maybe<Scalars['String']['output']>;
+  destination?: Maybe<Scalars['String']['output']>;
+  end?: Maybe<Scalars['Boolean']['output']>;
+  equipment?: Maybe<Scalars['String']['output']>;
+  inventory?: Maybe<Scalars['String']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  orders?: Maybe<Scalars['String']['output']>;
+  preamble?: Maybe<Scalars['String']['output']>;
+  query?: Maybe<Scalars['String']['output']>;
+  reactivate?: Maybe<Scalars['Boolean']['output']>;
+  room?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type DamageStepArgsInput = {
-  end?: Maybe<Scalars['Boolean']>;
-  cleanup?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<Scalars['String']>;
-  orders?: Maybe<Scalars['String']>;
-  room?: Maybe<Scalars['String']>;
-  preamble?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  code?: Maybe<Scalars['String']>;
-  backup?: Maybe<Scalars['String']>;
-  inventory?: Maybe<Scalars['String']>;
-  destination?: Maybe<Scalars['String']>;
-  equipment?: Maybe<Scalars['String']>;
-  query?: Maybe<Scalars['String']>;
-  reactivate?: Maybe<Scalars['Boolean']>;
+  backup?: InputMaybe<Scalars['String']['input']>;
+  cleanup?: InputMaybe<Scalars['Boolean']['input']>;
+  code?: InputMaybe<Scalars['String']['input']>;
+  destination?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<Scalars['Boolean']['input']>;
+  equipment?: InputMaybe<Scalars['String']['input']>;
+  inventory?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  orders?: InputMaybe<Scalars['String']['input']>;
+  preamble?: InputMaybe<Scalars['String']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+  reactivate?: InputMaybe<Scalars['Boolean']['input']>;
+  room?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DamageStepInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  args?: Maybe<DamageStepArgsInput>;
-  type?: Maybe<Damage_Step_Types>;
+  args?: InputMaybe<DamageStepArgsInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Damage_Step_Types>;
 };
 
 export type DamageTask = {
   __typename?: 'DamageTask';
-  id?: Maybe<Scalars['ID']>;
-  taskTemplate?: Maybe<TaskTemplate>;
-  required?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']['output']>;
   nextSteps?: Maybe<Array<Maybe<TaskTemplate>>>;
+  required?: Maybe<Scalars['Boolean']['output']>;
+  taskTemplate?: Maybe<TaskTemplate>;
 };
 
 export type DamageTaskInput = {
-  id?: Maybe<Scalars['ID']>;
-  required?: Maybe<Scalars['Boolean']>;
-  nextSteps?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  nextSteps?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  required?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Deck = {
   __typename?: 'Deck';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  number?: Maybe<Scalars['Int']>;
-  svgPath?: Maybe<Scalars['String']>;
-  doors?: Maybe<Scalars['Boolean']>;
-  evac?: Maybe<Scalars['Boolean']>;
-  rooms?: Maybe<Array<Maybe<Room>>>;
-  hallway?: Maybe<Scalars['String']>;
-  crewCount?: Maybe<Scalars['Int']>;
+  crewCount?: Maybe<Scalars['Int']['output']>;
+  doors?: Maybe<Scalars['Boolean']['output']>;
   environment?: Maybe<Environment>;
+  evac?: Maybe<Scalars['Boolean']['output']>;
+  hallway?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  number?: Maybe<Scalars['Int']['output']>;
+  rooms?: Maybe<Array<Maybe<Room>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  svgPath?: Maybe<Scalars['String']['output']>;
 };
 
 export type DirectionInput = {
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-  z?: Maybe<Scalars['Float']>;
+  x?: InputMaybe<Scalars['Float']['input']>;
+  y?: InputMaybe<Scalars['Float']['input']>;
+  z?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type DockingPort = {
   __typename?: 'DockingPort';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  shipName?: Maybe<Scalars['String']>;
-  type?: Maybe<Docking_Types>;
-  clamps?: Maybe<Scalars['Boolean']>;
-  compress?: Maybe<Scalars['Boolean']>;
-  doors?: Maybe<Scalars['Boolean']>;
-  image?: Maybe<Scalars['String']>;
-  docked?: Maybe<Scalars['Boolean']>;
+  clamps?: Maybe<Scalars['Boolean']['output']>;
+  compress?: Maybe<Scalars['Boolean']['output']>;
   damage?: Maybe<Damage>;
-  direction?: Maybe<Docking_Direction>;
-  position?: Maybe<Coordinates>;
   deck?: Maybe<Deck>;
+  direction?: Maybe<Docking_Direction>;
+  docked?: Maybe<Scalars['Boolean']['output']>;
+  doors?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
   inventory?: Maybe<Array<Maybe<InventoryItem>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  position?: Maybe<Coordinates>;
+  shipName?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  type?: Maybe<Docking_Types>;
 };
 
 export type DockingPortInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  shipName?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  clamps?: Maybe<Scalars['Boolean']>;
-  compress?: Maybe<Scalars['Boolean']>;
-  doors?: Maybe<Scalars['Boolean']>;
-  image?: Maybe<Scalars['String']>;
-  docked?: Maybe<Scalars['Boolean']>;
-  direction?: Maybe<Docking_Direction>;
-  position?: Maybe<CoordinatesInput>;
-  deckId?: Maybe<Scalars['ID']>;
+  clamps?: InputMaybe<Scalars['Boolean']['input']>;
+  compress?: InputMaybe<Scalars['Boolean']['input']>;
+  deckId?: InputMaybe<Scalars['ID']['input']>;
+  direction?: InputMaybe<Docking_Direction>;
+  docked?: InputMaybe<Scalars['Boolean']['input']>;
+  doors?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  position?: InputMaybe<CoordinatesInput>;
+  shipName?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Document = {
   __typename?: 'Document';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  asset: Scalars['String'];
+  asset: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type Engine = SystemInterface & {
   __typename?: 'Engine';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  speeds?: Maybe<Array<Maybe<Speed>>>;
-  speed?: Maybe<Scalars['Int']>;
-  previousSpeed?: Maybe<Scalars['Int']>;
-  velocity?: Maybe<Scalars['Float']>;
-  speedFactor?: Maybe<Scalars['Float']>;
-  acceleration?: Maybe<Scalars['Float']>;
-  useAcceleration?: Maybe<Scalars['Boolean']>;
-  heat?: Maybe<Scalars['Float']>;
+  acceleration?: Maybe<Scalars['Float']['output']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  on?: Maybe<Scalars['Boolean']>;
-  coolant?: Maybe<Scalars['Float']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  on?: Maybe<Scalars['Boolean']['output']>;
+  power?: Maybe<Power>;
+  previousSpeed?: Maybe<Scalars['Int']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  speed?: Maybe<Scalars['Int']['output']>;
+  speedFactor?: Maybe<Scalars['Float']['output']>;
+  speeds?: Maybe<Array<Maybe<Speed>>>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
+  useAcceleration?: Maybe<Scalars['Boolean']['output']>;
+  velocity?: Maybe<Scalars['Float']['output']>;
 };
 
 export type EngineComponent = {
   __typename?: 'EngineComponent';
-  maxSpeed?: Maybe<Scalars['Float']>;
-  currentSpeed?: Maybe<Scalars['Float']>;
-  heat?: Maybe<Scalars['Float']>;
-  heatRate?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
-  cooling?: Maybe<Scalars['Boolean']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
+  cooling?: Maybe<Scalars['Boolean']['output']>;
+  currentSpeed?: Maybe<Scalars['Float']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  heatRate?: Maybe<Scalars['Float']['output']>;
+  maxSpeed?: Maybe<Scalars['Float']['output']>;
 };
 
 export type EntitiesLocationInput = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   position: EntityCoordinatesInput;
 };
 
 export type Entity = {
   __typename?: 'Entity';
-  id: Scalars['ID'];
-  interval?: Maybe<Scalars['Int']>;
-  reset?: Maybe<Scalars['Boolean']>;
   appearance?: Maybe<AppearanceComponent>;
   behavior?: Maybe<BehaviorComponent>;
+  enginesImpulse?: Maybe<EngineComponent>;
+  enginesWarp?: Maybe<EngineComponent>;
+  glow?: Maybe<GlowComponent>;
+  id: Scalars['ID']['output'];
   identity?: Maybe<IdentityComponent>;
+  interval?: Maybe<Scalars['Int']['output']>;
+  light?: Maybe<LightComponent>;
   location?: Maybe<LocationComponent>;
+  reset?: Maybe<Scalars['Boolean']['output']>;
   stage?: Maybe<StageComponent>;
   stageChild?: Maybe<StageChildComponent>;
-  light?: Maybe<LightComponent>;
-  glow?: Maybe<GlowComponent>;
   template?: Maybe<TemplateComponent>;
-  enginesWarp?: Maybe<EngineComponent>;
-  enginesImpulse?: Maybe<EngineComponent>;
   thrusters?: Maybe<ThrustersComponent>;
 };
 
 export type EntityCoordinates = {
   __typename?: 'EntityCoordinates';
-  x: Scalars['Float'];
-  y: Scalars['Float'];
-  z: Scalars['Float'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
+  z: Scalars['Float']['output'];
 };
 
 export type EntityCoordinatesInput = {
-  x: Scalars['Float'];
-  y: Scalars['Float'];
-  z: Scalars['Float'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
+  z: Scalars['Float']['input'];
 };
 
 export enum EntityEngineEnum {
-  Warp = 'warp',
-  Impulse = 'impulse'
+  Impulse = 'impulse',
+  Warp = 'warp'
 }
 
 export type Environment = {
   __typename?: 'Environment';
-  id?: Maybe<Scalars['ID']>;
-  oxygen?: Maybe<Scalars['Float']>;
-  nitrogen?: Maybe<Scalars['Float']>;
-  trace?: Maybe<Scalars['Float']>;
-  pressure?: Maybe<Scalars['Float']>;
-  temperature?: Maybe<Scalars['Float']>;
-  humidity?: Maybe<Scalars['Float']>;
-  gravity?: Maybe<Scalars['Float']>;
+  gravity?: Maybe<Scalars['Float']['output']>;
+  humidity?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  nitrogen?: Maybe<Scalars['Float']['output']>;
+  oxygen?: Maybe<Scalars['Float']['output']>;
+  pressure?: Maybe<Scalars['Float']['output']>;
+  temperature?: Maybe<Scalars['Float']['output']>;
+  trace?: Maybe<Scalars['Float']['output']>;
 };
 
 export type EnvironmentInput = {
-  id?: Maybe<Scalars['ID']>;
-  oxygen?: Maybe<Scalars['Float']>;
-  nitrogen?: Maybe<Scalars['Float']>;
-  trace?: Maybe<Scalars['Float']>;
-  pressure?: Maybe<Scalars['Float']>;
-  temperature?: Maybe<Scalars['Float']>;
-  humidity?: Maybe<Scalars['Float']>;
-  gravity?: Maybe<Scalars['Float']>;
+  gravity?: InputMaybe<Scalars['Float']['input']>;
+  humidity?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  nitrogen?: InputMaybe<Scalars['Float']['input']>;
+  oxygen?: InputMaybe<Scalars['Float']['input']>;
+  pressure?: InputMaybe<Scalars['Float']['input']>;
+  temperature?: InputMaybe<Scalars['Float']['input']>;
+  trace?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Equipment = {
   __typename?: 'Equipment';
-  id: Scalars['ID'];
-  count: Scalars['Float'];
+  count: Scalars['Float']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type EquipmentInput = {
-  id?: Maybe<Scalars['ID']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Exocomp = {
   __typename?: 'Exocomp';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  class?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  completion?: Maybe<Scalars['Float']>;
-  parts?: Maybe<Array<Maybe<Scalars['String']>>>;
-  destination?: Maybe<System>;
-  logs?: Maybe<Array<Maybe<ExocompLog>>>;
-  difficulty?: Maybe<Scalars['Float']>;
+  class?: Maybe<Scalars['String']['output']>;
+  completion?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
+  destination?: Maybe<System>;
+  difficulty?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  logs?: Maybe<Array<Maybe<ExocompLog>>>;
+  parts?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
 };
 
 export type ExocompInput = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  parts?: Maybe<Array<Maybe<Scalars['String']>>>;
-  destination?: Maybe<Scalars['ID']>;
-  upgrade?: Maybe<Scalars['Boolean']>;
+  destination?: InputMaybe<Scalars['ID']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  parts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  upgrade?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ExocompLog = {
   __typename?: 'ExocompLog';
-  timestamp?: Maybe<Scalars['Float']>;
-  message?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ExternalMission = {
   __typename?: 'ExternalMission';
-  title?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']['output']>;
+  date?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type ExternalSimulator = {
   __typename?: 'ExternalSimulator';
-  title?: Maybe<Scalars['String']>;
-  author?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']['output']>;
+  date?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type Externals = {
   __typename?: 'Externals';
-  simulators?: Maybe<Array<Maybe<ExternalSimulator>>>;
   missions?: Maybe<Array<Maybe<ExternalMission>>>;
+  simulators?: Maybe<Array<Maybe<ExternalSimulator>>>;
 };
 
 export type FbAwardInput = {
-  id: Scalars['ID'];
-  Name: Scalars['String'];
-  ClassHours: Scalars['Float'];
-  FlightHours: Scalars['Float'];
-  Description: Scalars['String'];
-  ImageURL?: Maybe<Scalars['String']>;
+  ClassHours: Scalars['Float']['input'];
+  Description: Scalars['String']['input'];
+  FlightHours: Scalars['Float']['input'];
+  ImageURL?: InputMaybe<Scalars['String']['input']>;
+  Name: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 export type FbAwards = {
   __typename?: 'FBAwards';
-  id: Scalars['ID'];
-  Name: Scalars['String'];
-  ClassHours: Scalars['Float'];
-  FlightHours: Scalars['Float'];
-  Description: Scalars['String'];
-  ImageURL?: Maybe<Scalars['String']>;
+  ClassHours: Scalars['Float']['output'];
+  Description: Scalars['String']['output'];
+  FlightHours: Scalars['Float']['output'];
+  ImageURL?: Maybe<Scalars['String']['output']>;
+  Name: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type FbCurrentSelections = {
   __typename?: 'FBCurrentSelections';
-  Mission?: Maybe<Scalars['ID']>;
-  Simulator?: Maybe<Scalars['ID']>;
-  StationEmailLinks?: Maybe<Array<FbStationEmailLinks>>;
   Awards?: Maybe<Array<FbAwards>>;
-  EventId?: Maybe<Scalars['ID']>;
-  flightSubmissions?: Maybe<Array<Scalars['String']>>;
+  EventId?: Maybe<Scalars['ID']['output']>;
+  Mission?: Maybe<Scalars['ID']['output']>;
+  Simulator?: Maybe<Scalars['ID']['output']>;
+  StationEmailLinks?: Maybe<Array<FbStationEmailLinks>>;
+  flightSubmissions?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 export type FbFullSimulator = {
   __typename?: 'FBFullSimulator';
-  id: Scalars['ID'];
-  Name: Scalars['String'];
-  Roles: Scalars['String'];
   Missions: Array<FbMission>;
+  Name: Scalars['String']['output'];
+  Roles: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type FbMission = {
   __typename?: 'FBMission';
-  id: Scalars['ID'];
-  Name: Scalars['String'];
-  FlightHours: Scalars['Float'];
-  ClassHours: Scalars['Float'];
-  Synopsis: Scalars['String'];
-  Retired?: Maybe<Scalars['Boolean']>;
+  ClassHours: Scalars['Float']['output'];
+  FlightHours: Scalars['Float']['output'];
+  Name: Scalars['String']['output'];
+  Retired?: Maybe<Scalars['Boolean']['output']>;
+  Synopsis: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type FbPageText = {
   __typename?: 'FBPageText';
-  Awards?: Maybe<Scalars['String']>;
-  Heading?: Maybe<Scalars['String']>;
-  Subheading?: Maybe<Scalars['String']>;
-  EmailHeading?: Maybe<Scalars['String']>;
-  EmailNotFound?: Maybe<Scalars['String']>;
+  Awards?: Maybe<Scalars['String']['output']>;
+  EmailHeading?: Maybe<Scalars['String']['output']>;
+  EmailNotFound?: Maybe<Scalars['String']['output']>;
+  Heading?: Maybe<Scalars['String']['output']>;
+  Subheading?: Maybe<Scalars['String']['output']>;
 };
 
 export type FbStationEmailLinks = {
   __typename?: 'FBStationEmailLinks';
-  station?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  station?: Maybe<Scalars['String']['output']>;
 };
 
 export type FbUser = {
   __typename?: 'FBUser';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 export type FsEquipmentInput = {
-  id: Scalars['ID'];
-  count: Scalars['Float'];
+  count: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
 };
 
 export type FsProbe = {
   __typename?: 'FSProbe';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  type: Scalars['String'];
   equipment: Array<Equipment>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type FsProbeInput = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  type: Scalars['String'];
   equipment: Array<FsEquipmentInput>;
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 export type Flight = {
   __typename?: 'Flight';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
-  running?: Maybe<Scalars['Boolean']>;
-  timelineStep?: Maybe<Scalars['Int']>;
-  simulators?: Maybe<Array<Maybe<Simulator>>>;
-  flightType?: Maybe<Scalars['String']>;
-  transmitted?: Maybe<Scalars['Boolean']>;
   clients?: Maybe<Array<Maybe<SpaceEdventuresClient>>>;
+  date?: Maybe<Scalars['String']['output']>;
+  flightType?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  running?: Maybe<Scalars['Boolean']['output']>;
+  simulators?: Maybe<Array<Maybe<Simulator>>>;
+  timelineStep?: Maybe<Scalars['Int']['output']>;
+  transmitted?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type FlightSet = {
   __typename?: 'FlightSet';
-  backgroundImg: Scalars['String'];
-  startOptions: Array<NavigationStartOptions>;
-  speedOptions: Array<NavigationSpeedOptions>;
-  exitOptions: Array<NavigationExitOptions>;
-  pointsOfInterest: Array<PointOfInterest>;
-  defaultStartingLocation: BasicCoordinate;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  addOnTraining?: Maybe<Scalars['Boolean']['output']>;
+  backgroundImg: Scalars['String']['output'];
   borders: Array<MapBorder>;
-  imageMaxX: Scalars['Float'];
-  imageMaxY: Scalars['Float'];
-  pixelsPerSecond: Scalars['Float'];
-  label?: Maybe<Scalars['String']>;
-  probeLaunchRangeRadius: Scalars['Float'];
-  addOnTraining?: Maybe<Scalars['Boolean']>;
-  pixelDistanceModifier?: Maybe<Scalars['Float']>;
-  probeSpeedModifier?: Maybe<Scalars['Float']>;
+  defaultStartingLocation: BasicCoordinate;
+  exitOptions: Array<NavigationExitOptions>;
+  id: Scalars['ID']['output'];
+  imageMaxX: Scalars['Float']['output'];
+  imageMaxY: Scalars['Float']['output'];
+  label?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  pixelDistanceModifier?: Maybe<Scalars['Float']['output']>;
+  pixelsPerSecond: Scalars['Float']['output'];
+  pointsOfInterest: Array<PointOfInterest>;
+  probeLaunchRangeRadius: Scalars['Float']['output'];
+  probeSpeedModifier?: Maybe<Scalars['Float']['output']>;
+  speedOptions: Array<NavigationSpeedOptions>;
+  startOptions: Array<NavigationStartOptions>;
 };
 
 export type FlightSetInput = {
-  backgroundImg: Scalars['String'];
-  startOptions: Array<NavigationStartOptionsInput>;
-  speedOptions: Array<NavigationSpeedOptionsInput>;
-  exitOptions: Array<NavigationExitOptionsInput>;
-  pointsOfInterest: Array<PointOfInterestInput>;
-  defaultStartingLocation: BasicCoordinateInput;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  addOnTraining?: InputMaybe<Scalars['Boolean']['input']>;
+  backgroundImg: Scalars['String']['input'];
   borders: Array<MapBorderInput>;
-  imageMaxX: Scalars['Float'];
-  imageMaxY: Scalars['Float'];
-  pixelsPerSecond: Scalars['Float'];
-  label?: Maybe<Scalars['String']>;
-  probeLaunchRangeRadius: Scalars['Float'];
-  addOnTraining?: Maybe<Scalars['Boolean']>;
-  pixelDistanceModifier?: Maybe<Scalars['Float']>;
-  probeSpeedModifier?: Maybe<Scalars['Float']>;
+  defaultStartingLocation: BasicCoordinateInput;
+  exitOptions: Array<NavigationExitOptionsInput>;
+  id: Scalars['ID']['input'];
+  imageMaxX: Scalars['Float']['input'];
+  imageMaxY: Scalars['Float']['input'];
+  label?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  pixelDistanceModifier?: InputMaybe<Scalars['Float']['input']>;
+  pixelsPerSecond: Scalars['Float']['input'];
+  pointsOfInterest: Array<PointOfInterestInput>;
+  probeLaunchRangeRadius: Scalars['Float']['input'];
+  probeSpeedModifier?: InputMaybe<Scalars['Float']['input']>;
+  speedOptions: Array<NavigationSpeedOptionsInput>;
+  startOptions: Array<NavigationStartOptionsInput>;
 };
 
 export type FlightType = {
   __typename?: 'FlightType';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  flightHours?: Maybe<Scalars['Float']>;
-  classHours?: Maybe<Scalars['Float']>;
+  classHours?: Maybe<Scalars['Float']['output']>;
+  flightHours?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type FormFields = {
   __typename?: 'FormFields';
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  max?: Maybe<Scalars['Int']['output']>;
+  min?: Maybe<Scalars['Int']['output']>;
   options?: Maybe<Array<Maybe<FormOptions>>>;
-  value?: Maybe<Scalars['String']>;
-  max?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 export type FormFieldsInput = {
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  options?: Maybe<Array<Maybe<FormOptionsInput>>>;
-  value?: Maybe<Scalars['String']>;
-  max?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  max?: InputMaybe<Scalars['Int']['input']>;
+  min?: InputMaybe<Scalars['Int']['input']>;
+  options?: InputMaybe<Array<InputMaybe<FormOptionsInput>>>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type FormOptions = {
   __typename?: 'FormOptions';
-  id?: Maybe<Scalars['ID']>;
-  label?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
 };
 
 export type FormOptionsInput = {
-  id?: Maybe<Scalars['ID']>;
-  label?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type FormResults = {
   __typename?: 'FormResults';
-  client?: Maybe<Scalars['String']>;
-  station?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  client?: Maybe<Scalars['String']['output']>;
   form?: Maybe<Array<Maybe<FormFields>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  station?: Maybe<Scalars['String']['output']>;
 };
 
 export type FormResultsInput = {
-  client?: Maybe<Scalars['String']>;
-  form?: Maybe<Array<Maybe<FormFieldsInput>>>;
+  client?: InputMaybe<Scalars['String']['input']>;
+  form?: InputMaybe<Array<InputMaybe<FormFieldsInput>>>;
 };
 
 export type FullCoordinate = {
   __typename?: 'FullCoordinate';
-  speed: Scalars['Float'];
-  color: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  color: Scalars['String']['output'];
+  speed: Scalars['Float']['output'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 export type FullCoordinateInput = {
-  speed: Scalars['Float'];
-  color: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  color: Scalars['String']['input'];
+  speed: Scalars['Float']['input'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type GlowComponent = {
   __typename?: 'GlowComponent';
+  color?: Maybe<Scalars['String']['output']>;
   glowMode?: Maybe<GlowModeEnum>;
-  color?: Maybe<Scalars['String']>;
 };
 
 export enum GlowModeEnum {
@@ -1325,571 +1325,571 @@ export enum GlowModeEnum {
 
 export type GoogleSheet = {
   __typename?: 'GoogleSheet';
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type GoogleSheetFile = {
   __typename?: 'GoogleSheetFile';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type GoogleSheets = {
   __typename?: 'GoogleSheets';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
 };
 
 export type GoogleSpreadsheet = {
   __typename?: 'GoogleSpreadsheet';
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
   sheets?: Maybe<Array<Maybe<GoogleSheet>>>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export enum Hull_Plating_Mode {
-  Kinetic = 'kinetic',
   Energy = 'energy',
+  Kinetic = 'kinetic',
   Radiation = 'radiation'
 }
 
 export type HackingLrm = {
   __typename?: 'HackingLRM';
-  id: Scalars['String'];
-  title: Scalars['String'];
-  message: Scalars['String'];
+  id: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type HackingPorts = {
   __typename?: 'HackingPorts';
-  logs?: Maybe<Scalars['Int']>;
-  longRange?: Maybe<Scalars['Int']>;
-  remoteControl?: Maybe<Scalars['Int']>;
-  fileViewer?: Maybe<Scalars['Int']>;
+  fileViewer?: Maybe<Scalars['Int']['output']>;
+  logs?: Maybe<Scalars['Int']['output']>;
+  longRange?: Maybe<Scalars['Int']['output']>;
+  remoteControl?: Maybe<Scalars['Int']['output']>;
 };
 
 export type HackingPreset = {
   __typename?: 'HackingPreset';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  logs: Scalars['Boolean'];
-  longRange: Scalars['Boolean'];
-  longRangeMessages: Array<HackingLrm>;
-  remoteControl: Scalars['Boolean'];
-  commandLines: Array<Scalars['String']>;
-  fileViewer: Scalars['Boolean'];
+  commandLines: Array<Scalars['String']['output']>;
+  fileViewer: Scalars['Boolean']['output'];
   files: Array<ComputerCoreFile>;
+  id: Scalars['String']['output'];
+  logs: Scalars['Boolean']['output'];
+  longRange: Scalars['Boolean']['output'];
+  longRangeMessages: Array<HackingLrm>;
+  name: Scalars['String']['output'];
+  remoteControl: Scalars['Boolean']['output'];
 };
 
 export type HazardChoiceMapEntry = {
   __typename?: 'HazardChoiceMapEntry';
-  poiId: Scalars['ID'];
-  hazardChoice: Scalars['String'];
+  hazardChoice: Scalars['String']['output'];
+  poiId: Scalars['ID']['output'];
 };
 
 export type HazardChoiceMapEntryInput = {
-  poiId: Scalars['ID'];
-  hazardChoice: Scalars['String'];
+  hazardChoice: Scalars['String']['input'];
+  poiId: Scalars['ID']['input'];
 };
 
 export type HeatInterface = {
-  heat?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
 };
 
 export type History = {
   __typename?: 'History';
-  date?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
 };
 
 export type HullPlating = SystemInterface & {
   __typename?: 'HullPlating';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  extra?: Maybe<Scalars['Boolean']>;
   damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  engaged?: Maybe<Scalars['Boolean']['output']>;
+  extra?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  power?: Maybe<Power>;
-  engaged?: Maybe<Scalars['Boolean']>;
   mode?: Maybe<Hull_Plating_Mode>;
-  pulse?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  pulse?: Maybe<Scalars['Boolean']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export enum Isochip_States {
-  Empty = 'empty',
   Diagnostic = 'diagnostic',
-  Nominal = 'nominal',
-  Invalid = 'invalid'
+  Empty = 'empty',
+  Invalid = 'invalid',
+  Nominal = 'nominal'
 }
 
 export type IdCoordinate = {
   __typename?: 'IdCoordinate';
-  id: Scalars['ID'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  id: Scalars['ID']['output'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 export type IdCoordinateInput = {
-  id: Scalars['ID'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type IdentityComponent = {
   __typename?: 'IdentityComponent';
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type Interface = {
   __typename?: 'Interface';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  templateId?: Maybe<Scalars['ID']>;
+  components?: Maybe<Scalars['JSON']['output']>;
+  config?: Maybe<Scalars['JSON']['output']>;
+  connections?: Maybe<Scalars['JSON']['output']>;
   deviceType?: Maybe<InterfaceDevice>;
-  name?: Maybe<Scalars['String']>;
-  components?: Maybe<Scalars['JSON']>;
-  connections?: Maybe<Scalars['JSON']>;
-  values?: Maybe<Scalars['JSON']>;
-  config?: Maybe<Scalars['JSON']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  templateId?: Maybe<Scalars['ID']['output']>;
+  values?: Maybe<Scalars['JSON']['output']>;
 };
 
 export type InterfaceDevice = {
   __typename?: 'InterfaceDevice';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  width?: Maybe<Scalars['Int']>;
-  height?: Maybe<Scalars['Int']>;
-  isLandscape?: Maybe<Scalars['Boolean']>;
+  height?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  isLandscape?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  width?: Maybe<Scalars['Int']['output']>;
 };
 
 export type InternalComm = SystemInterface & {
   __typename?: 'InternalComm';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  state?: Maybe<Scalars['String']>;
-  outgoing?: Maybe<Scalars['String']>;
-  incoming?: Maybe<Scalars['String']>;
   damage?: Maybe<Damage>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  incoming?: Maybe<Scalars['String']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  log?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  outgoing?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type InventoryCount = {
-  inventory?: Maybe<Scalars['ID']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  inventory?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type InventoryCountInput = {
-  id?: Maybe<Scalars['ID']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type InventoryItem = {
   __typename?: 'InventoryItem';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   metadata?: Maybe<InventoryMetadata>;
+  name?: Maybe<Scalars['String']['output']>;
   roomCount?: Maybe<Array<Maybe<RoomCount>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
   teamCount?: Maybe<Array<Maybe<TeamCount>>>;
 };
 
 export type InventoryItemInput = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  metadata?: Maybe<InventoryMetadataInput>;
-  roomCount?: Maybe<Array<Maybe<RoomCountInput>>>;
-  crewCount?: Maybe<Array<Maybe<CrewCountInput>>>;
+  crewCount?: InputMaybe<Array<InputMaybe<CrewCountInput>>>;
+  metadata?: InputMaybe<InventoryMetadataInput>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  roomCount?: InputMaybe<Array<InputMaybe<RoomCountInput>>>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type InventoryLog = {
   __typename?: 'InventoryLog';
-  timestamp?: Maybe<Scalars['String']>;
-  log?: Maybe<Scalars['String']>;
+  log?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type InventoryMetadata = {
   __typename?: 'InventoryMetadata';
-  type?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  science?: Maybe<Scalars['Boolean']>;
-  defense?: Maybe<Scalars['Boolean']>;
+  defense?: Maybe<Scalars['Boolean']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  science?: Maybe<Scalars['Boolean']['output']>;
+  size?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type InventoryMetadataInput = {
-  type?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  science?: Maybe<Scalars['Boolean']>;
-  defense?: Maybe<Scalars['Boolean']>;
+  defense?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  science?: InputMaybe<Scalars['Boolean']['input']>;
+  size?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Isochip = {
   __typename?: 'Isochip';
-  id?: Maybe<Scalars['ID']>;
-  system?: Maybe<System>;
+  chip?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
+  requiredChip?: Maybe<Scalars['Int']['output']>;
   simulator?: Maybe<Simulator>;
-  slot?: Maybe<Scalars['Int']>;
-  requiredChip?: Maybe<Scalars['Int']>;
-  chip?: Maybe<Scalars['Int']>;
-  label?: Maybe<Scalars['String']>;
+  slot?: Maybe<Scalars['Int']['output']>;
   state?: Maybe<Isochip_States>;
+  system?: Maybe<System>;
 };
 
 export type IsochipInput = {
-  system?: Maybe<Scalars['ID']>;
-  simulator?: Maybe<Scalars['ID']>;
-  slot?: Maybe<Scalars['Int']>;
-  requiredChip?: Maybe<Scalars['Int']>;
-  chip?: Maybe<Scalars['Int']>;
-  label?: Maybe<Scalars['String']>;
+  chip?: InputMaybe<Scalars['Int']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+  requiredChip?: InputMaybe<Scalars['Int']['input']>;
+  simulator?: InputMaybe<Scalars['ID']['input']>;
+  slot?: InputMaybe<Scalars['Int']['input']>;
+  system?: InputMaybe<Scalars['ID']['input']>;
 };
-
 
 export type JumpDrive = SystemInterface & {
   __typename?: 'JumpDrive';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  activated?: Maybe<Scalars['Boolean']['output']>;
   damage?: Maybe<Damage>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  enabled?: Maybe<Scalars['Boolean']['output']>;
+  env?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  ringsExtended?: Maybe<Scalars['Boolean']['output']>;
   sectors?: Maybe<JumpDriveSectors>;
-  env?: Maybe<Scalars['Float']>;
-  activated?: Maybe<Scalars['Boolean']>;
-  stress?: Maybe<Scalars['Float']>;
-  enabled?: Maybe<Scalars['Boolean']>;
-  ringsExtended?: Maybe<Scalars['Boolean']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  stress?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type JumpDriveSector = {
   __typename?: 'JumpDriveSector';
-  level?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Float']>;
+  level?: Maybe<Scalars['Int']['output']>;
+  offset?: Maybe<Scalars['Float']['output']>;
 };
 
 export type JumpDriveSectors = {
   __typename?: 'JumpDriveSectors';
-  fore?: Maybe<JumpDriveSector>;
   aft?: Maybe<JumpDriveSector>;
-  starboard?: Maybe<JumpDriveSector>;
+  fore?: Maybe<JumpDriveSector>;
   port?: Maybe<JumpDriveSector>;
+  starboard?: Maybe<JumpDriveSector>;
 };
 
 export type Keyboard = {
   __typename?: 'Keyboard';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['ID']['output'];
   keys?: Maybe<Array<Maybe<KeyboardKey>>>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type KeyboardKey = {
   __typename?: 'KeyboardKey';
-  id: Scalars['ID'];
-  key?: Maybe<Scalars['String']>;
-  keyCode?: Maybe<Scalars['String']>;
-  meta?: Maybe<Array<Maybe<Scalars['String']>>>;
   actions?: Maybe<Array<Maybe<MacroAction>>>;
+  id: Scalars['ID']['output'];
+  key?: Maybe<Scalars['String']['output']>;
+  keyCode?: Maybe<Scalars['String']['output']>;
+  meta?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
 export type KeyboardKeyInput = {
-  id?: Maybe<Scalars['ID']>;
-  key?: Maybe<Scalars['String']>;
-  keyCode?: Maybe<Scalars['String']>;
-  meta?: Maybe<Array<Maybe<Scalars['String']>>>;
-  actions?: Maybe<Array<Maybe<ActionInput>>>;
+  actions?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+  keyCode?: InputMaybe<Scalars['String']['input']>;
+  meta?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Keypad = {
   __typename?: 'Keypad';
-  id?: Maybe<Scalars['ID']>;
-  label?: Maybe<Scalars['String']>;
-  code?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  enteredCode?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  codeLength?: Maybe<Scalars['Int']>;
-  giveHints?: Maybe<Scalars['Boolean']>;
-  allowedAttempts?: Maybe<Scalars['Int']>;
-  attempts?: Maybe<Scalars['Int']>;
-  locked?: Maybe<Scalars['Boolean']>;
+  allowedAttempts?: Maybe<Scalars['Int']['output']>;
+  attempts?: Maybe<Scalars['Int']['output']>;
+  code?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
+  codeLength?: Maybe<Scalars['Int']['output']>;
+  enteredCode?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
+  giveHints?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
+  locked?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export enum Lighting_Action {
-  Normal = 'normal',
-  Darken = 'darken',
   Blackout = 'blackout',
-  Work = 'work',
+  Darken = 'darken',
   Fade = 'fade',
+  Normal = 'normal',
+  Oscillate = 'oscillate',
   Shake = 'shake',
   Strobe = 'strobe',
-  Oscillate = 'oscillate'
+  Work = 'work'
 }
 
 export type LrCommunications = SystemInterface & {
   __typename?: 'LRCommunications';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
   damage?: Maybe<Damage>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  decoded?: Maybe<Scalars['Boolean']['output']>;
+  difficulty?: Maybe<Scalars['Int']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  interception?: Maybe<Scalars['Boolean']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  locked?: Maybe<Scalars['Boolean']['output']>;
   messages?: Maybe<Array<Maybe<LrMessage>>>;
-  satellites?: Maybe<Scalars['Int']>;
-  interception?: Maybe<Scalars['Boolean']>;
-  locked?: Maybe<Scalars['Boolean']>;
-  decoded?: Maybe<Scalars['Boolean']>;
-  difficulty?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
   presetMessages?: Maybe<Array<Maybe<PresetAnswer>>>;
+  satellites?: Maybe<Scalars['Int']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 
 export type LrCommunicationsMessagesArgs = {
-  crew?: Maybe<Scalars['Boolean']>;
-  sent?: Maybe<Scalars['Boolean']>;
-  approved?: Maybe<Scalars['Boolean']>;
+  approved?: InputMaybe<Scalars['Boolean']['input']>;
+  crew?: InputMaybe<Scalars['Boolean']['input']>;
+  sent?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type LrMessage = {
   __typename?: 'LRMessage';
-  id?: Maybe<Scalars['ID']>;
-  message?: Maybe<Scalars['String']>;
-  decodedMessage?: Maybe<Scalars['String']>;
-  crew?: Maybe<Scalars['Boolean']>;
-  sent?: Maybe<Scalars['Boolean']>;
-  deleted?: Maybe<Scalars['Boolean']>;
-  encrypted?: Maybe<Scalars['Boolean']>;
-  approved?: Maybe<Scalars['Boolean']>;
-  sender?: Maybe<Scalars['String']>;
-  datestamp?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['String']>;
-  a?: Maybe<Scalars['Int']>;
-  f?: Maybe<Scalars['Int']>;
-  ra?: Maybe<Scalars['Int']>;
-  rf?: Maybe<Scalars['Int']>;
+  a?: Maybe<Scalars['Int']['output']>;
+  approved?: Maybe<Scalars['Boolean']['output']>;
+  crew?: Maybe<Scalars['Boolean']['output']>;
+  datestamp?: Maybe<Scalars['String']['output']>;
+  decodedMessage?: Maybe<Scalars['String']['output']>;
+  deleted?: Maybe<Scalars['Boolean']['output']>;
+  encrypted?: Maybe<Scalars['Boolean']['output']>;
+  f?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  ra?: Maybe<Scalars['Int']['output']>;
+  rf?: Maybe<Scalars['Int']['output']>;
+  sender?: Maybe<Scalars['String']['output']>;
+  sent?: Maybe<Scalars['Boolean']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type LibraryCategory = {
   __typename?: 'LibraryCategory';
-  name?: Maybe<Scalars['String']>;
   entries?: Maybe<Array<Maybe<LibraryEntry>>>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type LibraryEntry = {
   __typename?: 'LibraryEntry';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
+  body?: Maybe<Scalars['String']['output']>;
+  categories?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  font?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
   seeAlso?: Maybe<Array<Maybe<LibraryEntry>>>;
-  font?: Maybe<Scalars['String']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type LibraryInput = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
-  seeAlso?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  font?: Maybe<Scalars['String']>;
+  body?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  font?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  seeAlso?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type LightComponent = {
   __typename?: 'LightComponent';
-  intensity?: Maybe<Scalars['Float']>;
-  decay?: Maybe<Scalars['Float']>;
-  color?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']['output']>;
+  decay?: Maybe<Scalars['Float']['output']>;
+  intensity?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Lighting = {
   __typename?: 'Lighting';
-  intensity: Scalars['Float'];
   action: Lighting_Action;
-  actionStrength: Scalars['Float'];
-  transitionDuration: Scalars['Int'];
-  useAlertColor?: Maybe<Scalars['Boolean']>;
-  color?: Maybe<Scalars['String']>;
+  actionStrength: Scalars['Float']['output'];
+  color?: Maybe<Scalars['String']['output']>;
   dmxConfig?: Maybe<DmxConfig>;
+  intensity: Scalars['Float']['output'];
+  transitionDuration: Scalars['Int']['output'];
+  useAlertColor?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type LightingInput = {
-  intensity?: Maybe<Scalars['Float']>;
-  action?: Maybe<Lighting_Action>;
-  actionStrength?: Maybe<Scalars['Float']>;
-  transitionDuration?: Maybe<Scalars['Int']>;
-  useAlertColor?: Maybe<Scalars['Boolean']>;
-  color?: Maybe<Scalars['String']>;
-  dmxConfig?: Maybe<Scalars['String']>;
+  action?: InputMaybe<Lighting_Action>;
+  actionStrength?: InputMaybe<Scalars['Float']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  dmxConfig?: InputMaybe<Scalars['String']['input']>;
+  intensity?: InputMaybe<Scalars['Float']['input']>;
+  transitionDuration?: InputMaybe<Scalars['Int']['input']>;
+  useAlertColor?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Location = Deck | Room;
 
 export type LocationComponent = {
   __typename?: 'LocationComponent';
-  inert: Scalars['Boolean'];
-  position: EntityCoordinates;
-  velocity: EntityCoordinates;
   acceleration: EntityCoordinates;
+  inert: Scalars['Boolean']['output'];
+  position: EntityCoordinates;
   rotation: Quaternion;
-  rotationVelocity: EntityCoordinates;
   rotationAcceleration: EntityCoordinates;
+  rotationVelocity: EntityCoordinates;
+  velocity: EntityCoordinates;
 };
 
 export type LocationInput = {
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type Log = {
   __typename?: 'Log';
-  id?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
-  flightId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  timestamp?: Maybe<Scalars['String']>;
-  log?: Maybe<Scalars['String']>;
+  clientId?: Maybe<Scalars['ID']['output']>;
+  flightId?: Maybe<Scalars['ID']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  log?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type LogInput = {
-  clientId?: Maybe<Scalars['ID']>;
-  flightId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  timestamp?: Maybe<Scalars['String']>;
-  log?: Maybe<Scalars['String']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+  log?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type LongRangeCommInput = {
-  id?: Maybe<Scalars['ID']>;
-  interception?: Maybe<Scalars['Boolean']>;
-  locked?: Maybe<Scalars['Boolean']>;
-  decoded?: Maybe<Scalars['Boolean']>;
+  decoded?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  interception?: InputMaybe<Scalars['Boolean']['input']>;
+  locked?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Macro = {
   __typename?: 'Macro';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   actions?: Maybe<Array<Maybe<MacroAction>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type MacroAction = {
   __typename?: 'MacroAction';
-  id: Scalars['ID'];
-  event: Scalars['String'];
-  args: Scalars['String'];
-  delay?: Maybe<Scalars['Int']>;
-  needsConfig?: Maybe<Scalars['Boolean']>;
-  noCancelOnReset?: Maybe<Scalars['Boolean']>;
+  args: Scalars['String']['output'];
+  delay?: Maybe<Scalars['Int']['output']>;
+  event: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  needsConfig?: Maybe<Scalars['Boolean']['output']>;
+  noCancelOnReset?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type MacroButton = {
   __typename?: 'MacroButton';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   actions?: Maybe<Array<Maybe<MacroAction>>>;
+  category?: Maybe<Scalars['String']['output']>;
   color?: Maybe<NotifyColors>;
-  category?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type MacroButtonConfig = {
   __typename?: 'MacroButtonConfig';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   buttons?: Maybe<Array<Maybe<MacroButton>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type MacroInput = {
-  stepId?: Maybe<Scalars['ID']>;
-  event?: Maybe<Scalars['String']>;
-  args?: Maybe<Scalars['String']>;
-  delay?: Maybe<Scalars['Int']>;
-  noCancelOnReset?: Maybe<Scalars['Boolean']>;
+  args?: InputMaybe<Scalars['String']['input']>;
+  delay?: InputMaybe<Scalars['Int']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  noCancelOnReset?: InputMaybe<Scalars['Boolean']['input']>;
+  stepId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type MapBorder = {
   __typename?: 'MapBorder';
-  name: Scalars['String'];
-  id: Scalars['ID'];
+  iconUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   location: MapBorderLocation;
-  iconUrl: Scalars['String'];
-  riskIndex: Scalars['Float'];
+  name: Scalars['String']['output'];
+  riskIndex: Scalars['Float']['output'];
 };
 
 export type MapBorderInput = {
-  name: Scalars['String'];
-  id: Scalars['ID'];
+  iconUrl: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   location: MapBorderLocationInput;
-  iconUrl: Scalars['String'];
-  riskIndex: Scalars['Float'];
+  name: Scalars['String']['input'];
+  riskIndex: Scalars['Float']['input'];
 };
 
 export type MapBorderLocation = {
   __typename?: 'MapBorderLocation';
-  side: Scalars['String'];
+  side: Scalars['String']['output'];
 };
 
 export type MapBorderLocationInput = {
-  side: Scalars['String'];
+  side: Scalars['String']['input'];
 };
 
 export enum MeshTypeEnum {
-  Sphere = 'sphere',
   Cube = 'cube',
   Model = 'model',
-  Sprite = 'sprite',
   Planet = 'planet',
+  Sphere = 'sphere',
+  Sprite = 'sprite',
   Star = 'star'
 }
 
 export type Message = {
   __typename?: 'Message';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  destination?: Maybe<Scalars['String']>;
-  sender?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']['output']>;
+  destination?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  sender?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type MessageInput = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  destination?: Maybe<Scalars['String']>;
-  sender?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  destination?: InputMaybe<Scalars['String']['input']>;
+  sender?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum MidiActionMode {
@@ -1901,2834 +1901,1462 @@ export enum MidiActionMode {
 
 export type MidiControl = {
   __typename?: 'MidiControl';
-  id?: Maybe<Scalars['ID']>;
-  channel?: Maybe<Scalars['Int']>;
-  messageType?: Maybe<MidiMessageType>;
-  key?: Maybe<Scalars['Int']>;
-  controllerNumber?: Maybe<Scalars['Int']>;
-  channelModeMessage?: Maybe<ChannelModeMessageType>;
   actionMode?: Maybe<MidiActionMode>;
-  config?: Maybe<Scalars['JSON']>;
+  channel?: Maybe<Scalars['Int']['output']>;
+  channelModeMessage?: Maybe<ChannelModeMessageType>;
+  config?: Maybe<Scalars['JSON']['output']>;
+  controllerNumber?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  key?: Maybe<Scalars['Int']['output']>;
+  messageType?: Maybe<MidiMessageType>;
 };
 
 export type MidiControlInput = {
-  channel?: Maybe<Scalars['Int']>;
-  messageType?: Maybe<MidiMessageType>;
-  key?: Maybe<Scalars['Int']>;
-  controllerNumber?: Maybe<Scalars['Int']>;
-  channelModeMessage?: Maybe<ChannelModeMessageType>;
-  actionMode?: Maybe<MidiActionMode>;
-  config?: Maybe<Scalars['JSON']>;
+  actionMode?: InputMaybe<MidiActionMode>;
+  channel?: InputMaybe<Scalars['Int']['input']>;
+  channelModeMessage?: InputMaybe<ChannelModeMessageType>;
+  config?: InputMaybe<Scalars['JSON']['input']>;
+  controllerNumber?: InputMaybe<Scalars['Int']['input']>;
+  key?: InputMaybe<Scalars['Int']['input']>;
+  messageType?: InputMaybe<MidiMessageType>;
 };
 
 export enum MidiMessageType {
+  Channelpressure = 'channelpressure',
+  Controlchange = 'controlchange',
+  Keypressure = 'keypressure',
   Noteoff = 'noteoff',
   Noteon = 'noteon',
-  Keypressure = 'keypressure',
-  Controlchange = 'controlchange',
-  Programchange = 'programchange',
-  Channelpressure = 'channelpressure',
-  Pitchbendchange = 'pitchbendchange'
+  Pitchbendchange = 'pitchbendchange',
+  Programchange = 'programchange'
 }
 
 export type MidiSet = {
   __typename?: 'MidiSet';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  deviceName?: Maybe<Scalars['String']>;
   controls?: Maybe<Array<Maybe<MidiControl>>>;
+  deviceName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mission = {
   __typename?: 'Mission';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-  timeline: Array<TimelineStep>;
-  simulators?: Maybe<Array<Maybe<Simulator>>>;
-  aux?: Maybe<Scalars['Boolean']>;
+  aux?: Maybe<Scalars['Boolean']['output']>;
+  category?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   extraRequirements?: Maybe<SimulatorCapabilities>;
+  id: Scalars['ID']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   requirements?: Maybe<SimulatorCapabilities>;
+  simulators?: Maybe<Array<Maybe<Simulator>>>;
+  timeline: Array<TimelineStep>;
 };
 
 
 export type MissionRequirementsArgs = {
-  all?: Maybe<Scalars['Boolean']>;
+  all?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Motu = {
   __typename?: 'Motu';
-  id?: Maybe<Scalars['ID']>;
-  offline?: Maybe<Scalars['Boolean']>;
-  address?: Maybe<Scalars['String']>;
+  address?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   inputs?: Maybe<Array<Maybe<MotuInput>>>;
+  offline?: Maybe<Scalars['Boolean']['output']>;
   outputs?: Maybe<Array<Maybe<MotuOutput>>>;
   sends?: Maybe<Array<Maybe<MotuPatch>>>;
 };
 
 export type MotuChannel = {
   __typename?: 'MotuChannel';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  chan?: Maybe<Scalars['Int']>;
+  chan?: Maybe<Scalars['Int']['output']>;
+  fader?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  mute?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   type?: Maybe<MotuType>;
-  fader?: Maybe<Scalars['Float']>;
-  mute?: Maybe<Scalars['Int']>;
 };
 
 export type MotuChannelInput = {
-  fader?: Maybe<Scalars['Float']>;
-  mute?: Maybe<Scalars['Int']>;
+  fader?: InputMaybe<Scalars['Float']['input']>;
+  mute?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type MotuComp = {
   __typename?: 'MotuComp';
-  enable?: Maybe<Scalars['Float']>;
-  release?: Maybe<Scalars['Float']>;
-  makeup?: Maybe<Scalars['Float']>;
-  trim?: Maybe<Scalars['Float']>;
-  peak?: Maybe<Scalars['Float']>;
-  attack?: Maybe<Scalars['Float']>;
-  ratio?: Maybe<Scalars['Float']>;
-  threshold?: Maybe<Scalars['Float']>;
+  attack?: Maybe<Scalars['Float']['output']>;
+  enable?: Maybe<Scalars['Float']['output']>;
+  makeup?: Maybe<Scalars['Float']['output']>;
+  peak?: Maybe<Scalars['Float']['output']>;
+  ratio?: Maybe<Scalars['Float']['output']>;
+  release?: Maybe<Scalars['Float']['output']>;
+  threshold?: Maybe<Scalars['Float']['output']>;
+  trim?: Maybe<Scalars['Float']['output']>;
 };
 
 export type MotuEq = {
   __typename?: 'MotuEQ';
-  enable?: Maybe<Scalars['Int']>;
-  freq?: Maybe<Scalars['Float']>;
-  gain?: Maybe<Scalars['Float']>;
-  bw?: Maybe<Scalars['Float']>;
-  mode?: Maybe<Scalars['Int']>;
+  bw?: Maybe<Scalars['Float']['output']>;
+  enable?: Maybe<Scalars['Int']['output']>;
+  freq?: Maybe<Scalars['Float']['output']>;
+  gain?: Maybe<Scalars['Float']['output']>;
+  mode?: Maybe<Scalars['Int']['output']>;
 };
 
 export type MotuGate = {
   __typename?: 'MotuGate';
-  release?: Maybe<Scalars['Float']>;
-  enable?: Maybe<Scalars['Int']>;
-  attack?: Maybe<Scalars['Float']>;
-  threshold?: Maybe<Scalars['Float']>;
+  attack?: Maybe<Scalars['Float']['output']>;
+  enable?: Maybe<Scalars['Int']['output']>;
+  release?: Maybe<Scalars['Float']['output']>;
+  threshold?: Maybe<Scalars['Float']['output']>;
 };
 
 export type MotuInput = {
   __typename?: 'MotuInput';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  chan?: Maybe<Scalars['Int']>;
-  type?: Maybe<MotuType>;
-  gate?: Maybe<MotuGate>;
+  chan?: Maybe<Scalars['Int']['output']>;
   comp?: Maybe<MotuComp>;
-  fader?: Maybe<Scalars['Float']>;
-  mute?: Maybe<Scalars['Int']>;
-  pan?: Maybe<Scalars['Float']>;
+  fader?: Maybe<Scalars['Float']['output']>;
+  gate?: Maybe<MotuGate>;
   highshelf?: Maybe<MotuEq>;
+  id?: Maybe<Scalars['ID']['output']>;
+  lowshelf?: Maybe<MotuEq>;
   mid1?: Maybe<MotuEq>;
   mid2?: Maybe<MotuEq>;
-  lowshelf?: Maybe<MotuEq>;
+  mute?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  pan?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<MotuType>;
 };
 
 export type MotuOutput = {
   __typename?: 'MotuOutput';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  chan?: Maybe<Scalars['Int']>;
-  type?: Maybe<MotuType>;
-  prefader?: Maybe<Scalars['Float']>;
-  fader?: Maybe<Scalars['Float']>;
-  mute?: Maybe<Scalars['Int']>;
-  panner?: Maybe<Scalars['Float']>;
+  chan?: Maybe<Scalars['Int']['output']>;
+  fader?: Maybe<Scalars['Float']['output']>;
   highshelf?: Maybe<MotuEq>;
+  id?: Maybe<Scalars['ID']['output']>;
+  lowshelf?: Maybe<MotuEq>;
   mid1?: Maybe<MotuEq>;
   mid2?: Maybe<MotuEq>;
-  lowshelf?: Maybe<MotuEq>;
+  mute?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  panner?: Maybe<Scalars['Float']['output']>;
+  prefader?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<MotuType>;
 };
 
 export type MotuPatch = {
   __typename?: 'MotuPatch';
   input?: Maybe<MotuInput>;
+  mute?: Maybe<Scalars['Boolean']['output']>;
   output?: Maybe<MotuOutput>;
-  send?: Maybe<Scalars['Float']>;
-  mute?: Maybe<Scalars['Boolean']>;
+  send?: Maybe<Scalars['Float']['output']>;
 };
 
 export enum MotuType {
-  Chan = 'chan',
   Aux = 'aux',
+  Chan = 'chan',
   Group = 'group'
 }
 
 export type Mutation = {
   __typename?: 'Mutation';
-  _empty?: Maybe<Scalars['String']>;
-  /** Macro: Actions: Trigger Action (eg. Flash, Blackout, etc.) */
-  triggerAction?: Maybe<Scalars['String']>;
-  addSimulatorAmbiance?: Maybe<Scalars['String']>;
-  updateSimulatorAmbiance?: Maybe<Scalars['String']>;
-  removeSimulatorAmbiance?: Maybe<Scalars['String']>;
-  setStationAmbiance?: Maybe<Scalars['String']>;
-  addAssetFolder?: Maybe<Scalars['String']>;
-  removeAssetFolder?: Maybe<Scalars['String']>;
-  removeAssetObject?: Maybe<Scalars['String']>;
-  downloadRemoteAssets?: Maybe<Scalars['String']>;
-  clientConnect?: Maybe<Scalars['String']>;
-  clientDisconnect?: Maybe<Scalars['String']>;
-  clientPing?: Maybe<Scalars['String']>;
-  clientSetFlight?: Maybe<Scalars['String']>;
-  clientSetSimulator?: Maybe<Scalars['String']>;
-  clientSetStation?: Maybe<Scalars['String']>;
-  clientLogin?: Maybe<Scalars['String']>;
-  clientSetEmail?: Maybe<Scalars['String']>;
-  clientLogout?: Maybe<Scalars['String']>;
-  clientDiagnostic?: Maybe<Scalars['String']>;
-  clientReset?: Maybe<Scalars['String']>;
-  clientLockScreen?: Maybe<Scalars['String']>;
-  clientUnlockScreen?: Maybe<Scalars['String']>;
-  clientOfflineState?: Maybe<Scalars['String']>;
-  clientMovieState?: Maybe<Scalars['String']>;
-  clientSetTraining?: Maybe<Scalars['String']>;
-  clientSetSoundPlayer?: Maybe<Scalars['String']>;
-  clientActivateLights?: Maybe<Scalars['String']>;
-  clientAddCache?: Maybe<Scalars['String']>;
-  clientRemoveCache?: Maybe<Scalars['String']>;
-  /** Macro: Clients: Set Hypercard */
-  setClientHypercard?: Maybe<Scalars['String']>;
-  /** Macro: Sounds: Play a sound */
-  playSound?: Maybe<Scalars['String']>;
-  /** Macro: Sounds: Cancel All Sounds */
-  stopAllSounds?: Maybe<Scalars['String']>;
-  /** Macro: Sounds: Stop Looping All Sounds */
-  cancelLoopingSounds?: Maybe<Scalars['String']>;
-  applyClientSet?: Maybe<Scalars['String']>;
-  setClientOverlay?: Maybe<Scalars['String']>;
-  clientCrack?: Maybe<Scalars['String']>;
-  clientSetCard?: Maybe<Scalars['String']>;
-  setKeypadCode?: Maybe<Scalars['String']>;
-  setKeypadEnteredCode?: Maybe<Scalars['String']>;
-  setKeypadHint?: Maybe<Scalars['String']>;
-  setKeypadLocked?: Maybe<Scalars['String']>;
-  resetKeypad?: Maybe<Scalars['String']>;
-  setCodeLength?: Maybe<Scalars['String']>;
-  setKeypadAllowedAttempts?: Maybe<Scalars['String']>;
-  handheldScannerScan?: Maybe<Scalars['String']>;
-  handheldScannerCancel?: Maybe<Scalars['String']>;
-  handheldScannerResponse?: Maybe<Scalars['String']>;
-  addCommandLine?: Maybe<Scalars['String']>;
-  renameCommandLine?: Maybe<Scalars['String']>;
-  duplicateCommandLine?: Maybe<Scalars['String']>;
-  removeCommandLine?: Maybe<Scalars['String']>;
-  updateCommandLine?: Maybe<Scalars['String']>;
-  executeCommandLine?: Maybe<Scalars['String']>;
+  _empty?: Maybe<Scalars['String']['output']>;
+  _template?: Maybe<Scalars['String']['output']>;
+  activateProbeEmitter?: Maybe<Scalars['String']['output']>;
+  activateStealth?: Maybe<Scalars['String']['output']>;
+  activateThx?: Maybe<Scalars['String']['output']>;
+  addAssetFolder?: Maybe<Scalars['String']['output']>;
+  addCardToStation?: Maybe<Scalars['String']['output']>;
+  addClientToSet?: Maybe<Scalars['String']['output']>;
+  addCommandLine?: Maybe<Scalars['String']['output']>;
+  addCommandLineOutput?: Maybe<Scalars['String']['output']>;
   /**
    * Macro: Command Line: Add command line
    * Requires:
    *   - Cards:Command Line
    */
-  addCommandLineToSimulator?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Command Line: Remove command line
-   * Requires:
-   *   - Cards:Command Line
-   */
-  removeCommandLineFromSimulator?: Maybe<Scalars['String']>;
-  addCommandLineOutput?: Maybe<Scalars['String']>;
-  handleCommandLineFeedback?: Maybe<Scalars['String']>;
+  addCommandLineToSimulator?: Maybe<Scalars['String']['output']>;
   addComputerCoreUser?: Maybe<ComputerCoreUser>;
-  /**
-   * Macro: Computer Core: Add Hacker
-   * Requires:
-   *   - Cards:ComputerCore
-   *   - Systems:ComputerCore
-   */
-  computerCoreAddHacker?: Maybe<Scalars['String']>;
-  updateComputerCoreUser?: Maybe<Scalars['String']>;
-  removeComputerCoreUser?: Maybe<Scalars['String']>;
-  restoreComputerCoreFile?: Maybe<Scalars['String']>;
-  deleteComputerCoreVirus?: Maybe<Scalars['String']>;
-  restartComputerCoreTerminal?: Maybe<Scalars['String']>;
-  addViriiToComputerCore?: Maybe<Scalars['String']>;
-  computerCoreAddFile?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Computer Core: Activate External Hacking
-   * Requires:
-   *   - Cards:ComputerCore
-   *   - Systems:ComputerCore
-   */
-  computerCoreActivateHacking?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Computer Core: Deactivate External Hacking
-   * Requires:
-   *   - Cards:ComputerCore
-   *   - Systems:ComputerCore
-   */
-  computerCoreDeactivateHacking?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Computer Core: Set External Hacking Preset
-   * Requires:
-   *   - Cards:ComputerCore
-   *   - Systems:ComputerCore
-   */
-  computerCoreHackingPreset?: Maybe<Scalars['String']>;
-  computerCoreSetHackingState?: Maybe<Scalars['String']>;
-  computerCoreAppendLog?: Maybe<Scalars['String']>;
-  computerCoreDeleteLog?: Maybe<Scalars['String']>;
-  computerCoreSetHackingFrequency?: Maybe<Scalars['String']>;
-  computerCoreUpdateHackingFiles?: Maybe<Scalars['String']>;
-  createHackingPreset?: Maybe<Scalars['String']>;
-  deleteHackingPreset?: Maybe<Scalars['String']>;
-  updateHackingPreset?: Maybe<Scalars['String']>;
-  setCoolantTank?: Maybe<Scalars['String']>;
-  transferCoolant?: Maybe<Scalars['String']>;
-  ignoreCoreFeed?: Maybe<Scalars['String']>;
-  /** Macro: Core: Set a timer on core (requires sync time enabled) */
-  syncTimer?: Maybe<Scalars['String']>;
-  updateCoreLayout?: Maybe<Scalars['String']>;
-  addCoreLayout?: Maybe<Scalars['String']>;
-  removeCoreLayout?: Maybe<Scalars['String']>;
-  reorderCoreLayouts?: Maybe<Scalars['String']>;
-  addCrewmember?: Maybe<Scalars['String']>;
-  removeCrewmember?: Maybe<Scalars['String']>;
-  updateCrewmember?: Maybe<Scalars['String']>;
-  newRandomCrewmember?: Maybe<Scalars['String']>;
-  removeAllCrew?: Maybe<Scalars['String']>;
-  crewImport?: Maybe<Scalars['String']>;
-  crmSetActivated?: Maybe<Scalars['String']>;
-  crmSetPassword?: Maybe<Scalars['String']>;
-  crmAddEnemy?: Maybe<Scalars['String']>;
-  crmSetAcceleration?: Maybe<Scalars['String']>;
-  crmSetPhaserCharge?: Maybe<Scalars['String']>;
-  crmSetShieldState?: Maybe<Scalars['String']>;
-  crmLoadTorpedo?: Maybe<Scalars['String']>;
-  crmFireTorpedo?: Maybe<Scalars['String']>;
-  crmFirePhaser?: Maybe<Scalars['String']>;
-  crmStopPhaser?: Maybe<Scalars['String']>;
-  crmSetFighterDocked?: Maybe<Scalars['String']>;
-  crmRestockTorpedos?: Maybe<Scalars['String']>;
-  crmSetAttacking?: Maybe<Scalars['String']>;
-  crmSetFighterImage?: Maybe<Scalars['String']>;
-  crmSetFighterIcon?: Maybe<Scalars['String']>;
-  crmSetEnemyIcon?: Maybe<Scalars['String']>;
-  crmSetEnemyCount?: Maybe<Scalars['String']>;
-  crmRestoreFighter?: Maybe<Scalars['String']>;
-  crmDestroyUndockedFighters?: Maybe<Scalars['String']>;
-  crmRestoreFighters?: Maybe<Scalars['String']>;
-  crmSetFighterStrength?: Maybe<Scalars['String']>;
-  crmSetEnemyStrength?: Maybe<Scalars['String']>;
-  damageSystem?: Maybe<Scalars['String']>;
-  damageReport?: Maybe<Scalars['String']>;
-  updateCurrentDamageStep?: Maybe<Scalars['String']>;
-  repairSystem?: Maybe<Scalars['String']>;
-  requestDamageReport?: Maybe<Scalars['String']>;
-  systemReactivationCode?: Maybe<Scalars['String']>;
-  systemReactivationCodeResponse?: Maybe<Scalars['String']>;
-  addSystemDamageStep?: Maybe<Scalars['String']>;
-  updateSystemDamageStep?: Maybe<Scalars['String']>;
-  removeSystemDamageStep?: Maybe<Scalars['String']>;
-  generateDamageReport?: Maybe<Scalars['String']>;
-  addSystemDamageTask?: Maybe<Scalars['String']>;
-  removeSystemDamageTask?: Maybe<Scalars['String']>;
-  updateSystemDamageTask?: Maybe<Scalars['String']>;
-  /** Macro: Damage Control: Break system */
-  breakSystem?: Maybe<Scalars['String']>;
-  /** Macro: Damage Control: Fix system */
-  fixSystem?: Maybe<Scalars['String']>;
-  setDamageStepValidation?: Maybe<Scalars['String']>;
-  validateDamageStep?: Maybe<Scalars['String']>;
-  addSimulatorDamageStep?: Maybe<Scalars['String']>;
-  updateSimulatorDamageStep?: Maybe<Scalars['String']>;
-  removeSimulatorDamageStep?: Maybe<Scalars['String']>;
-  addSimulatorDamageTask?: Maybe<Scalars['String']>;
-  removeSimulatorDamageTask?: Maybe<Scalars['String']>;
-  updateSimulatorDamageTask?: Maybe<Scalars['String']>;
-  addDeck?: Maybe<Scalars['String']>;
-  removeDeck?: Maybe<Scalars['String']>;
-  addDecksBulk?: Maybe<Scalars['String']>;
-  updateDeckSvg?: Maybe<Scalars['String']>;
-  deckDoors?: Maybe<Scalars['String']>;
-  deckEvac?: Maybe<Scalars['String']>;
-  updateHallwaySvg?: Maybe<Scalars['String']>;
-  createDockingPort?: Maybe<Scalars['String']>;
-  /** Macro: Docking: Update Docking Port/Shuttlebay */
-  updateDockingPort?: Maybe<Scalars['String']>;
-  removeDockingPort?: Maybe<Scalars['String']>;
-  addSpeed?: Maybe<Scalars['String']>;
-  setSpeed?: Maybe<Scalars['String']>;
-  setEngineSpeeds?: Maybe<Scalars['String']>;
-  addHeat?: Maybe<Scalars['String']>;
-  addCoolant?: Maybe<Scalars['String']>;
-  setHeatRate?: Maybe<Scalars['String']>;
-  engineCool?: Maybe<Scalars['String']>;
-  setEngineAcceleration?: Maybe<Scalars['String']>;
-  setEngineUseAcceleration?: Maybe<Scalars['String']>;
-  setEngineSpeedFactor?: Maybe<Scalars['String']>;
-  updateEnvironment?: Maybe<Scalars['String']>;
-  setSimulatorExocomps?: Maybe<Scalars['String']>;
-  deployExocomp?: Maybe<Scalars['String']>;
-  recallExocomp?: Maybe<Scalars['String']>;
-  exocompCompleteUpgrade?: Maybe<Scalars['String']>;
-  updateExocompDifficulty?: Maybe<Scalars['String']>;
-  importSimulatorFromUrl?: Maybe<Scalars['String']>;
-  importMissionFromUrl?: Maybe<Scalars['String']>;
-  updateFirebaseUserStation: Scalars['Boolean'];
-  setFirebaseAwards?: Maybe<Scalars['Boolean']>;
-  setFirebaseSimulator?: Maybe<Scalars['Boolean']>;
-  setFirebaseMission?: Maybe<Scalars['Boolean']>;
-  createFirebaseUser?: Maybe<Scalars['Boolean']>;
-  executeFirebasePush?: Maybe<Scalars['Boolean']>;
-  startFlight?: Maybe<Scalars['String']>;
-  /** Macro: Flight: Reset Flight */
-  resetFlight?: Maybe<Scalars['String']>;
-  deleteFlight?: Maybe<Scalars['String']>;
-  /** Macro: Flight: Pause Flight */
-  pauseFlight?: Maybe<Scalars['String']>;
-  /** Macro: Flight: Resume Flight */
-  resumeFlight?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Space EdVentures: Add Extra Crew Member
-   * Requires:
-   *   - Space EdVentures
-   */
-  clientAddExtra?: Maybe<Scalars['String']>;
-  createFlightSet?: Maybe<Scalars['String']>;
-  updateFlightSet?: Maybe<Scalars['String']>;
-  deleteFlightSet?: Maybe<Scalars['String']>;
-  updateAdvNavFlightSet?: Maybe<Scalars['String']>;
-  updateAdvNavFlightSetData?: Maybe<Scalars['String']>;
-  handleCoolantFlush?: Maybe<Scalars['String']>;
-  handleEmergencyStop?: Maybe<Scalars['String']>;
-  handleResumePath?: Maybe<Scalars['String']>;
-  handleShowFlightSet?: Maybe<Scalars['String']>;
-  handleShowEta?: Maybe<Scalars['String']>;
-  handleUpdateEta?: Maybe<Scalars['String']>;
-  handleEngineFlux?: Maybe<Scalars['String']>;
-  handleSetCoolantLevel?: Maybe<Scalars['String']>;
-  handleSetHeatLevel?: Maybe<Scalars['String']>;
-  handleUpdateCurrentFlightPath?: Maybe<Scalars['String']>;
-  handleUpdateCurrentFlightSet?: Maybe<Scalars['String']>;
-  handleOverrideLocation?: Maybe<Scalars['String']>;
-  handleAddProbeAssignment?: Maybe<Scalars['String']>;
-  handleEngageFlightPath?: Maybe<Scalars['String']>;
-  handleSaveFlightPath?: Maybe<Scalars['String']>;
-  handleAddFlightSetToNavigation?: Maybe<Scalars['String']>;
+  addCoolant?: Maybe<Scalars['String']['output']>;
+  addCoreLayout?: Maybe<Scalars['String']['output']>;
+  addCrewToTeam?: Maybe<Scalars['String']['output']>;
+  addCrewmember?: Maybe<Scalars['String']['output']>;
+  addDeck?: Maybe<Scalars['String']['output']>;
+  addDecksBulk?: Maybe<Scalars['String']['output']>;
+  /** Macro: Systems: Add Extra Report to Simulator */
+  addExtraReportToSimulator?: Maybe<Scalars['String']['output']>;
   /** Macro: Advanced Navigation: Add Flight Set to Navigation */
-  addFlightSetToNavigation?: Maybe<Scalars['String']>;
-  handleOnAssignProbe?: Maybe<Scalars['String']>;
-  handleUpdateProbeAssignments: Scalars['String'];
-  /** Macro: Advanced Navigation: Select current flight set */
-  selectCurrentFlightSet?: Maybe<Scalars['String']>;
-  /** Macro: Advanced Navigation: Show POI on current flight set */
-  showPoiOnCurrentFlightSet?: Maybe<Scalars['String']>;
-  /** Macro: Advanced Navigation: Show POI information on current flight set */
-  showPoiInformationOnCurrentFlightSet?: Maybe<Scalars['String']>;
-  googleSheetsAuthorize?: Maybe<Scalars['String']>;
-  googleSheetsCompleteAuthorize?: Maybe<Scalars['String']>;
-  googleSheetsRevoke?: Maybe<Scalars['String']>;
-  googleSheetsFileSearch?: Maybe<Array<Maybe<GoogleSheetFile>>>;
-  googleSheetsAppendData?: Maybe<Scalars['String']>;
-  setHullPlatingMode?: Maybe<Scalars['String']>;
-  setHullPlatingEngaged?: Maybe<Scalars['String']>;
-  setHullPlatingPulse?: Maybe<Scalars['String']>;
-  addInterface?: Maybe<Scalars['String']>;
-  renameInterface?: Maybe<Scalars['String']>;
-  removeInterface?: Maybe<Scalars['String']>;
-  updateInterface?: Maybe<Scalars['String']>;
-  addInterfaceToSimulator?: Maybe<Scalars['String']>;
-  removeInterfaceFromSimulator?: Maybe<Scalars['String']>;
-  addInterfaceDevice?: Maybe<Scalars['String']>;
-  renameInterfaceDevice?: Maybe<Scalars['String']>;
-  removeInterfaceDevice?: Maybe<Scalars['String']>;
-  updateInterfaceDevice?: Maybe<Scalars['String']>;
-  triggerInterfaceObject?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Interfaces: Set Object Hidden
-   * Requires:
-   *   - Cards:Interface
-   */
-  toggleInterfaceObjectHidden?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Interfaces: Toggle Video playing
-   * Requires:
-   *   - Cards:Interface
-   */
-  toggleInterfaceObjectPlaying?: Maybe<Scalars['String']>;
-  internalCommConnectOutgoing?: Maybe<Scalars['String']>;
-  internalCommConnectIncoming?: Maybe<Scalars['String']>;
-  internalCommCancelIncoming?: Maybe<Scalars['String']>;
-  internalCommCancelOutgoing?: Maybe<Scalars['String']>;
-  internalCommCallIncoming?: Maybe<Scalars['String']>;
-  internalCommCallOutgoing?: Maybe<Scalars['String']>;
-  addInventory?: Maybe<Scalars['String']>;
-  /** Macro: Inventory: Add Multiple Inventory */
-  addMultipleInventory?: Maybe<Scalars['String']>;
-  removeInventory?: Maybe<Scalars['String']>;
-  moveInventory?: Maybe<Scalars['String']>;
-  updateInventoryCount?: Maybe<Scalars['String']>;
-  updateInventoryMetadata?: Maybe<Scalars['String']>;
-  updateCrewInventory?: Maybe<Scalars['String']>;
-  removeCrewInventory?: Maybe<Scalars['String']>;
-  transferCargo?: Maybe<Scalars['String']>;
-  insertIsochip?: Maybe<Isochip>;
-  updateIsochip?: Maybe<Isochip>;
-  batchIsochipUpdate?: Maybe<Array<Maybe<Isochip>>>;
-  setJumpdriveActivated?: Maybe<Scalars['String']>;
-  setJumpdriveEnvs?: Maybe<Scalars['String']>;
-  setJumpdriveSectorLevel?: Maybe<Scalars['String']>;
-  setJumpdriveSectorOffset?: Maybe<Scalars['String']>;
-  fluxJumpdriveSector?: Maybe<Scalars['String']>;
-  setJumpDriveEnabled?: Maybe<Scalars['String']>;
-  hitJumpDriveStress?: Maybe<Scalars['String']>;
-  setJumpDriveRingsExtended?: Maybe<Scalars['String']>;
-  addKeyboard?: Maybe<Scalars['String']>;
-  removeKeyboard?: Maybe<Scalars['String']>;
-  renameKeyboard?: Maybe<Scalars['String']>;
-  updateKeyboardKey?: Maybe<Scalars['String']>;
-  triggerKeyboardAction?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Library: Add Entry
-   * Requires:
-   *   - Cards:Library
-   */
-  addLibraryEntry?: Maybe<Scalars['String']>;
-  updateLibraryEntry?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Library: Remove Entry
-   * Requires:
-   *   - Cards:Library
-   */
-  removeLibraryEntry?: Maybe<Scalars['String']>;
-  importLibraryEntry?: Maybe<Scalars['String']>;
-  updateSimulatorLighting?: Maybe<Scalars['String']>;
-  /** Macro: DMX: Set Simulator DMX Config */
-  dmxSetSimulatorConfig?: Maybe<Scalars['String']>;
-  /** Macro: Lighting: Set Intensity */
-  lightingSetIntensity?: Maybe<Scalars['String']>;
-  /** Macro: Lighting: Shake Lights */
-  lightingShakeLights?: Maybe<Scalars['String']>;
-  /** Macro: Lighting: Fade Lights */
-  lightingFadeLights?: Maybe<Scalars['String']>;
-  /** Macro: Lighting: Set Effect */
-  lightingSetEffect?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Long Range: Send Long Range Message
-   * Requires:
-   *   - Cards:CommDecoding
-   *   - Systems:LongRangeComm
-   */
-  sendLongRangeMessage?: Maybe<Scalars['String']>;
-  longRangeMessageSend?: Maybe<Scalars['String']>;
-  deleteLongRangeMessage?: Maybe<Scalars['String']>;
-  updateLongRangeDecodedMessage?: Maybe<Scalars['String']>;
-  updateLongRangeComm?: Maybe<Scalars['String']>;
-  approveLongRangeMessage?: Maybe<Scalars['String']>;
-  encryptLongRangeMessage?: Maybe<Scalars['String']>;
-  setLongRangeSatellites?: Maybe<Scalars['String']>;
+  addFlightSetToNavigation?: Maybe<Scalars['String']['output']>;
+  addHeat?: Maybe<Scalars['String']['output']>;
   /**
    * Macro: Interception: Add Interception Signal
    * Requires:
    *   - Cards:Interception
    *   - Systems:LongRangeComm
    */
-  addInterceptionSignal?: Maybe<Scalars['String']>;
+  addInterceptionSignal?: Maybe<Scalars['String']['output']>;
+  addInterface?: Maybe<Scalars['String']['output']>;
+  addInterfaceDevice?: Maybe<Scalars['String']['output']>;
+  addInterfaceToSimulator?: Maybe<Scalars['String']['output']>;
+  addInventory?: Maybe<Scalars['String']['output']>;
+  addIssue?: Maybe<Scalars['String']['output']>;
+  addIssueUpload?: Maybe<Scalars['String']['output']>;
+  addKeyboard?: Maybe<Scalars['String']['output']>;
   /**
-   * Macro: Interception: Remove Interception Signal
+   * Macro: Library: Add Entry
    * Requires:
-   *   - Cards:Interception
-   *   - Systems:LongRangeComm
+   *   - Cards:Library
    */
-  removeInterceptionSignal?: Maybe<Scalars['String']>;
-  setInterceptionDifficulty?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Long Range: Set preset messages
-   * Requires:
-   *   - Cards:CommDecoding
-   *   - Systems:LongRangeComm
-   */
-  setLongRangePresetMessages?: Maybe<Scalars['String']>;
-  addMacro?: Maybe<Scalars['ID']>;
-  removeMacro?: Maybe<Scalars['String']>;
-  renameMacro?: Maybe<Scalars['String']>;
-  duplicateMacro?: Maybe<Scalars['String']>;
-  duplicateMacroAction?: Maybe<Scalars['String']>;
-  updateMacroActions?: Maybe<Scalars['String']>;
-  /** Macro: Macros: Trigger Macro */
-  triggerMacroAction?: Maybe<Scalars['String']>;
-  addMacroButtonConfig?: Maybe<Scalars['ID']>;
-  removeMacroButtonConfig?: Maybe<Scalars['String']>;
-  renameMacroButtonConfig?: Maybe<Scalars['String']>;
-  addMacroButton?: Maybe<Scalars['String']>;
-  removeMacroButton?: Maybe<Scalars['String']>;
-  renameMacroButton?: Maybe<Scalars['String']>;
-  setMacroButtonCategory?: Maybe<Scalars['String']>;
-  setMacroButtonColor?: Maybe<Scalars['String']>;
-  updateMacroButtonActions?: Maybe<Scalars['String']>;
-  /** Reorder Macros */
-  reorderMacroButton?: Maybe<Scalars['String']>;
-  reorderMacroAction?: Maybe<Scalars['String']>;
-  triggerMacroButton?: Maybe<Scalars['String']>;
-  toggleStationMessageGroup?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Messaging: Send an inter-ship message
-   * Requires:
-   *  - Cards:Messages
-   */
-  sendMessage?: Maybe<Scalars['String']>;
-  midiSetCreate?: Maybe<MidiSet>;
-  midiSetRename?: Maybe<MidiSet>;
-  midiSetRemove?: Maybe<Scalars['Boolean']>;
-  midiSetControl?: Maybe<MidiSet>;
-  /** Macro: MIDI: Activate a MIDI Set */
-  simulatorAddMidiSet?: Maybe<Simulator>;
-  /** Macro: MIDI: Deactivate a MIDI Set */
-  simulatorRemoveMidiSet?: Maybe<Simulator>;
-  createMission?: Maybe<Scalars['String']>;
-  removeMission?: Maybe<Scalars['String']>;
-  editMission?: Maybe<Scalars['String']>;
-  importMission?: Maybe<Scalars['String']>;
-  addTimelineStep?: Maybe<Scalars['ID']>;
-  removeTimelineStep?: Maybe<Scalars['String']>;
-  reorderTimelineStep?: Maybe<Scalars['String']>;
-  reorderTimelineItem?: Maybe<Scalars['String']>;
-  updateTimelineStep?: Maybe<Scalars['String']>;
-  addTimelineItemToTimelineStep?: Maybe<Scalars['String']>;
-  removeTimelineStepItem?: Maybe<Scalars['String']>;
-  updateTimelineStepItem?: Maybe<Scalars['String']>;
-  duplicateTimelineStep?: Maybe<Scalars['String']>;
-  timelineDuplicateItem?: Maybe<Scalars['String']>;
-  /** Macro: Timelines: Start Aux Timeline */
-  startAuxTimeline?: Maybe<Scalars['ID']>;
-  setAuxTimelineStep?: Maybe<Scalars['String']>;
-  missionSetExtraRequirements?: Maybe<Scalars['String']>;
-  motuAdd?: Maybe<Scalars['String']>;
-  motuRemove?: Maybe<Scalars['String']>;
-  /** Macro: MOTU: Update Channel */
-  motuUpdateChannel?: Maybe<Scalars['String']>;
-  /** Macro: MOTU: (Un)Mute connection from Input to Output */
-  motuSetSendMute?: Maybe<Scalars['String']>;
-  navCalculateCourse?: Maybe<Scalars['String']>;
-  navCancelCalculation?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Navigation: Send Course
-   * Requires:
-   *  - Cards:Navigation
-   *  - Systems:Navigation
-   */
-  navCourseResponse?: Maybe<Scalars['String']>;
-  navCourseEntry?: Maybe<Scalars['String']>;
-  navToggleCalculate?: Maybe<Scalars['String']>;
-  navSetDestinations?: Maybe<Scalars['String']>;
-  navSetDestination?: Maybe<Scalars['String']>;
-  navSetScanning?: Maybe<Scalars['String']>;
-  navSetThrusters?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Navigation: Course Preset
-   * Requires:
-   *  - Cards:Navigation
-   *  - Systems:Navigation
-   */
-  navSetPresets?: Maybe<Scalars['String']>;
+  addLibraryEntry?: Maybe<Scalars['String']['output']>;
+  addLog?: Maybe<Scalars['String']['output']>;
+  addMacro?: Maybe<Scalars['ID']['output']>;
+  addMacroButton?: Maybe<Scalars['String']['output']>;
+  addMacroButtonConfig?: Maybe<Scalars['ID']['output']>;
+  /** Macro: Inventory: Add Multiple Inventory */
+  addMultipleInventory?: Maybe<Scalars['String']['output']>;
   /** Macro: Objective: Add Objective */
-  addObjective?: Maybe<Scalars['String']>;
-  /** Macro: Objective: Complete Objective */
-  completeObjective?: Maybe<Scalars['String']>;
-  objectiveSetCrewComplete?: Maybe<Scalars['String']>;
-  objectiveSetOrder?: Maybe<Scalars['String']>;
-  addLog?: Maybe<Scalars['String']>;
-  chargePhaserBeam?: Maybe<Scalars['String']>;
-  dischargePhaserBeam?: Maybe<Scalars['String']>;
-  firePhaserBeam?: Maybe<Scalars['String']>;
-  stopPhaserBeams?: Maybe<Scalars['String']>;
-  coolPhaserBeam?: Maybe<Scalars['String']>;
-  phaserArc?: Maybe<Scalars['String']>;
-  setPhaserBeamCharge?: Maybe<Scalars['String']>;
-  setPhaserBeamHeat?: Maybe<Scalars['String']>;
-  setPhaserBeamCount?: Maybe<Scalars['String']>;
-  setPhaserHoldToCharge?: Maybe<Scalars['String']>;
-  setPhaserChargeSpeed?: Maybe<Scalars['String']>;
-  stopChargingPhasers?: Maybe<Scalars['String']>;
-  changePower?: Maybe<Scalars['String']>;
-  changeSystemPowerLevels?: Maybe<Scalars['String']>;
-  changeSystemDefaultPowerLevel?: Maybe<Scalars['String']>;
-  /** Macro: Systems: Flux Power */
-  fluxSystemPower?: Maybe<Scalars['String']>;
-  destroyProbe?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Probes: Destroy All Probes
-   * Requires:
-   *  - Cards:ProbeNetwork
-   *  - Systems:Probes
-   */
-  destroyAllProbes?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Probes: Destroy Probe Network
-   * Requires:
-   *  - Cards:ProbeNetwork
-   *  - Systems:Probes
-   */
-  destroyAllProbeNetwork?: Maybe<Scalars['String']>;
-  launchProbe?: Maybe<Scalars['String']>;
-  fireProbe?: Maybe<Scalars['String']>;
-  updateProbeType?: Maybe<Scalars['String']>;
-  updateProbeEquipment?: Maybe<Scalars['String']>;
-  probeQuery?: Maybe<Scalars['String']>;
-  probeQueryResponse?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Probes: Probe Processed Data
-   * Requires:
-   *  - Cards:ProbeNetwork
-   *  - Systems:Probes
-   */
-  probeProcessedData?: Maybe<Scalars['String']>;
-  setProbeTorpedo?: Maybe<Scalars['String']>;
-  setProbeCharge?: Maybe<Scalars['String']>;
-  activateProbeEmitter?: Maybe<Scalars['String']>;
-  setRailgunAmmo?: Maybe<Scalars['String']>;
-  setRailgunMaxAmmo?: Maybe<Scalars['String']>;
-  setRailgunAvailableAmmo?: Maybe<Scalars['String']>;
-  fireRailgun?: Maybe<Scalars['String']>;
-  loadRailgun?: Maybe<Scalars['String']>;
-  reactorEject?: Maybe<Scalars['String']>;
-  reactorChangeModel?: Maybe<Scalars['String']>;
-  reactorChangeOutput?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Reactor: Change Reactor Efficiency
-   * Requires:
-   *  - Cards:ReactorControl
-   *  - Systems:Reactor
-   */
-  reactorChangeEfficiency?: Maybe<Scalars['String']>;
-  reactorBatteryChargeLevel?: Maybe<Scalars['String']>;
-  reactorBatteryChargeRate?: Maybe<Scalars['String']>;
-  updateDilithiumStress?: Maybe<Scalars['String']>;
-  fluxDilithiumStress?: Maybe<Scalars['String']>;
-  setReactorEffciciencies?: Maybe<Scalars['String']>;
-  setDilithiumStressRate?: Maybe<Scalars['String']>;
-  reactorRequireBalance?: Maybe<Scalars['String']>;
-  reactorSetHasWings?: Maybe<Scalars['String']>;
-  reactorSetWingPower?: Maybe<Scalars['String']>;
-  reactorRequestWingPower?: Maybe<Scalars['String']>;
-  reactorAckWingRequest?: Maybe<Scalars['String']>;
-  /** Macro: Records: Create Ship Record */
-  recordsCreate?: Maybe<Scalars['String']>;
-  recordsCreateSnippet?: Maybe<Scalars['String']>;
-  recordsAddToSnippet?: Maybe<Scalars['String']>;
-  recordsRemoveFromSnippet?: Maybe<Scalars['String']>;
-  recordsDeleteRecord?: Maybe<Scalars['String']>;
-  /** Macro: Records: Generate Records Snippet */
-  recordsGenerateRecords?: Maybe<RecordSnippet>;
-  /** Macro: Records: Add Record to Snippet */
-  recordsCreateOnSnippet?: Maybe<RecordSnippet>;
-  recordsShowSnippet?: Maybe<RecordSnippet>;
-  recordsHideSnippet?: Maybe<RecordSnippet>;
-  recordTemplateCreateSnippet?: Maybe<Scalars['String']>;
-  recordTemplateAddToSnippet?: Maybe<Scalars['String']>;
-  recordTemplateDeleteSnippet?: Maybe<Scalars['String']>;
-  recordTemplateRename?: Maybe<Scalars['String']>;
-  recordTemplateUpdateRecord?: Maybe<Scalars['String']>;
-  recordTemplateRemoveFromSnippet?: Maybe<Scalars['String']>;
-  addRoom?: Maybe<Scalars['String']>;
-  removeRoom?: Maybe<Scalars['String']>;
-  addRoomsBulk?: Maybe<Scalars['String']>;
-  renameRoom?: Maybe<Scalars['String']>;
-  updateRoomRoles?: Maybe<Scalars['String']>;
-  updateRoomSvg?: Maybe<Scalars['String']>;
-  roomGas?: Maybe<Scalars['String']>;
-  importRooms?: Maybe<Scalars['String']>;
-  changeRoomDeck?: Maybe<Scalars['String']>;
-  snapshot?: Maybe<Scalars['String']>;
-  test?: Maybe<Scalars['String']>;
-  sensorScanRequest?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Sensors: Send Scan Result
-   * Requires:
-   *  - Cards:SecurityScans, SensorScans, Sensors, JrSensors
-   *  - Systems:Sensors
-   */
-  sensorScanResult?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Sensors: Processed Data
-   * Requires:
-   *  - Cards:Sensors, JrSensors
-   *  - Systems:Sensors
-   */
-  processedData?: Maybe<Scalars['String']>;
-  removeProcessedData?: Maybe<Scalars['String']>;
-  sensorScanCancel?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Sensors: Scan Answers
-   * Requires:
-   *  - Cards:SecurityScans, SensorScans, Sensors, JrSensors
-   *  - Systems:Sensors
-   */
-  setPresetAnswers?: Maybe<Scalars['String']>;
-  createSensorContact?: Maybe<Scalars['String']>;
-  createSensorContacts?: Maybe<Scalars['String']>;
-  moveSensorContact?: Maybe<Scalars['String']>;
-  removeSensorContact?: Maybe<Scalars['String']>;
-  removeAllSensorContacts?: Maybe<Scalars['String']>;
-  stopAllSensorContacts?: Maybe<Scalars['String']>;
-  updateSensorContact?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Sensors: Set Army Sensor Contacts
-   * Requires:
-   *  - Cards:Sensors, JrSensors
-   *  - Systems:Sensors
-   */
-  setArmyContacts?: Maybe<Scalars['String']>;
-  createSensorArmyContact?: Maybe<Scalars['String']>;
-  removeSensorArmyContact?: Maybe<Scalars['String']>;
-  updateSensorArmyContact?: Maybe<Scalars['String']>;
-  nudgeSensorContacts?: Maybe<Scalars['String']>;
-  sensorsSetHasPing?: Maybe<Scalars['String']>;
-  setSensorPingMode?: Maybe<Scalars['String']>;
-  pingSensors?: Maybe<Scalars['String']>;
-  animateSensorContacact?: Maybe<Scalars['String']>;
-  setSensorsHistory?: Maybe<Scalars['String']>;
-  newSensorScan?: Maybe<Scalars['String']>;
-  updateSensorScan?: Maybe<Scalars['String']>;
-  cancelSensorScan?: Maybe<Scalars['String']>;
-  toggleSensorsAutoTarget?: Maybe<Scalars['String']>;
-  toggleSensorsAutoThrusters?: Maybe<Scalars['String']>;
-  setSensorsInterference?: Maybe<Scalars['String']>;
-  setSensorsSegment?: Maybe<Scalars['String']>;
-  setAutoMovement?: Maybe<Scalars['String']>;
-  updateSensorContacts?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Sensors: Update Sensor Grid
-   * Requires:
-   *  - Cards:Sensors, JrSensors
-   *  - Systems:Sensors
-   */
-  updateSensorGrid?: Maybe<Scalars['String']>;
-  destroySensorContact?: Maybe<Scalars['String']>;
-  sensorsFireProjectile?: Maybe<Scalars['String']>;
-  setSensorsDefaultHitpoints?: Maybe<Scalars['String']>;
-  setSensorsDefaultSpeed?: Maybe<Scalars['String']>;
-  setSensorsMissPercent?: Maybe<Scalars['String']>;
-  createSet?: Maybe<Scalars['String']>;
-  removeSet?: Maybe<Scalars['String']>;
-  addClientToSet?: Maybe<Scalars['String']>;
-  removeClientFromSet?: Maybe<Scalars['String']>;
-  updateSetClient?: Maybe<Scalars['String']>;
-  renameSet?: Maybe<Scalars['String']>;
-  shieldRaised?: Maybe<Scalars['String']>;
-  shieldLowered?: Maybe<Scalars['String']>;
-  shieldIntegritySet?: Maybe<Scalars['String']>;
-  shieldFrequencySet?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Shields: Set all shield frequencies
-   * Requires:
-   *  - Cards:ShieldControl
-   *  - Systems:Shield
-   */
-  shieldFrequencySetAll?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Shields: Hit all shields
-   * Requires:
-   *  - Cards:ShieldControl
-   *  - Systems:Shield
-   */
-  hitShields?: Maybe<Scalars['String']>;
-  restoreShields?: Maybe<Scalars['String']>;
-  shipDockingChange?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Docking: Set docking state
-   * Requires:
-   *  - Cards:Docking
-   *  - Docking
-   */
-  shipSetDocking?: Maybe<Scalars['String']>;
-  remoteAccessSendCode?: Maybe<Scalars['String']>;
-  remoteAccessUpdateCode?: Maybe<Scalars['String']>;
-  setSelfDestructTime?: Maybe<Scalars['String']>;
-  setSelfDestructCode?: Maybe<Scalars['String']>;
-  setSelfDestructAuto?: Maybe<Scalars['String']>;
-  /** Macro: Actions: Send Notification */
-  notify?: Maybe<Scalars['String']>;
-  /** Macro: Actions: Print PDF Asset */
-  printPdf?: Maybe<Scalars['String']>;
-  clearPdf?: Maybe<Scalars['String']>;
-  commAddSignal?: Maybe<Scalars['String']>;
-  commUpdateSignal?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Short Range: Set Signals
-   * Requires:
-   *  - Cards:CommShortRange
-   *  - Systems:ShortRangeComm
-   */
-  commUpdateSignals?: Maybe<Scalars['String']>;
-  commRemoveSignal?: Maybe<Scalars['String']>;
-  commAddArrow?: Maybe<Scalars['String']>;
-  commRemoveArrow?: Maybe<Scalars['String']>;
-  commConnectArrow?: Maybe<Scalars['String']>;
-  commDisconnectArrow?: Maybe<Scalars['String']>;
-  commUpdate?: Maybe<Scalars['String']>;
-  commHail?: Maybe<Scalars['String']>;
-  cancelHail?: Maybe<Scalars['String']>;
-  connectHail?: Maybe<Scalars['String']>;
+  addObjective?: Maybe<Scalars['String']['output']>;
+  addRoom?: Maybe<Scalars['String']['output']>;
+  addRoomsBulk?: Maybe<Scalars['String']['output']>;
   /**
    * Macro: Short Range: Add Signal
    * Requires:
    *  - Cards:CommShortRange
    *  - Systems:ShortRangeComm
    */
-  addShortRangeComm?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Short Range: Remove Signal
-   * Requires:
-   *  - Cards:CommShortRange
-   *  - Systems:ShortRangeComm
-   */
-  removeShortRangeComm?: Maybe<Scalars['String']>;
-  muteShortRangeComm?: Maybe<Scalars['String']>;
-  setSickbayBunks?: Maybe<Scalars['String']>;
-  addSickbayCrew?: Maybe<Scalars['String']>;
-  removeSickbayCrew?: Maybe<Scalars['String']>;
-  updateSickbayCrew?: Maybe<Scalars['String']>;
-  scanSickbayBunk?: Maybe<Scalars['String']>;
-  cancelSickbayBunkScan?: Maybe<Scalars['String']>;
-  sickbayBunkScanResponse?: Maybe<Scalars['String']>;
-  assignPatient?: Maybe<Scalars['String']>;
-  dischargePatient?: Maybe<Scalars['String']>;
-  startDeconProgram?: Maybe<Scalars['String']>;
-  updateDeconOffset?: Maybe<Scalars['String']>;
-  cancelDeconProgram?: Maybe<Scalars['String']>;
-  completeDeconProgram?: Maybe<Scalars['String']>;
-  setDeconAutoFinish?: Maybe<Scalars['String']>;
-  updatePatientChart?: Maybe<Scalars['String']>;
-  updateSignalJammer?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Signal Jammer: Set Signal
-   * Requires:
-   *  - Cards:SignalJammer
-   *  - Systems:SignalJammer
-   */
-  signalJammerSignals?: Maybe<Scalars['String']>;
-  fluxSignalJammer?: Maybe<Scalars['String']>;
-  setSignalJammerSensorsInterference?: Maybe<Scalars['String']>;
-  createSimulator?: Maybe<Scalars['String']>;
-  removeSimulator?: Maybe<Scalars['String']>;
-  triggerMacros?: Maybe<Scalars['String']>;
-  /** Macro: Timeline: Auto-Advance Timeline Step (Use with Delay) */
-  autoAdvance?: Maybe<Scalars['String']>;
-  /** Macro: Flight: Start Training Mode */
-  trainingMode?: Maybe<Scalars['String']>;
-  /** Macro: Simulator: Set Alert Condition Lock */
-  setAlertConditionLock?: Maybe<Scalars['String']>;
-  /** Macro: Simulator: Rename Simulator */
-  renameSimulator?: Maybe<Scalars['String']>;
-  /** Macro: Simulator: Change Simulator Layout */
-  changeSimulatorLayout?: Maybe<Scalars['String']>;
-  changeSimulatorCaps?: Maybe<Scalars['String']>;
-  /** Macro: Simulator: Change Alert Level */
-  changeSimulatorAlertLevel?: Maybe<Scalars['String']>;
-  /** Macro: Station: Hide Card */
-  hideSimulatorCard?: Maybe<Scalars['String']>;
-  /** Macro: Station: Unhide Card */
-  unhideSimulatorCard?: Maybe<Scalars['String']>;
-  stationAssignCard?: Maybe<Scalars['String']>;
-  stationUnassignCard?: Maybe<Scalars['String']>;
-  /** Macro: Simulator: Flip Simulator */
-  flipSimulator?: Maybe<Scalars['String']>;
-  toggleSimulatorCardHidden?: Maybe<Scalars['String']>;
-  changeSimulatorExocomps?: Maybe<Scalars['String']>;
-  changeSimulatorBridgeCrew?: Maybe<Scalars['String']>;
-  changeSimulatorExtraPeople?: Maybe<Scalars['String']>;
-  changeSimulatorRadiation?: Maybe<Scalars['String']>;
-  setSimulatorHelium?: Maybe<Scalars['String']>;
-  setSimulatorHeliumRate?: Maybe<Scalars['String']>;
-  setSimulatorShowHelium?: Maybe<Scalars['String']>;
-  setSimulatorTimelineStep?: Maybe<Scalars['String']>;
-  /** Macro: Timeline: Change Timeline Mission or Step */
-  setSimulatorMission?: Maybe<Scalars['String']>;
-  setSimulatorMissionConfig?: Maybe<Scalars['String']>;
-  updateSimulatorPanels?: Maybe<Scalars['String']>;
-  updateSimulatorCommandLines?: Maybe<Scalars['String']>;
-  updateSimulatorTriggers?: Maybe<Scalars['String']>;
-  setSimulatorTriggersPaused?: Maybe<Scalars['String']>;
-  updateSimulatorInterfaces?: Maybe<Scalars['String']>;
-  setStepDamage?: Maybe<Scalars['String']>;
-  setVerifyDamage?: Maybe<Scalars['String']>;
-  setBridgeMessaging?: Maybe<Scalars['String']>;
-  setSimulatorAssets?: Maybe<Scalars['String']>;
-  setSimulatorSoundEffects?: Maybe<Scalars['String']>;
-  setSimulatorHasPrinter?: Maybe<Scalars['String']>;
-  setSimulatorHasLegs?: Maybe<Scalars['String']>;
-  setSimulatorSpaceEdventuresId?: Maybe<Scalars['String']>;
-  addSimulatorStationCard?: Maybe<Scalars['String']>;
-  removeSimulatorStationCard?: Maybe<Scalars['String']>;
-  editSimulatorStationCard?: Maybe<Scalars['String']>;
-  setSimulatorStationMessageGroup?: Maybe<Scalars['String']>;
-  setSimulatorStationLogin?: Maybe<Scalars['String']>;
-  setSimulatorStationLayout?: Maybe<Scalars['String']>;
-  setSimulatorStationExecutive?: Maybe<Scalars['String']>;
-  setSimulatorStationWidget?: Maybe<Scalars['String']>;
-  /** Macro: Document: Add Document */
-  documentAdd?: Maybe<Scalars['String']>;
-  documentRemove?: Maybe<Scalars['String']>;
-  createSoftwarePanel?: Maybe<Scalars['String']>;
-  updateSoftwarePanel?: Maybe<Scalars['String']>;
-  removeSoftwarePanel?: Maybe<Scalars['String']>;
-  createStationSet?: Maybe<Scalars['String']>;
-  removeStationSet?: Maybe<Scalars['String']>;
-  renameStationSet?: Maybe<Scalars['String']>;
-  duplicateStationSet?: Maybe<Scalars['String']>;
-  setStationSetCrewCount?: Maybe<Scalars['String']>;
-  addStationToStationSet?: Maybe<Scalars['String']>;
-  removeStationFromStationSet?: Maybe<Scalars['String']>;
-  editStationInStationSet?: Maybe<Scalars['String']>;
-  addCardToStation?: Maybe<Scalars['String']>;
-  removeCardFromStation?: Maybe<Scalars['String']>;
-  editCardInStationSet?: Maybe<Scalars['String']>;
-  setStationLogin?: Maybe<Scalars['String']>;
-  setStationLayout?: Maybe<Scalars['String']>;
-  setStationExecutive?: Maybe<Scalars['String']>;
-  toggleStationWidgets?: Maybe<Scalars['String']>;
-  setStationDescription?: Maybe<Scalars['String']>;
-  setStationTraining?: Maybe<Scalars['String']>;
-  setStationTags?: Maybe<Scalars['String']>;
-  reorderStationWidgets?: Maybe<Scalars['String']>;
-  setStealthActivated?: Maybe<Scalars['String']>;
-  setStealthCharge?: Maybe<Scalars['String']>;
-  activateStealth?: Maybe<Scalars['String']>;
-  deactivateStealth?: Maybe<Scalars['String']>;
-  setStealthQuadrant?: Maybe<Scalars['String']>;
-  fluxStealthQuadrants?: Maybe<Scalars['String']>;
-  stealthChangeAlert?: Maybe<Scalars['String']>;
-  stealthSensorsSonar?: Maybe<Scalars['String']>;
-  fluxSubspaceField?: Maybe<Scalars['String']>;
-  normalSubspaceField?: Maybe<Scalars['String']>;
-  setSubspaceFieldSectorValue?: Maybe<Scalars['String']>;
-  createSurveyForm?: Maybe<Scalars['String']>;
-  removeSurveyForm?: Maybe<Scalars['String']>;
-  setSurveyFormGoogleSheet?: Maybe<Scalars['String']>;
-  updateSurveyForm?: Maybe<Scalars['String']>;
-  /** Macro: Surveys: Trigger Survey */
-  triggerSurvey?: Maybe<Scalars['String']>;
-  surveyFormResponse?: Maybe<Scalars['String']>;
-  endSurvey?: Maybe<Scalars['String']>;
-  /** Macro: Systems: Add Extra Report to Simulator */
-  addExtraReportToSimulator?: Maybe<Scalars['String']>;
-  addSystemToSimulator?: Maybe<Scalars['String']>;
-  removeSystemFromSimulator?: Maybe<Scalars['String']>;
-  updateSystemName?: Maybe<Scalars['String']>;
-  updateSystemUpgradeMacros?: Maybe<Scalars['String']>;
-  updateSystemUpgradeBoard?: Maybe<Scalars['String']>;
-  upgradeSystem?: Maybe<Scalars['String']>;
-  updateSystemRooms?: Maybe<Scalars['String']>;
-  systemSetWing?: Maybe<Scalars['String']>;
-  newTacticalMap?: Maybe<Scalars['String']>;
-  updateTacticalMap?: Maybe<Scalars['String']>;
-  freezeTacticalMap?: Maybe<Scalars['String']>;
-  duplicateTacticalMap?: Maybe<Scalars['String']>;
-  loadTacticalMap?: Maybe<Scalars['String']>;
-  removeTacticalMap?: Maybe<Scalars['String']>;
-  addTacticalMapLayer?: Maybe<Scalars['String']>;
-  updateTacticalMapLayer?: Maybe<Scalars['String']>;
-  reorderTacticalMapLayer?: Maybe<Scalars['String']>;
-  removeTacticalMapLayer?: Maybe<Scalars['String']>;
-  addTacticalMapItem?: Maybe<Scalars['String']>;
-  updateTacticalMapItem?: Maybe<Scalars['String']>;
-  removeTacticalMapItem?: Maybe<Scalars['String']>;
-  addTacticalMapPath?: Maybe<Scalars['String']>;
-  updateTacticalMapPath?: Maybe<Scalars['String']>;
-  removeTacticalMapPath?: Maybe<Scalars['String']>;
-  /** Macro: Viewscreen: Show Tactical Map */
-  showViewscreenTactical?: Maybe<Scalars['String']>;
+  addShortRangeComm?: Maybe<Scalars['String']['output']>;
+  addSickbayCrew?: Maybe<Scalars['String']['output']>;
+  addSimulatorAmbiance?: Maybe<Scalars['String']['output']>;
+  addSimulatorDamageStep?: Maybe<Scalars['String']['output']>;
+  addSimulatorDamageTask?: Maybe<Scalars['String']['output']>;
+  addSimulatorStationCard?: Maybe<Scalars['String']['output']>;
+  addSpeed?: Maybe<Scalars['String']['output']>;
+  addStationToStationSet?: Maybe<Scalars['String']['output']>;
+  addSystemDamageStep?: Maybe<Scalars['String']['output']>;
+  addSystemDamageTask?: Maybe<Scalars['String']['output']>;
+  addSystemToSimulator?: Maybe<Scalars['String']['output']>;
+  addTacticalMapItem?: Maybe<Scalars['String']['output']>;
+  addTacticalMapLayer?: Maybe<Scalars['String']['output']>;
+  addTacticalMapPath?: Maybe<Scalars['String']['output']>;
   /** Macro: Tactical Map: Add Tactical Maps to Flight */
-  addTacticalMapsToFlight?: Maybe<Scalars['String']>;
-  createTargetingContact?: Maybe<Scalars['String']>;
-  targetTargetingContact?: Maybe<Scalars['String']>;
-  untargetTargetingContact?: Maybe<Scalars['String']>;
-  targetSystem?: Maybe<Scalars['String']>;
-  removeTarget?: Maybe<Scalars['String']>;
-  addTargetClass?: Maybe<Scalars['String']>;
-  removeTargetClass?: Maybe<Scalars['String']>;
-  updateTargetClass?: Maybe<Scalars['String']>;
-  setTargetClassCount?: Maybe<Scalars['String']>;
-  setCoordinateTargeting?: Maybe<Scalars['String']>;
-  setTargetingCalculatedTarget?: Maybe<Scalars['String']>;
-  setTargetingEnteredTarget?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Targeting: Clear Targeting Classes
-   * Requires:
-   *  - Cards:Targeting, TargetingStandalone
-   *  - Systems:Targeting
-   */
-  clearAllTargetingContacts?: Maybe<Scalars['String']>;
-  setTargetingRange?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Targeting: Set Targeting Classes
-   * Requires:
-   *  - Cards:Targeting, TargetingStandalone
-   *  - Systems:Targeting
-   */
-  setTargetingClasses?: Maybe<Scalars['String']>;
-  generateTaskReport?: Maybe<Scalars['String']>;
-  clearTaskReport?: Maybe<Scalars['String']>;
-  completeTaskReport?: Maybe<Scalars['String']>;
-  verifyTaskReportStep?: Maybe<Scalars['String']>;
-  assignTaskReportStep?: Maybe<Scalars['String']>;
-  requestVerifyTaskReportStep?: Maybe<Scalars['String']>;
+  addTacticalMapsToFlight?: Maybe<Scalars['String']['output']>;
+  addTargetClass?: Maybe<Scalars['String']['output']>;
   /**
    * Macro: Tasks: Add Task
    * Requires:
    *  - Cards:Tasks, EngineeringReports, RnDReports, DamageControl, DamageStepControl
    */
-  addTask?: Maybe<Scalars['String']>;
-  verifyTask?: Maybe<Scalars['String']>;
-  requestTaskVerify?: Maybe<Scalars['String']>;
-  denyTaskVerify?: Maybe<Scalars['String']>;
-  dismissVerifiedTasks?: Maybe<Scalars['String']>;
-  addTaskTemplate?: Maybe<Scalars['String']>;
-  removeTaskTemplate?: Maybe<Scalars['String']>;
-  renameTaskTemplate?: Maybe<Scalars['String']>;
-  setTaskTemplateValues?: Maybe<Scalars['String']>;
-  setTaskTemplateReportTypes?: Maybe<Scalars['String']>;
-  setTaskTemplateMacros?: Maybe<Scalars['String']>;
-  setTaskTemplatePreMacros?: Maybe<Scalars['String']>;
-  createTeam?: Maybe<Scalars['String']>;
-  updateTeam?: Maybe<Scalars['String']>;
-  addCrewToTeam?: Maybe<Scalars['String']>;
-  removeCrewFromTeam?: Maybe<Scalars['String']>;
-  removeTeam?: Maybe<Scalars['String']>;
-  _template?: Maybe<Scalars['String']>;
-  setTrackingPreference?: Maybe<Scalars['String']>;
-  importTaskTemplates?: Maybe<Scalars['String']>;
-  setSpaceEdventuresToken?: Maybe<SpaceEdventuresCenter>;
-  /**
-   * Macro: Space EdVentures: Assign Space EdVentures Badge
-   * Requires:
-   *   - Space EdVentures
-   */
-  assignSpaceEdventuresBadge?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Space EdVentures: Assign Space EdVentures Mission
-   * Requires:
-   *   - Space EdVentures
-   */
-  assignSpaceEdventuresMission?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Space EdVentures: Change Flight Type
-   * Requires:
-   *   - Space EdVentures
-   */
-  assignSpaceEdventuresFlightType?: Maybe<Scalars['String']>;
-  /**
-   * Macro: Space EdVentures: Transmit to Space EdVentures
-   * Requires:
-   *   - Space EdVentures
-   */
-  assignSpaceEdventuresFlightRecord?: Maybe<Scalars['String']>;
-  getSpaceEdventuresLogin?: Maybe<Scalars['String']>;
-  removeSpaceEdventuresClient?: Maybe<Scalars['String']>;
-  /** Macro: Generic: Do a generic thing. Use for triggers. */
-  generic?: Maybe<Scalars['String']>;
-  clockSync?: Maybe<Scalars['String']>;
-  addIssue?: Maybe<Scalars['String']>;
-  addIssueUpload?: Maybe<Scalars['String']>;
-  rotationUpdate?: Maybe<Scalars['String']>;
-  rotationSet?: Maybe<Scalars['String']>;
-  requiredRotationSet?: Maybe<Scalars['String']>;
-  directionUpdate?: Maybe<Scalars['String']>;
-  positionUpdate?: Maybe<Scalars['String']>;
-  setThrusterRotationSpeed?: Maybe<Scalars['String']>;
-  setThrusterMovementSpeed?: Maybe<Scalars['String']>;
-  chargeThx?: Maybe<Scalars['String']>;
-  lockThx?: Maybe<Scalars['String']>;
-  activateThx?: Maybe<Scalars['String']>;
-  deactivateThx?: Maybe<Scalars['String']>;
-  resetThx?: Maybe<Scalars['String']>;
-  torpedoAddWarhead?: Maybe<Scalars['String']>;
-  torpedoRemoveWarhead?: Maybe<Scalars['String']>;
-  torpedoLoadWarhead?: Maybe<Scalars['String']>;
-  torpedoSetWarheadCount?: Maybe<Scalars['String']>;
-  torpedoUnload?: Maybe<Scalars['String']>;
-  torpedoFire?: Maybe<Scalars['String']>;
-  setTractorBeamState?: Maybe<Scalars['String']>;
-  setTractorBeamTarget?: Maybe<Scalars['String']>;
-  setTractorBeamStrength?: Maybe<Scalars['String']>;
-  setTractorBeamStress?: Maybe<Scalars['String']>;
-  setTractorBeamScanning?: Maybe<Scalars['String']>;
-  setTractorBeamTargetLabel?: Maybe<Scalars['String']>;
-  setTractorBeamCount?: Maybe<Scalars['String']>;
+  addTask?: Maybe<Scalars['String']['output']>;
+  addTaskTemplate?: Maybe<Scalars['String']['output']>;
+  addTimelineItemToTimelineStep?: Maybe<Scalars['String']['output']>;
+  addTimelineStep?: Maybe<Scalars['ID']['output']>;
   /**
    * Macro: Tractor Beam: Add Target
    * Requires:
    *  - Cards:TractorBeam
    *  - Systems:TractorBeam
    */
-  addTractorTarget?: Maybe<Scalars['String']>;
+  addTractorTarget?: Maybe<Scalars['String']['output']>;
+  addTrigger?: Maybe<Scalars['String']['output']>;
+  /** Macro: Triggers: Add trigger to simulator */
+  addTriggerToSimulator?: Maybe<Scalars['String']['output']>;
+  addViriiToComputerCore?: Maybe<Scalars['String']['output']>;
+  animateSensorContacact?: Maybe<Scalars['String']['output']>;
+  applyClientSet?: Maybe<Scalars['String']['output']>;
+  approveLongRangeMessage?: Maybe<Scalars['String']['output']>;
+  assignPatient?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Space EdVentures: Assign Space EdVentures Badge
+   * Requires:
+   *   - Space EdVentures
+   */
+  assignSpaceEdventuresBadge?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Space EdVentures: Transmit to Space EdVentures
+   * Requires:
+   *   - Space EdVentures
+   */
+  assignSpaceEdventuresFlightRecord?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Space EdVentures: Change Flight Type
+   * Requires:
+   *   - Space EdVentures
+   */
+  assignSpaceEdventuresFlightType?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Space EdVentures: Assign Space EdVentures Mission
+   * Requires:
+   *   - Space EdVentures
+   */
+  assignSpaceEdventuresMission?: Maybe<Scalars['String']['output']>;
+  assignTaskReportStep?: Maybe<Scalars['String']['output']>;
+  /** Macro: Timeline: Auto-Advance Timeline Step (Use with Delay) */
+  autoAdvance?: Maybe<Scalars['String']['output']>;
+  batchIsochipUpdate?: Maybe<Array<Maybe<Isochip>>>;
+  beginTransportScan?: Maybe<Scalars['String']['output']>;
+  /** Macro: Damage Control: Break system */
+  breakSystem?: Maybe<Scalars['String']['output']>;
+  cancelDeconProgram?: Maybe<Scalars['String']['output']>;
+  cancelHail?: Maybe<Scalars['String']['output']>;
+  /** Macro: Sounds: Stop Looping All Sounds */
+  cancelLoopingSounds?: Maybe<Scalars['String']['output']>;
+  cancelSensorScan?: Maybe<Scalars['String']['output']>;
+  cancelSickbayBunkScan?: Maybe<Scalars['String']['output']>;
+  cancelTransportScan?: Maybe<Scalars['String']['output']>;
+  changePower?: Maybe<Scalars['String']['output']>;
+  changeRoomDeck?: Maybe<Scalars['String']['output']>;
+  /** Macro: Simulator: Change Alert Level */
+  changeSimulatorAlertLevel?: Maybe<Scalars['String']['output']>;
+  changeSimulatorBridgeCrew?: Maybe<Scalars['String']['output']>;
+  changeSimulatorCaps?: Maybe<Scalars['String']['output']>;
+  changeSimulatorExocomps?: Maybe<Scalars['String']['output']>;
+  changeSimulatorExtraPeople?: Maybe<Scalars['String']['output']>;
+  /** Macro: Simulator: Change Simulator Layout */
+  changeSimulatorLayout?: Maybe<Scalars['String']['output']>;
+  changeSimulatorRadiation?: Maybe<Scalars['String']['output']>;
+  changeSystemDefaultPowerLevel?: Maybe<Scalars['String']['output']>;
+  changeSystemPowerLevels?: Maybe<Scalars['String']['output']>;
+  chargePhaserBeam?: Maybe<Scalars['String']['output']>;
+  chargeThx?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Targeting: Clear Targeting Classes
+   * Requires:
+   *  - Cards:Targeting, TargetingStandalone
+   *  - Systems:Targeting
+   */
+  clearAllTargetingContacts?: Maybe<Scalars['String']['output']>;
+  clearPdf?: Maybe<Scalars['String']['output']>;
+  clearTaskReport?: Maybe<Scalars['String']['output']>;
+  clearTransportTargets?: Maybe<Scalars['String']['output']>;
+  clientActivateLights?: Maybe<Scalars['String']['output']>;
+  clientAddCache?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Space EdVentures: Add Extra Crew Member
+   * Requires:
+   *   - Space EdVentures
+   */
+  clientAddExtra?: Maybe<Scalars['String']['output']>;
+  clientConnect?: Maybe<Scalars['String']['output']>;
+  clientCrack?: Maybe<Scalars['String']['output']>;
+  clientDiagnostic?: Maybe<Scalars['String']['output']>;
+  clientDisconnect?: Maybe<Scalars['String']['output']>;
+  clientLockScreen?: Maybe<Scalars['String']['output']>;
+  clientLogin?: Maybe<Scalars['String']['output']>;
+  clientLogout?: Maybe<Scalars['String']['output']>;
+  clientMovieState?: Maybe<Scalars['String']['output']>;
+  clientOfflineState?: Maybe<Scalars['String']['output']>;
+  clientPing?: Maybe<Scalars['String']['output']>;
+  clientRemoveCache?: Maybe<Scalars['String']['output']>;
+  clientReset?: Maybe<Scalars['String']['output']>;
+  clientSetCard?: Maybe<Scalars['String']['output']>;
+  clientSetEmail?: Maybe<Scalars['String']['output']>;
+  clientSetFlight?: Maybe<Scalars['String']['output']>;
+  clientSetSimulator?: Maybe<Scalars['String']['output']>;
+  clientSetSoundPlayer?: Maybe<Scalars['String']['output']>;
+  clientSetStation?: Maybe<Scalars['String']['output']>;
+  clientSetTraining?: Maybe<Scalars['String']['output']>;
+  clientUnlockScreen?: Maybe<Scalars['String']['output']>;
+  clockSync?: Maybe<Scalars['String']['output']>;
+  commAddArrow?: Maybe<Scalars['String']['output']>;
+  commAddSignal?: Maybe<Scalars['String']['output']>;
+  commConnectArrow?: Maybe<Scalars['String']['output']>;
+  commDisconnectArrow?: Maybe<Scalars['String']['output']>;
+  commHail?: Maybe<Scalars['String']['output']>;
+  commRemoveArrow?: Maybe<Scalars['String']['output']>;
+  commRemoveSignal?: Maybe<Scalars['String']['output']>;
+  commUpdate?: Maybe<Scalars['String']['output']>;
+  commUpdateSignal?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Short Range: Set Signals
+   * Requires:
+   *  - Cards:CommShortRange
+   *  - Systems:ShortRangeComm
+   */
+  commUpdateSignals?: Maybe<Scalars['String']['output']>;
+  completeDeconProgram?: Maybe<Scalars['String']['output']>;
+  /** Macro: Objective: Complete Objective */
+  completeObjective?: Maybe<Scalars['String']['output']>;
+  completeTaskReport?: Maybe<Scalars['String']['output']>;
+  completeTransport?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Computer Core: Activate External Hacking
+   * Requires:
+   *   - Cards:ComputerCore
+   *   - Systems:ComputerCore
+   */
+  computerCoreActivateHacking?: Maybe<Scalars['String']['output']>;
+  computerCoreAddFile?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Computer Core: Add Hacker
+   * Requires:
+   *   - Cards:ComputerCore
+   *   - Systems:ComputerCore
+   */
+  computerCoreAddHacker?: Maybe<Scalars['String']['output']>;
+  computerCoreAppendLog?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Computer Core: Deactivate External Hacking
+   * Requires:
+   *   - Cards:ComputerCore
+   *   - Systems:ComputerCore
+   */
+  computerCoreDeactivateHacking?: Maybe<Scalars['String']['output']>;
+  computerCoreDeleteLog?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Computer Core: Set External Hacking Preset
+   * Requires:
+   *   - Cards:ComputerCore
+   *   - Systems:ComputerCore
+   */
+  computerCoreHackingPreset?: Maybe<Scalars['String']['output']>;
+  computerCoreSetHackingFrequency?: Maybe<Scalars['String']['output']>;
+  computerCoreSetHackingState?: Maybe<Scalars['String']['output']>;
+  computerCoreUpdateHackingFiles?: Maybe<Scalars['String']['output']>;
+  connectHail?: Maybe<Scalars['String']['output']>;
+  coolPhaserBeam?: Maybe<Scalars['String']['output']>;
+  countermeasuresActivateCountermeasure?: Maybe<Scalars['String']['output']>;
+  countermeasuresAddModule?: Maybe<Countermeasure>;
+  countermeasuresBuildCountermeasure?: Maybe<Scalars['String']['output']>;
+  countermeasuresConfigureModule?: Maybe<Scalars['String']['output']>;
+  countermeasuresCreateCountermeasure?: Maybe<Countermeasure>;
+  countermeasuresDeactivateCountermeasure?: Maybe<Scalars['String']['output']>;
+  countermeasuresLaunchCountermeasure?: Maybe<Scalars['String']['output']>;
+  countermeasuresLaunchUnlockedCountermeasures?: Maybe<Scalars['String']['output']>;
+  countermeasuresRemoveCountermeasure?: Maybe<Scalars['String']['output']>;
+  countermeasuresRemoveModule?: Maybe<Scalars['String']['output']>;
+  countermeasuresSetFDNote?: Maybe<Scalars['String']['output']>;
+  countermeasuresSetResource?: Maybe<Scalars['String']['output']>;
+  createDockingPort?: Maybe<Scalars['String']['output']>;
+  createFirebaseUser?: Maybe<Scalars['Boolean']['output']>;
+  createFlightSet?: Maybe<Scalars['String']['output']>;
+  createHackingPreset?: Maybe<Scalars['String']['output']>;
+  createMission?: Maybe<Scalars['String']['output']>;
+  createSensorArmyContact?: Maybe<Scalars['String']['output']>;
+  createSensorContact?: Maybe<Scalars['String']['output']>;
+  createSensorContacts?: Maybe<Scalars['String']['output']>;
+  createSet?: Maybe<Scalars['String']['output']>;
+  createSimulator?: Maybe<Scalars['String']['output']>;
+  createSoftwarePanel?: Maybe<Scalars['String']['output']>;
+  createStationSet?: Maybe<Scalars['String']['output']>;
+  createSurveyForm?: Maybe<Scalars['String']['output']>;
+  createTargetingContact?: Maybe<Scalars['String']['output']>;
+  createTeam?: Maybe<Scalars['String']['output']>;
+  crewImport?: Maybe<Scalars['String']['output']>;
+  crmAddEnemy?: Maybe<Scalars['String']['output']>;
+  crmDestroyUndockedFighters?: Maybe<Scalars['String']['output']>;
+  crmFirePhaser?: Maybe<Scalars['String']['output']>;
+  crmFireTorpedo?: Maybe<Scalars['String']['output']>;
+  crmLoadTorpedo?: Maybe<Scalars['String']['output']>;
+  crmRestockTorpedos?: Maybe<Scalars['String']['output']>;
+  crmRestoreFighter?: Maybe<Scalars['String']['output']>;
+  crmRestoreFighters?: Maybe<Scalars['String']['output']>;
+  crmSetAcceleration?: Maybe<Scalars['String']['output']>;
+  crmSetActivated?: Maybe<Scalars['String']['output']>;
+  crmSetAttacking?: Maybe<Scalars['String']['output']>;
+  crmSetEnemyCount?: Maybe<Scalars['String']['output']>;
+  crmSetEnemyIcon?: Maybe<Scalars['String']['output']>;
+  crmSetEnemyStrength?: Maybe<Scalars['String']['output']>;
+  crmSetFighterDocked?: Maybe<Scalars['String']['output']>;
+  crmSetFighterIcon?: Maybe<Scalars['String']['output']>;
+  crmSetFighterImage?: Maybe<Scalars['String']['output']>;
+  crmSetFighterStrength?: Maybe<Scalars['String']['output']>;
+  crmSetPassword?: Maybe<Scalars['String']['output']>;
+  crmSetPhaserCharge?: Maybe<Scalars['String']['output']>;
+  crmSetShieldState?: Maybe<Scalars['String']['output']>;
+  crmStopPhaser?: Maybe<Scalars['String']['output']>;
+  damageReport?: Maybe<Scalars['String']['output']>;
+  damageSystem?: Maybe<Scalars['String']['output']>;
+  deactivateStealth?: Maybe<Scalars['String']['output']>;
+  deactivateThx?: Maybe<Scalars['String']['output']>;
+  deckDoors?: Maybe<Scalars['String']['output']>;
+  deckEvac?: Maybe<Scalars['String']['output']>;
+  deleteComputerCoreVirus?: Maybe<Scalars['String']['output']>;
+  deleteFlight?: Maybe<Scalars['String']['output']>;
+  deleteFlightSet?: Maybe<Scalars['String']['output']>;
+  deleteHackingPreset?: Maybe<Scalars['String']['output']>;
+  deleteLongRangeMessage?: Maybe<Scalars['String']['output']>;
+  denyTaskVerify?: Maybe<Scalars['String']['output']>;
+  deployExocomp?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Probes: Destroy Probe Network
+   * Requires:
+   *  - Cards:ProbeNetwork
+   *  - Systems:Probes
+   */
+  destroyAllProbeNetwork?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Probes: Destroy All Probes
+   * Requires:
+   *  - Cards:ProbeNetwork
+   *  - Systems:Probes
+   */
+  destroyAllProbes?: Maybe<Scalars['String']['output']>;
+  destroyProbe?: Maybe<Scalars['String']['output']>;
+  destroySensorContact?: Maybe<Scalars['String']['output']>;
+  directionUpdate?: Maybe<Scalars['String']['output']>;
+  dischargePatient?: Maybe<Scalars['String']['output']>;
+  dischargePhaserBeam?: Maybe<Scalars['String']['output']>;
+  dismissVerifiedTasks?: Maybe<Scalars['String']['output']>;
+  dmxConfigCreate?: Maybe<Scalars['String']['output']>;
+  dmxConfigDuplicate?: Maybe<Scalars['String']['output']>;
+  dmxConfigRemove?: Maybe<Scalars['String']['output']>;
+  dmxConfigSetActionStrength?: Maybe<Scalars['String']['output']>;
+  dmxConfigSetConfig?: Maybe<Scalars['String']['output']>;
+  dmxConfigSetName?: Maybe<Scalars['String']['output']>;
+  dmxDeviceCreate?: Maybe<Scalars['String']['output']>;
+  dmxDeviceRemove?: Maybe<Scalars['String']['output']>;
+  dmxDeviceSetChannels?: Maybe<Scalars['String']['output']>;
+  dmxDeviceSetName?: Maybe<Scalars['String']['output']>;
+  /** Macro: DMX: Add Fixture Tag */
+  dmxFixtureAddTag?: Maybe<Scalars['String']['output']>;
+  dmxFixtureCreate?: Maybe<Scalars['String']['output']>;
+  dmxFixtureRemove?: Maybe<Scalars['String']['output']>;
+  /** Macro: DMX: Remove Fixture Tag */
+  dmxFixtureRemoveTag?: Maybe<Scalars['String']['output']>;
+  /** Macro: DMX: Set Fixture To Active Mode */
+  dmxFixtureSetActive?: Maybe<Scalars['String']['output']>;
+  dmxFixtureSetChannel?: Maybe<Scalars['String']['output']>;
+  dmxFixtureSetDMXDevice?: Maybe<Scalars['String']['output']>;
+  dmxFixtureSetMode?: Maybe<Scalars['String']['output']>;
+  dmxFixtureSetName?: Maybe<Scalars['String']['output']>;
+  /** Macro: DMX: Set Fixture Passive Channels */
+  dmxFixtureSetPassiveChannels?: Maybe<Scalars['String']['output']>;
+  /** Macro: DMX: Set Fixture Tags */
+  dmxFixtureSetTags?: Maybe<Scalars['String']['output']>;
+  dmxSetCreate?: Maybe<Scalars['String']['output']>;
+  dmxSetDuplicate?: Maybe<Scalars['String']['output']>;
+  dmxSetRemove?: Maybe<Scalars['String']['output']>;
+  dmxSetSetName?: Maybe<Scalars['String']['output']>;
+  /** Macro: DMX: Set Simulator DMX Config */
+  dmxSetSimulatorConfig?: Maybe<Scalars['String']['output']>;
+  /** Macro: Document: Add Document */
+  documentAdd?: Maybe<Scalars['String']['output']>;
+  documentRemove?: Maybe<Scalars['String']['output']>;
+  downloadRemoteAssets?: Maybe<Scalars['String']['output']>;
+  duplicateCommandLine?: Maybe<Scalars['String']['output']>;
+  duplicateMacro?: Maybe<Scalars['String']['output']>;
+  duplicateMacroAction?: Maybe<Scalars['String']['output']>;
+  duplicateStationSet?: Maybe<Scalars['String']['output']>;
+  duplicateTacticalMap?: Maybe<Scalars['String']['output']>;
+  duplicateTimelineStep?: Maybe<Scalars['String']['output']>;
+  editCardInStationSet?: Maybe<Scalars['String']['output']>;
+  editMission?: Maybe<Scalars['String']['output']>;
+  editSimulatorStationCard?: Maybe<Scalars['String']['output']>;
+  editStationInStationSet?: Maybe<Scalars['String']['output']>;
+  encryptLongRangeMessage?: Maybe<Scalars['String']['output']>;
+  endSurvey?: Maybe<Scalars['String']['output']>;
+  engineCool?: Maybe<Scalars['String']['output']>;
+  entitiesSetPosition?: Maybe<Scalars['String']['output']>;
+  entityCreate: Entity;
+  entityRemove?: Maybe<Scalars['String']['output']>;
+  entityRemoveAppearance?: Maybe<Scalars['String']['output']>;
+  entityRemoveBehavior?: Maybe<Scalars['String']['output']>;
+  entityRemoveEngine?: Maybe<Scalars['String']['output']>;
+  entityRemoveGlow?: Maybe<Scalars['String']['output']>;
+  entityRemoveIdentity?: Maybe<Scalars['String']['output']>;
+  entityRemoveLight?: Maybe<Scalars['String']['output']>;
+  entityRemoveLocation?: Maybe<Scalars['String']['output']>;
+  entityRemoveStage?: Maybe<Scalars['String']['output']>;
+  entityRemoveStageChild?: Maybe<Scalars['String']['output']>;
+  entityRemoveThrusters?: Maybe<Scalars['String']['output']>;
+  entitySetAppearance?: Maybe<Scalars['String']['output']>;
+  entitySetBehavior?: Maybe<Scalars['String']['output']>;
+  entitySetEngine?: Maybe<Scalars['String']['output']>;
+  entitySetGlow?: Maybe<Scalars['String']['output']>;
+  entitySetIdentity?: Maybe<Scalars['String']['output']>;
+  entitySetLight?: Maybe<Scalars['String']['output']>;
+  entitySetLocation?: Maybe<Scalars['String']['output']>;
+  entitySetRotationVelocityMagnitude?: Maybe<Scalars['String']['output']>;
+  entitySetStage?: Maybe<Scalars['String']['output']>;
+  entitySetStageChild?: Maybe<Scalars['String']['output']>;
+  entitySetTemplate?: Maybe<Scalars['String']['output']>;
+  entitySetThrusters?: Maybe<Scalars['String']['output']>;
+  executeCommandLine?: Maybe<Scalars['String']['output']>;
+  executeFirebasePush?: Maybe<Scalars['Boolean']['output']>;
+  exocompCompleteUpgrade?: Maybe<Scalars['String']['output']>;
+  firePhaserBeam?: Maybe<Scalars['String']['output']>;
+  fireProbe?: Maybe<Scalars['String']['output']>;
+  fireRailgun?: Maybe<Scalars['String']['output']>;
+  /** Macro: Damage Control: Fix system */
+  fixSystem?: Maybe<Scalars['String']['output']>;
+  /** Macro: Sandbox: Set Base Universe for Flight */
+  flightSetBaseUniverse?: Maybe<Scalars['String']['output']>;
+  /** Macro: Simulator: Flip Simulator */
+  flipSimulator?: Maybe<Scalars['String']['output']>;
+  fluxDilithiumStress?: Maybe<Scalars['String']['output']>;
+  fluxJumpdriveSector?: Maybe<Scalars['String']['output']>;
+  fluxSignalJammer?: Maybe<Scalars['String']['output']>;
+  fluxStealthQuadrants?: Maybe<Scalars['String']['output']>;
+  fluxSubspaceField?: Maybe<Scalars['String']['output']>;
+  /** Macro: Systems: Flux Power */
+  fluxSystemPower?: Maybe<Scalars['String']['output']>;
+  fluxTranswarp?: Maybe<Scalars['String']['output']>;
+  freezeTacticalMap?: Maybe<Scalars['String']['output']>;
+  generateDamageReport?: Maybe<Scalars['String']['output']>;
+  generateTaskReport?: Maybe<Scalars['String']['output']>;
+  /** Macro: Generic: Do a generic thing. Use for triggers. */
+  generic?: Maybe<Scalars['String']['output']>;
+  getSpaceEdventuresLogin?: Maybe<Scalars['String']['output']>;
+  googleSheetsAppendData?: Maybe<Scalars['String']['output']>;
+  googleSheetsAuthorize?: Maybe<Scalars['String']['output']>;
+  googleSheetsCompleteAuthorize?: Maybe<Scalars['String']['output']>;
+  googleSheetsFileSearch?: Maybe<Array<Maybe<GoogleSheetFile>>>;
+  googleSheetsRevoke?: Maybe<Scalars['String']['output']>;
+  handheldScannerCancel?: Maybe<Scalars['String']['output']>;
+  handheldScannerResponse?: Maybe<Scalars['String']['output']>;
+  handheldScannerScan?: Maybe<Scalars['String']['output']>;
+  handleAddFlightSetToNavigation?: Maybe<Scalars['String']['output']>;
+  handleAddProbeAssignment?: Maybe<Scalars['String']['output']>;
+  handleCommandLineFeedback?: Maybe<Scalars['String']['output']>;
+  handleCoolantFlush?: Maybe<Scalars['String']['output']>;
+  handleEmergencyStop?: Maybe<Scalars['String']['output']>;
+  handleEngageFlightPath?: Maybe<Scalars['String']['output']>;
+  handleEngineFlux?: Maybe<Scalars['String']['output']>;
+  handleOnAssignProbe?: Maybe<Scalars['String']['output']>;
+  handleOverrideLocation?: Maybe<Scalars['String']['output']>;
+  handleResumePath?: Maybe<Scalars['String']['output']>;
+  handleSaveFlightPath?: Maybe<Scalars['String']['output']>;
+  handleSetCoolantLevel?: Maybe<Scalars['String']['output']>;
+  handleSetHeatLevel?: Maybe<Scalars['String']['output']>;
+  handleShowEta?: Maybe<Scalars['String']['output']>;
+  handleShowFlightSet?: Maybe<Scalars['String']['output']>;
+  handleUpdateCurrentFlightPath?: Maybe<Scalars['String']['output']>;
+  handleUpdateCurrentFlightSet?: Maybe<Scalars['String']['output']>;
+  handleUpdateEta?: Maybe<Scalars['String']['output']>;
+  handleUpdateProbeAssignments: Scalars['String']['output'];
+  /** Macro: Station: Hide Card */
+  hideSimulatorCard?: Maybe<Scalars['String']['output']>;
+  hitJumpDriveStress?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Shields: Hit all shields
+   * Requires:
+   *  - Cards:ShieldControl
+   *  - Systems:Shield
+   */
+  hitShields?: Maybe<Scalars['String']['output']>;
+  ignoreCoreFeed?: Maybe<Scalars['String']['output']>;
+  importLibraryEntry?: Maybe<Scalars['String']['output']>;
+  importMission?: Maybe<Scalars['String']['output']>;
+  importMissionFromUrl?: Maybe<Scalars['String']['output']>;
+  importRooms?: Maybe<Scalars['String']['output']>;
+  importSimulatorFromUrl?: Maybe<Scalars['String']['output']>;
+  importTaskTemplates?: Maybe<Scalars['String']['output']>;
+  insertIsochip?: Maybe<Isochip>;
+  internalCommCallIncoming?: Maybe<Scalars['String']['output']>;
+  internalCommCallOutgoing?: Maybe<Scalars['String']['output']>;
+  internalCommCancelIncoming?: Maybe<Scalars['String']['output']>;
+  internalCommCancelOutgoing?: Maybe<Scalars['String']['output']>;
+  internalCommConnectIncoming?: Maybe<Scalars['String']['output']>;
+  internalCommConnectOutgoing?: Maybe<Scalars['String']['output']>;
+  launchProbe?: Maybe<Scalars['String']['output']>;
+  /** Macro: Lighting: Fade Lights */
+  lightingFadeLights?: Maybe<Scalars['String']['output']>;
+  /** Macro: Lighting: Set Effect */
+  lightingSetEffect?: Maybe<Scalars['String']['output']>;
+  /** Macro: Lighting: Set Intensity */
+  lightingSetIntensity?: Maybe<Scalars['String']['output']>;
+  /** Macro: Lighting: Shake Lights */
+  lightingShakeLights?: Maybe<Scalars['String']['output']>;
+  loadRailgun?: Maybe<Scalars['String']['output']>;
+  loadTacticalMap?: Maybe<Scalars['String']['output']>;
+  lockThx?: Maybe<Scalars['String']['output']>;
+  longRangeMessageSend?: Maybe<Scalars['String']['output']>;
+  midiSetControl?: Maybe<MidiSet>;
+  midiSetCreate?: Maybe<MidiSet>;
+  midiSetRemove?: Maybe<Scalars['Boolean']['output']>;
+  midiSetRename?: Maybe<MidiSet>;
+  missionSetExtraRequirements?: Maybe<Scalars['String']['output']>;
+  motuAdd?: Maybe<Scalars['String']['output']>;
+  motuRemove?: Maybe<Scalars['String']['output']>;
+  /** Macro: MOTU: (Un)Mute connection from Input to Output */
+  motuSetSendMute?: Maybe<Scalars['String']['output']>;
+  /** Macro: MOTU: Update Channel */
+  motuUpdateChannel?: Maybe<Scalars['String']['output']>;
+  moveInventory?: Maybe<Scalars['String']['output']>;
+  moveSensorContact?: Maybe<Scalars['String']['output']>;
+  muteShortRangeComm?: Maybe<Scalars['String']['output']>;
+  navCalculateCourse?: Maybe<Scalars['String']['output']>;
+  navCancelCalculation?: Maybe<Scalars['String']['output']>;
+  navCourseEntry?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Navigation: Send Course
+   * Requires:
+   *  - Cards:Navigation
+   *  - Systems:Navigation
+   */
+  navCourseResponse?: Maybe<Scalars['String']['output']>;
+  navSetDestination?: Maybe<Scalars['String']['output']>;
+  navSetDestinations?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Navigation: Course Preset
+   * Requires:
+   *  - Cards:Navigation
+   *  - Systems:Navigation
+   */
+  navSetPresets?: Maybe<Scalars['String']['output']>;
+  navSetScanning?: Maybe<Scalars['String']['output']>;
+  navSetThrusters?: Maybe<Scalars['String']['output']>;
+  navToggleCalculate?: Maybe<Scalars['String']['output']>;
+  newRandomCrewmember?: Maybe<Scalars['String']['output']>;
+  newSensorScan?: Maybe<Scalars['String']['output']>;
+  newTacticalMap?: Maybe<Scalars['String']['output']>;
+  normalSubspaceField?: Maybe<Scalars['String']['output']>;
+  normalTranswarp?: Maybe<Scalars['String']['output']>;
+  /** Macro: Actions: Send Notification */
+  notify?: Maybe<Scalars['String']['output']>;
+  nudgeSensorContacts?: Maybe<Scalars['String']['output']>;
+  objectiveSetCrewComplete?: Maybe<Scalars['String']['output']>;
+  objectiveSetOrder?: Maybe<Scalars['String']['output']>;
+  /** Macro: Flight: Pause Flight */
+  pauseFlight?: Maybe<Scalars['String']['output']>;
+  phaserArc?: Maybe<Scalars['String']['output']>;
+  pingSensors?: Maybe<Scalars['String']['output']>;
+  /** Macro: Sounds: Play a sound */
+  playSound?: Maybe<Scalars['String']['output']>;
+  positionUpdate?: Maybe<Scalars['String']['output']>;
+  /** Macro: Actions: Print PDF Asset */
+  printPdf?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Probes: Probe Processed Data
+   * Requires:
+   *  - Cards:ProbeNetwork
+   *  - Systems:Probes
+   */
+  probeProcessedData?: Maybe<Scalars['String']['output']>;
+  probeQuery?: Maybe<Scalars['String']['output']>;
+  probeQueryResponse?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Sensors: Processed Data
+   * Requires:
+   *  - Cards:Sensors, JrSensors
+   *  - Systems:Sensors
+   */
+  processedData?: Maybe<Scalars['String']['output']>;
+  reactorAckWingRequest?: Maybe<Scalars['String']['output']>;
+  reactorBatteryChargeLevel?: Maybe<Scalars['String']['output']>;
+  reactorBatteryChargeRate?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Reactor: Change Reactor Efficiency
+   * Requires:
+   *  - Cards:ReactorControl
+   *  - Systems:Reactor
+   */
+  reactorChangeEfficiency?: Maybe<Scalars['String']['output']>;
+  reactorChangeModel?: Maybe<Scalars['String']['output']>;
+  reactorChangeOutput?: Maybe<Scalars['String']['output']>;
+  reactorEject?: Maybe<Scalars['String']['output']>;
+  reactorRequestWingPower?: Maybe<Scalars['String']['output']>;
+  reactorRequireBalance?: Maybe<Scalars['String']['output']>;
+  reactorSetHasWings?: Maybe<Scalars['String']['output']>;
+  reactorSetWingPower?: Maybe<Scalars['String']['output']>;
+  recallExocomp?: Maybe<Scalars['String']['output']>;
+  recordTemplateAddToSnippet?: Maybe<Scalars['String']['output']>;
+  recordTemplateCreateSnippet?: Maybe<Scalars['String']['output']>;
+  recordTemplateDeleteSnippet?: Maybe<Scalars['String']['output']>;
+  recordTemplateRemoveFromSnippet?: Maybe<Scalars['String']['output']>;
+  recordTemplateRename?: Maybe<Scalars['String']['output']>;
+  recordTemplateUpdateRecord?: Maybe<Scalars['String']['output']>;
+  recordsAddToSnippet?: Maybe<Scalars['String']['output']>;
+  /** Macro: Records: Create Ship Record */
+  recordsCreate?: Maybe<Scalars['String']['output']>;
+  /** Macro: Records: Add Record to Snippet */
+  recordsCreateOnSnippet?: Maybe<RecordSnippet>;
+  recordsCreateSnippet?: Maybe<Scalars['String']['output']>;
+  recordsDeleteRecord?: Maybe<Scalars['String']['output']>;
+  /** Macro: Records: Generate Records Snippet */
+  recordsGenerateRecords?: Maybe<RecordSnippet>;
+  recordsHideSnippet?: Maybe<RecordSnippet>;
+  recordsRemoveFromSnippet?: Maybe<Scalars['String']['output']>;
+  recordsShowSnippet?: Maybe<RecordSnippet>;
+  remoteAccessSendCode?: Maybe<Scalars['String']['output']>;
+  remoteAccessUpdateCode?: Maybe<Scalars['String']['output']>;
+  removeAllCrew?: Maybe<Scalars['String']['output']>;
+  removeAllSensorContacts?: Maybe<Scalars['String']['output']>;
+  removeAssetFolder?: Maybe<Scalars['String']['output']>;
+  removeAssetObject?: Maybe<Scalars['String']['output']>;
+  removeCardFromStation?: Maybe<Scalars['String']['output']>;
+  removeClientFromSet?: Maybe<Scalars['String']['output']>;
+  removeCommandLine?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Command Line: Remove command line
+   * Requires:
+   *   - Cards:Command Line
+   */
+  removeCommandLineFromSimulator?: Maybe<Scalars['String']['output']>;
+  removeComputerCoreUser?: Maybe<Scalars['String']['output']>;
+  removeCoreLayout?: Maybe<Scalars['String']['output']>;
+  removeCrewFromTeam?: Maybe<Scalars['String']['output']>;
+  removeCrewInventory?: Maybe<Scalars['String']['output']>;
+  removeCrewmember?: Maybe<Scalars['String']['output']>;
+  removeDeck?: Maybe<Scalars['String']['output']>;
+  removeDockingPort?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Interception: Remove Interception Signal
+   * Requires:
+   *   - Cards:Interception
+   *   - Systems:LongRangeComm
+   */
+  removeInterceptionSignal?: Maybe<Scalars['String']['output']>;
+  removeInterface?: Maybe<Scalars['String']['output']>;
+  removeInterfaceDevice?: Maybe<Scalars['String']['output']>;
+  removeInterfaceFromSimulator?: Maybe<Scalars['String']['output']>;
+  removeInventory?: Maybe<Scalars['String']['output']>;
+  removeKeyboard?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Library: Remove Entry
+   * Requires:
+   *   - Cards:Library
+   */
+  removeLibraryEntry?: Maybe<Scalars['String']['output']>;
+  removeMacro?: Maybe<Scalars['String']['output']>;
+  removeMacroButton?: Maybe<Scalars['String']['output']>;
+  removeMacroButtonConfig?: Maybe<Scalars['String']['output']>;
+  removeMission?: Maybe<Scalars['String']['output']>;
+  removeProcessedData?: Maybe<Scalars['String']['output']>;
+  removeRoom?: Maybe<Scalars['String']['output']>;
+  removeSensorArmyContact?: Maybe<Scalars['String']['output']>;
+  removeSensorContact?: Maybe<Scalars['String']['output']>;
+  removeSet?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Short Range: Remove Signal
+   * Requires:
+   *  - Cards:CommShortRange
+   *  - Systems:ShortRangeComm
+   */
+  removeShortRangeComm?: Maybe<Scalars['String']['output']>;
+  removeSickbayCrew?: Maybe<Scalars['String']['output']>;
+  removeSimulator?: Maybe<Scalars['String']['output']>;
+  removeSimulatorAmbiance?: Maybe<Scalars['String']['output']>;
+  removeSimulatorDamageStep?: Maybe<Scalars['String']['output']>;
+  removeSimulatorDamageTask?: Maybe<Scalars['String']['output']>;
+  removeSimulatorStationCard?: Maybe<Scalars['String']['output']>;
+  removeSoftwarePanel?: Maybe<Scalars['String']['output']>;
+  removeSpaceEdventuresClient?: Maybe<Scalars['String']['output']>;
+  removeStationFromStationSet?: Maybe<Scalars['String']['output']>;
+  removeStationSet?: Maybe<Scalars['String']['output']>;
+  removeSurveyForm?: Maybe<Scalars['String']['output']>;
+  removeSystemDamageStep?: Maybe<Scalars['String']['output']>;
+  removeSystemDamageTask?: Maybe<Scalars['String']['output']>;
+  removeSystemFromSimulator?: Maybe<Scalars['String']['output']>;
+  removeTacticalMap?: Maybe<Scalars['String']['output']>;
+  removeTacticalMapItem?: Maybe<Scalars['String']['output']>;
+  removeTacticalMapLayer?: Maybe<Scalars['String']['output']>;
+  removeTacticalMapPath?: Maybe<Scalars['String']['output']>;
+  removeTarget?: Maybe<Scalars['String']['output']>;
+  removeTargetClass?: Maybe<Scalars['String']['output']>;
+  removeTaskTemplate?: Maybe<Scalars['String']['output']>;
+  removeTeam?: Maybe<Scalars['String']['output']>;
+  removeTimelineStep?: Maybe<Scalars['String']['output']>;
+  removeTimelineStepItem?: Maybe<Scalars['String']['output']>;
   /**
    * Macro: Tractor Beam: Remove Target
    * Requires:
    *  - Cards:TractorBeam
    *  - Systems:TractorBeam
    */
-  removeTractorTarget?: Maybe<Scalars['String']>;
-  setTransportDestination?: Maybe<Scalars['String']>;
-  setTransportTarget?: Maybe<Scalars['String']>;
-  beginTransportScan?: Maybe<Scalars['String']>;
-  cancelTransportScan?: Maybe<Scalars['String']>;
-  clearTransportTargets?: Maybe<Scalars['String']>;
-  setTransportCharge?: Maybe<Scalars['String']>;
-  completeTransport?: Maybe<Scalars['String']>;
+  removeTractorTarget?: Maybe<Scalars['String']['output']>;
+  removeTrigger?: Maybe<Scalars['String']['output']>;
+  /** Macro: Triggers: Remove trigger from simulator */
+  removeTriggerFromSimulator?: Maybe<Scalars['String']['output']>;
+  /** Macro: Viewscreen: Remove Viewscreen Picture-in-Picture */
+  removeViewscreenPictureInPicture?: Maybe<Scalars['String']['output']>;
+  renameCommandLine?: Maybe<Scalars['String']['output']>;
+  renameInterface?: Maybe<Scalars['String']['output']>;
+  renameInterfaceDevice?: Maybe<Scalars['String']['output']>;
+  renameKeyboard?: Maybe<Scalars['String']['output']>;
+  renameMacro?: Maybe<Scalars['String']['output']>;
+  renameMacroButton?: Maybe<Scalars['String']['output']>;
+  renameMacroButtonConfig?: Maybe<Scalars['String']['output']>;
+  renameRoom?: Maybe<Scalars['String']['output']>;
+  renameSet?: Maybe<Scalars['String']['output']>;
+  /** Macro: Simulator: Rename Simulator */
+  renameSimulator?: Maybe<Scalars['String']['output']>;
+  renameStationSet?: Maybe<Scalars['String']['output']>;
+  renameTaskTemplate?: Maybe<Scalars['String']['output']>;
+  renameTrigger?: Maybe<Scalars['String']['output']>;
+  reorderCoreLayouts?: Maybe<Scalars['String']['output']>;
+  reorderMacroAction?: Maybe<Scalars['String']['output']>;
+  /** Reorder Macros */
+  reorderMacroButton?: Maybe<Scalars['String']['output']>;
+  reorderStationWidgets?: Maybe<Scalars['String']['output']>;
+  reorderTacticalMapLayer?: Maybe<Scalars['String']['output']>;
+  reorderTimelineItem?: Maybe<Scalars['String']['output']>;
+  reorderTimelineStep?: Maybe<Scalars['String']['output']>;
+  repairSystem?: Maybe<Scalars['String']['output']>;
+  requestDamageReport?: Maybe<Scalars['String']['output']>;
+  requestTaskVerify?: Maybe<Scalars['String']['output']>;
+  requestVerifyTaskReportStep?: Maybe<Scalars['String']['output']>;
+  requiredRotationSet?: Maybe<Scalars['String']['output']>;
+  /** Macro: Flight: Reset Flight */
+  resetFlight?: Maybe<Scalars['String']['output']>;
+  resetKeypad?: Maybe<Scalars['String']['output']>;
+  resetThx?: Maybe<Scalars['String']['output']>;
+  restartComputerCoreTerminal?: Maybe<Scalars['String']['output']>;
+  restoreComputerCoreFile?: Maybe<Scalars['String']['output']>;
+  restoreShields?: Maybe<Scalars['String']['output']>;
+  /** Macro: Flight: Resume Flight */
+  resumeFlight?: Maybe<Scalars['String']['output']>;
+  roomGas?: Maybe<Scalars['String']['output']>;
+  rotationSet?: Maybe<Scalars['String']['output']>;
+  rotationUpdate?: Maybe<Scalars['String']['output']>;
+  scanSickbayBunk?: Maybe<Scalars['String']['output']>;
+  /** Macro: Advanced Navigation: Select current flight set */
+  selectCurrentFlightSet?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Long Range: Send Long Range Message
+   * Requires:
+   *   - Cards:CommDecoding
+   *   - Systems:LongRangeComm
+   */
+  sendLongRangeMessage?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Messaging: Send an inter-ship message
+   * Requires:
+   *  - Cards:Messages
+   */
+  sendMessage?: Maybe<Scalars['String']['output']>;
+  sensorScanCancel?: Maybe<Scalars['String']['output']>;
+  sensorScanRequest?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Sensors: Send Scan Result
+   * Requires:
+   *  - Cards:SecurityScans, SensorScans, Sensors, JrSensors
+   *  - Systems:Sensors
+   */
+  sensorScanResult?: Maybe<Scalars['String']['output']>;
+  sensorsFireProjectile?: Maybe<Scalars['String']['output']>;
+  sensorsSetHasPing?: Maybe<Scalars['String']['output']>;
+  /** Macro: Simulator: Set Alert Condition Lock */
+  setAlertConditionLock?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Sensors: Set Army Sensor Contacts
+   * Requires:
+   *  - Cards:Sensors, JrSensors
+   *  - Systems:Sensors
+   */
+  setArmyContacts?: Maybe<Scalars['String']['output']>;
+  setAutoMovement?: Maybe<Scalars['String']['output']>;
+  setAuxTimelineStep?: Maybe<Scalars['String']['output']>;
+  setBridgeMessaging?: Maybe<Scalars['String']['output']>;
+  /** Macro: Clients: Set Hypercard */
+  setClientHypercard?: Maybe<Scalars['String']['output']>;
+  setClientOverlay?: Maybe<Scalars['String']['output']>;
+  setCodeLength?: Maybe<Scalars['String']['output']>;
+  setCoolantTank?: Maybe<Scalars['String']['output']>;
+  setCoordinateTargeting?: Maybe<Scalars['String']['output']>;
+  setDamageStepValidation?: Maybe<Scalars['String']['output']>;
+  setDeconAutoFinish?: Maybe<Scalars['String']['output']>;
+  setDilithiumStressRate?: Maybe<Scalars['String']['output']>;
+  setEngineAcceleration?: Maybe<Scalars['String']['output']>;
+  setEngineSpeedFactor?: Maybe<Scalars['String']['output']>;
+  setEngineSpeeds?: Maybe<Scalars['String']['output']>;
+  setEngineUseAcceleration?: Maybe<Scalars['String']['output']>;
+  setFirebaseAwards?: Maybe<Scalars['Boolean']['output']>;
+  setFirebaseMission?: Maybe<Scalars['Boolean']['output']>;
+  setFirebaseSimulator?: Maybe<Scalars['Boolean']['output']>;
+  setHeatRate?: Maybe<Scalars['String']['output']>;
+  setHullPlatingEngaged?: Maybe<Scalars['String']['output']>;
+  setHullPlatingMode?: Maybe<Scalars['String']['output']>;
+  setHullPlatingPulse?: Maybe<Scalars['String']['output']>;
+  setInterceptionDifficulty?: Maybe<Scalars['String']['output']>;
+  setJumpDriveEnabled?: Maybe<Scalars['String']['output']>;
+  setJumpDriveRingsExtended?: Maybe<Scalars['String']['output']>;
+  setJumpdriveActivated?: Maybe<Scalars['String']['output']>;
+  setJumpdriveEnvs?: Maybe<Scalars['String']['output']>;
+  setJumpdriveSectorLevel?: Maybe<Scalars['String']['output']>;
+  setJumpdriveSectorOffset?: Maybe<Scalars['String']['output']>;
+  setKeypadAllowedAttempts?: Maybe<Scalars['String']['output']>;
+  setKeypadCode?: Maybe<Scalars['String']['output']>;
+  setKeypadEnteredCode?: Maybe<Scalars['String']['output']>;
+  setKeypadHint?: Maybe<Scalars['String']['output']>;
+  setKeypadLocked?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Long Range: Set preset messages
+   * Requires:
+   *   - Cards:CommDecoding
+   *   - Systems:LongRangeComm
+   */
+  setLongRangePresetMessages?: Maybe<Scalars['String']['output']>;
+  setLongRangeSatellites?: Maybe<Scalars['String']['output']>;
+  setMacroButtonCategory?: Maybe<Scalars['String']['output']>;
+  setMacroButtonColor?: Maybe<Scalars['String']['output']>;
+  setPhaserBeamCharge?: Maybe<Scalars['String']['output']>;
+  setPhaserBeamCount?: Maybe<Scalars['String']['output']>;
+  setPhaserBeamHeat?: Maybe<Scalars['String']['output']>;
+  setPhaserChargeSpeed?: Maybe<Scalars['String']['output']>;
+  setPhaserHoldToCharge?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Sensors: Scan Answers
+   * Requires:
+   *  - Cards:SecurityScans, SensorScans, Sensors, JrSensors
+   *  - Systems:Sensors
+   */
+  setPresetAnswers?: Maybe<Scalars['String']['output']>;
+  setProbeCharge?: Maybe<Scalars['String']['output']>;
+  setProbeTorpedo?: Maybe<Scalars['String']['output']>;
+  setRailgunAmmo?: Maybe<Scalars['String']['output']>;
+  setRailgunAvailableAmmo?: Maybe<Scalars['String']['output']>;
+  setRailgunMaxAmmo?: Maybe<Scalars['String']['output']>;
+  setReactorEffciciencies?: Maybe<Scalars['String']['output']>;
+  setSelfDestructAuto?: Maybe<Scalars['String']['output']>;
+  setSelfDestructCode?: Maybe<Scalars['String']['output']>;
+  setSelfDestructTime?: Maybe<Scalars['String']['output']>;
+  setSensorPingMode?: Maybe<Scalars['String']['output']>;
+  setSensorsDefaultHitpoints?: Maybe<Scalars['String']['output']>;
+  setSensorsDefaultSpeed?: Maybe<Scalars['String']['output']>;
+  setSensorsHistory?: Maybe<Scalars['String']['output']>;
+  setSensorsInterference?: Maybe<Scalars['String']['output']>;
+  setSensorsMissPercent?: Maybe<Scalars['String']['output']>;
+  setSensorsSegment?: Maybe<Scalars['String']['output']>;
+  setSickbayBunks?: Maybe<Scalars['String']['output']>;
+  setSignalJammerSensorsInterference?: Maybe<Scalars['String']['output']>;
+  setSimulatorAssets?: Maybe<Scalars['String']['output']>;
+  setSimulatorExocomps?: Maybe<Scalars['String']['output']>;
+  setSimulatorHasLegs?: Maybe<Scalars['String']['output']>;
+  setSimulatorHasPrinter?: Maybe<Scalars['String']['output']>;
+  setSimulatorHelium?: Maybe<Scalars['String']['output']>;
+  setSimulatorHeliumRate?: Maybe<Scalars['String']['output']>;
+  /** Macro: Timeline: Change Timeline Mission or Step */
+  setSimulatorMission?: Maybe<Scalars['String']['output']>;
+  setSimulatorMissionConfig?: Maybe<Scalars['String']['output']>;
+  setSimulatorShowHelium?: Maybe<Scalars['String']['output']>;
+  setSimulatorSoundEffects?: Maybe<Scalars['String']['output']>;
+  setSimulatorSpaceEdventuresId?: Maybe<Scalars['String']['output']>;
+  setSimulatorStationExecutive?: Maybe<Scalars['String']['output']>;
+  setSimulatorStationLayout?: Maybe<Scalars['String']['output']>;
+  setSimulatorStationLogin?: Maybe<Scalars['String']['output']>;
+  setSimulatorStationMessageGroup?: Maybe<Scalars['String']['output']>;
+  setSimulatorStationWidget?: Maybe<Scalars['String']['output']>;
+  setSimulatorTimelineStep?: Maybe<Scalars['String']['output']>;
+  setSimulatorTriggersPaused?: Maybe<Scalars['String']['output']>;
+  setSpaceEdventuresToken?: Maybe<SpaceEdventuresCenter>;
+  setSpeed?: Maybe<Scalars['String']['output']>;
+  setStationAmbiance?: Maybe<Scalars['String']['output']>;
+  setStationDescription?: Maybe<Scalars['String']['output']>;
+  setStationExecutive?: Maybe<Scalars['String']['output']>;
+  setStationLayout?: Maybe<Scalars['String']['output']>;
+  setStationLogin?: Maybe<Scalars['String']['output']>;
+  setStationSetCrewCount?: Maybe<Scalars['String']['output']>;
+  setStationTags?: Maybe<Scalars['String']['output']>;
+  setStationTraining?: Maybe<Scalars['String']['output']>;
+  setStealthActivated?: Maybe<Scalars['String']['output']>;
+  setStealthCharge?: Maybe<Scalars['String']['output']>;
+  setStealthQuadrant?: Maybe<Scalars['String']['output']>;
+  setStepDamage?: Maybe<Scalars['String']['output']>;
+  setSubspaceFieldSectorValue?: Maybe<Scalars['String']['output']>;
+  setSurveyFormGoogleSheet?: Maybe<Scalars['String']['output']>;
+  setTargetClassCount?: Maybe<Scalars['String']['output']>;
+  setTargetingCalculatedTarget?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Targeting: Set Targeting Classes
+   * Requires:
+   *  - Cards:Targeting, TargetingStandalone
+   *  - Systems:Targeting
+   */
+  setTargetingClasses?: Maybe<Scalars['String']['output']>;
+  setTargetingEnteredTarget?: Maybe<Scalars['String']['output']>;
+  setTargetingRange?: Maybe<Scalars['String']['output']>;
+  setTaskTemplateMacros?: Maybe<Scalars['String']['output']>;
+  setTaskTemplatePreMacros?: Maybe<Scalars['String']['output']>;
+  setTaskTemplateReportTypes?: Maybe<Scalars['String']['output']>;
+  setTaskTemplateValues?: Maybe<Scalars['String']['output']>;
+  setThrusterMovementSpeed?: Maybe<Scalars['String']['output']>;
+  setThrusterRotationSpeed?: Maybe<Scalars['String']['output']>;
+  setTrackingPreference?: Maybe<Scalars['String']['output']>;
+  setTractorBeamCount?: Maybe<Scalars['String']['output']>;
+  setTractorBeamScanning?: Maybe<Scalars['String']['output']>;
+  setTractorBeamState?: Maybe<Scalars['String']['output']>;
+  setTractorBeamStrength?: Maybe<Scalars['String']['output']>;
+  setTractorBeamStress?: Maybe<Scalars['String']['output']>;
+  setTractorBeamTarget?: Maybe<Scalars['String']['output']>;
+  setTractorBeamTargetLabel?: Maybe<Scalars['String']['output']>;
+  setTransportCharge?: Maybe<Scalars['String']['output']>;
+  setTransportDestination?: Maybe<Scalars['String']['output']>;
+  setTransportTarget?: Maybe<Scalars['String']['output']>;
+  setTransporterChargeSpeed?: Maybe<Scalars['String']['output']>;
   /**
    * Macro: Transporters: Set Target Count
    * Requires:
    *  - Cards:Transporters
    *  - Systems:Transporters
    */
-  setTransporterTargets?: Maybe<Scalars['String']>;
-  setTransporterChargeSpeed?: Maybe<Scalars['String']>;
-  setTranswarpActive?: Maybe<Scalars['String']>;
-  fluxTranswarp?: Maybe<Scalars['String']>;
-  normalTranswarp?: Maybe<Scalars['String']>;
-  setTranswarpSectorValue?: Maybe<Scalars['String']>;
-  addTrigger?: Maybe<Scalars['String']>;
-  renameTrigger?: Maybe<Scalars['String']>;
-  removeTrigger?: Maybe<Scalars['String']>;
-  updateTrigger?: Maybe<Scalars['String']>;
-  /** Macro: Triggers: Add trigger to simulator */
-  addTriggerToSimulator?: Maybe<Scalars['String']>;
-  /** Macro: Triggers: Remove trigger from simulator */
-  removeTriggerFromSimulator?: Maybe<Scalars['String']>;
-  updateViewscreenName?: Maybe<Scalars['String']>;
-  updateViewscreenSecondary?: Maybe<Scalars['String']>;
-  /** Macro: Viewscreen: Change Viewscreen Card */
-  updateViewscreenComponent?: Maybe<Scalars['String']>;
-  updateViewscreenData?: Maybe<Scalars['String']>;
-  /** Macro: Viewscreen: Set Viewscreen to Auto */
-  setViewscreenToAuto?: Maybe<Scalars['String']>;
+  setTransporterTargets?: Maybe<Scalars['String']['output']>;
+  setTranswarpActive?: Maybe<Scalars['String']['output']>;
+  setTranswarpSectorValue?: Maybe<Scalars['String']['output']>;
+  setVerifyDamage?: Maybe<Scalars['String']['output']>;
   /** Macro: Viewscreen: Set Viewscreen Picture-in-Picture */
-  setViewscreenPictureInPicture?: Maybe<Scalars['String']>;
-  /** Macro: Viewscreen: Remove Viewscreen Picture-in-Picture */
-  removeViewscreenPictureInPicture?: Maybe<Scalars['String']>;
-  updateViewscreenAuto?: Maybe<Scalars['String']>;
-  toggleViewscreenVideo?: Maybe<Scalars['String']>;
-  countermeasuresCreateCountermeasure?: Maybe<Countermeasure>;
-  countermeasuresRemoveCountermeasure?: Maybe<Scalars['String']>;
-  countermeasuresLaunchCountermeasure?: Maybe<Scalars['String']>;
-  countermeasuresActivateCountermeasure?: Maybe<Scalars['String']>;
-  countermeasuresDeactivateCountermeasure?: Maybe<Scalars['String']>;
-  countermeasuresLaunchUnlockedCountermeasures?: Maybe<Scalars['String']>;
-  countermeasuresBuildCountermeasure?: Maybe<Scalars['String']>;
-  countermeasuresAddModule?: Maybe<Countermeasure>;
-  countermeasuresRemoveModule?: Maybe<Scalars['String']>;
-  countermeasuresConfigureModule?: Maybe<Scalars['String']>;
-  countermeasuresSetResource?: Maybe<Scalars['String']>;
-  countermeasuresSetFDNote?: Maybe<Scalars['String']>;
-  entityCreate: Entity;
-  entityRemove?: Maybe<Scalars['String']>;
-  /** Macro: Sandbox: Set Base Universe for Flight */
-  flightSetBaseUniverse?: Maybe<Scalars['String']>;
-  dmxDeviceCreate?: Maybe<Scalars['String']>;
-  dmxDeviceRemove?: Maybe<Scalars['String']>;
-  dmxDeviceSetName?: Maybe<Scalars['String']>;
-  dmxDeviceSetChannels?: Maybe<Scalars['String']>;
-  dmxSetCreate?: Maybe<Scalars['String']>;
-  dmxSetRemove?: Maybe<Scalars['String']>;
-  dmxSetDuplicate?: Maybe<Scalars['String']>;
-  dmxSetSetName?: Maybe<Scalars['String']>;
-  dmxFixtureCreate?: Maybe<Scalars['String']>;
-  dmxFixtureRemove?: Maybe<Scalars['String']>;
-  dmxFixtureSetName?: Maybe<Scalars['String']>;
-  dmxFixtureSetDMXDevice?: Maybe<Scalars['String']>;
-  dmxFixtureSetChannel?: Maybe<Scalars['String']>;
-  dmxFixtureSetMode?: Maybe<Scalars['String']>;
-  /** Macro: DMX: Set Fixture To Active Mode */
-  dmxFixtureSetActive?: Maybe<Scalars['String']>;
-  /** Macro: DMX: Set Fixture Tags */
-  dmxFixtureSetTags?: Maybe<Scalars['String']>;
-  /** Macro: DMX: Add Fixture Tag */
-  dmxFixtureAddTag?: Maybe<Scalars['String']>;
-  /** Macro: DMX: Remove Fixture Tag */
-  dmxFixtureRemoveTag?: Maybe<Scalars['String']>;
-  /** Macro: DMX: Set Fixture Passive Channels */
-  dmxFixtureSetPassiveChannels?: Maybe<Scalars['String']>;
-  dmxConfigCreate?: Maybe<Scalars['String']>;
-  dmxConfigRemove?: Maybe<Scalars['String']>;
-  dmxConfigDuplicate?: Maybe<Scalars['String']>;
-  dmxConfigSetName?: Maybe<Scalars['String']>;
-  dmxConfigSetConfig?: Maybe<Scalars['String']>;
-  dmxConfigSetActionStrength?: Maybe<Scalars['String']>;
-  taskFlowAdd?: Maybe<Scalars['String']>;
-  taskFlowRemove?: Maybe<Scalars['String']>;
-  taskFlowRename?: Maybe<Scalars['String']>;
-  taskFlowSetCategory?: Maybe<Scalars['String']>;
-  taskFlowAddStep?: Maybe<Scalars['String']>;
-  taskFlowRemoveStep?: Maybe<Scalars['String']>;
-  taskFlowRenameStep?: Maybe<Scalars['String']>;
-  taskFlowReorderStep?: Maybe<Scalars['String']>;
-  taskFlowStepAddTask?: Maybe<Scalars['String']>;
-  taskFlowStepRemoveTask?: Maybe<Scalars['String']>;
-  taskFlowStepEditTask?: Maybe<Scalars['String']>;
-  taskFlowStepSetCompleteAll?: Maybe<Scalars['String']>;
-  taskFlowStepSetDelay?: Maybe<Scalars['String']>;
+  setViewscreenPictureInPicture?: Maybe<Scalars['String']['output']>;
+  /** Macro: Viewscreen: Set Viewscreen to Auto */
+  setViewscreenToAuto?: Maybe<Scalars['String']['output']>;
+  shieldFrequencySet?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Shields: Set all shield frequencies
+   * Requires:
+   *  - Cards:ShieldControl
+   *  - Systems:Shield
+   */
+  shieldFrequencySetAll?: Maybe<Scalars['String']['output']>;
+  shieldIntegritySet?: Maybe<Scalars['String']['output']>;
+  shieldLowered?: Maybe<Scalars['String']['output']>;
+  shieldRaised?: Maybe<Scalars['String']['output']>;
+  shipDockingChange?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Docking: Set docking state
+   * Requires:
+   *  - Cards:Docking
+   *  - Docking
+   */
+  shipSetDocking?: Maybe<Scalars['String']['output']>;
+  /** Macro: Advanced Navigation: Show POI information on current flight set */
+  showPoiInformationOnCurrentFlightSet?: Maybe<Scalars['String']['output']>;
+  /** Macro: Advanced Navigation: Show POI on current flight set */
+  showPoiOnCurrentFlightSet?: Maybe<Scalars['String']['output']>;
+  /** Macro: Viewscreen: Show Tactical Map */
+  showViewscreenTactical?: Maybe<Scalars['String']['output']>;
+  sickbayBunkScanResponse?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Signal Jammer: Set Signal
+   * Requires:
+   *  - Cards:SignalJammer
+   *  - Systems:SignalJammer
+   */
+  signalJammerSignals?: Maybe<Scalars['String']['output']>;
+  /** Macro: MIDI: Activate a MIDI Set */
+  simulatorAddMidiSet?: Maybe<Simulator>;
+  /** Macro: MIDI: Deactivate a MIDI Set */
+  simulatorRemoveMidiSet?: Maybe<Simulator>;
+  snapshot?: Maybe<Scalars['String']['output']>;
+  /** Macro: Timelines: Start Aux Timeline */
+  startAuxTimeline?: Maybe<Scalars['ID']['output']>;
+  startDeconProgram?: Maybe<Scalars['String']['output']>;
+  startFlight?: Maybe<Scalars['String']['output']>;
+  stationAssignCard?: Maybe<Scalars['String']['output']>;
+  stationUnassignCard?: Maybe<Scalars['String']['output']>;
+  stealthChangeAlert?: Maybe<Scalars['String']['output']>;
+  stealthSensorsSonar?: Maybe<Scalars['String']['output']>;
+  stopAllSensorContacts?: Maybe<Scalars['String']['output']>;
+  /** Macro: Sounds: Cancel All Sounds */
+  stopAllSounds?: Maybe<Scalars['String']['output']>;
+  stopChargingPhasers?: Maybe<Scalars['String']['output']>;
+  stopPhaserBeams?: Maybe<Scalars['String']['output']>;
+  surveyFormResponse?: Maybe<Scalars['String']['output']>;
+  /** Macro: Core: Set a timer on core (requires sync time enabled) */
+  syncTimer?: Maybe<Scalars['String']['output']>;
+  systemReactivationCode?: Maybe<Scalars['String']['output']>;
+  systemReactivationCodeResponse?: Maybe<Scalars['String']['output']>;
+  systemSetWing?: Maybe<Scalars['String']['output']>;
+  targetSystem?: Maybe<Scalars['String']['output']>;
+  targetTargetingContact?: Maybe<Scalars['String']['output']>;
   /** Macro: Tasks: Activate Task Flow */
-  taskFlowActivate?: Maybe<Scalars['String']>;
-  taskFlowAdvance?: Maybe<Scalars['String']>;
-  entitySetAppearance?: Maybe<Scalars['String']>;
-  entityRemoveAppearance?: Maybe<Scalars['String']>;
-  entitySetBehavior?: Maybe<Scalars['String']>;
-  entityRemoveBehavior?: Maybe<Scalars['String']>;
-  entitySetIdentity?: Maybe<Scalars['String']>;
-  entityRemoveIdentity?: Maybe<Scalars['String']>;
-  entitySetLocation?: Maybe<Scalars['String']>;
-  entitiesSetPosition?: Maybe<Scalars['String']>;
-  entitySetRotationVelocityMagnitude?: Maybe<Scalars['String']>;
-  entityRemoveLocation?: Maybe<Scalars['String']>;
-  entitySetStage?: Maybe<Scalars['String']>;
-  entityRemoveStage?: Maybe<Scalars['String']>;
-  entitySetStageChild?: Maybe<Scalars['String']>;
-  entityRemoveStageChild?: Maybe<Scalars['String']>;
-  entitySetLight?: Maybe<Scalars['String']>;
-  entityRemoveLight?: Maybe<Scalars['String']>;
-  entitySetGlow?: Maybe<Scalars['String']>;
-  entityRemoveGlow?: Maybe<Scalars['String']>;
-  entitySetTemplate?: Maybe<Scalars['String']>;
-  entitySetEngine?: Maybe<Scalars['String']>;
-  entityRemoveEngine?: Maybe<Scalars['String']>;
-  entitySetThrusters?: Maybe<Scalars['String']>;
-  entityRemoveThrusters?: Maybe<Scalars['String']>;
+  taskFlowActivate?: Maybe<Scalars['String']['output']>;
+  taskFlowAdd?: Maybe<Scalars['String']['output']>;
+  taskFlowAddStep?: Maybe<Scalars['String']['output']>;
+  taskFlowAdvance?: Maybe<Scalars['String']['output']>;
+  taskFlowRemove?: Maybe<Scalars['String']['output']>;
+  taskFlowRemoveStep?: Maybe<Scalars['String']['output']>;
+  taskFlowRename?: Maybe<Scalars['String']['output']>;
+  taskFlowRenameStep?: Maybe<Scalars['String']['output']>;
+  taskFlowReorderStep?: Maybe<Scalars['String']['output']>;
+  taskFlowSetCategory?: Maybe<Scalars['String']['output']>;
+  taskFlowStepAddTask?: Maybe<Scalars['String']['output']>;
+  taskFlowStepEditTask?: Maybe<Scalars['String']['output']>;
+  taskFlowStepRemoveTask?: Maybe<Scalars['String']['output']>;
+  taskFlowStepSetCompleteAll?: Maybe<Scalars['String']['output']>;
+  taskFlowStepSetDelay?: Maybe<Scalars['String']['output']>;
+  test?: Maybe<Scalars['String']['output']>;
+  timelineDuplicateItem?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Interfaces: Set Object Hidden
+   * Requires:
+   *   - Cards:Interface
+   */
+  toggleInterfaceObjectHidden?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Interfaces: Toggle Video playing
+   * Requires:
+   *   - Cards:Interface
+   */
+  toggleInterfaceObjectPlaying?: Maybe<Scalars['String']['output']>;
+  toggleSensorsAutoTarget?: Maybe<Scalars['String']['output']>;
+  toggleSensorsAutoThrusters?: Maybe<Scalars['String']['output']>;
+  toggleSimulatorCardHidden?: Maybe<Scalars['String']['output']>;
+  toggleStationMessageGroup?: Maybe<Scalars['String']['output']>;
+  toggleStationWidgets?: Maybe<Scalars['String']['output']>;
+  toggleViewscreenVideo?: Maybe<Scalars['String']['output']>;
+  torpedoAddWarhead?: Maybe<Scalars['String']['output']>;
+  torpedoFire?: Maybe<Scalars['String']['output']>;
+  torpedoLoadWarhead?: Maybe<Scalars['String']['output']>;
+  torpedoRemoveWarhead?: Maybe<Scalars['String']['output']>;
+  torpedoSetWarheadCount?: Maybe<Scalars['String']['output']>;
+  torpedoUnload?: Maybe<Scalars['String']['output']>;
+  /** Macro: Flight: Start Training Mode */
+  trainingMode?: Maybe<Scalars['String']['output']>;
+  transferCargo?: Maybe<Scalars['String']['output']>;
+  transferCoolant?: Maybe<Scalars['String']['output']>;
+  /** Macro: Actions: Trigger Action (eg. Flash, Blackout, etc.) */
+  triggerAction?: Maybe<Scalars['String']['output']>;
+  triggerInterfaceObject?: Maybe<Scalars['String']['output']>;
+  triggerKeyboardAction?: Maybe<Scalars['String']['output']>;
+  /** Macro: Macros: Trigger Macro */
+  triggerMacroAction?: Maybe<Scalars['String']['output']>;
+  triggerMacroButton?: Maybe<Scalars['String']['output']>;
+  triggerMacros?: Maybe<Scalars['String']['output']>;
+  /** Macro: Surveys: Trigger Survey */
+  triggerSurvey?: Maybe<Scalars['String']['output']>;
+  /** Macro: Station: Unhide Card */
+  unhideSimulatorCard?: Maybe<Scalars['String']['output']>;
+  untargetTargetingContact?: Maybe<Scalars['String']['output']>;
+  updateAdvNavFlightSet?: Maybe<Scalars['String']['output']>;
+  updateAdvNavFlightSetData?: Maybe<Scalars['String']['output']>;
+  updateCommandLine?: Maybe<Scalars['String']['output']>;
+  updateComputerCoreUser?: Maybe<Scalars['String']['output']>;
+  updateCoreLayout?: Maybe<Scalars['String']['output']>;
+  updateCrewInventory?: Maybe<Scalars['String']['output']>;
+  updateCrewmember?: Maybe<Scalars['String']['output']>;
+  updateCurrentDamageStep?: Maybe<Scalars['String']['output']>;
+  updateDeckSvg?: Maybe<Scalars['String']['output']>;
+  updateDeconOffset?: Maybe<Scalars['String']['output']>;
+  updateDilithiumStress?: Maybe<Scalars['String']['output']>;
+  /** Macro: Docking: Update Docking Port/Shuttlebay */
+  updateDockingPort?: Maybe<Scalars['String']['output']>;
+  updateEnvironment?: Maybe<Scalars['String']['output']>;
+  updateExocompDifficulty?: Maybe<Scalars['String']['output']>;
+  updateFirebaseUserStation: Scalars['Boolean']['output'];
+  updateFlightSet?: Maybe<Scalars['String']['output']>;
+  updateHackingPreset?: Maybe<Scalars['String']['output']>;
+  updateHallwaySvg?: Maybe<Scalars['String']['output']>;
+  updateInterface?: Maybe<Scalars['String']['output']>;
+  updateInterfaceDevice?: Maybe<Scalars['String']['output']>;
+  updateInventoryCount?: Maybe<Scalars['String']['output']>;
+  updateInventoryMetadata?: Maybe<Scalars['String']['output']>;
+  updateIsochip?: Maybe<Isochip>;
+  updateKeyboardKey?: Maybe<Scalars['String']['output']>;
+  updateLibraryEntry?: Maybe<Scalars['String']['output']>;
+  updateLongRangeComm?: Maybe<Scalars['String']['output']>;
+  updateLongRangeDecodedMessage?: Maybe<Scalars['String']['output']>;
+  updateMacroActions?: Maybe<Scalars['String']['output']>;
+  updateMacroButtonActions?: Maybe<Scalars['String']['output']>;
+  updatePatientChart?: Maybe<Scalars['String']['output']>;
+  updateProbeEquipment?: Maybe<Scalars['String']['output']>;
+  updateProbeType?: Maybe<Scalars['String']['output']>;
+  updateRoomRoles?: Maybe<Scalars['String']['output']>;
+  updateRoomSvg?: Maybe<Scalars['String']['output']>;
+  updateSensorArmyContact?: Maybe<Scalars['String']['output']>;
+  updateSensorContact?: Maybe<Scalars['String']['output']>;
+  updateSensorContacts?: Maybe<Scalars['String']['output']>;
+  /**
+   * Macro: Sensors: Update Sensor Grid
+   * Requires:
+   *  - Cards:Sensors, JrSensors
+   *  - Systems:Sensors
+   */
+  updateSensorGrid?: Maybe<Scalars['String']['output']>;
+  updateSensorScan?: Maybe<Scalars['String']['output']>;
+  updateSetClient?: Maybe<Scalars['String']['output']>;
+  updateSickbayCrew?: Maybe<Scalars['String']['output']>;
+  updateSignalJammer?: Maybe<Scalars['String']['output']>;
+  updateSimulatorAmbiance?: Maybe<Scalars['String']['output']>;
+  updateSimulatorCommandLines?: Maybe<Scalars['String']['output']>;
+  updateSimulatorDamageStep?: Maybe<Scalars['String']['output']>;
+  updateSimulatorDamageTask?: Maybe<Scalars['String']['output']>;
+  updateSimulatorInterfaces?: Maybe<Scalars['String']['output']>;
+  updateSimulatorLighting?: Maybe<Scalars['String']['output']>;
+  updateSimulatorPanels?: Maybe<Scalars['String']['output']>;
+  updateSimulatorTriggers?: Maybe<Scalars['String']['output']>;
+  updateSoftwarePanel?: Maybe<Scalars['String']['output']>;
+  updateSurveyForm?: Maybe<Scalars['String']['output']>;
+  updateSystemDamageStep?: Maybe<Scalars['String']['output']>;
+  updateSystemDamageTask?: Maybe<Scalars['String']['output']>;
+  updateSystemName?: Maybe<Scalars['String']['output']>;
+  updateSystemRooms?: Maybe<Scalars['String']['output']>;
+  updateSystemUpgradeBoard?: Maybe<Scalars['String']['output']>;
+  updateSystemUpgradeMacros?: Maybe<Scalars['String']['output']>;
+  updateTacticalMap?: Maybe<Scalars['String']['output']>;
+  updateTacticalMapItem?: Maybe<Scalars['String']['output']>;
+  updateTacticalMapLayer?: Maybe<Scalars['String']['output']>;
+  updateTacticalMapPath?: Maybe<Scalars['String']['output']>;
+  updateTargetClass?: Maybe<Scalars['String']['output']>;
+  updateTeam?: Maybe<Scalars['String']['output']>;
+  updateTimelineStep?: Maybe<Scalars['String']['output']>;
+  updateTimelineStepItem?: Maybe<Scalars['String']['output']>;
+  updateTrigger?: Maybe<Scalars['String']['output']>;
+  updateViewscreenAuto?: Maybe<Scalars['String']['output']>;
+  /** Macro: Viewscreen: Change Viewscreen Card */
+  updateViewscreenComponent?: Maybe<Scalars['String']['output']>;
+  updateViewscreenData?: Maybe<Scalars['String']['output']>;
+  updateViewscreenName?: Maybe<Scalars['String']['output']>;
+  updateViewscreenSecondary?: Maybe<Scalars['String']['output']>;
+  upgradeSystem?: Maybe<Scalars['String']['output']>;
+  validateDamageStep?: Maybe<Scalars['String']['output']>;
+  verifyTask?: Maybe<Scalars['String']['output']>;
+  verifyTaskReportStep?: Maybe<Scalars['String']['output']>;
 };
 
 
-export type MutationTriggerActionArgs = {
-  action: Scalars['String'];
-  message?: Maybe<Scalars['String']>;
-  voice?: Maybe<Scalars['String']>;
-  simulatorId: Scalars['ID'];
-  stationId?: Maybe<Scalars['String']>;
-  clientId?: Maybe<Scalars['ID']>;
-  duration?: Maybe<Scalars['Float']>;
+export type MutationActivateProbeEmitterArgs = {
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
 };
 
 
-export type MutationAddSimulatorAmbianceArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+export type MutationActivateStealthArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type MutationUpdateSimulatorAmbianceArgs = {
-  id: Scalars['ID'];
-  ambiance: AmbianceInput;
-};
-
-
-export type MutationRemoveSimulatorAmbianceArgs = {
-  id: Scalars['ID'];
-  ambianceId: Scalars['ID'];
-};
-
-
-export type MutationSetStationAmbianceArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  ambiance?: Maybe<Scalars['String']>;
+export type MutationActivateThxArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationAddAssetFolderArgs = {
-  name: Scalars['String'];
-  folderPath: Scalars['String'];
-  fullPath: Scalars['String'];
+  folderPath: Scalars['String']['input'];
+  fullPath: Scalars['String']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveAssetFolderArgs = {
-  fullPath: Scalars['String'];
+export type MutationAddCardToStationArgs = {
+  cardComponent: Scalars['String']['input'];
+  cardIcon?: InputMaybe<Scalars['String']['input']>;
+  cardName: Scalars['String']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveAssetObjectArgs = {
-  fullPath: Scalars['String'];
-};
-
-
-export type MutationDownloadRemoteAssetsArgs = {
-  folderPath: Scalars['String'];
-  files: Array<RemoteAsset>;
-};
-
-
-export type MutationClientConnectArgs = {
-  client: Scalars['ID'];
-  label?: Maybe<Scalars['String']>;
-  mobile?: Maybe<Scalars['Boolean']>;
-  cards?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
-export type MutationClientDisconnectArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientPingArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientSetFlightArgs = {
-  client: Scalars['ID'];
-  flightId: Scalars['ID'];
-};
-
-
-export type MutationClientSetSimulatorArgs = {
-  client: Scalars['ID'];
-  simulatorId: Scalars['ID'];
-};
-
-
-export type MutationClientSetStationArgs = {
-  client: Scalars['ID'];
-  stationName: Scalars['ID'];
-};
-
-
-export type MutationClientLoginArgs = {
-  client: Scalars['ID'];
-  loginName?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationClientSetEmailArgs = {
-  client: Scalars['ID'];
-  email: Scalars['String'];
-};
-
-
-export type MutationClientLogoutArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientDiagnosticArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientResetArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientLockScreenArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientUnlockScreenArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type MutationClientOfflineStateArgs = {
-  client: Scalars['ID'];
-  state?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationClientMovieStateArgs = {
-  client: Scalars['ID'];
-  movie: Scalars['String'];
-};
-
-
-export type MutationClientSetTrainingArgs = {
-  client: Scalars['ID'];
-  training: Scalars['Boolean'];
-};
-
-
-export type MutationClientSetSoundPlayerArgs = {
-  client: Scalars['ID'];
-  soundPlayer: Scalars['Boolean'];
-};
-
-
-export type MutationClientActivateLightsArgs = {
-  clientId: Scalars['ID'];
-  dmxSetId: Scalars['ID'];
-};
-
-
-export type MutationClientAddCacheArgs = {
-  client?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  viewscreen?: Maybe<Scalars['Boolean']>;
-  cacheItem: Scalars['String'];
-};
-
-
-export type MutationClientRemoveCacheArgs = {
-  client: Scalars['ID'];
-  cacheItem: Scalars['String'];
-};
-
-
-export type MutationSetClientHypercardArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  component?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationPlaySoundArgs = {
-  sound: SoundInput;
-  station?: Maybe<Scalars['String']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationStopAllSoundsArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationCancelLoopingSoundsArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationApplyClientSetArgs = {
-  id: Scalars['ID'];
-  flightId: Scalars['ID'];
-  simulatorId: Scalars['ID'];
-  templateId: Scalars['ID'];
-  stationSetId: Scalars['ID'];
-};
-
-
-export type MutationSetClientOverlayArgs = {
-  id: Scalars['ID'];
-  overlay: Scalars['Boolean'];
-};
-
-
-export type MutationClientCrackArgs = {
-  id: Scalars['ID'];
-  crack: Scalars['Boolean'];
-};
-
-
-export type MutationClientSetCardArgs = {
-  id: Scalars['ID'];
-  card: Scalars['String'];
-};
-
-
-export type MutationSetKeypadCodeArgs = {
-  id: Scalars['ID'];
-  code?: Maybe<Array<Maybe<Scalars['Int']>>>;
-};
-
-
-export type MutationSetKeypadEnteredCodeArgs = {
-  id: Scalars['ID'];
-  code?: Maybe<Array<Scalars['Int']>>;
-};
-
-
-export type MutationSetKeypadHintArgs = {
-  id: Scalars['ID'];
-  hint: Scalars['Boolean'];
-};
-
-
-export type MutationSetKeypadLockedArgs = {
-  id: Scalars['ID'];
-  locked: Scalars['Boolean'];
-};
-
-
-export type MutationResetKeypadArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetCodeLengthArgs = {
-  id: Scalars['ID'];
-  len: Scalars['Int'];
-};
-
-
-export type MutationSetKeypadAllowedAttemptsArgs = {
-  id: Scalars['ID'];
-  attempts: Scalars['Int'];
-};
-
-
-export type MutationHandheldScannerScanArgs = {
-  id: Scalars['ID'];
-  request: Scalars['String'];
-};
-
-
-export type MutationHandheldScannerCancelArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationHandheldScannerResponseArgs = {
-  id: Scalars['ID'];
-  response: Scalars['String'];
+export type MutationAddClientToSetArgs = {
+  client: SetClientInput;
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationAddCommandLineArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRenameCommandLineArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDuplicateCommandLineArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationRemoveCommandLineArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateCommandLineArgs = {
-  id: Scalars['ID'];
-  components?: Maybe<Scalars['JSON']>;
-  connections?: Maybe<Scalars['JSON']>;
-  values?: Maybe<Scalars['JSON']>;
-  config?: Maybe<Scalars['JSON']>;
-};
-
-
-export type MutationExecuteCommandLineArgs = {
-  simulatorId: Scalars['ID'];
-  command: Scalars['String'];
-  arg?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationAddCommandLineToSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  commandLine: Scalars['ID'];
-};
-
-
-export type MutationRemoveCommandLineFromSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  commandLine: Scalars['ID'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationAddCommandLineOutputArgs = {
-  simulatorId: Scalars['ID'];
-  clientId: Scalars['ID'];
-  output: Scalars['String'];
+  clientId: Scalars['ID']['input'];
+  output: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type MutationHandleCommandLineFeedbackArgs = {
-  simulatorId: Scalars['ID'];
-  clientId: Scalars['ID'];
-  feedbackId: Scalars['ID'];
-  ignore?: Maybe<Scalars['Boolean']>;
-  isApproved: Scalars['Boolean'];
+export type MutationAddCommandLineToSimulatorArgs = {
+  commandLine: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddComputerCoreUserArgs = {
-  id: Scalars['ID'];
-  user?: Maybe<ComputerCoreUserInput>;
-};
-
-
-export type MutationComputerCoreAddHackerArgs = {
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationUpdateComputerCoreUserArgs = {
-  id: Scalars['ID'];
-  userId: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Int']>;
-  password?: Maybe<Scalars['String']>;
-  hacker?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRemoveComputerCoreUserArgs = {
-  id: Scalars['ID'];
-  userId: Scalars['ID'];
-};
-
-
-export type MutationRestoreComputerCoreFileArgs = {
-  id: Scalars['ID'];
-  fileId?: Maybe<Scalars['ID']>;
-  all?: Maybe<Scalars['Boolean']>;
-  level?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationDeleteComputerCoreVirusArgs = {
-  id: Scalars['ID'];
-  virusId: Scalars['ID'];
-};
-
-
-export type MutationRestartComputerCoreTerminalArgs = {
-  id: Scalars['ID'];
-  terminalId: Scalars['ID'];
-};
-
-
-export type MutationAddViriiToComputerCoreArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationComputerCoreAddFileArgs = {
-  id: Scalars['ID'];
-  file: ComputerCoreFileInput;
-};
-
-
-export type MutationComputerCoreActivateHackingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationComputerCoreDeactivateHackingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationComputerCoreHackingPresetArgs = {
-  id: Scalars['ID'];
-  presetId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationComputerCoreSetHackingStateArgs = {
-  id: Scalars['ID'];
-  state: Scalars['String'];
-};
-
-
-export type MutationComputerCoreAppendLogArgs = {
-  id: Scalars['ID'];
-  log: Scalars['String'];
-};
-
-
-export type MutationComputerCoreDeleteLogArgs = {
-  id: Scalars['ID'];
-  index: Scalars['Int'];
-};
-
-
-export type MutationComputerCoreSetHackingFrequencyArgs = {
-  id: Scalars['ID'];
-  frequency: Scalars['Float'];
-};
-
-
-export type MutationComputerCoreUpdateHackingFilesArgs = {
-  id: Scalars['ID'];
-  files: Scalars['JSON'];
-};
-
-
-export type MutationCreateHackingPresetArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationDeleteHackingPresetArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateHackingPresetArgs = {
-  id: Scalars['ID'];
-  preset: Scalars['JSON'];
-};
-
-
-export type MutationSetCoolantTankArgs = {
-  id: Scalars['ID'];
-  coolant: Scalars['Float'];
-};
-
-
-export type MutationTransferCoolantArgs = {
-  coolantId: Scalars['ID'];
-  systemId?: Maybe<Scalars['ID']>;
-  which?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationIgnoreCoreFeedArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationSyncTimerArgs = {
-  time?: Maybe<Scalars['String']>;
-  active?: Maybe<Scalars['Boolean']>;
-  simulatorId: Scalars['ID'];
-};
-
-
-export type MutationUpdateCoreLayoutArgs = {
-  layout?: Maybe<CoreLayoutInput>;
-};
-
-
-export type MutationAddCoreLayoutArgs = {
-  layout?: Maybe<CoreLayoutInput>;
-};
-
-
-export type MutationRemoveCoreLayoutArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationReorderCoreLayoutsArgs = {
-  layouts: Array<Scalars['ID']>;
-};
-
-
-export type MutationAddCrewmemberArgs = {
-  crew?: Maybe<CrewInput>;
-};
-
-
-export type MutationRemoveCrewmemberArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationUpdateCrewmemberArgs = {
-  crew?: Maybe<CrewInput>;
-};
-
-
-export type MutationNewRandomCrewmemberArgs = {
-  simulatorId: Scalars['ID'];
-  type?: Maybe<Scalars['String']>;
-  position?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveAllCrewArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type MutationCrewImportArgs = {
-  simulatorId: Scalars['ID'];
-  crew: Array<Maybe<CrewInput>>;
-};
-
-
-export type MutationCrmSetActivatedArgs = {
-  id: Scalars['ID'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationCrmSetPasswordArgs = {
-  id: Scalars['ID'];
-  password: Scalars['String'];
-};
-
-
-export type MutationCrmAddEnemyArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCrmSetAccelerationArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  acceleration: CoordinatesInput;
-};
-
-
-export type MutationCrmSetPhaserChargeArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  phaser: Scalars['Float'];
-};
-
-
-export type MutationCrmSetShieldStateArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  shield: Scalars['Boolean'];
-};
-
-
-export type MutationCrmLoadTorpedoArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type MutationCrmFireTorpedoArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  target: Scalars['ID'];
-};
-
-
-export type MutationCrmFirePhaserArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  target: Scalars['ID'];
-};
-
-
-export type MutationCrmStopPhaserArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type MutationCrmSetFighterDockedArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  docked: Scalars['Boolean'];
-};
-
-
-export type MutationCrmRestockTorpedosArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type MutationCrmSetAttackingArgs = {
-  id: Scalars['ID'];
-  attacking: Scalars['Boolean'];
-};
-
-
-export type MutationCrmSetFighterImageArgs = {
-  id: Scalars['ID'];
-  image: Scalars['String'];
-};
-
-
-export type MutationCrmSetFighterIconArgs = {
-  id: Scalars['ID'];
-  image: Scalars['String'];
-};
-
-
-export type MutationCrmSetEnemyIconArgs = {
-  id: Scalars['ID'];
-  image: Scalars['String'];
-};
-
-
-export type MutationCrmSetEnemyCountArgs = {
-  id: Scalars['ID'];
-  count: Scalars['Int'];
-};
-
-
-export type MutationCrmRestoreFighterArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type MutationCrmDestroyUndockedFightersArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCrmRestoreFightersArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCrmSetFighterStrengthArgs = {
-  id: Scalars['ID'];
-  strength: Scalars['Float'];
-};
-
-
-export type MutationCrmSetEnemyStrengthArgs = {
-  id: Scalars['ID'];
-  strength: Scalars['Float'];
-};
-
-
-export type MutationDamageSystemArgs = {
-  systemId: Scalars['ID'];
-  report?: Maybe<Scalars['String']>;
-  destroyed?: Maybe<Scalars['Boolean']>;
-  which?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationDamageReportArgs = {
-  systemId: Scalars['ID'];
-  report: Scalars['String'];
-};
-
-
-export type MutationUpdateCurrentDamageStepArgs = {
-  systemId: Scalars['ID'];
-  step: Scalars['Int'];
-};
-
-
-export type MutationRepairSystemArgs = {
-  systemId: Scalars['ID'];
-};
-
-
-export type MutationRequestDamageReportArgs = {
-  systemId: Scalars['ID'];
-};
-
-
-export type MutationSystemReactivationCodeArgs = {
-  systemId: Scalars['ID'];
-  station: Scalars['String'];
-  code: Scalars['String'];
-};
-
-
-export type MutationSystemReactivationCodeResponseArgs = {
-  systemId: Scalars['ID'];
-  response: Scalars['Boolean'];
-};
-
-
-export type MutationAddSystemDamageStepArgs = {
-  systemId: Scalars['ID'];
-  step: DamageStepInput;
-};
-
-
-export type MutationUpdateSystemDamageStepArgs = {
-  systemId: Scalars['ID'];
-  step: DamageStepInput;
-};
-
-
-export type MutationRemoveSystemDamageStepArgs = {
-  systemId: Scalars['ID'];
-  step: Scalars['ID'];
-};
-
-
-export type MutationGenerateDamageReportArgs = {
-  systemId: Scalars['ID'];
-  steps?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationAddSystemDamageTaskArgs = {
-  systemId: Scalars['ID'];
-  task: DamageTaskInput;
-};
-
-
-export type MutationRemoveSystemDamageTaskArgs = {
-  systemId: Scalars['ID'];
-  taskId: Scalars['ID'];
-};
-
-
-export type MutationUpdateSystemDamageTaskArgs = {
-  systemId: Scalars['ID'];
-  task: DamageTaskInput;
-};
-
-
-export type MutationBreakSystemArgs = {
-  simulatorId: Scalars['ID'];
-  type: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationFixSystemArgs = {
-  simulatorId: Scalars['ID'];
-  type: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetDamageStepValidationArgs = {
-  id: Scalars['ID'];
-  validation: Scalars['Boolean'];
-};
-
-
-export type MutationValidateDamageStepArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationAddSimulatorDamageStepArgs = {
-  simulatorId: Scalars['ID'];
-  step: DamageStepInput;
-};
-
-
-export type MutationUpdateSimulatorDamageStepArgs = {
-  simulatorId: Scalars['ID'];
-  step: DamageStepInput;
-};
-
-
-export type MutationRemoveSimulatorDamageStepArgs = {
-  simulatorId: Scalars['ID'];
-  step: Scalars['ID'];
-};
-
-
-export type MutationAddSimulatorDamageTaskArgs = {
-  simulatorId: Scalars['ID'];
-  task: DamageTaskInput;
-};
-
-
-export type MutationRemoveSimulatorDamageTaskArgs = {
-  simulatorId: Scalars['ID'];
-  taskId: Scalars['ID'];
-};
-
-
-export type MutationUpdateSimulatorDamageTaskArgs = {
-  simulatorId: Scalars['ID'];
-  task: DamageTaskInput;
-};
-
-
-export type MutationAddDeckArgs = {
-  simulatorId: Scalars['ID'];
-  number: Scalars['Int'];
-  svgPath?: Maybe<Scalars['String']>;
-  doors?: Maybe<Scalars['Boolean']>;
-  evac?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRemoveDeckArgs = {
-  deckId: Scalars['ID'];
-};
-
-
-export type MutationAddDecksBulkArgs = {
-  simulatorId: Scalars['ID'];
-  decks: Scalars['String'];
-};
-
-
-export type MutationUpdateDeckSvgArgs = {
-  deckId: Scalars['ID'];
-  svg: Scalars['String'];
-};
-
-
-export type MutationDeckDoorsArgs = {
-  deckId: Scalars['ID'];
-  doors?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationDeckEvacArgs = {
-  deckId: Scalars['ID'];
-  evac?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationUpdateHallwaySvgArgs = {
-  deckId: Scalars['ID'];
-  svg?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationCreateDockingPortArgs = {
-  port: DockingPortInput;
-};
-
-
-export type MutationUpdateDockingPortArgs = {
-  port: DockingPortInput;
-};
-
-
-export type MutationRemoveDockingPortArgs = {
-  port: Scalars['ID'];
-};
-
-
-export type MutationAddSpeedArgs = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  speed: Array<Maybe<SpeedInput>>;
-};
-
-
-export type MutationSetSpeedArgs = {
-  id: Scalars['ID'];
-  speed: Scalars['Int'];
-  on?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationSetEngineSpeedsArgs = {
-  id: Scalars['ID'];
-  speeds: Array<Maybe<SpeedInput>>;
-};
-
-
-export type MutationAddHeatArgs = {
-  id: Scalars['ID'];
-  heat?: Maybe<Scalars['Float']>;
+  id: Scalars['ID']['input'];
+  user?: InputMaybe<ComputerCoreUserInput>;
 };
 
 
 export type MutationAddCoolantArgs = {
-  id: Scalars['ID'];
-  coolant?: Maybe<Scalars['Float']>;
+  coolant?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationSetHeatRateArgs = {
-  id: Scalars['ID'];
-  rate?: Maybe<Scalars['Float']>;
+export type MutationAddCoreLayoutArgs = {
+  layout?: InputMaybe<CoreLayoutInput>;
 };
 
 
-export type MutationEngineCoolArgs = {
-  id: Scalars['ID'];
-  state?: Maybe<Scalars['Boolean']>;
+export type MutationAddCrewToTeamArgs = {
+  crewId: Scalars['ID']['input'];
+  teamId: Scalars['ID']['input'];
 };
 
 
-export type MutationSetEngineAccelerationArgs = {
-  id: Scalars['ID'];
-  acceleration: Scalars['Float'];
+export type MutationAddCrewmemberArgs = {
+  crew?: InputMaybe<CrewInput>;
 };
 
 
-export type MutationSetEngineUseAccelerationArgs = {
-  id: Scalars['ID'];
-  useAcceleration: Scalars['Boolean'];
+export type MutationAddDeckArgs = {
+  doors?: InputMaybe<Scalars['Boolean']['input']>;
+  evac?: InputMaybe<Scalars['Boolean']['input']>;
+  number: Scalars['Int']['input'];
+  simulatorId: Scalars['ID']['input'];
+  svgPath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type MutationSetEngineSpeedFactorArgs = {
-  id: Scalars['ID'];
-  speedFactor: Scalars['Float'];
+export type MutationAddDecksBulkArgs = {
+  decks: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type MutationUpdateEnvironmentArgs = {
-  deckID: Scalars['ID'];
-  environment?: Maybe<EnvironmentInput>;
-};
-
-
-export type MutationSetSimulatorExocompsArgs = {
-  simulatorId: Scalars['ID'];
-  count: Scalars['Int'];
-};
-
-
-export type MutationDeployExocompArgs = {
-  exocomp: ExocompInput;
-};
-
-
-export type MutationRecallExocompArgs = {
-  exocomp: Scalars['ID'];
-};
-
-
-export type MutationExocompCompleteUpgradeArgs = {
-  exocomp: Scalars['ID'];
-};
-
-
-export type MutationUpdateExocompDifficultyArgs = {
-  exocomp: Scalars['ID'];
-  difficulty: Scalars['Float'];
-};
-
-
-export type MutationImportSimulatorFromUrlArgs = {
-  url: Scalars['String'];
-};
-
-
-export type MutationImportMissionFromUrlArgs = {
-  url: Scalars['String'];
-};
-
-
-export type MutationUpdateFirebaseUserStationArgs = {
-  email: Scalars['String'];
-  station: Scalars['String'];
-};
-
-
-export type MutationSetFirebaseAwardsArgs = {
-  awards: Array<FbAwardInput>;
-};
-
-
-export type MutationSetFirebaseSimulatorArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetFirebaseMissionArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCreateFirebaseUserArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationExecuteFirebasePushArgs = {
-  eventId: Scalars['ID'];
-  flightId: Scalars['ID'];
-};
-
-
-export type MutationStartFlightArgs = {
-  name?: Maybe<Scalars['String']>;
-  simulators: Array<SimulatorInput>;
-  flightType?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationResetFlightArgs = {
-  flightId: Scalars['ID'];
-  full?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationDeleteFlightArgs = {
-  flightId: Scalars['ID'];
-};
-
-
-export type MutationPauseFlightArgs = {
-  flightId: Scalars['ID'];
-};
-
-
-export type MutationResumeFlightArgs = {
-  flightId: Scalars['ID'];
-};
-
-
-export type MutationClientAddExtraArgs = {
-  flightId: Scalars['ID'];
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationCreateFlightSetArgs = {
-  flightSet: FlightSetInput;
-};
-
-
-export type MutationUpdateFlightSetArgs = {
-  id: Scalars['ID'];
-  flightSet: FlightSetInput;
-};
-
-
-export type MutationDeleteFlightSetArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateAdvNavFlightSetArgs = {
-  id: Scalars['ID'];
-  flightSet: FlightSetInput;
-};
-
-
-export type MutationUpdateAdvNavFlightSetDataArgs = {
-  id: Scalars['ID'];
-  flightSet: FlightSetInput;
-};
-
-
-export type MutationHandleCoolantFlushArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationHandleEmergencyStopArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationHandleResumePathArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationHandleShowFlightSetArgs = {
-  id: Scalars['ID'];
-  show: Scalars['Boolean'];
-};
-
-
-export type MutationHandleShowEtaArgs = {
-  id: Scalars['ID'];
-  show: Scalars['Boolean'];
-};
-
-
-export type MutationHandleUpdateEtaArgs = {
-  id: Scalars['ID'];
-  eta: Scalars['Float'];
-};
-
-
-export type MutationHandleEngineFluxArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationHandleSetCoolantLevelArgs = {
-  id: Scalars['ID'];
-  level: Scalars['Float'];
-};
-
-
-export type MutationHandleSetHeatLevelArgs = {
-  id: Scalars['ID'];
-  level: Scalars['Float'];
-};
-
-
-export type MutationHandleUpdateCurrentFlightPathArgs = {
-  id: Scalars['ID'];
-  route: NavigationRouteInput;
-};
-
-
-export type MutationHandleUpdateCurrentFlightSetArgs = {
-  id: Scalars['ID'];
-  flightSetId: Scalars['ID'];
-};
-
-
-export type MutationHandleOverrideLocationArgs = {
-  id: Scalars['ID'];
-  location: BasicCoordinateInput;
-  currentLocationUrl?: Maybe<Scalars['String']>;
-  currentLocationName?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationHandleAddProbeAssignmentArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  poiId: Scalars['ID'];
-};
-
-
-export type MutationHandleEngageFlightPathArgs = {
-  id: Scalars['ID'];
-  path: NavigationRouteInput;
-};
-
-
-export type MutationHandleSaveFlightPathArgs = {
-  id: Scalars['ID'];
-  path: NamedNavigationRouteInput;
-};
-
-
-export type MutationHandleAddFlightSetToNavigationArgs = {
-  id: Scalars['ID'];
-  flightSetId: Scalars['ID'];
+export type MutationAddExtraReportToSimulatorArgs = {
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  which?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationAddFlightSetToNavigationArgs = {
-  simulatorId: Scalars['ID'];
-  flightSetId: Scalars['ID'];
+  flightSetId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type MutationHandleOnAssignProbeArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  poiId: Scalars['ID'];
+export type MutationAddHeatArgs = {
+  heat?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationHandleUpdateProbeAssignmentsArgs = {
-  id: Scalars['ID'];
-  probeAssignments: Scalars['String'];
-};
-
-
-export type MutationSelectCurrentFlightSetArgs = {
-  simulatorId: Scalars['ID'];
-  flightSetId: Scalars['String'];
-  show?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationShowPoiOnCurrentFlightSetArgs = {
-  simulatorId: Scalars['ID'];
-  flightSetId: Scalars['ID'];
-  poiId: Scalars['ID'];
-  showName?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationShowPoiInformationOnCurrentFlightSetArgs = {
-  simulatorId: Scalars['ID'];
-  poiId: Scalars['ID'];
-  infoType: Scalars['String'];
-};
-
-
-export type MutationGoogleSheetsCompleteAuthorizeArgs = {
-  token: Scalars['String'];
-};
-
-
-export type MutationGoogleSheetsFileSearchArgs = {
-  searchText: Scalars['String'];
-};
-
-
-export type MutationGoogleSheetsAppendDataArgs = {
-  spreadsheetId?: Maybe<Scalars['ID']>;
-  sheetId?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
-};
-
-
-export type MutationSetHullPlatingModeArgs = {
-  id: Scalars['ID'];
-  mode?: Maybe<Hull_Plating_Mode>;
-};
-
-
-export type MutationSetHullPlatingEngagedArgs = {
-  id: Scalars['ID'];
-  engaged?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationSetHullPlatingPulseArgs = {
-  id: Scalars['ID'];
-  pulse?: Maybe<Scalars['Boolean']>;
+export type MutationAddInterceptionSignalArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationAddInterfaceArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRenameInterfaceArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveInterfaceArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateInterfaceArgs = {
-  id: Scalars['ID'];
-  deviceType?: Maybe<Scalars['ID']>;
-  components?: Maybe<Scalars['JSON']>;
-  connections?: Maybe<Scalars['JSON']>;
-  values?: Maybe<Scalars['JSON']>;
-  config?: Maybe<Scalars['JSON']>;
-};
-
-
-export type MutationAddInterfaceToSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  interfaceId: Scalars['ID'];
-};
-
-
-export type MutationRemoveInterfaceFromSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  interfaceId: Scalars['ID'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationAddInterfaceDeviceArgs = {
-  name: Scalars['String'];
-  width: Scalars['Int'];
-  height: Scalars['Int'];
+  height: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  width: Scalars['Int']['input'];
 };
 
 
-export type MutationRenameInterfaceDeviceArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveInterfaceDeviceArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateInterfaceDeviceArgs = {
-  id: Scalars['ID'];
-  width?: Maybe<Scalars['Int']>;
-  height?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationTriggerInterfaceObjectArgs = {
-  id: Scalars['ID'];
-  objectId: Scalars['ID'];
-};
-
-
-export type MutationToggleInterfaceObjectHiddenArgs = {
-  id: Scalars['ID'];
-  objectId: Scalars['ID'];
-  hidden: Scalars['Boolean'];
-};
-
-
-export type MutationToggleInterfaceObjectPlayingArgs = {
-  id: Scalars['ID'];
-  objectId: Scalars['ID'];
-};
-
-
-export type MutationInternalCommConnectOutgoingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationInternalCommConnectIncomingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationInternalCommCancelIncomingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationInternalCommCancelOutgoingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationInternalCommCallIncomingArgs = {
-  id: Scalars['ID'];
-  incoming?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationInternalCommCallOutgoingArgs = {
-  id: Scalars['ID'];
-  outgoing?: Maybe<Scalars['String']>;
+export type MutationAddInterfaceToSimulatorArgs = {
+  interfaceId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddInventoryArgs = {
-  inventory?: Maybe<InventoryItemInput>;
+  inventory?: InputMaybe<InventoryItemInput>;
 };
 
 
-export type MutationAddMultipleInventoryArgs = {
-  inventory?: Maybe<Array<Maybe<InventoryItemInput>>>;
+export type MutationAddIssueArgs = {
+  body: Scalars['String']['input'];
+  person: Scalars['String']['input'];
+  priority: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveInventoryArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationMoveInventoryArgs = {
-  id: Scalars['ID'];
-  fromRoom: Scalars['ID'];
-  toRoom: Scalars['ID'];
-  count: Scalars['Int'];
-  toSimulator?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationUpdateInventoryCountArgs = {
-  id: Scalars['ID'];
-  room: Scalars['ID'];
-  count: Scalars['Int'];
-};
-
-
-export type MutationUpdateInventoryMetadataArgs = {
-  id?: Maybe<Scalars['ID']>;
-  metadata?: Maybe<InventoryMetadataInput>;
-};
-
-
-export type MutationUpdateCrewInventoryArgs = {
-  crewId: Scalars['ID'];
-  inventory: Array<Maybe<InventoryCount>>;
-  roomId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationRemoveCrewInventoryArgs = {
-  crewId: Scalars['ID'];
-  inventory: Array<Maybe<InventoryCount>>;
-  roomId: Scalars['ID'];
-};
-
-
-export type MutationTransferCargoArgs = {
-  inventory?: Maybe<Array<Maybe<InventoryCountInput>>>;
-  fromRoom: Scalars['ID'];
-  toRoom: Scalars['ID'];
-};
-
-
-export type MutationInsertIsochipArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  slot?: Maybe<Scalars['Int']>;
-  chip?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationUpdateIsochipArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  slot?: Maybe<Scalars['Int']>;
-  isochip?: Maybe<IsochipInput>;
-};
-
-
-export type MutationBatchIsochipUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  chips?: Maybe<Array<Maybe<IsochipInput>>>;
-};
-
-
-export type MutationSetJumpdriveActivatedArgs = {
-  id: Scalars['ID'];
-  activated: Scalars['Boolean'];
-};
-
-
-export type MutationSetJumpdriveEnvsArgs = {
-  id: Scalars['ID'];
-  envs: Scalars['Float'];
-};
-
-
-export type MutationSetJumpdriveSectorLevelArgs = {
-  id: Scalars['ID'];
-  sector: Scalars['String'];
-  level: Scalars['Int'];
-};
-
-
-export type MutationSetJumpdriveSectorOffsetArgs = {
-  id: Scalars['ID'];
-  sector: Scalars['String'];
-  offset: Scalars['Float'];
-};
-
-
-export type MutationFluxJumpdriveSectorArgs = {
-  id: Scalars['ID'];
-  sector?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetJumpDriveEnabledArgs = {
-  id: Scalars['ID'];
-  enabled?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationHitJumpDriveStressArgs = {
-  id: Scalars['ID'];
-  sector: Scalars['String'];
-};
-
-
-export type MutationSetJumpDriveRingsExtendedArgs = {
-  id: Scalars['ID'];
-  ringsExtended: Scalars['Boolean'];
+export type MutationAddIssueUploadArgs = {
+  data: Scalars['String']['input'];
+  ext: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
 };
 
 
 export type MutationAddKeyboardArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveKeyboardArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationRenameKeyboardArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationUpdateKeyboardKeyArgs = {
-  id: Scalars['ID'];
-  key: KeyboardKeyInput;
-};
-
-
-export type MutationTriggerKeyboardActionArgs = {
-  simulatorId: Scalars['ID'];
-  id: Scalars['ID'];
-  key: Scalars['String'];
-  keyCode: Scalars['String'];
-  meta: Array<Maybe<Scalars['String']>>;
+  name: Scalars['String']['input'];
 };
 
 
@@ -4737,514 +3365,29 @@ export type MutationAddLibraryEntryArgs = {
 };
 
 
-export type MutationUpdateLibraryEntryArgs = {
-  entry: LibraryInput;
-};
-
-
-export type MutationRemoveLibraryEntryArgs = {
-  entry?: Maybe<Scalars['ID']>;
-  slug?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationImportLibraryEntryArgs = {
-  simulatorId: Scalars['ID'];
-  entries: Scalars['String'];
-};
-
-
-export type MutationUpdateSimulatorLightingArgs = {
-  id: Scalars['ID'];
-  lighting: LightingInput;
-};
-
-
-export type MutationDmxSetSimulatorConfigArgs = {
-  simulatorId: Scalars['ID'];
-  dmxConfigId: Scalars['ID'];
-};
-
-
-export type MutationLightingSetIntensityArgs = {
-  simulatorId: Scalars['ID'];
-  intensity: Scalars['Float'];
-};
-
-
-export type MutationLightingShakeLightsArgs = {
-  simulatorId: Scalars['ID'];
-  strength?: Maybe<Scalars['Float']>;
-  duration?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationLightingFadeLightsArgs = {
-  simulatorId: Scalars['ID'];
-  duration: Scalars['Float'];
-  endIntensity: Scalars['Float'];
-  startIntensity?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationLightingSetEffectArgs = {
-  simulatorId: Scalars['ID'];
-  duration?: Maybe<Scalars['Float']>;
-  strength?: Maybe<Scalars['Float']>;
-  effect: Lighting_Action;
-};
-
-
-export type MutationSendLongRangeMessageArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  message: Scalars['String'];
-  crew?: Maybe<Scalars['Boolean']>;
-  sender?: Maybe<Scalars['String']>;
-  decoded?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationLongRangeMessageSendArgs = {
-  id?: Maybe<Scalars['ID']>;
-  message: Scalars['ID'];
-};
-
-
-export type MutationDeleteLongRangeMessageArgs = {
-  id: Scalars['ID'];
-  message: Scalars['ID'];
-};
-
-
-export type MutationUpdateLongRangeDecodedMessageArgs = {
-  id: Scalars['ID'];
-  messageId: Scalars['ID'];
-  decodedMessage?: Maybe<Scalars['String']>;
-  a?: Maybe<Scalars['Int']>;
-  f?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationUpdateLongRangeCommArgs = {
-  longRangeComm: LongRangeCommInput;
-};
-
-
-export type MutationApproveLongRangeMessageArgs = {
-  id: Scalars['ID'];
-  message: Scalars['ID'];
-};
-
-
-export type MutationEncryptLongRangeMessageArgs = {
-  id: Scalars['ID'];
-  message: Scalars['ID'];
-};
-
-
-export type MutationSetLongRangeSatellitesArgs = {
-  id: Scalars['ID'];
-  num: Scalars['Int'];
-};
-
-
-export type MutationAddInterceptionSignalArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationRemoveInterceptionSignalArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetInterceptionDifficultyArgs = {
-  id: Scalars['ID'];
-  difficulty: Scalars['Int'];
-};
-
-
-export type MutationSetLongRangePresetMessagesArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  messages?: Maybe<Array<Maybe<PresetAnswerInput>>>;
+export type MutationAddLogArgs = {
+  log?: InputMaybe<LogInput>;
 };
 
 
 export type MutationAddMacroArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveMacroArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationRenameMacroArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDuplicateMacroArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDuplicateMacroActionArgs = {
-  id: Scalars['ID'];
-  actionId: Scalars['ID'];
-};
-
-
-export type MutationUpdateMacroActionsArgs = {
-  id: Scalars['ID'];
-  actions?: Maybe<Array<Maybe<ActionInput>>>;
-};
-
-
-export type MutationTriggerMacroActionArgs = {
-  simulatorId: Scalars['ID'];
-  macroId: Scalars['ID'];
-};
-
-
-export type MutationAddMacroButtonConfigArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveMacroButtonConfigArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationRenameMacroButtonConfigArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationAddMacroButtonArgs = {
-  configId: Scalars['ID'];
-  name: Scalars['String'];
+  configId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveMacroButtonArgs = {
-  configId: Scalars['ID'];
-  id: Scalars['ID'];
+export type MutationAddMacroButtonConfigArgs = {
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationRenameMacroButtonArgs = {
-  configId: Scalars['ID'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationSetMacroButtonCategoryArgs = {
-  configId: Scalars['ID'];
-  id: Scalars['ID'];
-  category: Scalars['String'];
-};
-
-
-export type MutationSetMacroButtonColorArgs = {
-  configId: Scalars['ID'];
-  id: Scalars['ID'];
-  color: NotifyColors;
-};
-
-
-export type MutationUpdateMacroButtonActionsArgs = {
-  configId: Scalars['ID'];
-  id: Scalars['ID'];
-  actions?: Maybe<Array<Maybe<ActionInput>>>;
-};
-
-
-export type MutationReorderMacroButtonArgs = {
-  configId: Scalars['ID'];
-  oldIndex: Scalars['Int'];
-  newIndex: Scalars['Int'];
-};
-
-
-export type MutationReorderMacroActionArgs = {
-  configId: Scalars['ID'];
-  id: Scalars['ID'];
-  oldIndex: Scalars['Int'];
-  newIndex: Scalars['Int'];
-};
-
-
-export type MutationTriggerMacroButtonArgs = {
-  simulatorId: Scalars['ID'];
-  configId: Scalars['ID'];
-  buttonId: Scalars['ID'];
-};
-
-
-export type MutationToggleStationMessageGroupArgs = {
-  stationSetId: Scalars['ID'];
-  station: Scalars['String'];
-  group: Scalars['String'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationSendMessageArgs = {
-  message: MessageInput;
-};
-
-
-export type MutationMidiSetCreateArgs = {
-  name: Scalars['String'];
-  deviceName: Scalars['String'];
-};
-
-
-export type MutationMidiSetRenameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationMidiSetRemoveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationMidiSetControlArgs = {
-  id: Scalars['ID'];
-  control: MidiControlInput;
-};
-
-
-export type MutationSimulatorAddMidiSetArgs = {
-  simulatorId: Scalars['ID'];
-  midiSet: Scalars['ID'];
-};
-
-
-export type MutationSimulatorRemoveMidiSetArgs = {
-  simulatorId: Scalars['ID'];
-  midiSet: Scalars['ID'];
-};
-
-
-export type MutationCreateMissionArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveMissionArgs = {
-  missionId: Scalars['ID'];
-};
-
-
-export type MutationEditMissionArgs = {
-  missionId: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-  aux?: Maybe<Scalars['Boolean']>;
-  simulators?: Maybe<Array<Maybe<Scalars['ID']>>>;
-};
-
-
-export type MutationImportMissionArgs = {
-  jsonString: Scalars['String'];
-};
-
-
-export type MutationAddTimelineStepArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveTimelineStepArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-};
-
-
-export type MutationReorderTimelineStepArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  order: Scalars['Int'];
-};
-
-
-export type MutationReorderTimelineItemArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
-  order: Scalars['Int'];
-};
-
-
-export type MutationUpdateTimelineStepArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationAddTimelineItemToTimelineStepArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  timelineItem: TimelineItemInput;
-};
-
-
-export type MutationRemoveTimelineStepItemArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
-};
-
-
-export type MutationUpdateTimelineStepItemArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
-  updateTimelineItem: TimelineItemInput;
-};
-
-
-export type MutationDuplicateTimelineStepArgs = {
-  missionId: Scalars['ID'];
-  timelineStepId: Scalars['ID'];
-};
-
-
-export type MutationTimelineDuplicateItemArgs = {
-  missionId: Scalars['ID'];
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
-};
-
-
-export type MutationStartAuxTimelineArgs = {
-  simulatorId: Scalars['ID'];
-  missionId: Scalars['ID'];
-};
-
-
-export type MutationSetAuxTimelineStepArgs = {
-  simulatorId: Scalars['ID'];
-  timelineId: Scalars['ID'];
-  step: Scalars['Int'];
-};
-
-
-export type MutationMissionSetExtraRequirementsArgs = {
-  missionId: Scalars['ID'];
-  requirements: RequirementInput;
-};
-
-
-export type MutationMotuAddArgs = {
-  address: Scalars['String'];
-};
-
-
-export type MutationMotuRemoveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationMotuUpdateChannelArgs = {
-  id: Scalars['ID'];
-  channelId: Scalars['ID'];
-  channel: MotuChannelInput;
-};
-
-
-export type MutationMotuSetSendMuteArgs = {
-  id: Scalars['ID'];
-  inputId: Scalars['ID'];
-  outputId: Scalars['ID'];
-  mute: Scalars['Boolean'];
-};
-
-
-export type MutationNavCalculateCourseArgs = {
-  id: Scalars['ID'];
-  destination: Scalars['String'];
-};
-
-
-export type MutationNavCancelCalculationArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationNavCourseResponseArgs = {
-  id: Scalars['ID'];
-  x?: Maybe<Scalars['String']>;
-  y?: Maybe<Scalars['String']>;
-  z?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationNavCourseEntryArgs = {
-  id: Scalars['ID'];
-  x?: Maybe<Scalars['String']>;
-  y?: Maybe<Scalars['String']>;
-  z?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationNavToggleCalculateArgs = {
-  id: Scalars['ID'];
-  which: Scalars['Boolean'];
-};
-
-
-export type MutationNavSetDestinationsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  destinations?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
-export type MutationNavSetDestinationArgs = {
-  id?: Maybe<Scalars['ID']>;
-  destination?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationNavSetScanningArgs = {
-  id?: Maybe<Scalars['ID']>;
-  scanning?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationNavSetThrustersArgs = {
-  id: Scalars['ID'];
-  thrusters?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationNavSetPresetsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  presets?: Maybe<NavPresetInput>;
+export type MutationAddMultipleInventoryArgs = {
+  inventory?: InputMaybe<Array<InputMaybe<InventoryItemInput>>>;
 };
 
 
@@ -5253,1957 +3396,120 @@ export type MutationAddObjectiveArgs = {
 };
 
 
-export type MutationCompleteObjectiveArgs = {
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['Boolean']>;
-  cancel?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationObjectiveSetCrewCompleteArgs = {
-  id: Scalars['ID'];
-  crewComplete: Scalars['Boolean'];
-};
-
-
-export type MutationObjectiveSetOrderArgs = {
-  id: Scalars['ID'];
-  order: Scalars['Int'];
-};
-
-
-export type MutationAddLogArgs = {
-  log?: Maybe<LogInput>;
-};
-
-
-export type MutationChargePhaserBeamArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
-};
-
-
-export type MutationDischargePhaserBeamArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
-};
-
-
-export type MutationFirePhaserBeamArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
-};
-
-
-export type MutationStopPhaserBeamsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCoolPhaserBeamArgs = {
-  id: Scalars['ID'];
-  beamId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationPhaserArcArgs = {
-  id: Scalars['ID'];
-  arc: Scalars['Float'];
-};
-
-
-export type MutationSetPhaserBeamChargeArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
-  charge: Scalars['Float'];
-};
-
-
-export type MutationSetPhaserBeamHeatArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
-  heat: Scalars['Float'];
-};
-
-
-export type MutationSetPhaserBeamCountArgs = {
-  id: Scalars['ID'];
-  beamCount: Scalars['Int'];
-};
-
-
-export type MutationSetPhaserHoldToChargeArgs = {
-  id: Scalars['ID'];
-  holdToCharge: Scalars['Boolean'];
-};
-
-
-export type MutationSetPhaserChargeSpeedArgs = {
-  id: Scalars['ID'];
-  speed: Scalars['Float'];
-};
-
-
-export type MutationStopChargingPhasersArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationChangePowerArgs = {
-  systemId: Scalars['ID'];
-  power: Scalars['Int'];
-};
-
-
-export type MutationChangeSystemPowerLevelsArgs = {
-  systemId: Scalars['ID'];
-  powerLevels: Array<Maybe<Scalars['Int']>>;
-};
-
-
-export type MutationChangeSystemDefaultPowerLevelArgs = {
-  id: Scalars['ID'];
-  level: Scalars['Int'];
-};
-
-
-export type MutationFluxSystemPowerArgs = {
-  id?: Maybe<Scalars['ID']>;
-  all?: Maybe<Scalars['Boolean']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationDestroyProbeArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-};
-
-
-export type MutationDestroyAllProbesArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDestroyAllProbeNetworkArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationLaunchProbeArgs = {
-  id: Scalars['ID'];
-  probe: ProbeInput;
-};
-
-
-export type MutationFireProbeArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-};
-
-
-export type MutationUpdateProbeTypeArgs = {
-  id: Scalars['ID'];
-  probeType: ProbeTypeInput;
-};
-
-
-export type MutationUpdateProbeEquipmentArgs = {
-  id: Scalars['ID'];
-  probeEquipment: ProbeEquipmentInput;
-};
-
-
-export type MutationProbeQueryArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  query?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationProbeQueryResponseArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  response?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationProbeProcessedDataArgs = {
-  id: Scalars['ID'];
-  data?: Maybe<Scalars['String']>;
-  flash?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationSetProbeTorpedoArgs = {
-  id: Scalars['ID'];
-  torpedo: Scalars['Boolean'];
-};
-
-
-export type MutationSetProbeChargeArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  charge: Scalars['Float'];
-};
-
-
-export type MutationActivateProbeEmitterArgs = {
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-};
-
-
-export type MutationSetRailgunAmmoArgs = {
-  id: Scalars['ID'];
-  ammo?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationSetRailgunMaxAmmoArgs = {
-  id: Scalars['ID'];
-  ammo: Scalars['Int'];
-};
-
-
-export type MutationSetRailgunAvailableAmmoArgs = {
-  id: Scalars['ID'];
-  ammo: Scalars['Int'];
-};
-
-
-export type MutationFireRailgunArgs = {
-  id: Scalars['ID'];
-  simulatorId: Scalars['ID'];
-  contactId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationLoadRailgunArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationReactorEjectArgs = {
-  id: Scalars['ID'];
-  tf: Scalars['Boolean'];
-};
-
-
-export type MutationReactorChangeModelArgs = {
-  id: Scalars['ID'];
-  model: Scalars['String'];
-};
-
-
-export type MutationReactorChangeOutputArgs = {
-  id: Scalars['ID'];
-  output: Scalars['Int'];
-};
-
-
-export type MutationReactorChangeEfficiencyArgs = {
-  id: Scalars['ID'];
-  efficiency?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationReactorBatteryChargeLevelArgs = {
-  id: Scalars['ID'];
-  level: Scalars['Float'];
-};
-
-
-export type MutationReactorBatteryChargeRateArgs = {
-  id: Scalars['ID'];
-  rate: Scalars['Float'];
-};
-
-
-export type MutationUpdateDilithiumStressArgs = {
-  id: Scalars['ID'];
-  alphaLevel?: Maybe<Scalars['Float']>;
-  betaLevel?: Maybe<Scalars['Float']>;
-  alphaTarget?: Maybe<Scalars['Float']>;
-  betaTarget?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationFluxDilithiumStressArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetReactorEffcicienciesArgs = {
-  id: Scalars['ID'];
-  efficiencies: Array<Maybe<ReactorEfficiencyInput>>;
-};
-
-
-export type MutationSetDilithiumStressRateArgs = {
-  id: Scalars['ID'];
-  rate: Scalars['Float'];
-};
-
-
-export type MutationReactorRequireBalanceArgs = {
-  id: Scalars['ID'];
-  balance: Scalars['Boolean'];
-};
-
-
-export type MutationReactorSetHasWingsArgs = {
-  id: Scalars['ID'];
-  hasWings: Scalars['Boolean'];
-};
-
-
-export type MutationReactorSetWingPowerArgs = {
-  id: Scalars['ID'];
-  wing: Scalars['String'];
-  power: Scalars['Int'];
-};
-
-
-export type MutationReactorRequestWingPowerArgs = {
-  id: Scalars['ID'];
-  wing: Scalars['String'];
-  power: Scalars['Int'];
-};
-
-
-export type MutationReactorAckWingRequestArgs = {
-  id: Scalars['ID'];
-  wing: Scalars['String'];
-  ack: Scalars['Boolean'];
-};
-
-
-export type MutationRecordsCreateArgs = {
-  simulatorId: Scalars['ID'];
-  contents: Scalars['String'];
-  timestamp?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRecordsCreateSnippetArgs = {
-  simulatorId: Scalars['ID'];
-  recordIds: Array<Scalars['ID']>;
-  name: Scalars['String'];
-  type?: Maybe<RecordSnippetType>;
-};
-
-
-export type MutationRecordsAddToSnippetArgs = {
-  simulatorId: Scalars['ID'];
-  snippetId: Scalars['ID'];
-  recordIds: Array<Scalars['ID']>;
-};
-
-
-export type MutationRecordsRemoveFromSnippetArgs = {
-  simulatorId: Scalars['ID'];
-  snippetId: Scalars['ID'];
-  recordId: Scalars['ID'];
-};
-
-
-export type MutationRecordsDeleteRecordArgs = {
-  simulatorId: Scalars['ID'];
-  recordId: Scalars['ID'];
-};
-
-
-export type MutationRecordsGenerateRecordsArgs = {
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-  count?: Maybe<Scalars['Int']>;
-  visible?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRecordsCreateOnSnippetArgs = {
-  simulatorId: Scalars['ID'];
-  snippetId?: Maybe<Scalars['ID']>;
-  snippetName?: Maybe<Scalars['String']>;
-  contents: Scalars['String'];
-  timestamp?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRecordsShowSnippetArgs = {
-  simulatorId: Scalars['ID'];
-  snippetId: Scalars['ID'];
-};
-
-
-export type MutationRecordsHideSnippetArgs = {
-  simulatorId: Scalars['ID'];
-  snippetId: Scalars['ID'];
-};
-
-
-export type MutationRecordTemplateCreateSnippetArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRecordTemplateAddToSnippetArgs = {
-  snippetId: Scalars['ID'];
-  contents: Scalars['String'];
-  timestamp?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-  modified?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRecordTemplateDeleteSnippetArgs = {
-  snippetId: Scalars['ID'];
-};
-
-
-export type MutationRecordTemplateRenameArgs = {
-  snippetId: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationRecordTemplateUpdateRecordArgs = {
-  snippetId: Scalars['ID'];
-  recordId?: Maybe<Scalars['ID']>;
-  contents?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-  modified?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRecordTemplateRemoveFromSnippetArgs = {
-  snippetId: Scalars['ID'];
-  recordId: Scalars['ID'];
-};
-
-
 export type MutationAddRoomArgs = {
-  simulatorId: Scalars['ID'];
-  deckId?: Maybe<Scalars['ID']>;
-  deckNumber?: Maybe<Scalars['Int']>;
-  name: Scalars['String'];
-  svgPath?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveRoomArgs = {
-  roomId: Scalars['ID'];
+  deckId?: InputMaybe<Scalars['ID']['input']>;
+  deckNumber?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  svgPath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationAddRoomsBulkArgs = {
-  simulatorId: Scalars['ID'];
-  rooms: Scalars['String'];
-};
-
-
-export type MutationRenameRoomArgs = {
-  roomId: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationUpdateRoomRolesArgs = {
-  roomId: Scalars['ID'];
-  roles?: Maybe<Array<Maybe<RoomRoles>>>;
-};
-
-
-export type MutationUpdateRoomSvgArgs = {
-  roomId: Scalars['ID'];
-  svg: Scalars['String'];
-};
-
-
-export type MutationRoomGasArgs = {
-  roomId: Scalars['ID'];
-  gas?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationImportRoomsArgs = {
-  simulatorId: Scalars['ID'];
-  rooms: Array<Maybe<RoomInput>>;
-};
-
-
-export type MutationChangeRoomDeckArgs = {
-  roomId: Scalars['ID'];
-  deckId: Scalars['ID'];
-};
-
-
-export type MutationTestArgs = {
-  key?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSensorScanRequestArgs = {
-  id: Scalars['ID'];
-  request: Scalars['String'];
-};
-
-
-export type MutationSensorScanResultArgs = {
-  id: Scalars['ID'];
-  domain?: Maybe<Scalars['String']>;
-  result: Scalars['String'];
-};
-
-
-export type MutationProcessedDataArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  domain?: Maybe<Scalars['String']>;
-  data: Scalars['String'];
-  flash?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRemoveProcessedDataArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  domain?: Maybe<Scalars['String']>;
-  time: Scalars['String'];
-};
-
-
-export type MutationSensorScanCancelArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetPresetAnswersArgs = {
-  simulatorId: Scalars['ID'];
-  domain: Scalars['String'];
-  presetAnswers: Array<Maybe<PresetAnswerInput>>;
-};
-
-
-export type MutationCreateSensorContactArgs = {
-  id: Scalars['ID'];
-  contact: SensorContactInput;
-};
-
-
-export type MutationCreateSensorContactsArgs = {
-  id: Scalars['ID'];
-  contacts: Array<SensorContactInput>;
-};
-
-
-export type MutationMoveSensorContactArgs = {
-  id: Scalars['ID'];
-  contact: SensorContactInput;
-};
-
-
-export type MutationRemoveSensorContactArgs = {
-  id: Scalars['ID'];
-  contact: SensorContactInput;
-};
-
-
-export type MutationRemoveAllSensorContactsArgs = {
-  id: Scalars['ID'];
-  type?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
-export type MutationStopAllSensorContactsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateSensorContactArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  contact: SensorContactInput;
-};
-
-
-export type MutationSetArmyContactsArgs = {
-  simulatorId: Scalars['ID'];
-  domain: Scalars['String'];
-  armyContacts: Array<Maybe<SensorContactInput>>;
-};
-
-
-export type MutationCreateSensorArmyContactArgs = {
-  id: Scalars['ID'];
-  contact: SensorContactInput;
-};
-
-
-export type MutationRemoveSensorArmyContactArgs = {
-  id: Scalars['ID'];
-  contact: Scalars['ID'];
-};
-
-
-export type MutationUpdateSensorArmyContactArgs = {
-  id: Scalars['ID'];
-  contact: SensorContactInput;
-};
-
-
-export type MutationNudgeSensorContactsArgs = {
-  id: Scalars['ID'];
-  amount?: Maybe<CoordinatesInput>;
-  speed: Scalars['Float'];
-  yaw?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationSensorsSetHasPingArgs = {
-  id: Scalars['ID'];
-  ping: Scalars['Boolean'];
-};
-
-
-export type MutationSetSensorPingModeArgs = {
-  id: Scalars['ID'];
-  mode?: Maybe<Ping_Modes>;
-};
-
-
-export type MutationPingSensorsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetSensorsHistoryArgs = {
-  id: Scalars['ID'];
-  history: Scalars['Boolean'];
-};
-
-
-export type MutationNewSensorScanArgs = {
-  id: Scalars['ID'];
-  scan: SensorScanInput;
-};
-
-
-export type MutationUpdateSensorScanArgs = {
-  id: Scalars['ID'];
-  scan: SensorScanInput;
-};
-
-
-export type MutationCancelSensorScanArgs = {
-  id: Scalars['ID'];
-  scan: Scalars['ID'];
-};
-
-
-export type MutationToggleSensorsAutoTargetArgs = {
-  id: Scalars['ID'];
-  target: Scalars['Boolean'];
-};
-
-
-export type MutationToggleSensorsAutoThrustersArgs = {
-  id: Scalars['ID'];
-  thrusters: Scalars['Boolean'];
-};
-
-
-export type MutationSetSensorsInterferenceArgs = {
-  id: Scalars['ID'];
-  interference: Scalars['Float'];
-};
-
-
-export type MutationSetSensorsSegmentArgs = {
-  id: Scalars['ID'];
-  ring: Scalars['Int'];
-  line: Scalars['Int'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationSetAutoMovementArgs = {
-  id: Scalars['ID'];
-  movement: CoordinatesInput;
-};
-
-
-export type MutationUpdateSensorContactsArgs = {
-  id: Scalars['ID'];
-  contacts: Array<Maybe<SensorContactInput>>;
-};
-
-
-export type MutationUpdateSensorGridArgs = {
-  simulatorId: Scalars['ID'];
-  contacts: Array<Maybe<SensorContactInput>>;
-};
-
-
-export type MutationDestroySensorContactArgs = {
-  id: Scalars['ID'];
-  contact?: Maybe<Scalars['ID']>;
-  contacts?: Maybe<Array<Maybe<Scalars['ID']>>>;
-};
-
-
-export type MutationSensorsFireProjectileArgs = {
-  simulatorId: Scalars['ID'];
-  contactId: Scalars['ID'];
-  speed: Scalars['Float'];
-  hitpoints: Scalars['Int'];
-  miss?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationSetSensorsDefaultHitpointsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  hp: Scalars['Int'];
-};
-
-
-export type MutationSetSensorsDefaultSpeedArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  speed: Scalars['Float'];
-};
-
-
-export type MutationSetSensorsMissPercentArgs = {
-  id: Scalars['ID'];
-  miss: Scalars['Float'];
-};
-
-
-export type MutationCreateSetArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveSetArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationAddClientToSetArgs = {
-  id: Scalars['ID'];
-  client: SetClientInput;
-};
-
-
-export type MutationRemoveClientFromSetArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type MutationUpdateSetClientArgs = {
-  id: Scalars['ID'];
-  client: SetClientInput;
-};
-
-
-export type MutationRenameSetArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationShieldRaisedArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationShieldLoweredArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationShieldIntegritySetArgs = {
-  id: Scalars['ID'];
-  integrity?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationShieldFrequencySetArgs = {
-  id: Scalars['ID'];
-  frequency?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationShieldFrequencySetAllArgs = {
-  simulatorId: Scalars['ID'];
-  frequency: Scalars['Float'];
-};
-
-
-export type MutationHitShieldsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationRestoreShieldsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationShipDockingChangeArgs = {
-  simulatorId: Scalars['ID'];
-  which: Scalars['String'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationShipSetDockingArgs = {
-  simulatorId: Scalars['ID'];
-  clamps?: Maybe<Scalars['Boolean']>;
-  ramps?: Maybe<Scalars['Boolean']>;
-  airlock?: Maybe<Scalars['Boolean']>;
-  legs?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRemoteAccessSendCodeArgs = {
-  simulatorId: Scalars['ID'];
-  code: Scalars['String'];
-  station: Scalars['String'];
-};
-
-
-export type MutationRemoteAccessUpdateCodeArgs = {
-  simulatorId: Scalars['ID'];
-  codeId: Scalars['ID'];
-  state: Scalars['String'];
-};
-
-
-export type MutationSetSelfDestructTimeArgs = {
-  simulatorId: Scalars['ID'];
-  time?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationSetSelfDestructCodeArgs = {
-  simulatorId: Scalars['ID'];
-  code?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetSelfDestructAutoArgs = {
-  simulatorId: Scalars['ID'];
-  auto?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationNotifyArgs = {
-  simulatorId: Scalars['ID'];
-  type?: Maybe<Scalars['String']>;
-  station?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  body?: Maybe<Scalars['String']>;
-  color?: Maybe<NotifyColors>;
-};
-
-
-export type MutationPrintPdfArgs = {
-  asset: Scalars['String'];
-};
-
-
-export type MutationClearPdfArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCommAddSignalArgs = {
-  id: Scalars['ID'];
-  commSignalInput: CommSignalInput;
-};
-
-
-export type MutationCommUpdateSignalArgs = {
-  id: Scalars['ID'];
-  commSignalInput: CommSignalInput;
-};
-
-
-export type MutationCommUpdateSignalsArgs = {
-  id: Scalars['ID'];
-  signals: Array<Maybe<CommSignalInput>>;
-};
-
-
-export type MutationCommRemoveSignalArgs = {
-  id: Scalars['ID'];
-  signalId: Scalars['ID'];
-};
-
-
-export type MutationCommAddArrowArgs = {
-  id: Scalars['ID'];
-  commArrowInput: CommArrowInput;
-};
-
-
-export type MutationCommRemoveArrowArgs = {
-  id: Scalars['ID'];
-  arrowId: Scalars['ID'];
-};
-
-
-export type MutationCommConnectArrowArgs = {
-  id: Scalars['ID'];
-  arrowId: Scalars['ID'];
-};
-
-
-export type MutationCommDisconnectArrowArgs = {
-  id: Scalars['ID'];
-  arrowId: Scalars['ID'];
-};
-
-
-export type MutationCommUpdateArgs = {
-  id: Scalars['ID'];
-  commUpdateInput: CommUpdateInput;
-};
-
-
-export type MutationCommHailArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCancelHailArgs = {
-  id: Scalars['ID'];
-  core?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationConnectHailArgs = {
-  id: Scalars['ID'];
+  rooms: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddShortRangeCommArgs = {
-  simulatorId: Scalars['ID'];
-  frequency?: Maybe<Scalars['Float']>;
-  signalName?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveShortRangeCommArgs = {
-  simulatorId: Scalars['ID'];
-  frequency?: Maybe<Scalars['Float']>;
-  signalName?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationMuteShortRangeCommArgs = {
-  id: Scalars['ID'];
-  arrowId: Scalars['ID'];
-  mute: Scalars['Boolean'];
-};
-
-
-export type MutationSetSickbayBunksArgs = {
-  id: Scalars['ID'];
-  count?: Maybe<Scalars['Int']>;
+  frequency?: InputMaybe<Scalars['Float']['input']>;
+  signalName?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddSickbayCrewArgs = {
-  id: Scalars['ID'];
   crew: CrewInput;
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveSickbayCrewArgs = {
-  id: Scalars['ID'];
-  crewId: Scalars['ID'];
+export type MutationAddSimulatorAmbianceArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationUpdateSickbayCrewArgs = {
-  id: Scalars['ID'];
-  crewId: Scalars['ID'];
-  crew: CrewInput;
+export type MutationAddSimulatorDamageStepArgs = {
+  simulatorId: Scalars['ID']['input'];
+  step: DamageStepInput;
 };
 
 
-export type MutationScanSickbayBunkArgs = {
-  id: Scalars['ID'];
-  bunkId: Scalars['ID'];
-  request: Scalars['String'];
-};
-
-
-export type MutationCancelSickbayBunkScanArgs = {
-  id: Scalars['ID'];
-  bunkId: Scalars['ID'];
-};
-
-
-export type MutationSickbayBunkScanResponseArgs = {
-  id: Scalars['ID'];
-  bunkId: Scalars['ID'];
-  response: Scalars['String'];
-};
-
-
-export type MutationAssignPatientArgs = {
-  id: Scalars['ID'];
-  bunkId: Scalars['ID'];
-  crewId: Scalars['ID'];
-};
-
-
-export type MutationDischargePatientArgs = {
-  id: Scalars['ID'];
-  bunkId: Scalars['ID'];
-};
-
-
-export type MutationStartDeconProgramArgs = {
-  id?: Maybe<Scalars['ID']>;
-  program: Scalars['String'];
-  location: Scalars['String'];
-};
-
-
-export type MutationUpdateDeconOffsetArgs = {
-  id: Scalars['ID'];
-  offset: Scalars['Float'];
-};
-
-
-export type MutationCancelDeconProgramArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCompleteDeconProgramArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetDeconAutoFinishArgs = {
-  id: Scalars['ID'];
-  finish: Scalars['Boolean'];
-};
-
-
-export type MutationUpdatePatientChartArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  crewId: Scalars['ID'];
-  chart: ChartInput;
-};
-
-
-export type MutationUpdateSignalJammerArgs = {
-  jammer: SignalJammerInput;
-};
-
-
-export type MutationSignalJammerSignalsArgs = {
-  id: Scalars['ID'];
-  type: Scalars['String'];
-  signals: Scalars['Int'];
-};
-
-
-export type MutationFluxSignalJammerArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationSetSignalJammerSensorsInterferenceArgs = {
-  id: Scalars['ID'];
-  interference: Scalars['Boolean'];
-};
-
-
-export type MutationCreateSimulatorArgs = {
-  name: Scalars['String'];
-  template?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRemoveSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type MutationTriggerMacrosArgs = {
-  simulatorId: Scalars['ID'];
-  macros: Array<Maybe<MacroInput>>;
-};
-
-
-export type MutationAutoAdvanceArgs = {
-  simulatorId: Scalars['ID'];
-  prev?: Maybe<Scalars['Boolean']>;
-  limited?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationTrainingModeArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type MutationSetAlertConditionLockArgs = {
-  simulatorId: Scalars['ID'];
-  lock: Scalars['Boolean'];
-};
-
-
-export type MutationRenameSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationChangeSimulatorLayoutArgs = {
-  simulatorId: Scalars['ID'];
-  layout: Scalars['String'];
-};
-
-
-export type MutationChangeSimulatorCapsArgs = {
-  simulatorId: Scalars['ID'];
-  caps: Scalars['Boolean'];
-};
-
-
-export type MutationChangeSimulatorAlertLevelArgs = {
-  simulatorId: Scalars['ID'];
-  alertLevel: Scalars['String'];
-};
-
-
-export type MutationHideSimulatorCardArgs = {
-  simulatorId: Scalars['ID'];
-  cardName: Scalars['String'];
-  delay?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationUnhideSimulatorCardArgs = {
-  simulatorId: Scalars['ID'];
-  cardName: Scalars['String'];
-};
-
-
-export type MutationStationAssignCardArgs = {
-  simulatorId: Scalars['ID'];
-  assignedToStation: Scalars['String'];
-  cardName: Scalars['String'];
-};
-
-
-export type MutationStationUnassignCardArgs = {
-  simulatorId: Scalars['ID'];
-  cardName: Scalars['String'];
-};
-
-
-export type MutationFlipSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  flip: Scalars['Boolean'];
-};
-
-
-export type MutationToggleSimulatorCardHiddenArgs = {
-  simulatorId: Scalars['ID'];
-  cardName: Scalars['String'];
-  toggle: Scalars['Boolean'];
-};
-
-
-export type MutationChangeSimulatorExocompsArgs = {
-  simulatorId: Scalars['ID'];
-  exocomps: Scalars['Int'];
-};
-
-
-export type MutationChangeSimulatorBridgeCrewArgs = {
-  simulatorId: Scalars['ID'];
-  crew: Scalars['Int'];
-};
-
-
-export type MutationChangeSimulatorExtraPeopleArgs = {
-  simulatorId: Scalars['ID'];
-  crew: Scalars['Int'];
-};
-
-
-export type MutationChangeSimulatorRadiationArgs = {
-  simulatorId: Scalars['ID'];
-  radiation: Scalars['Float'];
-};
-
-
-export type MutationSetSimulatorHeliumArgs = {
-  simulatorId: Scalars['ID'];
-  helium: Scalars['Float'];
-};
-
-
-export type MutationSetSimulatorHeliumRateArgs = {
-  simulatorId: Scalars['ID'];
-  heliumRate: Scalars['Float'];
-};
-
-
-export type MutationSetSimulatorShowHeliumArgs = {
-  simulatorId: Scalars['ID'];
-  showHelium: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorTimelineStepArgs = {
-  simulatorId: Scalars['ID'];
-  timelineId?: Maybe<Scalars['ID']>;
-  step: Scalars['Int'];
-};
-
-
-export type MutationSetSimulatorMissionArgs = {
-  simulatorId: Scalars['ID'];
-  missionId: Scalars['ID'];
-  stepId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationSetSimulatorMissionConfigArgs = {
-  simulatorId: Scalars['ID'];
-  missionId: Scalars['ID'];
-  stationSetId: Scalars['ID'];
-  actionId: Scalars['ID'];
-  args: Scalars['JSON'];
-};
-
-
-export type MutationUpdateSimulatorPanelsArgs = {
-  simulatorId: Scalars['ID'];
-  panels: Array<Maybe<Scalars['ID']>>;
-};
-
-
-export type MutationUpdateSimulatorCommandLinesArgs = {
-  simulatorId: Scalars['ID'];
-  commandLines: Array<Maybe<Scalars['ID']>>;
-};
-
-
-export type MutationUpdateSimulatorTriggersArgs = {
-  simulatorId: Scalars['ID'];
-  triggers: Array<Maybe<Scalars['ID']>>;
-};
-
-
-export type MutationSetSimulatorTriggersPausedArgs = {
-  simulatorId: Scalars['ID'];
-  paused: Scalars['Boolean'];
-};
-
-
-export type MutationUpdateSimulatorInterfacesArgs = {
-  simulatorId: Scalars['ID'];
-  interfaces: Array<Maybe<Scalars['ID']>>;
-};
-
-
-export type MutationSetStepDamageArgs = {
-  simulatorId: Scalars['ID'];
-  stepDamage: Scalars['Boolean'];
-};
-
-
-export type MutationSetVerifyDamageArgs = {
-  simulatorId: Scalars['ID'];
-  verifyStep: Scalars['Boolean'];
-};
-
-
-export type MutationSetBridgeMessagingArgs = {
-  id: Scalars['ID'];
-  messaging: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorAssetsArgs = {
-  id: Scalars['ID'];
-  assets: SimulatorAssetsInput;
-};
-
-
-export type MutationSetSimulatorSoundEffectsArgs = {
-  id: Scalars['ID'];
-  soundEffects: Scalars['JSON'];
-};
-
-
-export type MutationSetSimulatorHasPrinterArgs = {
-  simulatorId: Scalars['ID'];
-  hasPrinter: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorHasLegsArgs = {
-  simulatorId: Scalars['ID'];
-  hasLegs: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorSpaceEdventuresIdArgs = {
-  simulatorId: Scalars['ID'];
-  spaceEdventuresId: Scalars['String'];
+export type MutationAddSimulatorDamageTaskArgs = {
+  simulatorId: Scalars['ID']['input'];
+  task: DamageTaskInput;
 };
 
 
 export type MutationAddSimulatorStationCardArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  cardName: Scalars['String'];
-  cardComponent: Scalars['String'];
+  cardComponent: Scalars['String']['input'];
+  cardName: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveSimulatorStationCardArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  cardName: Scalars['String'];
-};
-
-
-export type MutationEditSimulatorStationCardArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  cardName: Scalars['String'];
-  newCardName?: Maybe<Scalars['String']>;
-  cardComponent?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetSimulatorStationMessageGroupArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  group: Scalars['String'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorStationLoginArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  login: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorStationLayoutArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  layout: Scalars['String'];
-};
-
-
-export type MutationSetSimulatorStationExecutiveArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  exec: Scalars['Boolean'];
-};
-
-
-export type MutationSetSimulatorStationWidgetArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-  widget: Scalars['String'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationDocumentAddArgs = {
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-  asset: Scalars['String'];
-};
-
-
-export type MutationDocumentRemoveArgs = {
-  simulatorId: Scalars['ID'];
-  id: Scalars['ID'];
-};
-
-
-export type MutationCreateSoftwarePanelArgs = {
-  panel: SoftwarePanelInput;
-};
-
-
-export type MutationUpdateSoftwarePanelArgs = {
-  panel: SoftwarePanelInput;
-};
-
-
-export type MutationRemoveSoftwarePanelArgs = {
-  panel: Scalars['ID'];
-};
-
-
-export type MutationCreateStationSetArgs = {
-  name: Scalars['String'];
-  simulatorId: Scalars['ID'];
-};
-
-
-export type MutationRemoveStationSetArgs = {
-  stationSetID: Scalars['ID'];
-};
-
-
-export type MutationRenameStationSetArgs = {
-  stationSetID: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDuplicateStationSetArgs = {
-  stationSetID: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationSetStationSetCrewCountArgs = {
-  stationSetID: Scalars['ID'];
-  crewCount: Scalars['Int'];
+export type MutationAddSpeedArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  speed: Array<InputMaybe<SpeedInput>>;
 };
 
 
 export type MutationAddStationToStationSetArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveStationFromStationSetArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
+export type MutationAddSystemDamageStepArgs = {
+  step: DamageStepInput;
+  systemId: Scalars['ID']['input'];
 };
 
 
-export type MutationEditStationInStationSetArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  newStationName: Scalars['String'];
-};
-
-
-export type MutationAddCardToStationArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  cardName: Scalars['String'];
-  cardComponent: Scalars['String'];
-  cardIcon?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveCardFromStationArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  cardName: Scalars['String'];
-};
-
-
-export type MutationEditCardInStationSetArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  cardName: Scalars['String'];
-  newCardName?: Maybe<Scalars['String']>;
-  cardComponent?: Maybe<Scalars['String']>;
-  cardIcon?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetStationLoginArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  login: Scalars['Boolean'];
-};
-
-
-export type MutationSetStationLayoutArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  layout: Scalars['String'];
-};
-
-
-export type MutationSetStationExecutiveArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  exec: Scalars['Boolean'];
-};
-
-
-export type MutationToggleStationWidgetsArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  widget: Scalars['String'];
-  state: Scalars['Boolean'];
-};
-
-
-export type MutationSetStationDescriptionArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  description: Scalars['String'];
-};
-
-
-export type MutationSetStationTrainingArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  training?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetStationTagsArgs = {
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  tags: Array<Scalars['String']>;
-};
-
-
-export type MutationReorderStationWidgetsArgs = {
-  stationSetId: Scalars['ID'];
-  stationName: Scalars['String'];
-  widget: Scalars['String'];
-  order: Scalars['Int'];
-};
-
-
-export type MutationSetStealthActivatedArgs = {
-  id?: Maybe<Scalars['ID']>;
-  state?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationSetStealthChargeArgs = {
-  id?: Maybe<Scalars['ID']>;
-  state?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationActivateStealthArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationDeactivateStealthArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationSetStealthQuadrantArgs = {
-  id?: Maybe<Scalars['ID']>;
-  which?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['Float']>;
-};
-
-
-export type MutationFluxStealthQuadrantsArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationStealthChangeAlertArgs = {
-  id: Scalars['ID'];
-  change: Scalars['Boolean'];
-};
-
-
-export type MutationStealthSensorsSonarArgs = {
-  id: Scalars['ID'];
-  sonar: Scalars['Boolean'];
-};
-
-
-export type MutationFluxSubspaceFieldArgs = {
-  id: Scalars['ID'];
-  which?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationNormalSubspaceFieldArgs = {
-  id: Scalars['ID'];
-  which?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetSubspaceFieldSectorValueArgs = {
-  id?: Maybe<Scalars['ID']>;
-  which: Scalars['String'];
-  value: Scalars['Int'];
-};
-
-
-export type MutationCreateSurveyFormArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveSurveyFormArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetSurveyFormGoogleSheetArgs = {
-  id: Scalars['ID'];
-  spreadsheetId?: Maybe<Scalars['ID']>;
-  spreadsheetName?: Maybe<Scalars['String']>;
-  sheetId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationUpdateSurveyFormArgs = {
-  id: Scalars['ID'];
-  form: Array<Maybe<FormFieldsInput>>;
-};
-
-
-export type MutationTriggerSurveyArgs = {
-  simulatorId: Scalars['ID'];
-  id: Scalars['ID'];
-};
-
-
-export type MutationSurveyFormResponseArgs = {
-  id: Scalars['ID'];
-  response?: Maybe<FormResultsInput>;
-};
-
-
-export type MutationEndSurveyArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationAddExtraReportToSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-  which?: Maybe<Scalars['String']>;
+export type MutationAddSystemDamageTaskArgs = {
+  systemId: Scalars['ID']['input'];
+  task: DamageTaskInput;
 };
 
 
 export type MutationAddSystemToSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  className: Scalars['String'];
-  params: Scalars['String'];
-};
-
-
-export type MutationRemoveSystemFromSimulatorArgs = {
-  systemId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationUpdateSystemNameArgs = {
-  systemId: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationUpdateSystemUpgradeMacrosArgs = {
-  systemId: Scalars['ID'];
-  upgradeMacros?: Maybe<Array<Maybe<TimelineItemInput>>>;
-};
-
-
-export type MutationUpdateSystemUpgradeBoardArgs = {
-  systemId: Scalars['ID'];
-  upgradeBoard?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationUpgradeSystemArgs = {
-  systemId: Scalars['ID'];
-};
-
-
-export type MutationUpdateSystemRoomsArgs = {
-  systemId: Scalars['ID'];
-  locations?: Maybe<Array<Maybe<Scalars['ID']>>>;
-};
-
-
-export type MutationSystemSetWingArgs = {
-  systemId: Scalars['ID'];
-  wing: Scalars['String'];
-};
-
-
-export type MutationNewTacticalMapArgs = {
-  name: Scalars['String'];
-  flightId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationUpdateTacticalMapArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationFreezeTacticalMapArgs = {
-  id: Scalars['ID'];
-  freeze: Scalars['Boolean'];
-};
-
-
-export type MutationDuplicateTacticalMapArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationLoadTacticalMapArgs = {
-  id: Scalars['ID'];
-  flightId: Scalars['ID'];
-};
-
-
-export type MutationRemoveTacticalMapArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationAddTacticalMapLayerArgs = {
-  mapId: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationUpdateTacticalMapLayerArgs = {
-  mapId: Scalars['ID'];
-  layer: TacticalLayerInput;
-};
-
-
-export type MutationReorderTacticalMapLayerArgs = {
-  mapId: Scalars['ID'];
-  layer: Scalars['ID'];
-  order: Scalars['Int'];
-};
-
-
-export type MutationRemoveTacticalMapLayerArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
+  className: Scalars['String']['input'];
+  params: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddTacticalMapItemArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
   item: TacticalItemInput;
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
 };
 
 
-export type MutationUpdateTacticalMapItemArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
-  item: TacticalItemInput;
-};
-
-
-export type MutationRemoveTacticalMapItemArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
-  itemId: Scalars['ID'];
+export type MutationAddTacticalMapLayerArgs = {
+  mapId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationAddTacticalMapPathArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
   path: TacticalPathInput;
-};
-
-
-export type MutationUpdateTacticalMapPathArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
-  path: TacticalPathInput;
-};
-
-
-export type MutationRemoveTacticalMapPathArgs = {
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
-  pathId: Scalars['ID'];
-};
-
-
-export type MutationShowViewscreenTacticalArgs = {
-  mapId: Scalars['ID'];
-  secondary?: Maybe<Scalars['Boolean']>;
-  viewscreenId?: Maybe<Scalars['ID']>;
 };
 
 
 export type MutationAddTacticalMapsToFlightArgs = {
-  mapIds: Array<Scalars['ID']>;
-};
-
-
-export type MutationCreateTargetingContactArgs = {
-  id: Scalars['ID'];
-  targetClass: Scalars['ID'];
-};
-
-
-export type MutationTargetTargetingContactArgs = {
-  id: Scalars['ID'];
-  targetId: Scalars['ID'];
-};
-
-
-export type MutationUntargetTargetingContactArgs = {
-  id: Scalars['ID'];
-  targetId: Scalars['ID'];
-};
-
-
-export type MutationTargetSystemArgs = {
-  id: Scalars['ID'];
-  targetId: Scalars['ID'];
-  system: Scalars['String'];
-};
-
-
-export type MutationRemoveTargetArgs = {
-  id: Scalars['ID'];
-  targetId: Scalars['ID'];
+  mapIds: Array<Scalars['ID']['input']>;
 };
 
 
 export type MutationAddTargetClassArgs = {
-  id: Scalars['ID'];
   classInput: TargetClassInput;
-};
-
-
-export type MutationRemoveTargetClassArgs = {
-  id: Scalars['ID'];
-  classId: Scalars['ID'];
-};
-
-
-export type MutationUpdateTargetClassArgs = {
-  id: Scalars['ID'];
-  classInput: TargetClassInput;
-};
-
-
-export type MutationSetTargetClassCountArgs = {
-  id: Scalars['ID'];
-  classId: Scalars['ID'];
-  count: Scalars['Int'];
-};
-
-
-export type MutationSetCoordinateTargetingArgs = {
-  id: Scalars['ID'];
-  which: Scalars['Boolean'];
-};
-
-
-export type MutationSetTargetingCalculatedTargetArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  coordinates?: Maybe<CoordinatesInput>;
-  contactId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationSetTargetingEnteredTargetArgs = {
-  id: Scalars['ID'];
-  coordinates?: Maybe<StringCoordinatesInput>;
-};
-
-
-export type MutationClearAllTargetingContactsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetTargetingRangeArgs = {
-  id: Scalars['ID'];
-  range: Scalars['Float'];
-};
-
-
-export type MutationSetTargetingClassesArgs = {
-  id: Scalars['ID'];
-  classInput: Array<Maybe<TargetClassInput>>;
-};
-
-
-export type MutationGenerateTaskReportArgs = {
-  simulatorId: Scalars['ID'];
-  systemId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
-  stepCount?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationClearTaskReportArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCompleteTaskReportArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationVerifyTaskReportStepArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-};
-
-
-export type MutationAssignTaskReportStepArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRequestVerifyTaskReportStepArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -7212,64 +3518,705 @@ export type MutationAddTaskArgs = {
 };
 
 
-export type MutationVerifyTaskArgs = {
-  taskId: Scalars['ID'];
-  dismiss?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationRequestTaskVerifyArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDenyTaskVerifyArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDismissVerifiedTasksArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
 export type MutationAddTaskTemplateArgs = {
-  definition: Scalars['String'];
+  definition: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveTaskTemplateArgs = {
-  id: Scalars['ID'];
+export type MutationAddTimelineItemToTimelineStepArgs = {
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineItem: TimelineItemInput;
+  timelineStepId: Scalars['ID']['input'];
 };
 
 
-export type MutationRenameTaskTemplateArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+export type MutationAddTimelineStepArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type MutationSetTaskTemplateValuesArgs = {
-  id: Scalars['ID'];
-  values: Scalars['JSON'];
+export type MutationAddTractorTargetArgs = {
+  beamId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  label?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type MutationSetTaskTemplateReportTypesArgs = {
-  id: Scalars['ID'];
-  reportTypes: Array<Maybe<Scalars['String']>>;
+export type MutationAddTriggerArgs = {
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationSetTaskTemplateMacrosArgs = {
-  id: Scalars['ID'];
-  macros: Array<Maybe<ActionInput>>;
+export type MutationAddTriggerToSimulatorArgs = {
+  simulatorId: Scalars['ID']['input'];
+  trigger: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTaskTemplatePreMacrosArgs = {
-  id: Scalars['ID'];
-  macros: Array<Maybe<ActionInput>>;
+export type MutationAddViriiToComputerCoreArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationApplyClientSetArgs = {
+  flightId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+  stationSetId: Scalars['ID']['input'];
+  templateId: Scalars['ID']['input'];
+};
+
+
+export type MutationApproveLongRangeMessageArgs = {
+  id: Scalars['ID']['input'];
+  message: Scalars['ID']['input'];
+};
+
+
+export type MutationAssignPatientArgs = {
+  bunkId: Scalars['ID']['input'];
+  crewId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationAssignSpaceEdventuresBadgeArgs = {
+  badgeId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationAssignSpaceEdventuresFlightRecordArgs = {
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type MutationAssignSpaceEdventuresFlightTypeArgs = {
+  flightId: Scalars['ID']['input'];
+  flightType: Scalars['ID']['input'];
+};
+
+
+export type MutationAssignSpaceEdventuresMissionArgs = {
+  badgeId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationAssignTaskReportStepArgs = {
+  id: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationAutoAdvanceArgs = {
+  limited?: InputMaybe<Scalars['Boolean']['input']>;
+  prev?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationBatchIsochipUpdateArgs = {
+  chips?: InputMaybe<Array<InputMaybe<IsochipInput>>>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationBeginTransportScanArgs = {
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationBreakSystemArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  type: Scalars['String']['input'];
+};
+
+
+export type MutationCancelDeconProgramArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCancelHailArgs = {
+  core?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCancelLoopingSoundsArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationCancelSensorScanArgs = {
+  id: Scalars['ID']['input'];
+  scan: Scalars['ID']['input'];
+};
+
+
+export type MutationCancelSickbayBunkScanArgs = {
+  bunkId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCancelTransportScanArgs = {
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationChangePowerArgs = {
+  power: Scalars['Int']['input'];
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeRoomDeckArgs = {
+  deckId: Scalars['ID']['input'];
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorAlertLevelArgs = {
+  alertLevel: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorBridgeCrewArgs = {
+  crew: Scalars['Int']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorCapsArgs = {
+  caps: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorExocompsArgs = {
+  exocomps: Scalars['Int']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorExtraPeopleArgs = {
+  crew: Scalars['Int']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorLayoutArgs = {
+  layout: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSimulatorRadiationArgs = {
+  radiation: Scalars['Float']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationChangeSystemDefaultPowerLevelArgs = {
+  id: Scalars['ID']['input'];
+  level: Scalars['Int']['input'];
+};
+
+
+export type MutationChangeSystemPowerLevelsArgs = {
+  powerLevels: Array<InputMaybe<Scalars['Int']['input']>>;
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationChargePhaserBeamArgs = {
+  beamId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationChargeThxArgs = {
+  charge: Scalars['Float']['input'];
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationClearAllTargetingContactsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationClearPdfArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationClearTaskReportArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationClearTransportTargetsArgs = {
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationClientActivateLightsArgs = {
+  clientId: Scalars['ID']['input'];
+  dmxSetId: Scalars['ID']['input'];
+};
+
+
+export type MutationClientAddCacheArgs = {
+  cacheItem: Scalars['String']['input'];
+  client?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  viewscreen?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationClientAddExtraArgs = {
+  flightId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationClientConnectArgs = {
+  cards?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  client: Scalars['ID']['input'];
+  label?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationClientCrackArgs = {
+  crack: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationClientDiagnosticArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientDisconnectArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientLockScreenArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientLoginArgs = {
+  client: Scalars['ID']['input'];
+  loginName?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationClientLogoutArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientMovieStateArgs = {
+  client: Scalars['ID']['input'];
+  movie: Scalars['String']['input'];
+};
+
+
+export type MutationClientOfflineStateArgs = {
+  client: Scalars['ID']['input'];
+  state?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationClientPingArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientRemoveCacheArgs = {
+  cacheItem: Scalars['String']['input'];
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientResetArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClientSetCardArgs = {
+  card: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationClientSetEmailArgs = {
+  client: Scalars['ID']['input'];
+  email: Scalars['String']['input'];
+};
+
+
+export type MutationClientSetFlightArgs = {
+  client: Scalars['ID']['input'];
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type MutationClientSetSimulatorArgs = {
+  client: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationClientSetSoundPlayerArgs = {
+  client: Scalars['ID']['input'];
+  soundPlayer: Scalars['Boolean']['input'];
+};
+
+
+export type MutationClientSetStationArgs = {
+  client: Scalars['ID']['input'];
+  stationName: Scalars['ID']['input'];
+};
+
+
+export type MutationClientSetTrainingArgs = {
+  client: Scalars['ID']['input'];
+  training: Scalars['Boolean']['input'];
+};
+
+
+export type MutationClientUnlockScreenArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type MutationClockSyncArgs = {
+  clientId: Scalars['ID']['input'];
+};
+
+
+export type MutationCommAddArrowArgs = {
+  commArrowInput: CommArrowInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommAddSignalArgs = {
+  commSignalInput: CommSignalInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommConnectArrowArgs = {
+  arrowId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommDisconnectArrowArgs = {
+  arrowId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommHailArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommRemoveArrowArgs = {
+  arrowId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommRemoveSignalArgs = {
+  id: Scalars['ID']['input'];
+  signalId: Scalars['ID']['input'];
+};
+
+
+export type MutationCommUpdateArgs = {
+  commUpdateInput: CommUpdateInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommUpdateSignalArgs = {
+  commSignalInput: CommSignalInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCommUpdateSignalsArgs = {
+  id: Scalars['ID']['input'];
+  signals: Array<InputMaybe<CommSignalInput>>;
+};
+
+
+export type MutationCompleteDeconProgramArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCompleteObjectiveArgs = {
+  cancel?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+  state?: InputMaybe<Scalars['Boolean']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationCompleteTaskReportArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCompleteTransportArgs = {
+  target: Scalars['ID']['input'];
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationComputerCoreActivateHackingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationComputerCoreAddFileArgs = {
+  file: ComputerCoreFileInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationComputerCoreAddHackerArgs = {
+  id: Scalars['ID']['input'];
+  level?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationComputerCoreAppendLogArgs = {
+  id: Scalars['ID']['input'];
+  log: Scalars['String']['input'];
+};
+
+
+export type MutationComputerCoreDeactivateHackingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationComputerCoreDeleteLogArgs = {
+  id: Scalars['ID']['input'];
+  index: Scalars['Int']['input'];
+};
+
+
+export type MutationComputerCoreHackingPresetArgs = {
+  id: Scalars['ID']['input'];
+  presetId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationComputerCoreSetHackingFrequencyArgs = {
+  frequency: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationComputerCoreSetHackingStateArgs = {
+  id: Scalars['ID']['input'];
+  state: Scalars['String']['input'];
+};
+
+
+export type MutationComputerCoreUpdateHackingFilesArgs = {
+  files: Scalars['JSON']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationConnectHailArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCoolPhaserBeamArgs = {
+  beamId?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCountermeasuresActivateCountermeasureArgs = {
+  id: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresAddModuleArgs = {
+  id: Scalars['ID']['input'];
+  moduleType: Scalars['String']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresBuildCountermeasureArgs = {
+  id: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresConfigureModuleArgs = {
+  config: Scalars['JSON']['input'];
+  id: Scalars['ID']['input'];
+  moduleId: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresCreateCountermeasureArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresDeactivateCountermeasureArgs = {
+  id: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresLaunchCountermeasureArgs = {
+  id: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresLaunchUnlockedCountermeasuresArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCountermeasuresRemoveCountermeasureArgs = {
+  id: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresRemoveModuleArgs = {
+  id: Scalars['ID']['input'];
+  moduleId: Scalars['ID']['input'];
+  slot: CountermeasureSlotEnum;
+};
+
+
+export type MutationCountermeasuresSetFdNoteArgs = {
+  countermeasureId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  note: Scalars['String']['input'];
+};
+
+
+export type MutationCountermeasuresSetResourceArgs = {
+  id: Scalars['ID']['input'];
+  resource: Scalars['String']['input'];
+  value: Scalars['Float']['input'];
+};
+
+
+export type MutationCreateDockingPortArgs = {
+  port: DockingPortInput;
+};
+
+
+export type MutationCreateFirebaseUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateFlightSetArgs = {
+  flightSet: FlightSetInput;
+};
+
+
+export type MutationCreateHackingPresetArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateMissionArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateSensorArmyContactArgs = {
+  contact: SensorContactInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateSensorContactArgs = {
+  contact: SensorContactInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateSensorContactsArgs = {
+  contacts: Array<SensorContactInput>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateSetArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateSimulatorArgs = {
+  name: Scalars['String']['input'];
+  template?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationCreateSoftwarePanelArgs = {
+  panel: SoftwarePanelInput;
+};
+
+
+export type MutationCreateStationSetArgs = {
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateSurveyFormArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationCreateTargetingContactArgs = {
+  id: Scalars['ID']['input'];
+  targetClass: Scalars['ID']['input'];
 };
 
 
@@ -7278,838 +4225,531 @@ export type MutationCreateTeamArgs = {
 };
 
 
-export type MutationUpdateTeamArgs = {
-  team: TeamInput;
+export type MutationCrewImportArgs = {
+  crew: Array<InputMaybe<CrewInput>>;
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type MutationAddCrewToTeamArgs = {
-  teamId: Scalars['ID'];
-  crewId: Scalars['ID'];
+export type MutationCrmAddEnemyArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveCrewFromTeamArgs = {
-  teamId: Scalars['ID'];
-  crewId: Scalars['ID'];
+export type MutationCrmDestroyUndockedFightersArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveTeamArgs = {
-  teamId: Scalars['ID'];
+export type MutationCrmFirePhaserArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  target: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTrackingPreferenceArgs = {
-  pref: Scalars['Boolean'];
+export type MutationCrmFireTorpedoArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  target: Scalars['ID']['input'];
 };
 
 
-export type MutationSetSpaceEdventuresTokenArgs = {
-  token: Scalars['String'];
+export type MutationCrmLoadTorpedoArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationAssignSpaceEdventuresBadgeArgs = {
-  station?: Maybe<Scalars['String']>;
-  badgeId: Scalars['ID'];
+export type MutationCrmRestockTorpedosArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationAssignSpaceEdventuresMissionArgs = {
-  station?: Maybe<Scalars['String']>;
-  badgeId: Scalars['ID'];
+export type MutationCrmRestoreFighterArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationAssignSpaceEdventuresFlightTypeArgs = {
-  flightId: Scalars['ID'];
-  flightType: Scalars['ID'];
+export type MutationCrmRestoreFightersArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationAssignSpaceEdventuresFlightRecordArgs = {
-  flightId: Scalars['ID'];
+export type MutationCrmSetAccelerationArgs = {
+  acceleration: CoordinatesInput;
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationGetSpaceEdventuresLoginArgs = {
-  token: Scalars['String'];
+export type MutationCrmSetActivatedArgs = {
+  id: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
 };
 
 
-export type MutationRemoveSpaceEdventuresClientArgs = {
-  flightId: Scalars['ID'];
-  clientId: Scalars['ID'];
+export type MutationCrmSetAttackingArgs = {
+  attacking: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationGenericArgs = {
-  simulatorId: Scalars['ID'];
-  key: Scalars['String'];
+export type MutationCrmSetEnemyCountArgs = {
+  count: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationClockSyncArgs = {
-  clientId: Scalars['ID'];
+export type MutationCrmSetEnemyIconArgs = {
+  id: Scalars['ID']['input'];
+  image: Scalars['String']['input'];
 };
 
 
-export type MutationAddIssueArgs = {
-  title: Scalars['String'];
-  body: Scalars['String'];
-  person: Scalars['String'];
-  priority: Scalars['String'];
-  type: Scalars['String'];
+export type MutationCrmSetEnemyStrengthArgs = {
+  id: Scalars['ID']['input'];
+  strength: Scalars['Float']['input'];
 };
 
 
-export type MutationAddIssueUploadArgs = {
-  data: Scalars['String'];
-  filename: Scalars['String'];
-  ext: Scalars['String'];
+export type MutationCrmSetFighterDockedArgs = {
+  clientId: Scalars['ID']['input'];
+  docked: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationRotationUpdateArgs = {
-  id: Scalars['ID'];
-  rotation?: Maybe<RotationInput>;
-  on?: Maybe<Scalars['Boolean']>;
+export type MutationCrmSetFighterIconArgs = {
+  id: Scalars['ID']['input'];
+  image: Scalars['String']['input'];
 };
 
 
-export type MutationRotationSetArgs = {
-  id: Scalars['ID'];
-  rotation?: Maybe<RotationInput>;
+export type MutationCrmSetFighterImageArgs = {
+  id: Scalars['ID']['input'];
+  image: Scalars['String']['input'];
 };
 
 
-export type MutationRequiredRotationSetArgs = {
-  id: Scalars['ID'];
-  rotation?: Maybe<RotationInput>;
+export type MutationCrmSetFighterStrengthArgs = {
+  id: Scalars['ID']['input'];
+  strength: Scalars['Float']['input'];
 };
 
 
-export type MutationDirectionUpdateArgs = {
-  id: Scalars['ID'];
-  direction?: Maybe<DirectionInput>;
+export type MutationCrmSetPasswordArgs = {
+  id: Scalars['ID']['input'];
+  password: Scalars['String']['input'];
 };
 
 
-export type MutationSetThrusterRotationSpeedArgs = {
-  id: Scalars['ID'];
-  speed: Scalars['Float'];
+export type MutationCrmSetPhaserChargeArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  phaser: Scalars['Float']['input'];
 };
 
 
-export type MutationSetThrusterMovementSpeedArgs = {
-  id: Scalars['ID'];
-  speed?: Maybe<Scalars['Float']>;
+export type MutationCrmSetShieldStateArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  shield: Scalars['Boolean']['input'];
 };
 
 
-export type MutationChargeThxArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  charge: Scalars['Float'];
+export type MutationCrmStopPhaserArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationLockThxArgs = {
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
+export type MutationDamageReportArgs = {
+  report: Scalars['String']['input'];
+  systemId: Scalars['ID']['input'];
 };
 
 
-export type MutationActivateThxArgs = {
-  id: Scalars['ID'];
+export type MutationDamageSystemArgs = {
+  destroyed?: InputMaybe<Scalars['Boolean']['input']>;
+  report?: InputMaybe<Scalars['String']['input']>;
+  systemId: Scalars['ID']['input'];
+  which?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationDeactivateStealthArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type MutationDeactivateThxArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationResetThxArgs = {
-  id: Scalars['ID'];
+export type MutationDeckDoorsArgs = {
+  deckId: Scalars['ID']['input'];
+  doors?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
-export type MutationTorpedoAddWarheadArgs = {
-  id: Scalars['ID'];
-  warhead: WarheadInput;
+export type MutationDeckEvacArgs = {
+  deckId: Scalars['ID']['input'];
+  evac?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
-export type MutationTorpedoRemoveWarheadArgs = {
-  id: Scalars['ID'];
-  warheadId: Scalars['ID'];
+export type MutationDeleteComputerCoreVirusArgs = {
+  id: Scalars['ID']['input'];
+  virusId: Scalars['ID']['input'];
 };
 
 
-export type MutationTorpedoLoadWarheadArgs = {
-  id: Scalars['ID'];
-  warheadId: Scalars['ID'];
+export type MutationDeleteFlightArgs = {
+  flightId: Scalars['ID']['input'];
 };
 
 
-export type MutationTorpedoSetWarheadCountArgs = {
-  id: Scalars['ID'];
-  warheadType: Scalars['String'];
-  count: Scalars['Int'];
+export type MutationDeleteFlightSetArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTorpedoUnloadArgs = {
-  id: Scalars['ID'];
+export type MutationDeleteHackingPresetArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTorpedoFireArgs = {
-  id: Scalars['ID'];
+export type MutationDeleteLongRangeMessageArgs = {
+  id: Scalars['ID']['input'];
+  message: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTractorBeamStateArgs = {
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  state: Scalars['Boolean'];
+export type MutationDenyTaskVerifyArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTractorBeamTargetArgs = {
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  target: Scalars['Boolean'];
+export type MutationDeployExocompArgs = {
+  exocomp: ExocompInput;
 };
 
 
-export type MutationSetTractorBeamStrengthArgs = {
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  strength: Scalars['Float'];
+export type MutationDestroyAllProbeNetworkArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTractorBeamStressArgs = {
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  stress: Scalars['Float'];
+export type MutationDestroyAllProbesArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTractorBeamScanningArgs = {
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  scanning: Scalars['Boolean'];
+export type MutationDestroyProbeArgs = {
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTractorBeamTargetLabelArgs = {
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  label: Scalars['String'];
+export type MutationDestroySensorContactArgs = {
+  contact?: InputMaybe<Scalars['ID']['input']>;
+  contacts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTractorBeamCountArgs = {
-  id: Scalars['ID'];
-  beams: Scalars['Int'];
+export type MutationDirectionUpdateArgs = {
+  direction?: InputMaybe<DirectionInput>;
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationAddTractorTargetArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
-  label?: Maybe<Scalars['String']>;
+export type MutationDischargePatientArgs = {
+  bunkId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveTractorTargetArgs = {
-  id: Scalars['ID'];
-  beamId: Scalars['ID'];
+export type MutationDischargePhaserBeamArgs = {
+  beamId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationSetTransportDestinationArgs = {
-  transporter: Scalars['ID'];
-  destination: Scalars['String'];
-};
-
-
-export type MutationSetTransportTargetArgs = {
-  transporter: Scalars['ID'];
-  target: Scalars['String'];
-};
-
-
-export type MutationBeginTransportScanArgs = {
-  transporter: Scalars['ID'];
-};
-
-
-export type MutationCancelTransportScanArgs = {
-  transporter: Scalars['ID'];
-};
-
-
-export type MutationClearTransportTargetsArgs = {
-  transporter: Scalars['ID'];
-};
-
-
-export type MutationSetTransportChargeArgs = {
-  transporter: Scalars['ID'];
-  charge: Scalars['Float'];
-};
-
-
-export type MutationCompleteTransportArgs = {
-  transporter: Scalars['ID'];
-  target: Scalars['ID'];
-};
-
-
-export type MutationSetTransporterTargetsArgs = {
-  transporter: Scalars['ID'];
-  targets: Scalars['Int'];
-};
-
-
-export type MutationSetTransporterChargeSpeedArgs = {
-  id: Scalars['ID'];
-  chargeSpeed: Scalars['Float'];
-};
-
-
-export type MutationSetTranswarpActiveArgs = {
-  id: Scalars['ID'];
-  active: Scalars['Boolean'];
-};
-
-
-export type MutationFluxTranswarpArgs = {
-  id: Scalars['ID'];
-  quad?: Maybe<Scalars['String']>;
-  field?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationNormalTranswarpArgs = {
-  id: Scalars['ID'];
-  quad?: Maybe<Scalars['String']>;
-  field?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationSetTranswarpSectorValueArgs = {
-  id: Scalars['ID'];
-  quad: Scalars['String'];
-  field: Scalars['String'];
-  value: Scalars['Int'];
-};
-
-
-export type MutationAddTriggerArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationRenameTriggerArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationRemoveTriggerArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateTriggerArgs = {
-  id: Scalars['ID'];
-  components?: Maybe<Scalars['JSON']>;
-  connections?: Maybe<Scalars['JSON']>;
-  values?: Maybe<Scalars['JSON']>;
-  config?: Maybe<Scalars['JSON']>;
-};
-
-
-export type MutationAddTriggerToSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  trigger: Scalars['ID'];
-};
-
-
-export type MutationRemoveTriggerFromSimulatorArgs = {
-  simulatorId: Scalars['ID'];
-  trigger: Scalars['ID'];
-};
-
-
-export type MutationUpdateViewscreenNameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationUpdateViewscreenSecondaryArgs = {
-  id: Scalars['ID'];
-  secondary: Scalars['Boolean'];
-};
-
-
-export type MutationUpdateViewscreenComponentArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  component: Scalars['String'];
-  data?: Maybe<Scalars['String']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationUpdateViewscreenDataArgs = {
-  id: Scalars['ID'];
-  data: Scalars['String'];
-};
-
-
-export type MutationSetViewscreenToAutoArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationSetViewscreenPictureInPictureArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-  component: Scalars['String'];
-  data?: Maybe<Scalars['JSON']>;
-  size?: Maybe<Pip_Size>;
-  position?: Maybe<Pip_Position>;
-};
-
-
-export type MutationRemoveViewscreenPictureInPictureArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationUpdateViewscreenAutoArgs = {
-  id: Scalars['ID'];
-  auto: Scalars['Boolean'];
-};
-
-
-export type MutationToggleViewscreenVideoArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  viewscreenId?: Maybe<Scalars['ID']>;
-};
-
-
-export type MutationCountermeasuresCreateCountermeasureArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-  name: Scalars['String'];
-};
-
-
-export type MutationCountermeasuresRemoveCountermeasureArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-};
-
-
-export type MutationCountermeasuresLaunchCountermeasureArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-};
-
-
-export type MutationCountermeasuresActivateCountermeasureArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-};
-
-
-export type MutationCountermeasuresDeactivateCountermeasureArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-};
-
-
-export type MutationCountermeasuresLaunchUnlockedCountermeasuresArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCountermeasuresBuildCountermeasureArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-};
-
-
-export type MutationCountermeasuresAddModuleArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-  moduleType: Scalars['String'];
-};
-
-
-export type MutationCountermeasuresRemoveModuleArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-  moduleId: Scalars['ID'];
-};
-
-
-export type MutationCountermeasuresConfigureModuleArgs = {
-  id: Scalars['ID'];
-  slot: CountermeasureSlotEnum;
-  moduleId: Scalars['ID'];
-  config: Scalars['JSON'];
-};
-
-
-export type MutationCountermeasuresSetResourceArgs = {
-  id: Scalars['ID'];
-  resource: Scalars['String'];
-  value: Scalars['Float'];
-};
-
-
-export type MutationCountermeasuresSetFdNoteArgs = {
-  id: Scalars['ID'];
-  countermeasureId: Scalars['ID'];
-  note: Scalars['String'];
-};
-
-
-export type MutationEntityCreateArgs = {
-  flightId: Scalars['ID'];
-  template?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationEntityRemoveArgs = {
-  id: Array<Scalars['ID']>;
-};
-
-
-export type MutationFlightSetBaseUniverseArgs = {
-  flightId?: Maybe<Scalars['ID']>;
-  procGenKey?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationDmxDeviceCreateArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxDeviceRemoveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDmxDeviceSetNameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxDeviceSetChannelsArgs = {
-  id: Scalars['ID'];
-  channels: Array<DmxChannelProperty>;
-};
-
-
-export type MutationDmxSetCreateArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxSetRemoveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDmxSetDuplicateArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxSetSetNameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxFixtureCreateArgs = {
-  DMXSetId: Scalars['ID'];
-  name: Scalars['String'];
-  DMXDeviceId: Scalars['ID'];
-};
-
-
-export type MutationDmxFixtureRemoveArgs = {
-  DMXSetId: Scalars['ID'];
-  id: Scalars['ID'];
-};
-
-
-export type MutationDmxFixtureSetNameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxFixtureSetDmxDeviceArgs = {
-  id: Scalars['ID'];
-  DMXDeviceID: Scalars['ID'];
-};
-
-
-export type MutationDmxFixtureSetChannelArgs = {
-  id: Scalars['ID'];
-  channel: Scalars['Int'];
-};
-
-
-export type MutationDmxFixtureSetModeArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  tag?: Maybe<Array<Maybe<Scalars['String']>>>;
-  mode: DmxFixtureMode;
-};
-
-
-export type MutationDmxFixtureSetActiveArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
-export type MutationDmxFixtureSetTagsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-  newTags: Array<Scalars['String']>;
-};
-
-
-export type MutationDmxFixtureAddTagArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-  newTag: Scalars['String'];
-};
-
-
-export type MutationDmxFixtureRemoveTagArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-  removeTag: Scalars['String'];
-};
-
-
-export type MutationDmxFixtureSetPassiveChannelsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-  passiveChannels: DmxPassiveChannelsInput;
+export type MutationDismissVerifiedTasksArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type MutationDmxConfigCreateArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxConfigRemoveArgs = {
-  id: Scalars['ID'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationDmxConfigDuplicateArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationDmxConfigSetNameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-
-export type MutationDmxConfigSetConfigArgs = {
-  id: Scalars['ID'];
-  config: Scalars['JSON'];
+export type MutationDmxConfigRemoveArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDmxConfigSetActionStrengthArgs = {
-  id: Scalars['ID'];
-  actionStrength: Scalars['Float'];
+  actionStrength: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowAddArgs = {
-  name: Scalars['String'];
+export type MutationDmxConfigSetConfigArgs = {
+  config: Scalars['JSON']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowRemoveArgs = {
-  id: Scalars['ID'];
+export type MutationDmxConfigSetNameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationTaskFlowRenameArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+export type MutationDmxDeviceCreateArgs = {
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationTaskFlowSetCategoryArgs = {
-  id: Scalars['ID'];
-  category: Scalars['String'];
+export type MutationDmxDeviceRemoveArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowAddStepArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+export type MutationDmxDeviceSetChannelsArgs = {
+  channels: Array<DmxChannelProperty>;
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowRemoveStepArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
+export type MutationDmxDeviceSetNameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationTaskFlowRenameStepArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  name: Scalars['String'];
+export type MutationDmxFixtureAddTagArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  newTag: Scalars['String']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type MutationTaskFlowReorderStepArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  order: Scalars['Int'];
+export type MutationDmxFixtureCreateArgs = {
+  DMXDeviceId: Scalars['ID']['input'];
+  DMXSetId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationTaskFlowStepAddTaskArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  task: TaskInput;
+export type MutationDmxFixtureRemoveArgs = {
+  DMXSetId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowStepRemoveTaskArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  taskId: Scalars['ID'];
+export type MutationDmxFixtureRemoveTagArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  removeTag: Scalars['String']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type MutationTaskFlowStepEditTaskArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  taskId: Scalars['ID'];
-  task: TaskInput;
+export type MutationDmxFixtureSetActiveArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type MutationTaskFlowStepSetCompleteAllArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  completeAll: Scalars['Boolean'];
+export type MutationDmxFixtureSetChannelArgs = {
+  channel: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowStepSetDelayArgs = {
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  delay: Scalars['Int'];
+export type MutationDmxFixtureSetDmxDeviceArgs = {
+  DMXDeviceID: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationTaskFlowActivateArgs = {
-  id: Scalars['ID'];
-  simulatorId: Scalars['ID'];
+export type MutationDmxFixtureSetModeArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  mode: DmxFixtureMode;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  tag?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type MutationTaskFlowAdvanceArgs = {
-  simulatorId: Scalars['ID'];
+export type MutationDmxFixtureSetNameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationEntitySetAppearanceArgs = {
-  id?: Maybe<Scalars['ID']>;
-  color?: Maybe<Scalars['String']>;
-  meshType?: Maybe<MeshTypeEnum>;
-  modelAsset?: Maybe<Scalars['String']>;
-  materialMapAsset?: Maybe<Scalars['String']>;
-  ringMapAsset?: Maybe<Scalars['String']>;
-  cloudMapAsset?: Maybe<Scalars['String']>;
-  emissiveColor?: Maybe<Scalars['String']>;
-  emissiveIntensity?: Maybe<Scalars['Float']>;
-  scale?: Maybe<Scalars['Float']>;
+export type MutationDmxFixtureSetPassiveChannelsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  passiveChannels: DmxPassiveChannelsInput;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type MutationEntityRemoveAppearanceArgs = {
-  id: Scalars['ID'];
+export type MutationDmxFixtureSetTagsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  newTags: Array<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type MutationEntitySetBehaviorArgs = {
-  id: Scalars['ID'];
-  behavior: Behaviors;
-  targetId?: Maybe<Scalars['ID']>;
-  destination?: Maybe<EntityCoordinatesInput>;
+export type MutationDmxSetCreateArgs = {
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationEntityRemoveBehaviorArgs = {
-  id: Scalars['ID'];
+export type MutationDmxSetDuplicateArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationEntitySetIdentityArgs = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+export type MutationDmxSetRemoveArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationEntityRemoveIdentityArgs = {
-  id: Scalars['ID'];
+export type MutationDmxSetSetNameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
-export type MutationEntitySetLocationArgs = {
-  id?: Maybe<Scalars['ID']>;
-  position?: Maybe<EntityCoordinatesInput>;
-  velocity?: Maybe<EntityCoordinatesInput>;
-  acceleration?: Maybe<EntityCoordinatesInput>;
-  rotation?: Maybe<QuaternionInput>;
-  rotationVelocity?: Maybe<EntityCoordinatesInput>;
-  rotationAcceleration?: Maybe<EntityCoordinatesInput>;
+export type MutationDmxSetSimulatorConfigArgs = {
+  dmxConfigId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationDocumentAddArgs = {
+  asset: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationDocumentRemoveArgs = {
+  id: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationDownloadRemoteAssetsArgs = {
+  files: Array<RemoteAsset>;
+  folderPath: Scalars['String']['input'];
+};
+
+
+export type MutationDuplicateCommandLineArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDuplicateMacroArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDuplicateMacroActionArgs = {
+  actionId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDuplicateStationSetArgs = {
+  name: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationDuplicateTacticalMapArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationDuplicateTimelineStepArgs = {
+  missionId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationEditCardInStationSetArgs = {
+  cardComponent?: InputMaybe<Scalars['String']['input']>;
+  cardIcon?: InputMaybe<Scalars['String']['input']>;
+  cardName: Scalars['String']['input'];
+  newCardName?: InputMaybe<Scalars['String']['input']>;
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationEditMissionArgs = {
+  aux?: InputMaybe<Scalars['Boolean']['input']>;
+  category?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  missionId: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulators?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+};
+
+
+export type MutationEditSimulatorStationCardArgs = {
+  cardComponent?: InputMaybe<Scalars['String']['input']>;
+  cardName: Scalars['String']['input'];
+  newCardName?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationEditStationInStationSetArgs = {
+  newStationName: Scalars['String']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationEncryptLongRangeMessageArgs = {
+  id: Scalars['ID']['input'];
+  message: Scalars['ID']['input'];
+};
+
+
+export type MutationEndSurveyArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEngineCoolArgs = {
+  id: Scalars['ID']['input'];
+  state?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -8118,1619 +4758,4979 @@ export type MutationEntitiesSetPositionArgs = {
 };
 
 
-export type MutationEntitySetRotationVelocityMagnitudeArgs = {
-  id: Scalars['ID'];
-  rotationVelocity: CoordinatesInput;
+export type MutationEntityCreateArgs = {
+  flightId: Scalars['ID']['input'];
+  template?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
-export type MutationEntityRemoveLocationArgs = {
-  id: Scalars['ID'];
+export type MutationEntityRemoveArgs = {
+  id: Array<Scalars['ID']['input']>;
 };
 
 
-export type MutationEntitySetStageArgs = {
-  id?: Maybe<Scalars['ID']>;
-  scaleLabel?: Maybe<Scalars['String']>;
-  scaleLabelShort?: Maybe<Scalars['String']>;
-  skyboxKey?: Maybe<Scalars['String']>;
+export type MutationEntityRemoveAppearanceArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type MutationEntityRemoveStageArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationEntitySetStageChildArgs = {
-  id?: Maybe<Scalars['ID']>;
-  parentId: Scalars['ID'];
-};
-
-
-export type MutationEntityRemoveStageChildArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationEntitySetLightArgs = {
-  id?: Maybe<Scalars['ID']>;
-  intensity?: Maybe<Scalars['Float']>;
-  decay?: Maybe<Scalars['Float']>;
-  color?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationEntityRemoveLightArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationEntitySetGlowArgs = {
-  id?: Maybe<Scalars['ID']>;
-  glowMode?: Maybe<GlowModeEnum>;
-  color?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationEntityRemoveGlowArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationEntitySetTemplateArgs = {
-  id?: Maybe<Scalars['ID']>;
-  category: Scalars['String'];
-};
-
-
-export type MutationEntitySetEngineArgs = {
-  id?: Maybe<Scalars['ID']>;
-  type: EntityEngineEnum;
-  maxSpeed?: Maybe<Scalars['Float']>;
-  currentSpeed?: Maybe<Scalars['Float']>;
-  heat?: Maybe<Scalars['Float']>;
-  heatRate?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
-  cooling?: Maybe<Scalars['Boolean']>;
+export type MutationEntityRemoveBehaviorArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationEntityRemoveEngineArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   type: EntityEngineEnum;
 };
 
 
-export type MutationEntitySetThrustersArgs = {
-  id: Scalars['ID'];
-  direction?: Maybe<CoordinatesInput>;
-  rotationDelta?: Maybe<CoordinatesInput>;
-  rotationSpeed?: Maybe<Scalars['Float']>;
-  movementSpeed?: Maybe<Scalars['Float']>;
+export type MutationEntityRemoveGlowArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEntityRemoveIdentityArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEntityRemoveLightArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEntityRemoveLocationArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEntityRemoveStageArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEntityRemoveStageChildArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationEntityRemoveThrustersArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationEntitySetAppearanceArgs = {
+  cloudMapAsset?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  emissiveColor?: InputMaybe<Scalars['String']['input']>;
+  emissiveIntensity?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  materialMapAsset?: InputMaybe<Scalars['String']['input']>;
+  meshType?: InputMaybe<MeshTypeEnum>;
+  modelAsset?: InputMaybe<Scalars['String']['input']>;
+  ringMapAsset?: InputMaybe<Scalars['String']['input']>;
+  scale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationEntitySetBehaviorArgs = {
+  behavior: Behaviors;
+  destination?: InputMaybe<EntityCoordinatesInput>;
+  id: Scalars['ID']['input'];
+  targetId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationEntitySetEngineArgs = {
+  coolant?: InputMaybe<Scalars['Float']['input']>;
+  cooling?: InputMaybe<Scalars['Boolean']['input']>;
+  currentSpeed?: InputMaybe<Scalars['Float']['input']>;
+  heat?: InputMaybe<Scalars['Float']['input']>;
+  heatRate?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  maxSpeed?: InputMaybe<Scalars['Float']['input']>;
+  type: EntityEngineEnum;
+};
+
+
+export type MutationEntitySetGlowArgs = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  glowMode?: InputMaybe<GlowModeEnum>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationEntitySetIdentityArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationEntitySetLightArgs = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  decay?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  intensity?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationEntitySetLocationArgs = {
+  acceleration?: InputMaybe<EntityCoordinatesInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  position?: InputMaybe<EntityCoordinatesInput>;
+  rotation?: InputMaybe<QuaternionInput>;
+  rotationAcceleration?: InputMaybe<EntityCoordinatesInput>;
+  rotationVelocity?: InputMaybe<EntityCoordinatesInput>;
+  velocity?: InputMaybe<EntityCoordinatesInput>;
+};
+
+
+export type MutationEntitySetRotationVelocityMagnitudeArgs = {
+  id: Scalars['ID']['input'];
+  rotationVelocity: CoordinatesInput;
+};
+
+
+export type MutationEntitySetStageArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  scaleLabel?: InputMaybe<Scalars['String']['input']>;
+  scaleLabelShort?: InputMaybe<Scalars['String']['input']>;
+  skyboxKey?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationEntitySetStageChildArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  parentId: Scalars['ID']['input'];
+};
+
+
+export type MutationEntitySetTemplateArgs = {
+  category: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationEntitySetThrustersArgs = {
+  direction?: InputMaybe<CoordinatesInput>;
+  id: Scalars['ID']['input'];
+  movementSpeed?: InputMaybe<Scalars['Float']['input']>;
+  rotationDelta?: InputMaybe<CoordinatesInput>;
+  rotationSpeed?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationExecuteCommandLineArgs = {
+  arg?: InputMaybe<Scalars['String']['input']>;
+  command: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationExecuteFirebasePushArgs = {
+  eventId: Scalars['ID']['input'];
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type MutationExocompCompleteUpgradeArgs = {
+  exocomp: Scalars['ID']['input'];
+};
+
+
+export type MutationFirePhaserBeamArgs = {
+  beamId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationFireProbeArgs = {
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+};
+
+
+export type MutationFireRailgunArgs = {
+  contactId?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationFixSystemArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  type: Scalars['String']['input'];
+};
+
+
+export type MutationFlightSetBaseUniverseArgs = {
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+  procGenKey?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationFlipSimulatorArgs = {
+  flip: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationFluxDilithiumStressArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationFluxJumpdriveSectorArgs = {
+  id: Scalars['ID']['input'];
+  sector?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationFluxSignalJammerArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationFluxStealthQuadrantsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationFluxSubspaceFieldArgs = {
+  id: Scalars['ID']['input'];
+  which?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationFluxSystemPowerArgs = {
+  all?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationFluxTranswarpArgs = {
+  field?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  quad?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationFreezeTacticalMapArgs = {
+  freeze: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationGenerateDamageReportArgs = {
+  steps?: InputMaybe<Scalars['Int']['input']>;
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationGenerateTaskReportArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  stepCount?: InputMaybe<Scalars['Int']['input']>;
+  systemId?: InputMaybe<Scalars['ID']['input']>;
+  type: Scalars['String']['input'];
+};
+
+
+export type MutationGenericArgs = {
+  key: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationGetSpaceEdventuresLoginArgs = {
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationGoogleSheetsAppendDataArgs = {
+  data?: InputMaybe<Scalars['JSON']['input']>;
+  sheetId?: InputMaybe<Scalars['String']['input']>;
+  spreadsheetId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationGoogleSheetsCompleteAuthorizeArgs = {
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationGoogleSheetsFileSearchArgs = {
+  searchText: Scalars['String']['input'];
+};
+
+
+export type MutationHandheldScannerCancelArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandheldScannerResponseArgs = {
+  id: Scalars['ID']['input'];
+  response: Scalars['String']['input'];
+};
+
+
+export type MutationHandheldScannerScanArgs = {
+  id: Scalars['ID']['input'];
+  request: Scalars['String']['input'];
+};
+
+
+export type MutationHandleAddFlightSetToNavigationArgs = {
+  flightSetId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleAddProbeAssignmentArgs = {
+  id: Scalars['ID']['input'];
+  poiId: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleCommandLineFeedbackArgs = {
+  clientId: Scalars['ID']['input'];
+  feedbackId: Scalars['ID']['input'];
+  ignore?: InputMaybe<Scalars['Boolean']['input']>;
+  isApproved: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleCoolantFlushArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleEmergencyStopArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleEngageFlightPathArgs = {
+  id: Scalars['ID']['input'];
+  path: NavigationRouteInput;
+};
+
+
+export type MutationHandleEngineFluxArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleOnAssignProbeArgs = {
+  id: Scalars['ID']['input'];
+  poiId: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleOverrideLocationArgs = {
+  currentLocationName?: InputMaybe<Scalars['String']['input']>;
+  currentLocationUrl?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  location: BasicCoordinateInput;
+};
+
+
+export type MutationHandleResumePathArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleSaveFlightPathArgs = {
+  id: Scalars['ID']['input'];
+  path: NamedNavigationRouteInput;
+};
+
+
+export type MutationHandleSetCoolantLevelArgs = {
+  id: Scalars['ID']['input'];
+  level: Scalars['Float']['input'];
+};
+
+
+export type MutationHandleSetHeatLevelArgs = {
+  id: Scalars['ID']['input'];
+  level: Scalars['Float']['input'];
+};
+
+
+export type MutationHandleShowEtaArgs = {
+  id: Scalars['ID']['input'];
+  show: Scalars['Boolean']['input'];
+};
+
+
+export type MutationHandleShowFlightSetArgs = {
+  id: Scalars['ID']['input'];
+  show: Scalars['Boolean']['input'];
+};
+
+
+export type MutationHandleUpdateCurrentFlightPathArgs = {
+  id: Scalars['ID']['input'];
+  route: NavigationRouteInput;
+};
+
+
+export type MutationHandleUpdateCurrentFlightSetArgs = {
+  flightSetId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleUpdateEtaArgs = {
+  eta: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationHandleUpdateProbeAssignmentsArgs = {
+  id: Scalars['ID']['input'];
+  probeAssignments: Scalars['String']['input'];
+};
+
+
+export type MutationHideSimulatorCardArgs = {
+  cardName: Scalars['String']['input'];
+  delay?: InputMaybe<Scalars['Int']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationHitJumpDriveStressArgs = {
+  id: Scalars['ID']['input'];
+  sector: Scalars['String']['input'];
+};
+
+
+export type MutationHitShieldsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationIgnoreCoreFeedArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationImportLibraryEntryArgs = {
+  entries: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationImportMissionArgs = {
+  jsonString: Scalars['String']['input'];
+};
+
+
+export type MutationImportMissionFromUrlArgs = {
+  url: Scalars['String']['input'];
+};
+
+
+export type MutationImportRoomsArgs = {
+  rooms: Array<InputMaybe<RoomInput>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationImportSimulatorFromUrlArgs = {
+  url: Scalars['String']['input'];
+};
+
+
+export type MutationInsertIsochipArgs = {
+  chip?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  slot?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type MutationInternalCommCallIncomingArgs = {
+  id: Scalars['ID']['input'];
+  incoming?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationInternalCommCallOutgoingArgs = {
+  id: Scalars['ID']['input'];
+  outgoing?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationInternalCommCancelIncomingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationInternalCommCancelOutgoingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationInternalCommConnectIncomingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationInternalCommConnectOutgoingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationLaunchProbeArgs = {
+  id: Scalars['ID']['input'];
+  probe: ProbeInput;
+};
+
+
+export type MutationLightingFadeLightsArgs = {
+  duration: Scalars['Float']['input'];
+  endIntensity: Scalars['Float']['input'];
+  simulatorId: Scalars['ID']['input'];
+  startIntensity?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationLightingSetEffectArgs = {
+  duration?: InputMaybe<Scalars['Float']['input']>;
+  effect: Lighting_Action;
+  simulatorId: Scalars['ID']['input'];
+  strength?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationLightingSetIntensityArgs = {
+  intensity: Scalars['Float']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationLightingShakeLightsArgs = {
+  duration?: InputMaybe<Scalars['Float']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  strength?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationLoadRailgunArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationLoadTacticalMapArgs = {
+  flightId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationLockThxArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationLongRangeMessageSendArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  message: Scalars['ID']['input'];
+};
+
+
+export type MutationMidiSetControlArgs = {
+  control: MidiControlInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationMidiSetCreateArgs = {
+  deviceName: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationMidiSetRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationMidiSetRenameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationMissionSetExtraRequirementsArgs = {
+  missionId: Scalars['ID']['input'];
+  requirements: RequirementInput;
+};
+
+
+export type MutationMotuAddArgs = {
+  address: Scalars['String']['input'];
+};
+
+
+export type MutationMotuRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationMotuSetSendMuteArgs = {
+  id: Scalars['ID']['input'];
+  inputId: Scalars['ID']['input'];
+  mute: Scalars['Boolean']['input'];
+  outputId: Scalars['ID']['input'];
+};
+
+
+export type MutationMotuUpdateChannelArgs = {
+  channel: MotuChannelInput;
+  channelId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationMoveInventoryArgs = {
+  count: Scalars['Int']['input'];
+  fromRoom: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  toRoom: Scalars['ID']['input'];
+  toSimulator?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationMoveSensorContactArgs = {
+  contact: SensorContactInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationMuteShortRangeCommArgs = {
+  arrowId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  mute: Scalars['Boolean']['input'];
+};
+
+
+export type MutationNavCalculateCourseArgs = {
+  destination: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationNavCancelCalculationArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationNavCourseEntryArgs = {
+  id: Scalars['ID']['input'];
+  x?: InputMaybe<Scalars['String']['input']>;
+  y?: InputMaybe<Scalars['String']['input']>;
+  z?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationNavCourseResponseArgs = {
+  id: Scalars['ID']['input'];
+  x?: InputMaybe<Scalars['String']['input']>;
+  y?: InputMaybe<Scalars['String']['input']>;
+  z?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationNavSetDestinationArgs = {
+  destination?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationNavSetDestinationsArgs = {
+  destinations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationNavSetPresetsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  presets?: InputMaybe<NavPresetInput>;
+};
+
+
+export type MutationNavSetScanningArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  scanning?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationNavSetThrustersArgs = {
+  id: Scalars['ID']['input'];
+  thrusters?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationNavToggleCalculateArgs = {
+  id: Scalars['ID']['input'];
+  which: Scalars['Boolean']['input'];
+};
+
+
+export type MutationNewRandomCrewmemberArgs = {
+  position?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationNewSensorScanArgs = {
+  id: Scalars['ID']['input'];
+  scan: SensorScanInput;
+};
+
+
+export type MutationNewTacticalMapArgs = {
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationNormalSubspaceFieldArgs = {
+  id: Scalars['ID']['input'];
+  which?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationNormalTranswarpArgs = {
+  field?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  quad?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationNotifyArgs = {
+  body?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<NotifyColors>;
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationNudgeSensorContactsArgs = {
+  amount?: InputMaybe<CoordinatesInput>;
+  id: Scalars['ID']['input'];
+  speed: Scalars['Float']['input'];
+  yaw?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationObjectiveSetCrewCompleteArgs = {
+  crewComplete: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationObjectiveSetOrderArgs = {
+  id: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
+};
+
+
+export type MutationPauseFlightArgs = {
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type MutationPhaserArcArgs = {
+  arc: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationPingSensorsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationPlaySoundArgs = {
+  clientId?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  sound: SoundInput;
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationPrintPdfArgs = {
+  asset: Scalars['String']['input'];
+};
+
+
+export type MutationProbeProcessedDataArgs = {
+  data?: InputMaybe<Scalars['String']['input']>;
+  flash?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationProbeQueryArgs = {
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+  query?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationProbeQueryResponseArgs = {
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+  response?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationProcessedDataArgs = {
+  data: Scalars['String']['input'];
+  domain?: InputMaybe<Scalars['String']['input']>;
+  flash?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationReactorAckWingRequestArgs = {
+  ack: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+  wing: Scalars['String']['input'];
+};
+
+
+export type MutationReactorBatteryChargeLevelArgs = {
+  id: Scalars['ID']['input'];
+  level: Scalars['Float']['input'];
+};
+
+
+export type MutationReactorBatteryChargeRateArgs = {
+  id: Scalars['ID']['input'];
+  rate: Scalars['Float']['input'];
+};
+
+
+export type MutationReactorChangeEfficiencyArgs = {
+  efficiency?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationReactorChangeModelArgs = {
+  id: Scalars['ID']['input'];
+  model: Scalars['String']['input'];
+};
+
+
+export type MutationReactorChangeOutputArgs = {
+  id: Scalars['ID']['input'];
+  output: Scalars['Int']['input'];
+};
+
+
+export type MutationReactorEjectArgs = {
+  id: Scalars['ID']['input'];
+  tf: Scalars['Boolean']['input'];
+};
+
+
+export type MutationReactorRequestWingPowerArgs = {
+  id: Scalars['ID']['input'];
+  power: Scalars['Int']['input'];
+  wing: Scalars['String']['input'];
+};
+
+
+export type MutationReactorRequireBalanceArgs = {
+  balance: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationReactorSetHasWingsArgs = {
+  hasWings: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationReactorSetWingPowerArgs = {
+  id: Scalars['ID']['input'];
+  power: Scalars['Int']['input'];
+  wing: Scalars['String']['input'];
+};
+
+
+export type MutationRecallExocompArgs = {
+  exocomp: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordTemplateAddToSnippetArgs = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  contents: Scalars['String']['input'];
+  modified?: InputMaybe<Scalars['Boolean']['input']>;
+  snippetId: Scalars['ID']['input'];
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationRecordTemplateCreateSnippetArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRecordTemplateDeleteSnippetArgs = {
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordTemplateRemoveFromSnippetArgs = {
+  recordId: Scalars['ID']['input'];
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordTemplateRenameArgs = {
+  name: Scalars['String']['input'];
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordTemplateUpdateRecordArgs = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  contents?: InputMaybe<Scalars['String']['input']>;
+  modified?: InputMaybe<Scalars['Boolean']['input']>;
+  recordId?: InputMaybe<Scalars['ID']['input']>;
+  snippetId: Scalars['ID']['input'];
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationRecordsAddToSnippetArgs = {
+  recordIds: Array<Scalars['ID']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordsCreateArgs = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  contents: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationRecordsCreateOnSnippetArgs = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  contents: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  snippetId?: InputMaybe<Scalars['ID']['input']>;
+  snippetName?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationRecordsCreateSnippetArgs = {
+  name: Scalars['String']['input'];
+  recordIds: Array<Scalars['ID']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  type?: InputMaybe<RecordSnippetType>;
+};
+
+
+export type MutationRecordsDeleteRecordArgs = {
+  recordId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordsGenerateRecordsArgs = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  visible?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationRecordsHideSnippetArgs = {
+  simulatorId: Scalars['ID']['input'];
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordsRemoveFromSnippetArgs = {
+  recordId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRecordsShowSnippetArgs = {
+  simulatorId: Scalars['ID']['input'];
+  snippetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoteAccessSendCodeArgs = {
+  code: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationRemoteAccessUpdateCodeArgs = {
+  codeId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+  state: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveAllCrewArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveAllSensorContactsArgs = {
+  id: Scalars['ID']['input'];
+  type?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type MutationRemoveAssetFolderArgs = {
+  fullPath: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveAssetObjectArgs = {
+  fullPath: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveCardFromStationArgs = {
+  cardName: Scalars['String']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveClientFromSetArgs = {
+  clientId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveCommandLineArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveCommandLineFromSimulatorArgs = {
+  commandLine: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveComputerCoreUserArgs = {
+  id: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveCoreLayoutArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationRemoveCrewFromTeamArgs = {
+  crewId: Scalars['ID']['input'];
+  teamId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveCrewInventoryArgs = {
+  crewId: Scalars['ID']['input'];
+  inventory: Array<InputMaybe<InventoryCount>>;
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveCrewmemberArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationRemoveDeckArgs = {
+  deckId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveDockingPortArgs = {
+  port: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveInterceptionSignalArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveInterfaceArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveInterfaceDeviceArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveInterfaceFromSimulatorArgs = {
+  interfaceId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveInventoryArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationRemoveKeyboardArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveLibraryEntryArgs = {
+  entry?: InputMaybe<Scalars['ID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationRemoveMacroArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveMacroButtonArgs = {
+  configId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveMacroButtonConfigArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveMissionArgs = {
+  missionId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveProcessedDataArgs = {
+  domain?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  time: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveRoomArgs = {
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSensorArmyContactArgs = {
+  contact: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSensorContactArgs = {
+  contact: SensorContactInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSetArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveShortRangeCommArgs = {
+  frequency?: InputMaybe<Scalars['Float']['input']>;
+  signalName?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSickbayCrewArgs = {
+  crewId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSimulatorArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSimulatorAmbianceArgs = {
+  ambianceId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSimulatorDamageStepArgs = {
+  simulatorId: Scalars['ID']['input'];
+  step: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSimulatorDamageTaskArgs = {
+  simulatorId: Scalars['ID']['input'];
+  taskId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSimulatorStationCardArgs = {
+  cardName: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveSoftwarePanelArgs = {
+  panel: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSpaceEdventuresClientArgs = {
+  clientId: Scalars['ID']['input'];
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveStationFromStationSetArgs = {
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveStationSetArgs = {
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSurveyFormArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSystemDamageStepArgs = {
+  step: Scalars['ID']['input'];
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSystemDamageTaskArgs = {
+  systemId: Scalars['ID']['input'];
+  taskId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveSystemFromSimulatorArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  systemId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationRemoveTacticalMapArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTacticalMapItemArgs = {
+  itemId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTacticalMapLayerArgs = {
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTacticalMapPathArgs = {
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
+  pathId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTargetArgs = {
+  id: Scalars['ID']['input'];
+  targetId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTargetClassArgs = {
+  classId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTaskTemplateArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTeamArgs = {
+  teamId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTimelineStepArgs = {
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTimelineStepItemArgs = {
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineItemId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTractorTargetArgs = {
+  beamId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTriggerArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveTriggerFromSimulatorArgs = {
+  simulatorId: Scalars['ID']['input'];
+  trigger: Scalars['ID']['input'];
+};
+
+
+export type MutationRemoveViewscreenPictureInPictureArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationRenameCommandLineArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameInterfaceArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameInterfaceDeviceArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameKeyboardArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameMacroArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameMacroButtonArgs = {
+  configId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameMacroButtonConfigArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameRoomArgs = {
+  name: Scalars['String']['input'];
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type MutationRenameSetArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameSimulatorArgs = {
+  name: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationRenameStationSetArgs = {
+  name: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationRenameTaskTemplateArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRenameTriggerArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationReorderCoreLayoutsArgs = {
+  layouts: Array<Scalars['ID']['input']>;
+};
+
+
+export type MutationReorderMacroActionArgs = {
+  configId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  newIndex: Scalars['Int']['input'];
+  oldIndex: Scalars['Int']['input'];
+};
+
+
+export type MutationReorderMacroButtonArgs = {
+  configId: Scalars['ID']['input'];
+  newIndex: Scalars['Int']['input'];
+  oldIndex: Scalars['Int']['input'];
+};
+
+
+export type MutationReorderStationWidgetsArgs = {
+  order: Scalars['Int']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetId: Scalars['ID']['input'];
+  widget: Scalars['String']['input'];
+};
+
+
+export type MutationReorderTacticalMapLayerArgs = {
+  layer: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
+};
+
+
+export type MutationReorderTimelineItemArgs = {
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  order: Scalars['Int']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineItemId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationReorderTimelineStepArgs = {
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  order: Scalars['Int']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationRepairSystemArgs = {
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationRequestDamageReportArgs = {
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationRequestTaskVerifyArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRequestVerifyTaskReportStepArgs = {
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationRequiredRotationSetArgs = {
+  id: Scalars['ID']['input'];
+  rotation?: InputMaybe<RotationInput>;
+};
+
+
+export type MutationResetFlightArgs = {
+  flightId: Scalars['ID']['input'];
+  full?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationResetKeypadArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationResetThxArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationRestartComputerCoreTerminalArgs = {
+  id: Scalars['ID']['input'];
+  terminalId: Scalars['ID']['input'];
+};
+
+
+export type MutationRestoreComputerCoreFileArgs = {
+  all?: InputMaybe<Scalars['Boolean']['input']>;
+  fileId?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  level?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type MutationRestoreShieldsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationResumeFlightArgs = {
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type MutationRoomGasArgs = {
+  gas?: InputMaybe<Scalars['Boolean']['input']>;
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type MutationRotationSetArgs = {
+  id: Scalars['ID']['input'];
+  rotation?: InputMaybe<RotationInput>;
+};
+
+
+export type MutationRotationUpdateArgs = {
+  id: Scalars['ID']['input'];
+  on?: InputMaybe<Scalars['Boolean']['input']>;
+  rotation?: InputMaybe<RotationInput>;
+};
+
+
+export type MutationScanSickbayBunkArgs = {
+  bunkId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  request: Scalars['String']['input'];
+};
+
+
+export type MutationSelectCurrentFlightSetArgs = {
+  flightSetId: Scalars['String']['input'];
+  show?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSendLongRangeMessageArgs = {
+  crew?: InputMaybe<Scalars['Boolean']['input']>;
+  decoded?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  message: Scalars['String']['input'];
+  sender?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSendMessageArgs = {
+  message: MessageInput;
+};
+
+
+export type MutationSensorScanCancelArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSensorScanRequestArgs = {
+  id: Scalars['ID']['input'];
+  request: Scalars['String']['input'];
+};
+
+
+export type MutationSensorScanResultArgs = {
+  domain?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  result: Scalars['String']['input'];
+};
+
+
+export type MutationSensorsFireProjectileArgs = {
+  contactId: Scalars['ID']['input'];
+  hitpoints: Scalars['Int']['input'];
+  miss?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  speed: Scalars['Float']['input'];
+};
+
+
+export type MutationSensorsSetHasPingArgs = {
+  id: Scalars['ID']['input'];
+  ping: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetAlertConditionLockArgs = {
+  lock: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetArmyContactsArgs = {
+  armyContacts: Array<InputMaybe<SensorContactInput>>;
+  domain: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetAutoMovementArgs = {
+  id: Scalars['ID']['input'];
+  movement: CoordinatesInput;
+};
+
+
+export type MutationSetAuxTimelineStepArgs = {
+  simulatorId: Scalars['ID']['input'];
+  step: Scalars['Int']['input'];
+  timelineId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetBridgeMessagingArgs = {
+  id: Scalars['ID']['input'];
+  messaging: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetClientHypercardArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  component?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetClientOverlayArgs = {
+  id: Scalars['ID']['input'];
+  overlay: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetCodeLengthArgs = {
+  id: Scalars['ID']['input'];
+  len: Scalars['Int']['input'];
+};
+
+
+export type MutationSetCoolantTankArgs = {
+  coolant: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetCoordinateTargetingArgs = {
+  id: Scalars['ID']['input'];
+  which: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetDamageStepValidationArgs = {
+  id: Scalars['ID']['input'];
+  validation: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetDeconAutoFinishArgs = {
+  finish: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetDilithiumStressRateArgs = {
+  id: Scalars['ID']['input'];
+  rate: Scalars['Float']['input'];
+};
+
+
+export type MutationSetEngineAccelerationArgs = {
+  acceleration: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetEngineSpeedFactorArgs = {
+  id: Scalars['ID']['input'];
+  speedFactor: Scalars['Float']['input'];
+};
+
+
+export type MutationSetEngineSpeedsArgs = {
+  id: Scalars['ID']['input'];
+  speeds: Array<InputMaybe<SpeedInput>>;
+};
+
+
+export type MutationSetEngineUseAccelerationArgs = {
+  id: Scalars['ID']['input'];
+  useAcceleration: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetFirebaseAwardsArgs = {
+  awards: Array<FbAwardInput>;
+};
+
+
+export type MutationSetFirebaseMissionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetFirebaseSimulatorArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetHeatRateArgs = {
+  id: Scalars['ID']['input'];
+  rate?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationSetHullPlatingEngagedArgs = {
+  engaged?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetHullPlatingModeArgs = {
+  id: Scalars['ID']['input'];
+  mode?: InputMaybe<Hull_Plating_Mode>;
+};
+
+
+export type MutationSetHullPlatingPulseArgs = {
+  id: Scalars['ID']['input'];
+  pulse?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationSetInterceptionDifficultyArgs = {
+  difficulty: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetJumpDriveEnabledArgs = {
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetJumpDriveRingsExtendedArgs = {
+  id: Scalars['ID']['input'];
+  ringsExtended: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetJumpdriveActivatedArgs = {
+  activated: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetJumpdriveEnvsArgs = {
+  envs: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetJumpdriveSectorLevelArgs = {
+  id: Scalars['ID']['input'];
+  level: Scalars['Int']['input'];
+  sector: Scalars['String']['input'];
+};
+
+
+export type MutationSetJumpdriveSectorOffsetArgs = {
+  id: Scalars['ID']['input'];
+  offset: Scalars['Float']['input'];
+  sector: Scalars['String']['input'];
+};
+
+
+export type MutationSetKeypadAllowedAttemptsArgs = {
+  attempts: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetKeypadCodeArgs = {
+  code?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetKeypadEnteredCodeArgs = {
+  code?: InputMaybe<Array<Scalars['Int']['input']>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetKeypadHintArgs = {
+  hint: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetKeypadLockedArgs = {
+  id: Scalars['ID']['input'];
+  locked: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetLongRangePresetMessagesArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  messages?: InputMaybe<Array<InputMaybe<PresetAnswerInput>>>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetLongRangeSatellitesArgs = {
+  id: Scalars['ID']['input'];
+  num: Scalars['Int']['input'];
+};
+
+
+export type MutationSetMacroButtonCategoryArgs = {
+  category: Scalars['String']['input'];
+  configId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetMacroButtonColorArgs = {
+  color: NotifyColors;
+  configId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetPhaserBeamChargeArgs = {
+  beamId: Scalars['ID']['input'];
+  charge: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetPhaserBeamCountArgs = {
+  beamCount: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetPhaserBeamHeatArgs = {
+  beamId: Scalars['ID']['input'];
+  heat: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetPhaserChargeSpeedArgs = {
+  id: Scalars['ID']['input'];
+  speed: Scalars['Float']['input'];
+};
+
+
+export type MutationSetPhaserHoldToChargeArgs = {
+  holdToCharge: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetPresetAnswersArgs = {
+  domain: Scalars['String']['input'];
+  presetAnswers: Array<InputMaybe<PresetAnswerInput>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetProbeChargeArgs = {
+  charge: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetProbeTorpedoArgs = {
+  id: Scalars['ID']['input'];
+  torpedo: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetRailgunAmmoArgs = {
+  ammo?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetRailgunAvailableAmmoArgs = {
+  ammo: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetRailgunMaxAmmoArgs = {
+  ammo: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetReactorEffcicienciesArgs = {
+  efficiencies: Array<InputMaybe<ReactorEfficiencyInput>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSelfDestructAutoArgs = {
+  auto?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSelfDestructCodeArgs = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSelfDestructTimeArgs = {
+  simulatorId: Scalars['ID']['input'];
+  time?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationSetSensorPingModeArgs = {
+  id: Scalars['ID']['input'];
+  mode?: InputMaybe<Ping_Modes>;
+};
+
+
+export type MutationSetSensorsDefaultHitpointsArgs = {
+  hp: Scalars['Int']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetSensorsDefaultSpeedArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  speed: Scalars['Float']['input'];
+};
+
+
+export type MutationSetSensorsHistoryArgs = {
+  history: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSensorsInterferenceArgs = {
+  id: Scalars['ID']['input'];
+  interference: Scalars['Float']['input'];
+};
+
+
+export type MutationSetSensorsMissPercentArgs = {
+  id: Scalars['ID']['input'];
+  miss: Scalars['Float']['input'];
+};
+
+
+export type MutationSetSensorsSegmentArgs = {
+  id: Scalars['ID']['input'];
+  line: Scalars['Int']['input'];
+  ring: Scalars['Int']['input'];
+  state: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetSickbayBunksArgs = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSignalJammerSensorsInterferenceArgs = {
+  id: Scalars['ID']['input'];
+  interference: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetSimulatorAssetsArgs = {
+  assets: SimulatorAssetsInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorExocompsArgs = {
+  count: Scalars['Int']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorHasLegsArgs = {
+  hasLegs: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorHasPrinterArgs = {
+  hasPrinter: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorHeliumArgs = {
+  helium: Scalars['Float']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorHeliumRateArgs = {
+  heliumRate: Scalars['Float']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorMissionArgs = {
+  missionId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+  stepId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetSimulatorMissionConfigArgs = {
+  actionId: Scalars['ID']['input'];
+  args: Scalars['JSON']['input'];
+  missionId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+  stationSetId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorShowHeliumArgs = {
+  showHelium: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSimulatorSoundEffectsArgs = {
+  id: Scalars['ID']['input'];
+  soundEffects: Scalars['JSON']['input'];
+};
+
+
+export type MutationSetSimulatorSpaceEdventuresIdArgs = {
+  simulatorId: Scalars['ID']['input'];
+  spaceEdventuresId: Scalars['String']['input'];
+};
+
+
+export type MutationSetSimulatorStationExecutiveArgs = {
+  exec: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationSetSimulatorStationLayoutArgs = {
+  layout: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationSetSimulatorStationLoginArgs = {
+  login: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationSetSimulatorStationMessageGroupArgs = {
+  group: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationSetSimulatorStationWidgetArgs = {
+  simulatorId: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
+  station: Scalars['String']['input'];
+  widget: Scalars['String']['input'];
+};
+
+
+export type MutationSetSimulatorTimelineStepArgs = {
+  simulatorId: Scalars['ID']['input'];
+  step: Scalars['Int']['input'];
+  timelineId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetSimulatorTriggersPausedArgs = {
+  paused: Scalars['Boolean']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSetSpaceEdventuresTokenArgs = {
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationSetSpeedArgs = {
+  id: Scalars['ID']['input'];
+  on?: InputMaybe<Scalars['Boolean']['input']>;
+  speed: Scalars['Int']['input'];
+};
+
+
+export type MutationSetStationAmbianceArgs = {
+  ambiance?: InputMaybe<Scalars['String']['input']>;
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationSetStationDescriptionArgs = {
+  description: Scalars['String']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationSetStationExecutiveArgs = {
+  exec: Scalars['Boolean']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationSetStationLayoutArgs = {
+  layout: Scalars['String']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationSetStationLoginArgs = {
+  login: Scalars['Boolean']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationSetStationSetCrewCountArgs = {
+  crewCount: Scalars['Int']['input'];
+  stationSetID: Scalars['ID']['input'];
+};
+
+
+export type MutationSetStationTagsArgs = {
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+  tags: Array<Scalars['String']['input']>;
+};
+
+
+export type MutationSetStationTrainingArgs = {
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+  training?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSetStealthActivatedArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  state?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationSetStealthChargeArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  state?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationSetStealthQuadrantArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  value?: InputMaybe<Scalars['Float']['input']>;
+  which?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSetStepDamageArgs = {
+  simulatorId: Scalars['ID']['input'];
+  stepDamage: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetSubspaceFieldSectorValueArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  value: Scalars['Int']['input'];
+  which: Scalars['String']['input'];
+};
+
+
+export type MutationSetSurveyFormGoogleSheetArgs = {
+  id: Scalars['ID']['input'];
+  sheetId?: InputMaybe<Scalars['ID']['input']>;
+  spreadsheetId?: InputMaybe<Scalars['ID']['input']>;
+  spreadsheetName?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSetTargetClassCountArgs = {
+  classId: Scalars['ID']['input'];
+  count: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTargetingCalculatedTargetArgs = {
+  contactId?: InputMaybe<Scalars['ID']['input']>;
+  coordinates?: InputMaybe<CoordinatesInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSetTargetingClassesArgs = {
+  classInput: Array<InputMaybe<TargetClassInput>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTargetingEnteredTargetArgs = {
+  coordinates?: InputMaybe<StringCoordinatesInput>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTargetingRangeArgs = {
+  id: Scalars['ID']['input'];
+  range: Scalars['Float']['input'];
+};
+
+
+export type MutationSetTaskTemplateMacrosArgs = {
+  id: Scalars['ID']['input'];
+  macros: Array<InputMaybe<ActionInput>>;
+};
+
+
+export type MutationSetTaskTemplatePreMacrosArgs = {
+  id: Scalars['ID']['input'];
+  macros: Array<InputMaybe<ActionInput>>;
+};
+
+
+export type MutationSetTaskTemplateReportTypesArgs = {
+  id: Scalars['ID']['input'];
+  reportTypes: Array<InputMaybe<Scalars['String']['input']>>;
+};
+
+
+export type MutationSetTaskTemplateValuesArgs = {
+  id: Scalars['ID']['input'];
+  values: Scalars['JSON']['input'];
+};
+
+
+export type MutationSetThrusterMovementSpeedArgs = {
+  id: Scalars['ID']['input'];
+  speed?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationSetThrusterRotationSpeedArgs = {
+  id: Scalars['ID']['input'];
+  speed: Scalars['Float']['input'];
+};
+
+
+export type MutationSetTrackingPreferenceArgs = {
+  pref: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetTractorBeamCountArgs = {
+  beams: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTractorBeamScanningArgs = {
+  beam: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  scanning: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetTractorBeamStateArgs = {
+  beam: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetTractorBeamStrengthArgs = {
+  beam: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  strength: Scalars['Float']['input'];
+};
+
+
+export type MutationSetTractorBeamStressArgs = {
+  beam: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  stress: Scalars['Float']['input'];
+};
+
+
+export type MutationSetTractorBeamTargetArgs = {
+  beam: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  target: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetTractorBeamTargetLabelArgs = {
+  beam: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  label: Scalars['String']['input'];
+};
+
+
+export type MutationSetTransportChargeArgs = {
+  charge: Scalars['Float']['input'];
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTransportDestinationArgs = {
+  destination: Scalars['String']['input'];
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTransportTargetArgs = {
+  target: Scalars['String']['input'];
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTransporterChargeSpeedArgs = {
+  chargeSpeed: Scalars['Float']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTransporterTargetsArgs = {
+  targets: Scalars['Int']['input'];
+  transporter: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTranswarpActiveArgs = {
+  active: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSetTranswarpSectorValueArgs = {
+  field: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  quad: Scalars['String']['input'];
+  value: Scalars['Int']['input'];
+};
+
+
+export type MutationSetVerifyDamageArgs = {
+  simulatorId: Scalars['ID']['input'];
+  verifyStep: Scalars['Boolean']['input'];
+};
+
+
+export type MutationSetViewscreenPictureInPictureArgs = {
+  component: Scalars['String']['input'];
+  data?: InputMaybe<Scalars['JSON']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  position?: InputMaybe<Pip_Position>;
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  size?: InputMaybe<Pip_Size>;
+};
+
+
+export type MutationSetViewscreenToAutoArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationShieldFrequencySetArgs = {
+  frequency?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationShieldFrequencySetAllArgs = {
+  frequency: Scalars['Float']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationShieldIntegritySetArgs = {
+  id: Scalars['ID']['input'];
+  integrity?: InputMaybe<Scalars['Float']['input']>;
+};
+
+
+export type MutationShieldLoweredArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationShieldRaisedArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationShipDockingChangeArgs = {
+  simulatorId: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
+  which: Scalars['String']['input'];
+};
+
+
+export type MutationShipSetDockingArgs = {
+  airlock?: InputMaybe<Scalars['Boolean']['input']>;
+  clamps?: InputMaybe<Scalars['Boolean']['input']>;
+  legs?: InputMaybe<Scalars['Boolean']['input']>;
+  ramps?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationShowPoiInformationOnCurrentFlightSetArgs = {
+  infoType: Scalars['String']['input'];
+  poiId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationShowPoiOnCurrentFlightSetArgs = {
+  flightSetId: Scalars['ID']['input'];
+  poiId: Scalars['ID']['input'];
+  showName?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationShowViewscreenTacticalArgs = {
+  mapId: Scalars['ID']['input'];
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  viewscreenId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationSickbayBunkScanResponseArgs = {
+  bunkId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+  response: Scalars['String']['input'];
+};
+
+
+export type MutationSignalJammerSignalsArgs = {
+  id: Scalars['ID']['input'];
+  signals: Scalars['Int']['input'];
+  type: Scalars['String']['input'];
+};
+
+
+export type MutationSimulatorAddMidiSetArgs = {
+  midiSet: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationSimulatorRemoveMidiSetArgs = {
+  midiSet: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationStartAuxTimelineArgs = {
+  missionId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationStartDeconProgramArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  location: Scalars['String']['input'];
+  program: Scalars['String']['input'];
+};
+
+
+export type MutationStartFlightArgs = {
+  flightType?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulators: Array<SimulatorInput>;
+};
+
+
+export type MutationStationAssignCardArgs = {
+  assignedToStation: Scalars['String']['input'];
+  cardName: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationStationUnassignCardArgs = {
+  cardName: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationStealthChangeAlertArgs = {
+  change: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationStealthSensorsSonarArgs = {
+  id: Scalars['ID']['input'];
+  sonar: Scalars['Boolean']['input'];
+};
+
+
+export type MutationStopAllSensorContactsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationStopAllSoundsArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationStopChargingPhasersArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationStopPhaserBeamsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationSurveyFormResponseArgs = {
+  id: Scalars['ID']['input'];
+  response?: InputMaybe<FormResultsInput>;
+};
+
+
+export type MutationSyncTimerArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSystemReactivationCodeArgs = {
+  code: Scalars['String']['input'];
+  station: Scalars['String']['input'];
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationSystemReactivationCodeResponseArgs = {
+  response: Scalars['Boolean']['input'];
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationSystemSetWingArgs = {
+  systemId: Scalars['ID']['input'];
+  wing: Scalars['String']['input'];
+};
+
+
+export type MutationTargetSystemArgs = {
+  id: Scalars['ID']['input'];
+  system: Scalars['String']['input'];
+  targetId: Scalars['ID']['input'];
+};
+
+
+export type MutationTargetTargetingContactArgs = {
+  id: Scalars['ID']['input'];
+  targetId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowActivateArgs = {
+  id: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowAddArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationTaskFlowAddStepArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationTaskFlowAdvanceArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowRemoveArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowRemoveStepArgs = {
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowRenameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationTaskFlowRenameStepArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowReorderStepArgs = {
+  id: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowSetCategoryArgs = {
+  category: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowStepAddTaskArgs = {
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  task: TaskInput;
+};
+
+
+export type MutationTaskFlowStepEditTaskArgs = {
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  task: TaskInput;
+  taskId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowStepRemoveTaskArgs = {
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  taskId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowStepSetCompleteAllArgs = {
+  completeAll: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationTaskFlowStepSetDelayArgs = {
+  delay: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+};
+
+
+export type MutationTestArgs = {
+  key?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationTimelineDuplicateItemArgs = {
+  missionId: Scalars['ID']['input'];
+  timelineItemId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationToggleInterfaceObjectHiddenArgs = {
+  hidden: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+  objectId: Scalars['ID']['input'];
+};
+
+
+export type MutationToggleInterfaceObjectPlayingArgs = {
+  id: Scalars['ID']['input'];
+  objectId: Scalars['ID']['input'];
+};
+
+
+export type MutationToggleSensorsAutoTargetArgs = {
+  id: Scalars['ID']['input'];
+  target: Scalars['Boolean']['input'];
+};
+
+
+export type MutationToggleSensorsAutoThrustersArgs = {
+  id: Scalars['ID']['input'];
+  thrusters: Scalars['Boolean']['input'];
+};
+
+
+export type MutationToggleSimulatorCardHiddenArgs = {
+  cardName: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+  toggle: Scalars['Boolean']['input'];
+};
+
+
+export type MutationToggleStationMessageGroupArgs = {
+  group: Scalars['String']['input'];
+  state: Scalars['Boolean']['input'];
+  station: Scalars['String']['input'];
+  stationSetId: Scalars['ID']['input'];
+};
+
+
+export type MutationToggleStationWidgetsArgs = {
+  state: Scalars['Boolean']['input'];
+  stationName: Scalars['String']['input'];
+  stationSetID: Scalars['ID']['input'];
+  widget: Scalars['String']['input'];
+};
+
+
+export type MutationToggleViewscreenVideoArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  viewscreenId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationTorpedoAddWarheadArgs = {
+  id: Scalars['ID']['input'];
+  warhead: WarheadInput;
+};
+
+
+export type MutationTorpedoFireArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationTorpedoLoadWarheadArgs = {
+  id: Scalars['ID']['input'];
+  warheadId: Scalars['ID']['input'];
+};
+
+
+export type MutationTorpedoRemoveWarheadArgs = {
+  id: Scalars['ID']['input'];
+  warheadId: Scalars['ID']['input'];
+};
+
+
+export type MutationTorpedoSetWarheadCountArgs = {
+  count: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+  warheadType: Scalars['String']['input'];
+};
+
+
+export type MutationTorpedoUnloadArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationTrainingModeArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTransferCargoArgs = {
+  fromRoom: Scalars['ID']['input'];
+  inventory?: InputMaybe<Array<InputMaybe<InventoryCountInput>>>;
+  toRoom: Scalars['ID']['input'];
+};
+
+
+export type MutationTransferCoolantArgs = {
+  coolantId: Scalars['ID']['input'];
+  systemId?: InputMaybe<Scalars['ID']['input']>;
+  which?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationTriggerActionArgs = {
+  action: Scalars['String']['input'];
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  duration?: InputMaybe<Scalars['Float']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  stationId?: InputMaybe<Scalars['String']['input']>;
+  voice?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationTriggerInterfaceObjectArgs = {
+  id: Scalars['ID']['input'];
+  objectId: Scalars['ID']['input'];
+};
+
+
+export type MutationTriggerKeyboardActionArgs = {
+  id: Scalars['ID']['input'];
+  key: Scalars['String']['input'];
+  keyCode: Scalars['String']['input'];
+  meta: Array<InputMaybe<Scalars['String']['input']>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTriggerMacroActionArgs = {
+  macroId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTriggerMacroButtonArgs = {
+  buttonId: Scalars['ID']['input'];
+  configId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTriggerMacrosArgs = {
+  macros: Array<InputMaybe<MacroInput>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationTriggerSurveyArgs = {
+  id: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationUnhideSimulatorCardArgs = {
+  cardName: Scalars['String']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationUntargetTargetingContactArgs = {
+  id: Scalars['ID']['input'];
+  targetId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateAdvNavFlightSetArgs = {
+  flightSet: FlightSetInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateAdvNavFlightSetDataArgs = {
+  flightSet: FlightSetInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateCommandLineArgs = {
+  components?: InputMaybe<Scalars['JSON']['input']>;
+  config?: InputMaybe<Scalars['JSON']['input']>;
+  connections?: InputMaybe<Scalars['JSON']['input']>;
+  id: Scalars['ID']['input'];
+  values?: InputMaybe<Scalars['JSON']['input']>;
+};
+
+
+export type MutationUpdateComputerCoreUserArgs = {
+  hacker?: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+  level?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateCoreLayoutArgs = {
+  layout?: InputMaybe<CoreLayoutInput>;
+};
+
+
+export type MutationUpdateCrewInventoryArgs = {
+  crewId: Scalars['ID']['input'];
+  inventory: Array<InputMaybe<InventoryCount>>;
+  roomId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationUpdateCrewmemberArgs = {
+  crew?: InputMaybe<CrewInput>;
+};
+
+
+export type MutationUpdateCurrentDamageStepArgs = {
+  step: Scalars['Int']['input'];
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateDeckSvgArgs = {
+  deckId: Scalars['ID']['input'];
+  svg: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateDeconOffsetArgs = {
+  id: Scalars['ID']['input'];
+  offset: Scalars['Float']['input'];
+};
+
+
+export type MutationUpdateDilithiumStressArgs = {
+  alphaLevel?: InputMaybe<Scalars['Float']['input']>;
+  alphaTarget?: InputMaybe<Scalars['Float']['input']>;
+  betaLevel?: InputMaybe<Scalars['Float']['input']>;
+  betaTarget?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateDockingPortArgs = {
+  port: DockingPortInput;
+};
+
+
+export type MutationUpdateEnvironmentArgs = {
+  deckID: Scalars['ID']['input'];
+  environment?: InputMaybe<EnvironmentInput>;
+};
+
+
+export type MutationUpdateExocompDifficultyArgs = {
+  difficulty: Scalars['Float']['input'];
+  exocomp: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateFirebaseUserStationArgs = {
+  email: Scalars['String']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateFlightSetArgs = {
+  flightSet: FlightSetInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateHackingPresetArgs = {
+  id: Scalars['ID']['input'];
+  preset: Scalars['JSON']['input'];
+};
+
+
+export type MutationUpdateHallwaySvgArgs = {
+  deckId: Scalars['ID']['input'];
+  svg?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationUpdateInterfaceArgs = {
+  components?: InputMaybe<Scalars['JSON']['input']>;
+  config?: InputMaybe<Scalars['JSON']['input']>;
+  connections?: InputMaybe<Scalars['JSON']['input']>;
+  deviceType?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  values?: InputMaybe<Scalars['JSON']['input']>;
+};
+
+
+export type MutationUpdateInterfaceDeviceArgs = {
+  height?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['ID']['input'];
+  width?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type MutationUpdateInventoryCountArgs = {
+  count: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
+  room: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateInventoryMetadataArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  metadata?: InputMaybe<InventoryMetadataInput>;
+};
+
+
+export type MutationUpdateIsochipArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  isochip?: InputMaybe<IsochipInput>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  slot?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type MutationUpdateKeyboardKeyArgs = {
+  id: Scalars['ID']['input'];
+  key: KeyboardKeyInput;
+};
+
+
+export type MutationUpdateLibraryEntryArgs = {
+  entry: LibraryInput;
+};
+
+
+export type MutationUpdateLongRangeCommArgs = {
+  longRangeComm: LongRangeCommInput;
+};
+
+
+export type MutationUpdateLongRangeDecodedMessageArgs = {
+  a?: InputMaybe<Scalars['Int']['input']>;
+  decodedMessage?: InputMaybe<Scalars['String']['input']>;
+  f?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['ID']['input'];
+  messageId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateMacroActionsArgs = {
+  actions?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateMacroButtonActionsArgs = {
+  actions?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  configId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdatePatientChartArgs = {
+  chart: ChartInput;
+  crewId: Scalars['ID']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationUpdateProbeEquipmentArgs = {
+  id: Scalars['ID']['input'];
+  probeEquipment: ProbeEquipmentInput;
+};
+
+
+export type MutationUpdateProbeTypeArgs = {
+  id: Scalars['ID']['input'];
+  probeType: ProbeTypeInput;
+};
+
+
+export type MutationUpdateRoomRolesArgs = {
+  roles?: InputMaybe<Array<InputMaybe<RoomRoles>>>;
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateRoomSvgArgs = {
+  roomId: Scalars['ID']['input'];
+  svg: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateSensorArmyContactArgs = {
+  contact: SensorContactInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSensorContactArgs = {
+  contact: SensorContactInput;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationUpdateSensorContactsArgs = {
+  contacts: Array<InputMaybe<SensorContactInput>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSensorGridArgs = {
+  contacts: Array<InputMaybe<SensorContactInput>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSensorScanArgs = {
+  id: Scalars['ID']['input'];
+  scan: SensorScanInput;
+};
+
+
+export type MutationUpdateSetClientArgs = {
+  client: SetClientInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSickbayCrewArgs = {
+  crew: CrewInput;
+  crewId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSignalJammerArgs = {
+  jammer: SignalJammerInput;
+};
+
+
+export type MutationUpdateSimulatorAmbianceArgs = {
+  ambiance: AmbianceInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSimulatorCommandLinesArgs = {
+  commandLines: Array<InputMaybe<Scalars['ID']['input']>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSimulatorDamageStepArgs = {
+  simulatorId: Scalars['ID']['input'];
+  step: DamageStepInput;
+};
+
+
+export type MutationUpdateSimulatorDamageTaskArgs = {
+  simulatorId: Scalars['ID']['input'];
+  task: DamageTaskInput;
+};
+
+
+export type MutationUpdateSimulatorInterfacesArgs = {
+  interfaces: Array<InputMaybe<Scalars['ID']['input']>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSimulatorLightingArgs = {
+  id: Scalars['ID']['input'];
+  lighting: LightingInput;
+};
+
+
+export type MutationUpdateSimulatorPanelsArgs = {
+  panels: Array<InputMaybe<Scalars['ID']['input']>>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSimulatorTriggersArgs = {
+  simulatorId: Scalars['ID']['input'];
+  triggers: Array<InputMaybe<Scalars['ID']['input']>>;
+};
+
+
+export type MutationUpdateSoftwarePanelArgs = {
+  panel: SoftwarePanelInput;
+};
+
+
+export type MutationUpdateSurveyFormArgs = {
+  form: Array<InputMaybe<FormFieldsInput>>;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSystemDamageStepArgs = {
+  step: DamageStepInput;
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSystemDamageTaskArgs = {
+  systemId: Scalars['ID']['input'];
+  task: DamageTaskInput;
+};
+
+
+export type MutationUpdateSystemNameArgs = {
+  displayName?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  systemId: Scalars['ID']['input'];
+  upgradeName?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationUpdateSystemRoomsArgs = {
+  locations?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSystemUpgradeBoardArgs = {
+  systemId: Scalars['ID']['input'];
+  upgradeBoard?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationUpdateSystemUpgradeMacrosArgs = {
+  systemId: Scalars['ID']['input'];
+  upgradeMacros?: InputMaybe<Array<InputMaybe<TimelineItemInput>>>;
+};
+
+
+export type MutationUpdateTacticalMapArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTacticalMapItemArgs = {
+  item: TacticalItemInput;
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTacticalMapLayerArgs = {
+  layer: TacticalLayerInput;
+  mapId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTacticalMapPathArgs = {
+  layerId: Scalars['ID']['input'];
+  mapId: Scalars['ID']['input'];
+  path: TacticalPathInput;
+};
+
+
+export type MutationUpdateTargetClassArgs = {
+  classInput: TargetClassInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTeamArgs = {
+  team: TeamInput;
+};
+
+
+export type MutationUpdateTimelineStepArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTimelineStepItemArgs = {
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  timelineItemId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+  updateTimelineItem: TimelineItemInput;
+};
+
+
+export type MutationUpdateTriggerArgs = {
+  components?: InputMaybe<Scalars['JSON']['input']>;
+  config?: InputMaybe<Scalars['JSON']['input']>;
+  connections?: InputMaybe<Scalars['JSON']['input']>;
+  id: Scalars['ID']['input'];
+  values?: InputMaybe<Scalars['JSON']['input']>;
+};
+
+
+export type MutationUpdateViewscreenAutoArgs = {
+  auto: Scalars['Boolean']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateViewscreenComponentArgs = {
+  component: Scalars['String']['input'];
+  data?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationUpdateViewscreenDataArgs = {
+  data: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateViewscreenNameArgs = {
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateViewscreenSecondaryArgs = {
+  id: Scalars['ID']['input'];
+  secondary: Scalars['Boolean']['input'];
+};
+
+
+export type MutationUpgradeSystemArgs = {
+  systemId: Scalars['ID']['input'];
+};
+
+
+export type MutationValidateDamageStepArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationVerifyTaskArgs = {
+  dismiss?: InputMaybe<Scalars['Boolean']['input']>;
+  taskId: Scalars['ID']['input'];
+};
+
+
+export type MutationVerifyTaskReportStepArgs = {
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
 };
 
 export type NamedCoordinate = {
   __typename?: 'NamedCoordinate';
-  name: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  name: Scalars['String']['output'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 export type NamedCoordinateInput = {
-  name: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  name: Scalars['String']['input'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type NamedNavigationRoute = {
   __typename?: 'NamedNavigationRoute';
-  name: Scalars['String'];
-  id: Scalars['ID'];
-  targetLocationId: Scalars['ID'];
-  secondaryRouteOptions: Array<SecondaryNavigationRouteOption>;
-  isBorder: Scalars['Boolean'];
-  startOption: NavigationStartOptions;
-  speedOption: NavigationSpeedOptions;
   exitOption: NavigationExitOptions;
+  id: Scalars['ID']['output'];
+  isBorder: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+  secondaryRouteOptions: Array<SecondaryNavigationRouteOption>;
+  speedOption: NavigationSpeedOptions;
+  startOption: NavigationStartOptions;
+  targetLocationId: Scalars['ID']['output'];
 };
 
 export type NamedNavigationRouteInput = {
-  name: Scalars['String'];
-  id: Scalars['ID'];
-  targetLocationId: Scalars['ID'];
-  secondaryRouteOptions: Array<SecondaryNavigationRouteOptionInput>;
-  isBorder: Scalars['Boolean'];
-  startOption: NavigationStartOptionsInput;
-  speedOption: NavigationSpeedOptionsInput;
   exitOption: NavigationExitOptionsInput;
+  id: Scalars['ID']['input'];
+  isBorder: Scalars['Boolean']['input'];
+  name: Scalars['String']['input'];
+  secondaryRouteOptions: Array<SecondaryNavigationRouteOptionInput>;
+  speedOption: NavigationSpeedOptionsInput;
+  startOption: NavigationStartOptionsInput;
+  targetLocationId: Scalars['ID']['input'];
 };
 
 export type NamedObject = {
   __typename?: 'NamedObject';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type NavLoc = {
   __typename?: 'NavLoc';
-  x?: Maybe<Scalars['String']>;
-  y?: Maybe<Scalars['String']>;
-  z?: Maybe<Scalars['String']>;
+  x?: Maybe<Scalars['String']['output']>;
+  y?: Maybe<Scalars['String']['output']>;
+  z?: Maybe<Scalars['String']['output']>;
 };
 
 export type NavLocInput = {
-  x?: Maybe<Scalars['String']>;
-  y?: Maybe<Scalars['String']>;
-  z?: Maybe<Scalars['String']>;
+  x?: InputMaybe<Scalars['String']['input']>;
+  y?: InputMaybe<Scalars['String']['input']>;
+  z?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type NavPreset = {
   __typename?: 'NavPreset';
-  name?: Maybe<Scalars['String']>;
   course?: Maybe<NavLoc>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type NavPresetInput = {
-  name?: Maybe<Scalars['String']>;
-  course?: Maybe<NavLocInput>;
+  course?: InputMaybe<NavLocInput>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Navigation = SystemInterface & {
   __typename?: 'Navigation';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  damage?: Maybe<Damage>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  calculate?: Maybe<Scalars['Boolean']>;
-  currentCourse?: Maybe<NavLoc>;
+  calculate?: Maybe<Scalars['Boolean']['output']>;
   calculatedCourse?: Maybe<NavLoc>;
-  destination?: Maybe<Scalars['String']>;
-  scanning?: Maybe<Scalars['Boolean']>;
-  destinations?: Maybe<Array<Maybe<Scalars['String']>>>;
-  presets?: Maybe<Array<Maybe<NavPreset>>>;
-  thrusters?: Maybe<Scalars['Boolean']>;
+  currentCourse?: Maybe<NavLoc>;
+  damage?: Maybe<Damage>;
+  destination?: Maybe<Scalars['String']['output']>;
+  destinations?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  presets?: Maybe<Array<Maybe<NavPreset>>>;
+  scanning?: Maybe<Scalars['Boolean']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  thrusters?: Maybe<Scalars['Boolean']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type NavigationExitOptions = {
   __typename?: 'NavigationExitOptions';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  riskModifier: Scalars['Float'];
-  imgUrl: Scalars['String'];
+  id: Scalars['ID']['output'];
+  imgUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  riskModifier: Scalars['Float']['output'];
 };
 
 export type NavigationExitOptionsInput = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  riskModifier: Scalars['Float'];
-  imgUrl: Scalars['String'];
+  id: Scalars['ID']['input'];
+  imgUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  riskModifier: Scalars['Float']['input'];
 };
 
 export type NavigationHazard = {
   __typename?: 'NavigationHazard';
-  name: Scalars['String'];
-  description: Scalars['String'];
+  description: Scalars['String']['output'];
+  imgUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   navOptions: Array<NavigationHazardNavOptions>;
-  imgUrl: Scalars['String'];
 };
 
 export type NavigationHazardInput = {
-  name: Scalars['String'];
-  description: Scalars['String'];
+  description: Scalars['String']['input'];
+  imgUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   navOptions: Array<NavigationHazardNavOptionsInput>;
-  imgUrl: Scalars['String'];
 };
 
 export type NavigationHazardNavOptions = {
   __typename?: 'NavigationHazardNavOptions';
-  action: Scalars['String'];
-  speedModifier: Scalars['Float'];
-  riskModifier: Scalars['Float'];
-  imgUrl: Scalars['String'];
-  isArrivalOnly: Scalars['Boolean'];
+  action: Scalars['String']['output'];
+  imgUrl: Scalars['String']['output'];
+  isArrivalOnly: Scalars['Boolean']['output'];
+  riskModifier: Scalars['Float']['output'];
+  speedModifier: Scalars['Float']['output'];
 };
 
 export type NavigationHazardNavOptionsInput = {
-  action: Scalars['String'];
-  speedModifier: Scalars['Float'];
-  riskModifier: Scalars['Float'];
-  imgUrl: Scalars['String'];
-  isArrivalOnly: Scalars['Boolean'];
+  action: Scalars['String']['input'];
+  imgUrl: Scalars['String']['input'];
+  isArrivalOnly: Scalars['Boolean']['input'];
+  riskModifier: Scalars['Float']['input'];
+  speedModifier: Scalars['Float']['input'];
 };
 
 export type NavigationRoute = {
   __typename?: 'NavigationRoute';
-  targetLocationId: Scalars['ID'];
-  secondaryRouteOptions: Array<SecondaryNavigationRouteOption>;
-  isBorder: Scalars['Boolean'];
-  startOption: NavigationStartOptions;
-  speedOption: NavigationSpeedOptions;
   exitOption: NavigationExitOptions;
+  isBorder: Scalars['Boolean']['output'];
+  secondaryRouteOptions: Array<SecondaryNavigationRouteOption>;
+  speedOption: NavigationSpeedOptions;
+  startOption: NavigationStartOptions;
+  targetLocationId: Scalars['ID']['output'];
 };
 
 export type NavigationRouteInput = {
-  targetLocationId: Scalars['ID'];
-  secondaryRouteOptions: Array<SecondaryNavigationRouteOptionInput>;
-  isBorder: Scalars['Boolean'];
-  startOption: NavigationStartOptionsInput;
-  speedOption: NavigationSpeedOptionsInput;
   exitOption: NavigationExitOptionsInput;
+  isBorder: Scalars['Boolean']['input'];
+  secondaryRouteOptions: Array<SecondaryNavigationRouteOptionInput>;
+  speedOption: NavigationSpeedOptionsInput;
+  startOption: NavigationStartOptionsInput;
+  targetLocationId: Scalars['ID']['input'];
 };
 
 export type NavigationSpeedOptions = {
   __typename?: 'NavigationSpeedOptions';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  speedModifier: Scalars['Float'];
-  riskModifier: Scalars['Float'];
-  requiresMaxEngines: Scalars['Boolean'];
-  imgUrl: Scalars['String'];
+  id: Scalars['ID']['output'];
+  imgUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  requiresMaxEngines: Scalars['Boolean']['output'];
+  riskModifier: Scalars['Float']['output'];
+  speedModifier: Scalars['Float']['output'];
 };
 
 export type NavigationSpeedOptionsInput = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  speedModifier: Scalars['Float'];
-  riskModifier: Scalars['Float'];
-  requiresMaxEngines: Scalars['Boolean'];
-  imgUrl: Scalars['String'];
+  id: Scalars['ID']['input'];
+  imgUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  requiresMaxEngines: Scalars['Boolean']['input'];
+  riskModifier: Scalars['Float']['input'];
+  speedModifier: Scalars['Float']['input'];
 };
 
 export type NavigationStartOptions = {
   __typename?: 'NavigationStartOptions';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  riskModifier: Scalars['Float'];
-  imgUrl: Scalars['String'];
-  secondsForStartup: Scalars['Float'];
+  id: Scalars['ID']['output'];
+  imgUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  riskModifier: Scalars['Float']['output'];
+  secondsForStartup: Scalars['Float']['output'];
 };
 
 export type NavigationStartOptionsInput = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  riskModifier: Scalars['Float'];
-  imgUrl: Scalars['String'];
-  secondsForStartup: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  imgUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  riskModifier: Scalars['Float']['input'];
+  secondsForStartup: Scalars['Float']['input'];
 };
 
 export type Notification = {
   __typename?: 'Notification';
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  trigger?: Maybe<Scalars['String']>;
-  duration?: Maybe<Scalars['Int']>;
-  relevantCards?: Maybe<Array<Maybe<Scalars['String']>>>;
+  body?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  duration?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  relevantCards?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  title?: Maybe<Scalars['String']['output']>;
+  trigger?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export enum NotifyColors {
+  Danger = 'danger',
+  Dark = 'dark',
+  Info = 'info',
+  Light = 'light',
   Primary = 'primary',
   Secondary = 'secondary',
   Success = 'success',
-  Danger = 'danger',
-  Warning = 'warning',
-  Info = 'info',
-  Light = 'light',
-  Dark = 'dark'
+  Warning = 'warning'
 }
 
 export type Objective = {
   __typename?: 'Objective';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  timestamp?: Maybe<Scalars['String']>;
-  station?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  completed?: Maybe<Scalars['Boolean']>;
-  cancelled?: Maybe<Scalars['Boolean']>;
-  crewComplete?: Maybe<Scalars['Boolean']>;
-  order?: Maybe<Scalars['Int']>;
+  cancelled?: Maybe<Scalars['Boolean']['output']>;
+  completed?: Maybe<Scalars['Boolean']['output']>;
+  crewComplete?: Maybe<Scalars['Boolean']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  station?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type ObjectiveInput = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  station?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  completed?: Maybe<Scalars['Boolean']>;
-  cancelled?: Maybe<Scalars['Boolean']>;
-  crewComplete?: Maybe<Scalars['Boolean']>;
-  order?: Maybe<Scalars['Int']>;
+  cancelled?: InputMaybe<Scalars['Boolean']['input']>;
+  completed?: InputMaybe<Scalars['Boolean']['input']>;
+  crewComplete?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  station?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum Ping_Modes {
   Active = 'active',
-  Passive = 'passive',
-  Manual = 'manual'
+  Manual = 'manual',
+  Passive = 'passive'
 }
 
 export enum Pip_Position {
   BottomLeft = 'bottomLeft',
   BottomRight = 'bottomRight',
+  Center = 'center',
   TopLeft = 'topLeft',
-  TopRight = 'topRight',
-  Center = 'center'
+  TopRight = 'topRight'
 }
 
 export enum Pip_Size {
-  Small = 'small',
+  Large = 'large',
   Medium = 'medium',
-  Large = 'large'
+  Small = 'small'
 }
 
 export enum Priorities {
-  Low = 'low',
-  Normal = 'normal',
   Critical = 'critical',
-  Emergency = 'emergency'
+  Emergency = 'emergency',
+  Low = 'low',
+  Normal = 'normal'
 }
 
 export type PainPoint = {
   __typename?: 'PainPoint';
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
+  x?: Maybe<Scalars['Float']['output']>;
+  y?: Maybe<Scalars['Float']['output']>;
 };
 
 export type PainPointInput = {
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
+  x?: InputMaybe<Scalars['Float']['input']>;
+  y?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type PanelCable = {
   __typename?: 'PanelCable';
-  id?: Maybe<Scalars['ID']>;
-  color?: Maybe<Scalars['String']>;
-  components?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  color?: Maybe<Scalars['String']['output']>;
+  components?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  id?: Maybe<Scalars['ID']['output']>;
 };
 
 export type PanelCableInput = {
-  id?: Maybe<Scalars['ID']>;
-  color?: Maybe<Scalars['String']>;
-  components?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  components?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type PanelComponent = {
   __typename?: 'PanelComponent';
-  id?: Maybe<Scalars['ID']>;
-  component?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Float']>;
-  label?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-  scale?: Maybe<Scalars['Float']>;
+  color?: Maybe<Scalars['String']['output']>;
+  component?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
+  level?: Maybe<Scalars['Float']['output']>;
+  scale?: Maybe<Scalars['Float']['output']>;
+  x?: Maybe<Scalars['Float']['output']>;
+  y?: Maybe<Scalars['Float']['output']>;
 };
 
 export type PanelComponentInput = {
-  id?: Maybe<Scalars['ID']>;
-  component?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Float']>;
-  label?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
-  scale?: Maybe<Scalars['Float']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  component?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+  level?: InputMaybe<Scalars['Float']['input']>;
+  scale?: InputMaybe<Scalars['Float']['input']>;
+  x?: InputMaybe<Scalars['Float']['input']>;
+  y?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type PanelConnection = {
   __typename?: 'PanelConnection';
-  id?: Maybe<Scalars['ID']>;
-  to?: Maybe<Scalars['ID']>;
-  from?: Maybe<Scalars['ID']>;
+  from?: Maybe<Scalars['ID']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  to?: Maybe<Scalars['ID']['output']>;
 };
 
 export type PanelConnectionInput = {
-  id?: Maybe<Scalars['ID']>;
-  to?: Maybe<Scalars['ID']>;
-  from?: Maybe<Scalars['ID']>;
+  from?: InputMaybe<Scalars['ID']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  to?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export enum ParticleTypes {
-  Dilithium = 'Dilithium',
-  Tachyon = 'Tachyon',
-  Neutrino = 'Neutrino',
-  AntiMatter = 'AntiMatter',
   Anomaly = 'Anomaly',
-  Resonance = 'Resonance',
+  AntiMatter = 'AntiMatter',
+  Carbon = 'Carbon',
+  Dilithium = 'Dilithium',
   Graviton = 'Graviton',
-  Lithium = 'Lithium',
-  Magnetic = 'Magnetic',
   Helium = 'Helium',
   Hydrogen = 'Hydrogen',
+  Lithium = 'Lithium',
+  Magnetic = 'Magnetic',
+  Neutrino = 'Neutrino',
   Oxygen = 'Oxygen',
-  Carbon = 'Carbon',
-  Radiation = 'Radiation'
+  Radiation = 'Radiation',
+  Resonance = 'Resonance',
+  Tachyon = 'Tachyon'
 }
 
 export type Phaser = SystemInterface & {
   __typename?: 'Phaser';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  power?: Maybe<Power>;
-  damage?: Maybe<Damage>;
-  arc?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
+  arc?: Maybe<Scalars['Float']['output']>;
   beams?: Maybe<Array<Maybe<PhaserBeam>>>;
+  chargeSpeed?: Maybe<Scalars['Float']['output']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
+  damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  holdToCharge?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  holdToCharge?: Maybe<Scalars['Boolean']>;
-  chargeSpeed?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type PhaserBeam = {
   __typename?: 'PhaserBeam';
-  id?: Maybe<Scalars['ID']>;
-  power?: Maybe<Power>;
+  charge?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  charge?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
-  heat?: Maybe<Scalars['Float']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  power?: Maybe<Power>;
+  state?: Maybe<Scalars['String']['output']>;
 };
 
 export type PointOfInterest = {
   __typename?: 'PointOfInterest';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  location: XyLocation;
-  isVisible: Scalars['Boolean'];
-  isFogOfWar: Scalars['Boolean'];
-  speedIndex: Scalars['Float'];
-  riskIndex: Scalars['Float'];
-  type: PointOfInterestType;
-  information: PointOfInterestInformation;
-  iconUrl: Scalars['String'];
-  fullImageUrl: Scalars['String'];
-  transitOptions?: Maybe<Array<SecondaryStopTransitOption>>;
-  showName?: Maybe<Scalars['Boolean']>;
   arrivalMacros?: Maybe<Array<MacroAction>>;
+  fullImageUrl: Scalars['String']['output'];
+  iconUrl: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  information: PointOfInterestInformation;
+  isFogOfWar: Scalars['Boolean']['output'];
+  isVisible: Scalars['Boolean']['output'];
   leaveMacros?: Maybe<Array<MacroAction>>;
+  location: XyLocation;
+  name: Scalars['String']['output'];
+  riskIndex: Scalars['Float']['output'];
+  showName?: Maybe<Scalars['Boolean']['output']>;
+  speedIndex: Scalars['Float']['output'];
   transitMacros?: Maybe<Array<MacroAction>>;
+  transitOptions?: Maybe<Array<SecondaryStopTransitOption>>;
+  type: PointOfInterestType;
 };
 
 export type PointOfInterestInformation = {
   __typename?: 'PointOfInterestInformation';
-  basicInformation: Scalars['String'];
-  hasBasicInformation: Scalars['Boolean'];
-  detailedInformation: Scalars['String'];
-  hasDetailedInformation: Scalars['Boolean'];
-  secretInformation: Scalars['String'];
-  hasSecretInformation: Scalars['Boolean'];
+  basicInformation: Scalars['String']['output'];
+  detailedInformation: Scalars['String']['output'];
+  hasBasicInformation: Scalars['Boolean']['output'];
+  hasDetailedInformation: Scalars['Boolean']['output'];
+  hasSecretInformation: Scalars['Boolean']['output'];
+  secretInformation: Scalars['String']['output'];
 };
 
 export type PointOfInterestInformationInput = {
-  basicInformation: Scalars['String'];
-  hasBasicInformation: Scalars['Boolean'];
-  detailedInformation: Scalars['String'];
-  hasDetailedInformation: Scalars['Boolean'];
-  secretInformation: Scalars['String'];
-  hasSecretInformation: Scalars['Boolean'];
+  basicInformation: Scalars['String']['input'];
+  detailedInformation: Scalars['String']['input'];
+  hasBasicInformation: Scalars['Boolean']['input'];
+  hasDetailedInformation: Scalars['Boolean']['input'];
+  hasSecretInformation: Scalars['Boolean']['input'];
+  secretInformation: Scalars['String']['input'];
 };
 
 export type PointOfInterestInput = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  location: LocationInput;
-  isVisible: Scalars['Boolean'];
-  isFogOfWar: Scalars['Boolean'];
-  speedIndex: Scalars['Float'];
-  riskIndex: Scalars['Float'];
-  type: PointOfInterestTypeInput;
+  arrivalMacros?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  fullImageUrl: Scalars['String']['input'];
+  iconUrl: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
   information: PointOfInterestInformationInput;
-  iconUrl: Scalars['String'];
-  fullImageUrl: Scalars['String'];
-  transitOptions?: Maybe<Array<Maybe<SecondaryStopTransitOptionInput>>>;
-  showName?: Maybe<Scalars['Boolean']>;
-  arrivalMacros?: Maybe<Array<Maybe<ActionInput>>>;
-  leaveMacros?: Maybe<Array<Maybe<ActionInput>>>;
-  transitMacros?: Maybe<Array<Maybe<ActionInput>>>;
+  isFogOfWar: Scalars['Boolean']['input'];
+  isVisible: Scalars['Boolean']['input'];
+  leaveMacros?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  location: LocationInput;
+  name: Scalars['String']['input'];
+  riskIndex: Scalars['Float']['input'];
+  showName?: InputMaybe<Scalars['Boolean']['input']>;
+  speedIndex: Scalars['Float']['input'];
+  transitMacros?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  transitOptions?: InputMaybe<Array<InputMaybe<SecondaryStopTransitOptionInput>>>;
+  type: PointOfInterestTypeInput;
 };
 
 export type PointOfInterestObject = {
   __typename?: 'PointOfInterestObject';
-  category: Scalars['String'];
-  imageUri: Scalars['String'];
+  category: Scalars['String']['output'];
+  imageUri: Scalars['String']['output'];
 };
 
 export type PointOfInterestType = {
   __typename?: 'PointOfInterestType';
-  category: Scalars['String'];
-  imageUri: Scalars['String'];
+  category: Scalars['String']['output'];
+  imageUri: Scalars['String']['output'];
 };
 
 export type PointOfInterestTypeInput = {
-  category: Scalars['String'];
-  imageUri: Scalars['String'];
+  category: Scalars['String']['input'];
+  imageUri: Scalars['String']['input'];
 };
 
 export type Power = {
   __typename?: 'Power';
-  power?: Maybe<Scalars['Int']>;
-  powerLevels?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  defaultLevel?: Maybe<Scalars['Int']>;
+  defaultLevel?: Maybe<Scalars['Int']['output']>;
+  power?: Maybe<Scalars['Int']['output']>;
+  powerLevels?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
 };
 
 export type PresetAnswer = {
   __typename?: 'PresetAnswer';
-  label: Scalars['String'];
-  value: Scalars['String'];
+  label: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type PresetAnswerInput = {
-  label?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PrintQueue = {
   __typename?: 'PrintQueue';
-  id: Scalars['ID'];
-  simulatorId: Scalars['String'];
-  asset: Scalars['String'];
-  timestamp: Scalars['Float'];
+  asset: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  simulatorId: Scalars['String']['output'];
+  timestamp: Scalars['Float']['output'];
 };
 
 export type Probe = {
   __typename?: 'Probe';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['ID']>;
-  launched?: Maybe<Scalars['Boolean']>;
-  equipment?: Maybe<Array<Maybe<ProbeEquipment>>>;
+  charge?: Maybe<Scalars['Float']['output']>;
   engine?: Maybe<Engine>;
-  phaser?: Maybe<Phaser>;
-  navigation?: Maybe<Navigation>;
-  query?: Maybe<Scalars['String']>;
-  querying?: Maybe<Scalars['Boolean']>;
-  response?: Maybe<Scalars['String']>;
-  charge?: Maybe<Scalars['Float']>;
+  equipment?: Maybe<Array<Maybe<ProbeEquipment>>>;
   history?: Maybe<Array<Maybe<History>>>;
+  id: Scalars['ID']['output'];
+  launched?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  navigation?: Maybe<Navigation>;
+  phaser?: Maybe<Phaser>;
+  query?: Maybe<Scalars['String']['output']>;
+  querying?: Maybe<Scalars['Boolean']['output']>;
+  response?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['ID']['output']>;
 };
 
 export type ProbeAssignment = {
   __typename?: 'ProbeAssignment';
-  probeId: Scalars['ID'];
-  flightPathCoords: Array<BasicCoordinate>;
-  data: Array<Scalars['String']>;
-  remainingFuelCellCount: Scalars['Float'];
-  hasBeenViewed: Scalars['Boolean'];
+  completed: Scalars['Boolean']['output'];
+  currentEta: Scalars['Float']['output'];
   currentLocation: BasicCoordinate;
-  targetLocationName: Scalars['String'];
-  currentEta: Scalars['Float'];
-  totalEta: Scalars['Float'];
-  completed: Scalars['Boolean'];
+  data: Array<Scalars['String']['output']>;
+  flightPathCoords: Array<BasicCoordinate>;
+  hasBeenViewed: Scalars['Boolean']['output'];
+  probeId: Scalars['ID']['output'];
+  remainingFuelCellCount: Scalars['Float']['output'];
+  targetLocationName: Scalars['String']['output'];
+  totalEta: Scalars['Float']['output'];
 };
 
 export type ProbeAssignmentInput = {
-  probeId: Scalars['ID'];
-  flightPathCoords: Array<BasicCoordinateInput>;
-  data: Array<Scalars['String']>;
-  remainingFuelCellCount: Scalars['Float'];
-  hasBeenViewed: Scalars['Boolean'];
+  completed: Scalars['Boolean']['input'];
+  currentEta: Scalars['Float']['input'];
   currentLocation: BasicCoordinateInput;
-  targetLocationName: Scalars['String'];
-  currentEta: Scalars['Float'];
-  totalEta: Scalars['Float'];
-  completed: Scalars['Boolean'];
+  data: Array<Scalars['String']['input']>;
+  flightPathCoords: Array<BasicCoordinateInput>;
+  hasBeenViewed: Scalars['Boolean']['input'];
+  probeId: Scalars['ID']['input'];
+  remainingFuelCellCount: Scalars['Float']['input'];
+  targetLocationName: Scalars['String']['input'];
+  totalEta: Scalars['Float']['input'];
 };
 
 export type ProbeEquipment = {
   __typename?: 'ProbeEquipment';
-  id?: Maybe<Scalars['ID']>;
-  description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  count?: Maybe<Scalars['Int']>;
+  availableProbes?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  count?: Maybe<Scalars['Int']['output']>;
   damage?: Maybe<Damage>;
-  availableProbes?: Maybe<Array<Maybe<Scalars['String']>>>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ProbeEquipmentInput = {
-  description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  size?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type ProbeInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['ID']>;
-  equipment?: Maybe<Array<Maybe<EquipmentInput>>>;
-  launched?: Maybe<Scalars['Boolean']>;
+  equipment?: InputMaybe<Array<InputMaybe<EquipmentInput>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  launched?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ProbeType = {
   __typename?: 'ProbeType';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  count?: Maybe<Scalars['Int']>;
   availableEquipment?: Maybe<Array<Maybe<ProbeEquipment>>>;
+  count?: Maybe<Scalars['Int']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ProbeTypeInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  size?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Probes = SystemInterface & {
   __typename?: 'Probes';
-  id: Scalars['ID'];
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
   damage?: Maybe<Damage>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  torpedo?: Maybe<Scalars['Boolean']>;
-  processedData?: Maybe<Scalars['String']>;
-  probes?: Maybe<Array<Maybe<Probe>>>;
+  displayName?: Maybe<Scalars['String']['output']>;
   equipment?: Maybe<Array<Maybe<ProbeEquipment>>>;
-  types?: Maybe<Array<Maybe<ProbeType>>>;
+  id: Scalars['ID']['output'];
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  probes?: Maybe<Array<Maybe<Probe>>>;
+  processedData?: Maybe<Scalars['String']['output']>;
   scienceTypes?: Maybe<Array<Maybe<ScienceType>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  torpedo?: Maybe<Scalars['Boolean']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  types?: Maybe<Array<Maybe<ProbeType>>>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 
 export type ProbesProbesArgs = {
-  network?: Maybe<Scalars['Boolean']>;
+  network?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ProcessedData = {
   __typename?: 'ProcessedData';
-  value: Scalars['String'];
-  time: Scalars['String'];
+  time: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type Quaternion = {
   __typename?: 'Quaternion';
-  x: Scalars['Float'];
-  y: Scalars['Float'];
-  z: Scalars['Float'];
-  w: Scalars['Float'];
+  w: Scalars['Float']['output'];
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
+  z: Scalars['Float']['output'];
 };
 
 export type QuaternionInput = {
-  x: Scalars['Float'];
-  y: Scalars['Float'];
-  z: Scalars['Float'];
-  w: Scalars['Float'];
+  w: Scalars['Float']['input'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
+  z: Scalars['Float']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  _empty?: Maybe<Scalars['String']>;
+  _empty?: Maybe<Scalars['String']['output']>;
+  _template?: Maybe<Template>;
   actions?: Maybe<Action>;
+  advancedNavAndAstrometric?: Maybe<AdvancedNavigationAndAstrometrics>;
+  advancedNavAndAstrometrics?: Maybe<Array<Maybe<AdvancedNavigationAndAstrometrics>>>;
+  advancedNavStars?: Maybe<AdvancedNavStarsData>;
+  allSystems: Array<Scalars['String']['output']>;
   asset?: Maybe<Asset>;
-  assets?: Maybe<Array<Maybe<Asset>>>;
   assetFolders?: Maybe<Array<Maybe<AssetFolder>>>;
+  assets?: Maybe<Array<Maybe<Asset>>>;
+  auxTimelines?: Maybe<Array<Maybe<TimelineInstance>>>;
   clients?: Maybe<Array<Maybe<Client>>>;
-  keypad?: Maybe<Keypad>;
-  keypads?: Maybe<Array<Maybe<Keypad>>>;
-  scanner?: Maybe<Scanner>;
-  scanners?: Maybe<Array<Maybe<Scanner>>>;
   commandLine?: Maybe<Array<Maybe<CommandLine>>>;
   commandLineCommands?: Maybe<Array<Maybe<CommandLineCommand>>>;
   computerCore?: Maybe<Array<Maybe<ComputerCore>>>;
-  oneComputerCore?: Maybe<ComputerCore>;
-  hackingPresets: Array<HackingPreset>;
   coolant?: Maybe<Array<Maybe<CoolantTank>>>;
-  systemCoolant?: Maybe<Array<Maybe<SystemCoolant>>>;
   coreFeed?: Maybe<Array<Maybe<CoreFeed>>>;
   coreLayouts?: Maybe<Array<Maybe<CoreLayout>>>;
+  countermeasureModuleType: Array<CountermeasureModule>;
+  countermeasures?: Maybe<Countermeasures>;
   crew?: Maybe<Array<Maybe<Crew>>>;
-  crewCount?: Maybe<Scalars['Int']>;
+  crewCount?: Maybe<Scalars['Int']['output']>;
   crm?: Maybe<Crm>;
   crmFighter?: Maybe<CrmFighter>;
+  damagePositions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   decks?: Maybe<Array<Maybe<Deck>>>;
+  dmxConfig?: Maybe<DmxConfig>;
+  dmxConfigs: Array<DmxConfig>;
+  dmxDevices: Array<DmxDevice>;
+  dmxFixtures: Array<DmxFixture>;
+  dmxSets: Array<DmxSet>;
   docking?: Maybe<Array<Maybe<DockingPort>>>;
-  engines?: Maybe<Array<Maybe<Engine>>>;
   engine?: Maybe<Engine>;
+  engines?: Maybe<Array<Maybe<Engine>>>;
+  entities: Array<Maybe<Entity>>;
+  entity?: Maybe<Entity>;
+  events?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  exocompParts?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   exocomps?: Maybe<Array<Maybe<Exocomp>>>;
   externals?: Maybe<Externals>;
-  hasFirebaseConnection: Scalars['Boolean'];
-  getFirebaseSimulators?: Maybe<Array<FbFullSimulator>>;
-  getFirebaseUser?: Maybe<Scalars['Boolean']>;
-  getFirebaseAwards?: Maybe<Array<FbAwards>>;
-  getFirebaseLogoSrc?: Maybe<Scalars['String']>;
-  getFirebaseWebsiteQRCode?: Maybe<Scalars['String']>;
-  getFirebaseEventId?: Maybe<Scalars['ID']>;
-  getFirebasePageText?: Maybe<FbPageText>;
-  getCurrentFirebaseSelections?: Maybe<FbCurrentSelections>;
   flights: Array<Flight>;
-  events?: Maybe<Array<Maybe<Scalars['String']>>>;
-  advancedNavAndAstrometric?: Maybe<AdvancedNavigationAndAstrometrics>;
-  advancedNavAndAstrometrics?: Maybe<Array<Maybe<AdvancedNavigationAndAstrometrics>>>;
-  getFlightSet?: Maybe<FlightSet>;
   getAllFlightSets: Array<Maybe<FlightSet>>;
-  advancedNavStars?: Maybe<AdvancedNavStarsData>;
-  googleSheets?: Maybe<Scalars['String']>;
+  getCurrentFirebaseSelections?: Maybe<FbCurrentSelections>;
+  getFirebaseAwards?: Maybe<Array<FbAwards>>;
+  getFirebaseEventId?: Maybe<Scalars['ID']['output']>;
+  getFirebaseLogoSrc?: Maybe<Scalars['String']['output']>;
+  getFirebasePageText?: Maybe<FbPageText>;
+  getFirebaseSimulators?: Maybe<Array<FbFullSimulator>>;
+  getFirebaseUser?: Maybe<Scalars['Boolean']['output']>;
+  getFirebaseWebsiteQRCode?: Maybe<Scalars['String']['output']>;
+  getFlightSet?: Maybe<FlightSet>;
+  googleSheets?: Maybe<Scalars['String']['output']>;
   googleSheetsGetSpreadsheet?: Maybe<GoogleSpreadsheet>;
+  hackingPresets: Array<HackingPreset>;
+  hasFirebaseConnection: Scalars['Boolean']['output'];
   hullPlating?: Maybe<HullPlating>;
   hullPlatings?: Maybe<Array<Maybe<HullPlating>>>;
-  interfaces?: Maybe<Array<Maybe<Interface>>>;
   interfaceDevices?: Maybe<Array<Maybe<InterfaceDevice>>>;
+  interfaces?: Maybe<Array<Maybe<Interface>>>;
   internalComm?: Maybe<Array<Maybe<InternalComm>>>;
   inventory?: Maybe<Array<Maybe<InventoryItem>>>;
   isochips?: Maybe<Array<Maybe<Isochip>>>;
   jumpDrive?: Maybe<Array<Maybe<JumpDrive>>>;
   keyboard?: Maybe<Array<Maybe<Keyboard>>>;
+  keypad?: Maybe<Keypad>;
+  keypads?: Maybe<Array<Maybe<Keypad>>>;
   libraryEntries?: Maybe<Array<Maybe<LibraryEntry>>>;
   longRangeCommunications?: Maybe<Array<Maybe<LrCommunications>>>;
-  macros?: Maybe<Array<Maybe<Macro>>>;
   macroButtons?: Maybe<Array<Maybe<MacroButtonConfig>>>;
+  macros?: Maybe<Array<Maybe<Macro>>>;
   messages?: Maybe<Array<Maybe<Message>>>;
   midiSets?: Maybe<Array<Maybe<MidiSet>>>;
   missions: Array<Mission>;
-  auxTimelines?: Maybe<Array<Maybe<TimelineInstance>>>;
-  motus?: Maybe<Array<Maybe<Motu>>>;
   motu?: Maybe<Motu>;
   motuChannel?: Maybe<MotuChannel>;
   motuSend?: Maybe<MotuPatch>;
-  navigation?: Maybe<Array<Maybe<Navigation>>>;
+  motus?: Maybe<Array<Maybe<Motu>>>;
   navigate?: Maybe<Navigation>;
+  navigation?: Maybe<Array<Maybe<Navigation>>>;
   objective?: Maybe<Array<Maybe<Objective>>>;
   officerLogs?: Maybe<Array<Maybe<Log>>>;
-  shipLogs?: Maybe<Array<Maybe<Log>>>;
-  phasers?: Maybe<Array<Maybe<Phaser>>>;
+  oneComputerCore?: Maybe<ComputerCore>;
   phaser?: Maybe<Phaser>;
-  probes: Array<Probes>;
+  phasers?: Maybe<Array<Maybe<Phaser>>>;
   probe?: Maybe<Probes>;
   probeEquipment: Array<ProbeEquipment>;
+  probes: Array<Probes>;
   railgun?: Maybe<Array<Maybe<Railgun>>>;
-  reactors?: Maybe<Array<Maybe<Reactor>>>;
   reactor?: Maybe<Reactor>;
+  reactors?: Maybe<Array<Maybe<Reactor>>>;
   recordSnippets?: Maybe<Array<Maybe<RecordSnippet>>>;
   recordTemplates?: Maybe<Array<Maybe<RecordSnippet>>>;
   rooms?: Maybe<Array<Maybe<Room>>>;
-  sensors: Array<Sensors>;
+  scanner?: Maybe<Scanner>;
+  scanners?: Maybe<Array<Maybe<Scanner>>>;
   sensor?: Maybe<Sensors>;
   sensorContacts?: Maybe<Array<Maybe<SensorContact>>>;
+  sensors: Array<Sensors>;
   sets?: Maybe<Array<Maybe<Set>>>;
   shields?: Maybe<Array<Maybe<Shield>>>;
+  shipLogs?: Maybe<Array<Maybe<Log>>>;
   shortRangeComm?: Maybe<Array<Maybe<ShortRangeComm>>>;
   sickbay?: Maybe<Array<Maybe<Sickbay>>>;
   sickbaySingle?: Maybe<Sickbay>;
-  symptoms?: Maybe<Array<Maybe<Scalars['String']>>>;
   signalJammers?: Maybe<Array<Maybe<SignalJammer>>>;
   simulators: Array<Simulator>;
   softwarePanels?: Maybe<Array<Maybe<SoftwarePanel>>>;
-  stations?: Maybe<Array<Maybe<StationSet>>>;
   station?: Maybe<Station>;
-  stealthField?: Maybe<Array<Maybe<StealthField>>>;
+  stations?: Maybe<Array<Maybe<StationSet>>>;
   stealth?: Maybe<StealthField>;
+  stealthField?: Maybe<Array<Maybe<StealthField>>>;
   subspaceField?: Maybe<Array<Maybe<SubspaceField>>>;
   surveyform?: Maybe<Array<Maybe<SurveyForm>>>;
-  systems?: Maybe<Array<Maybe<System>>>;
+  symptoms?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   system?: Maybe<System>;
-  allSystems: Array<Scalars['String']>;
-  tacticalMaps?: Maybe<Array<Maybe<TacticalMap>>>;
+  systemCoolant?: Maybe<Array<Maybe<SystemCoolant>>>;
+  systems?: Maybe<Array<Maybe<System>>>;
   tacticalMap?: Maybe<TacticalMap>;
+  tacticalMaps?: Maybe<Array<Maybe<TacticalMap>>>;
   targeting?: Maybe<Array<Maybe<Targeting>>>;
-  taskReport?: Maybe<Array<Maybe<TaskReport>>>;
-  tasks?: Maybe<Array<Maybe<Task>>>;
-  taskTemplates: Array<TaskTemplate>;
   taskDefinitions: Array<TaskDefinition>;
-  taskInstructions?: Maybe<Scalars['String']>;
+  taskFlows: Array<TaskFlow>;
+  taskInstructions?: Maybe<Scalars['String']['output']>;
+  taskReport?: Maybe<Array<Maybe<TaskReport>>>;
+  taskTemplates: Array<TaskTemplate>;
+  tasks?: Maybe<Array<Maybe<Task>>>;
   teams?: Maybe<Array<Maybe<Team>>>;
-  damagePositions?: Maybe<Array<Maybe<Scalars['String']>>>;
-  exocompParts?: Maybe<Array<Maybe<Scalars['String']>>>;
-  _template?: Maybe<Template>;
   thorium?: Maybe<Thorium>;
-  thrusters?: Maybe<Array<Maybe<Thruster>>>;
   thruster?: Maybe<Thruster>;
+  thrusters?: Maybe<Array<Maybe<Thruster>>>;
   thx?: Maybe<Array<Maybe<Thx>>>;
-  torpedos?: Maybe<Array<Maybe<Torpedo>>>;
   torpedo?: Maybe<Torpedo>;
+  torpedos?: Maybe<Array<Maybe<Torpedo>>>;
   tractorBeam?: Maybe<Array<Maybe<TractorBeam>>>;
   transporters?: Maybe<Array<Maybe<Transporter>>>;
   transwarp?: Maybe<Array<Maybe<Transwarp>>>;
   triggers?: Maybe<Array<Maybe<Trigger>>>;
   viewscreens?: Maybe<Array<Maybe<Viewscreen>>>;
-  countermeasures?: Maybe<Countermeasures>;
-  countermeasureModuleType: Array<CountermeasureModule>;
-  entity?: Maybe<Entity>;
-  entities: Array<Maybe<Entity>>;
-  dmxDevices: Array<DmxDevice>;
-  dmxSets: Array<DmxSet>;
-  dmxFixtures: Array<DmxFixture>;
-  dmxConfig?: Maybe<DmxConfig>;
-  dmxConfigs: Array<DmxConfig>;
-  taskFlows: Array<TaskFlow>;
-};
-
-
-export type QueryActionsArgs = {
-  stationId?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryAssetArgs = {
-  assetKey: Scalars['String'];
-};
-
-
-export type QueryAssetsArgs = {
-  assetKeys: Array<Scalars['String']>;
-};
-
-
-export type QueryAssetFoldersArgs = {
-  name?: Maybe<Scalars['String']>;
-  names?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
-export type QueryClientsArgs = {
-  all?: Maybe<Scalars['Boolean']>;
-  clientId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  stationName?: Maybe<Scalars['String']>;
-  flightId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryKeypadArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type QueryKeypadsArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryScannerArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type QueryScannersArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryCommandLineArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryCommandLineCommandsArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryComputerCoreArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryOneComputerCoreArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryCoolantArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QuerySystemCoolantArgs = {
-  simulatorId: Scalars['ID'];
-  systemId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryCoreFeedArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryCoreLayoutsArgs = {
-  name?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryCrewArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  position?: Maybe<Scalars['String']>;
-  killed?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryCrewCountArgs = {
-  simulatorId: Scalars['ID'];
-  position?: Maybe<Scalars['String']>;
-  killed?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryCrmArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryCrmFighterArgs = {
-  simulatorId: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type QueryDecksArgs = {
-  simulatorId: Scalars['ID'];
-  number?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryDockingArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Docking_Types>;
-};
-
-
-export type QueryEnginesArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryEngineArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryExocompsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryGetFirebaseUserArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryFlightsArgs = {
-  running?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryAdvancedNavAndAstrometricArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryAdvancedNavAndAstrometricsArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryGetFlightSetArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryAdvancedNavStarsArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryGoogleSheetsGetSpreadsheetArgs = {
-  spreadsheetId: Scalars['ID'];
-};
-
-
-export type QueryHullPlatingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryHullPlatingsArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryInterfacesArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryInternalCommArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryInventoryArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  deck?: Maybe<Scalars['ID']>;
-  room?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryIsochipsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryJumpDriveArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryLibraryEntriesArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  all?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryLongRangeCommunicationsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryMessagesArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-  group?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryMidiSetsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryMissionsArgs = {
-  id?: Maybe<Scalars['ID']>;
-  aux?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryAuxTimelinesArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryMotuArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryMotuChannelArgs = {
-  id: Scalars['ID'];
-  channelId: Scalars['ID'];
-};
-
-
-export type QueryMotuSendArgs = {
-  id: Scalars['ID'];
-  inputId: Scalars['ID'];
-  outputId: Scalars['ID'];
-};
-
-
-export type QueryNavigationArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryNavigateArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryObjectiveArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryOfficerLogsArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-  flightId: Scalars['ID'];
-};
-
-
-export type QueryShipLogsArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryPhasersArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryPhaserArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryProbesArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QueryProbeArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryRailgunArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryReactorsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  model?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryReactorArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryRecordSnippetsArgs = {
-  simulatorId: Scalars['ID'];
-  visible?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryRoomsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  deck?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  role?: Maybe<RoomRoles>;
-};
-
-
-export type QuerySensorsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  domain?: Maybe<Scalars['String']>;
-};
-
-
-export type QuerySensorArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QuerySensorContactsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  sensorsId?: Maybe<Scalars['ID']>;
-  hostile?: Maybe<Scalars['Boolean']>;
-  type?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryShieldsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryShortRangeCommArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QuerySickbayArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QuerySickbaySingleArgs = {
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type QuerySignalJammersArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type QuerySimulatorsArgs = {
-  template?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type QuerySoftwarePanelsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryStationArgs = {
-  simulatorId: Scalars['ID'];
-  station: Scalars['String'];
-};
-
-
-export type QueryStealthFieldArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryStealthArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QuerySubspaceFieldArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QuerySurveyformArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  active?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QuerySystemsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Scalars['Boolean']>;
-  heat?: Maybe<Scalars['Boolean']>;
-  extra?: Maybe<Scalars['Boolean']>;
-  damageWhich?: Maybe<Scalars['String']>;
-};
-
-
-export type QuerySystemArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryTacticalMapsArgs = {
-  flightId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryTacticalMapArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryTargetingArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryTaskReportArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  cleared?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryTasksArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-  isCore?: Maybe<Scalars['Boolean']>;
-  definitions?: Maybe<Array<Scalars['String']>>;
-};
-
-
-export type QueryTaskDefinitionsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryTaskInstructionsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  definition: Scalars['String'];
-  requiredValues: Scalars['JSON'];
-  task?: Maybe<TaskInput>;
-};
-
-
-export type QueryTeamsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  cleared?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type Query_TemplateArgs = {
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type QueryThrustersArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryActionsArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  stationId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type QueryThrusterArgs = {
-  id: Scalars['ID'];
+export type QueryAdvancedNavAndAstrometricArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type QueryThxArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryAdvancedNavAndAstrometricsArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type QueryTorpedosArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryAdvancedNavStarsArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type QueryTorpedoArgs = {
-  id: Scalars['ID'];
+export type QueryAssetArgs = {
+  assetKey: Scalars['String']['input'];
 };
 
 
-export type QueryTractorBeamArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryAssetFoldersArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  names?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
-export type QueryTransportersArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryAssetsArgs = {
+  assetKeys: Array<Scalars['String']['input']>;
 };
 
 
-export type QueryTranswarpArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryAuxTimelinesArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type QueryTriggersArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryClientsArgs = {
+  all?: InputMaybe<Scalars['Boolean']['input']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  stationName?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryViewscreensArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryCommandLineArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryCommandLineCommandsArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryComputerCoreArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryCoolantArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryCoreFeedArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryCoreLayoutsArgs = {
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryCountermeasuresArgs = {
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type QueryEntityArgs = {
-  id: Scalars['ID'];
+export type QueryCrewArgs = {
+  killed?: InputMaybe<Scalars['Boolean']['input']>;
+  position?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type QueryEntitiesArgs = {
-  flightId: Scalars['ID'];
-  inert?: Maybe<Scalars['Boolean']>;
+export type QueryCrewCountArgs = {
+  killed?: InputMaybe<Scalars['Boolean']['input']>;
+  position?: InputMaybe<Scalars['String']['input']>;
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type QueryDmxFixturesArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type QueryCrmArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryCrmFighterArgs = {
+  clientId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryDecksArgs = {
+  number?: InputMaybe<Scalars['Int']['input']>;
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type QueryDmxConfigArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryDmxFixturesArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryDockingArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Docking_Types>;
+};
+
+
+export type QueryEngineArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryEnginesArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryEntitiesArgs = {
+  flightId: Scalars['ID']['input'];
+  inert?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type QueryEntityArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryExocompsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryFlightsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  running?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type QueryGetFirebaseUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetFlightSetArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryGoogleSheetsGetSpreadsheetArgs = {
+  spreadsheetId: Scalars['ID']['input'];
+};
+
+
+export type QueryHullPlatingArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryHullPlatingsArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryInterfacesArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryInternalCommArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryInventoryArgs = {
+  deck?: InputMaybe<Scalars['ID']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  room?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryIsochipsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryJumpDriveArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryKeypadArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type QueryKeypadsArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryLibraryEntriesArgs = {
+  all?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryLongRangeCommunicationsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryMessagesArgs = {
+  group?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryMidiSetsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryMissionsArgs = {
+  aux?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryMotuArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryMotuChannelArgs = {
+  channelId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryMotuSendArgs = {
+  id: Scalars['ID']['input'];
+  inputId: Scalars['ID']['input'];
+  outputId: Scalars['ID']['input'];
+};
+
+
+export type QueryNavigateArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryNavigationArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryObjectiveArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryOfficerLogsArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type QueryOneComputerCoreArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryPhaserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryPhasersArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryProbeArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryProbesArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryRailgunArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryReactorArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryReactorsArgs = {
+  model?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryRecordSnippetsArgs = {
+  simulatorId: Scalars['ID']['input'];
+  visible?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type QueryRoomsArgs = {
+  deck?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<RoomRoles>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryScannerArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type QueryScannersArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QuerySensorArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QuerySensorContactsArgs = {
+  hostile?: InputMaybe<Scalars['Boolean']['input']>;
+  sensorsId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QuerySensorsArgs = {
+  domain?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryShieldsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryShipLogsArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QueryShortRangeCommArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QuerySickbayArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QuerySickbaySingleArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QuerySignalJammersArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type QuerySimulatorsArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  template?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type QuerySoftwarePanelsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryStationArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+};
+
+
+export type QueryStealthArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryStealthFieldArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QuerySubspaceFieldArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QuerySurveyformArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QuerySystemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QuerySystemCoolantArgs = {
+  simulatorId: Scalars['ID']['input'];
+  systemId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QuerySystemsArgs = {
+  damageWhich?: InputMaybe<Scalars['String']['input']>;
+  extra?: InputMaybe<Scalars['Boolean']['input']>;
+  heat?: InputMaybe<Scalars['Boolean']['input']>;
+  power?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryTacticalMapArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryTacticalMapsArgs = {
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTargetingArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTaskDefinitionsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type QueryTaskFlowsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTaskInstructionsArgs = {
+  definition: Scalars['String']['input'];
+  requiredValues: Scalars['JSON']['input'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  task?: InputMaybe<TaskInput>;
+};
+
+
+export type QueryTaskReportArgs = {
+  cleared?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryTasksArgs = {
+  definitions?: InputMaybe<Array<Scalars['String']['input']>>;
+  isCore?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryTeamsArgs = {
+  cleared?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryThrusterArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryThrustersArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryThxArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTorpedoArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryTorpedosArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTractorBeamArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTransportersArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTranswarpArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryTriggersArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryViewscreensArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export enum Reactor_Models {
-  Reactor = 'reactor',
-  Battery = 'battery'
+  Battery = 'battery',
+  Reactor = 'reactor'
 }
 
 export type Railgun = SystemInterface & {
   __typename?: 'Railgun';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  heat?: Maybe<Scalars['Float']>;
+  ammo?: Maybe<Scalars['Int']['output']>;
+  availableAmmo?: Maybe<Scalars['Int']['output']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  coolant?: Maybe<Scalars['Float']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  availableAmmo?: Maybe<Scalars['Int']>;
-  maxAmmo?: Maybe<Scalars['Int']>;
-  ammo?: Maybe<Scalars['Int']>;
+  maxAmmo?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type RangeInput = {
-  upper?: Maybe<Scalars['Float']>;
-  lower?: Maybe<Scalars['Float']>;
+  lower?: InputMaybe<Scalars['Float']['input']>;
+  upper?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Reactor = SystemInterface & {
   __typename?: 'Reactor';
-  id: Scalars['ID'];
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  power?: Maybe<Power>;
-  heat?: Maybe<Scalars['Float']>;
-  heatRate?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
+  alphaLevel?: Maybe<Scalars['Float']['output']>;
+  alphaTarget?: Maybe<Scalars['Float']['output']>;
+  batteryChargeLevel?: Maybe<Scalars['Float']['output']>;
+  batteryChargeRate?: Maybe<Scalars['Float']['output']>;
+  betaLevel?: Maybe<Scalars['Float']['output']>;
+  betaTarget?: Maybe<Scalars['Float']['output']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  model?: Maybe<Reactor_Models>;
-  ejected?: Maybe<Scalars['Boolean']>;
-  externalPower?: Maybe<Scalars['Boolean']>;
-  powerOutput?: Maybe<Scalars['Int']>;
-  efficiency?: Maybe<Scalars['Float']>;
+  depletion?: Maybe<Scalars['Float']['output']>;
+  dilithiumRate?: Maybe<Scalars['Float']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
   efficiencies?: Maybe<Array<ReactorEfficiency>>;
-  batteryChargeLevel?: Maybe<Scalars['Float']>;
-  batteryChargeRate?: Maybe<Scalars['Float']>;
-  depletion?: Maybe<Scalars['Float']>;
-  hasWings?: Maybe<Scalars['Boolean']>;
-  leftWingPower?: Maybe<Scalars['Int']>;
-  leftWingRequest?: Maybe<Scalars['Int']>;
-  leftWingRequested?: Maybe<Scalars['Boolean']>;
-  rightWingPower?: Maybe<Scalars['Int']>;
-  rightWingRequest?: Maybe<Scalars['Int']>;
-  rightWingRequested?: Maybe<Scalars['Boolean']>;
-  alphaLevel?: Maybe<Scalars['Float']>;
-  betaLevel?: Maybe<Scalars['Float']>;
-  alphaTarget?: Maybe<Scalars['Float']>;
-  betaTarget?: Maybe<Scalars['Float']>;
-  dilithiumRate?: Maybe<Scalars['Float']>;
+  efficiency?: Maybe<Scalars['Float']['output']>;
+  ejected?: Maybe<Scalars['Boolean']['output']>;
+  externalPower?: Maybe<Scalars['Boolean']['output']>;
+  hasWings?: Maybe<Scalars['Boolean']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  heatRate?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  leftWingPower?: Maybe<Scalars['Int']['output']>;
+  leftWingRequest?: Maybe<Scalars['Int']['output']>;
+  leftWingRequested?: Maybe<Scalars['Boolean']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  requireBalance?: Maybe<Scalars['Boolean']>;
+  model?: Maybe<Reactor_Models>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  powerOutput?: Maybe<Scalars['Int']['output']>;
+  requireBalance?: Maybe<Scalars['Boolean']['output']>;
+  rightWingPower?: Maybe<Scalars['Int']['output']>;
+  rightWingRequest?: Maybe<Scalars['Int']['output']>;
+  rightWingRequested?: Maybe<Scalars['Boolean']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ReactorEfficiency = {
   __typename?: 'ReactorEfficiency';
-  label: Scalars['String'];
-  color: Scalars['String'];
-  efficiency?: Maybe<Scalars['Float']>;
+  color: Scalars['String']['output'];
+  efficiency?: Maybe<Scalars['Float']['output']>;
+  label: Scalars['String']['output'];
 };
 
 export type ReactorEfficiencyInput = {
-  label: Scalars['String'];
-  color: Scalars['String'];
-  efficiency: Scalars['Float'];
+  color: Scalars['String']['input'];
+  efficiency: Scalars['Float']['input'];
+  label: Scalars['String']['input'];
 };
 
 export type RecordEntry = {
   __typename?: 'RecordEntry';
-  id?: Maybe<Scalars['ID']>;
-  contents?: Maybe<Scalars['String']>;
-  original?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-  modified?: Maybe<Scalars['Boolean']>;
+  category?: Maybe<Scalars['String']['output']>;
+  contents?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  modified?: Maybe<Scalars['Boolean']['output']>;
+  original?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type RecordSnippet = {
   __typename?: 'RecordSnippet';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  sensorContactId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<RecordSnippetType>;
-  visible?: Maybe<Scalars['Boolean']>;
-  launched?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  launched?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   records?: Maybe<Array<Maybe<RecordEntry>>>;
+  sensorContactId?: Maybe<Scalars['ID']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
   templateRecords?: Maybe<Array<Maybe<RecordEntry>>>;
+  type?: Maybe<RecordSnippetType>;
+  visible?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export enum RecordSnippetType {
-  Normal = 'normal',
   Buoy = 'buoy',
-  External = 'external'
+  External = 'external',
+  Normal = 'normal'
 }
 
 export type RemoteAccessCode = {
   __typename?: 'RemoteAccessCode';
-  id?: Maybe<Scalars['ID']>;
-  code?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  station?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  station?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type RemoteAsset = {
-  url?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RequirementInput = {
-  cards?: Maybe<Array<Maybe<Scalars['String']>>>;
-  systems?: Maybe<Array<Maybe<Scalars['String']>>>;
+  cards?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  systems?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Room = {
   __typename?: 'Room';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
   deck?: Maybe<Deck>;
-  name?: Maybe<Scalars['String']>;
-  roles?: Maybe<Array<Maybe<RoomRoles>>>;
-  gas?: Maybe<Scalars['Boolean']>;
-  svgPath?: Maybe<Scalars['String']>;
+  gas?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   inventory?: Maybe<Array<Maybe<InventoryItem>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  roles?: Maybe<Array<Maybe<RoomRoles>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  svgPath?: Maybe<Scalars['String']['output']>;
   systems?: Maybe<Array<Maybe<System>>>;
 };
 
 export type RoomCount = {
   __typename?: 'RoomCount';
+  count?: Maybe<Scalars['Int']['output']>;
   room?: Maybe<Room>;
-  count?: Maybe<Scalars['Int']>;
 };
 
 export type RoomCountInput = {
-  room?: Maybe<Scalars['ID']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  room?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type RoomInput = {
-  name?: Maybe<Scalars['String']>;
-  deck?: Maybe<Scalars['Int']>;
-  roles?: Maybe<Array<Maybe<RoomRoles>>>;
+  deck?: InputMaybe<Scalars['Int']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  roles?: InputMaybe<Array<InputMaybe<RoomRoles>>>;
 };
 
 export enum RoomRoles {
-  Probe = 'probe',
-  Torpedo = 'torpedo',
   DamageTeam = 'damageTeam',
+  MedicalTeam = 'medicalTeam',
+  Probe = 'probe',
   SecurityTeam = 'securityTeam',
-  MedicalTeam = 'medicalTeam'
+  Torpedo = 'torpedo'
 }
 
 export type Rotation = {
   __typename?: 'Rotation';
-  yaw?: Maybe<Scalars['Float']>;
-  pitch?: Maybe<Scalars['Float']>;
-  roll?: Maybe<Scalars['Float']>;
+  pitch?: Maybe<Scalars['Float']['output']>;
+  roll?: Maybe<Scalars['Float']['output']>;
+  yaw?: Maybe<Scalars['Float']['output']>;
 };
 
 export type RotationInput = {
-  yaw?: Maybe<Scalars['Float']>;
-  pitch?: Maybe<Scalars['Float']>;
-  roll?: Maybe<Scalars['Float']>;
+  pitch?: InputMaybe<Scalars['Float']['input']>;
+  roll?: InputMaybe<Scalars['Float']['input']>;
+  yaw?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export enum Science_Burst_Detector {
@@ -9740,646 +9740,650 @@ export enum Science_Burst_Detector {
 
 export type Scanner = {
   __typename?: 'Scanner';
-  id?: Maybe<Scalars['ID']>;
-  label?: Maybe<Scalars['String']>;
-  scanRequest?: Maybe<Scalars['String']>;
-  scanResults?: Maybe<Scalars['String']>;
-  scanning?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
+  scanRequest?: Maybe<Scalars['String']['output']>;
+  scanResults?: Maybe<Scalars['String']['output']>;
+  scanning?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ScienceProbeEvent = {
   __typename?: 'ScienceProbeEvent';
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-  type: Scalars['String'];
-  charge: Scalars['Float'];
+  charge: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  simulatorId: Scalars['ID']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type ScienceType = {
   __typename?: 'ScienceType';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  equipment?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Science_Burst_Detector>;
-  description?: Maybe<Scalars['String']>;
-  equipment?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type SecondaryNavigationRouteOption = {
   __typename?: 'SecondaryNavigationRouteOption';
-  targetLocationId: Scalars['ID'];
+  targetLocationId: Scalars['ID']['output'];
 };
 
 export type SecondaryNavigationRouteOptionInput = {
-  targetLocationId: Scalars['ID'];
+  targetLocationId: Scalars['ID']['input'];
 };
 
 export type SecondaryStopTransitOption = {
   __typename?: 'SecondaryStopTransitOption';
-  name: Scalars['String'];
-  timeModifier: Scalars['Float'];
-  riskModifier: Scalars['Float'];
-  iconUrl: Scalars['String'];
+  iconUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  riskModifier: Scalars['Float']['output'];
+  timeModifier: Scalars['Float']['output'];
 };
 
 export type SecondaryStopTransitOptionInput = {
-  name: Scalars['String'];
-  timeModifier: Scalars['Float'];
-  riskModifier: Scalars['Float'];
-  iconUrl: Scalars['String'];
+  iconUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  riskModifier: Scalars['Float']['input'];
+  timeModifier: Scalars['Float']['input'];
 };
 
 export type SensorContact = {
   __typename?: 'SensorContact';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  icon?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  rotation?: Maybe<Scalars['Float']>;
-  speed?: Maybe<Scalars['Float']>;
-  location?: Maybe<Coordinates>;
+  autoFire?: Maybe<Scalars['Boolean']['output']>;
+  cloaked?: Maybe<Scalars['Boolean']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
   destination?: Maybe<Coordinates>;
-  position?: Maybe<Coordinates>;
-  startTime?: Maybe<Scalars['Float']>;
-  endTime?: Maybe<Scalars['Float']>;
-  movementTime?: Maybe<Scalars['Int']>;
-  infrared?: Maybe<Scalars['Boolean']>;
-  cloaked?: Maybe<Scalars['Boolean']>;
-  destroyed?: Maybe<Scalars['Boolean']>;
-  forceUpdate?: Maybe<Scalars['Boolean']>;
-  targeted?: Maybe<Scalars['Boolean']>;
-  selected?: Maybe<Scalars['Boolean']>;
-  locked?: Maybe<Scalars['Boolean']>;
-  disabled?: Maybe<Scalars['Boolean']>;
-  hostile?: Maybe<Scalars['Boolean']>;
-  hitpoints?: Maybe<Scalars['Int']>;
-  autoFire?: Maybe<Scalars['Boolean']>;
+  destroyed?: Maybe<Scalars['Boolean']['output']>;
+  disabled?: Maybe<Scalars['Boolean']['output']>;
+  endTime?: Maybe<Scalars['Float']['output']>;
+  forceUpdate?: Maybe<Scalars['Boolean']['output']>;
+  hitpoints?: Maybe<Scalars['Int']['output']>;
+  hostile?: Maybe<Scalars['Boolean']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  infrared?: Maybe<Scalars['Boolean']['output']>;
+  location?: Maybe<Coordinates>;
+  locked?: Maybe<Scalars['Boolean']['output']>;
+  movementTime?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   particle?: Maybe<ParticleTypes>;
+  picture?: Maybe<Scalars['String']['output']>;
+  position?: Maybe<Coordinates>;
+  rotation?: Maybe<Scalars['Float']['output']>;
+  selected?: Maybe<Scalars['Boolean']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
+  speed?: Maybe<Scalars['Float']['output']>;
+  startTime?: Maybe<Scalars['Float']['output']>;
+  targeted?: Maybe<Scalars['Boolean']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type SensorContactInput = {
-  sensorId?: Maybe<Scalars['ID']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  icon?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  speed?: Maybe<Scalars['Float']>;
-  rotation?: Maybe<Scalars['Float']>;
-  location?: Maybe<CoordinatesInput>;
-  destination?: Maybe<CoordinatesInput>;
-  infrared?: Maybe<Scalars['Boolean']>;
-  cloaked?: Maybe<Scalars['Boolean']>;
-  destroyed?: Maybe<Scalars['Boolean']>;
-  locked?: Maybe<Scalars['Boolean']>;
-  disabled?: Maybe<Scalars['Boolean']>;
-  hostile?: Maybe<Scalars['Boolean']>;
-  hitpoints?: Maybe<Scalars['Int']>;
-  autoFire?: Maybe<Scalars['Boolean']>;
-  particle?: Maybe<ParticleTypes>;
+  autoFire?: InputMaybe<Scalars['Boolean']['input']>;
+  cloaked?: InputMaybe<Scalars['Boolean']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  destination?: InputMaybe<CoordinatesInput>;
+  destroyed?: InputMaybe<Scalars['Boolean']['input']>;
+  disabled?: InputMaybe<Scalars['Boolean']['input']>;
+  hitpoints?: InputMaybe<Scalars['Int']['input']>;
+  hostile?: InputMaybe<Scalars['Boolean']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  infrared?: InputMaybe<Scalars['Boolean']['input']>;
+  location?: InputMaybe<CoordinatesInput>;
+  locked?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  particle?: InputMaybe<ParticleTypes>;
+  picture?: InputMaybe<Scalars['String']['input']>;
+  rotation?: InputMaybe<Scalars['Float']['input']>;
+  sensorId?: InputMaybe<Scalars['ID']['input']>;
+  size?: InputMaybe<Scalars['Float']['input']>;
+  speed?: InputMaybe<Scalars['Float']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SensorScan = {
   __typename?: 'SensorScan';
-  id: Scalars['ID'];
-  timestamp?: Maybe<Scalars['String']>;
-  mode?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  request?: Maybe<Scalars['String']>;
-  response?: Maybe<Scalars['String']>;
-  scanning?: Maybe<Scalars['Boolean']>;
-  cancelled?: Maybe<Scalars['Boolean']>;
+  cancelled?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['ID']['output'];
+  location?: Maybe<Scalars['String']['output']>;
+  mode?: Maybe<Scalars['String']['output']>;
+  request?: Maybe<Scalars['String']['output']>;
+  response?: Maybe<Scalars['String']['output']>;
+  scanning?: Maybe<Scalars['Boolean']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type SensorScanInput = {
-  id?: Maybe<Scalars['ID']>;
-  timestamp?: Maybe<Scalars['String']>;
-  mode?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  request?: Maybe<Scalars['String']>;
-  response?: Maybe<Scalars['String']>;
-  scanning?: Maybe<Scalars['Boolean']>;
-  cancelled?: Maybe<Scalars['Boolean']>;
+  cancelled?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  mode?: InputMaybe<Scalars['String']['input']>;
+  request?: InputMaybe<Scalars['String']['input']>;
+  response?: InputMaybe<Scalars['String']['input']>;
+  scanning?: InputMaybe<Scalars['Boolean']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Sensors = SystemInterface & {
   __typename?: 'Sensors';
-  id: Scalars['ID'];
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  domain: Scalars['String'];
-  pings?: Maybe<Scalars['Boolean']>;
-  timeSincePing?: Maybe<Scalars['Int']>;
-  pingMode?: Maybe<Ping_Modes>;
-  scanResults?: Maybe<Scalars['String']>;
-  scanRequest?: Maybe<Scalars['String']>;
-  processedData?: Maybe<Array<ProcessedData>>;
-  presetAnswers?: Maybe<Array<Maybe<PresetAnswer>>>;
-  scanning?: Maybe<Scalars['Boolean']>;
-  power?: Maybe<Power>;
-  contacts?: Maybe<Array<Maybe<SensorContact>>>;
   armyContacts?: Maybe<Array<Maybe<SensorContact>>>;
+  autoTarget?: Maybe<Scalars['Boolean']['output']>;
+  autoThrusters?: Maybe<Scalars['Boolean']['output']>;
+  contacts?: Maybe<Array<Maybe<SensorContact>>>;
   damage?: Maybe<Damage>;
-  scans?: Maybe<Array<Maybe<SensorScan>>>;
-  history?: Maybe<Scalars['Boolean']>;
-  autoTarget?: Maybe<Scalars['Boolean']>;
-  frozen?: Maybe<Scalars['Boolean']>;
-  autoThrusters?: Maybe<Scalars['Boolean']>;
-  interference?: Maybe<Scalars['Float']>;
-  movement?: Maybe<Coordinates>;
-  segments?: Maybe<Array<Maybe<SensorsSegment>>>;
+  defaultHitpoints?: Maybe<Scalars['Int']['output']>;
+  defaultSpeed?: Maybe<Scalars['Float']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  domain: Scalars['String']['output'];
+  frozen?: Maybe<Scalars['Boolean']['output']>;
+  history?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['ID']['output'];
+  interference?: Maybe<Scalars['Float']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  defaultHitpoints?: Maybe<Scalars['Int']>;
-  defaultSpeed?: Maybe<Scalars['Float']>;
-  missPercent?: Maybe<Scalars['Float']>;
+  missPercent?: Maybe<Scalars['Float']['output']>;
+  movement?: Maybe<Coordinates>;
+  name?: Maybe<Scalars['String']['output']>;
+  pingMode?: Maybe<Ping_Modes>;
+  pings?: Maybe<Scalars['Boolean']['output']>;
+  power?: Maybe<Power>;
+  presetAnswers?: Maybe<Array<Maybe<PresetAnswer>>>;
+  processedData?: Maybe<Array<ProcessedData>>;
+  scanRequest?: Maybe<Scalars['String']['output']>;
+  scanResults?: Maybe<Scalars['String']['output']>;
+  scanning?: Maybe<Scalars['Boolean']['output']>;
+  scans?: Maybe<Array<Maybe<SensorScan>>>;
+  segments?: Maybe<Array<Maybe<SensorsSegment>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  timeSincePing?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SensorsSegment = {
   __typename?: 'SensorsSegment';
-  ring?: Maybe<Scalars['Int']>;
-  line?: Maybe<Scalars['Int']>;
-  state?: Maybe<Scalars['Boolean']>;
+  line?: Maybe<Scalars['Int']['output']>;
+  ring?: Maybe<Scalars['Int']['output']>;
+  state?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Set = {
   __typename?: 'Set';
-  id: Scalars['ID'];
-  name: Scalars['String'];
   clients: Array<SetClient>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type SetClient = {
   __typename?: 'SetClient';
-  id?: Maybe<Scalars['ID']>;
   client?: Maybe<Client>;
+  id?: Maybe<Scalars['ID']['output']>;
+  secondary?: Maybe<Scalars['Boolean']['output']>;
   simulator?: Maybe<Simulator>;
+  soundPlayer?: Maybe<Scalars['Boolean']['output']>;
+  station?: Maybe<Scalars['String']['output']>;
   stationSet?: Maybe<StationSet>;
-  station?: Maybe<Scalars['String']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-  soundPlayer?: Maybe<Scalars['Boolean']>;
 };
 
 export type SetClientInput = {
-  id?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  stationSet?: Maybe<Scalars['ID']>;
-  station?: Maybe<Scalars['ID']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-  soundPlayer?: Maybe<Scalars['Boolean']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  soundPlayer?: InputMaybe<Scalars['Boolean']['input']>;
+  station?: InputMaybe<Scalars['ID']['input']>;
+  stationSet?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Shield = SystemInterface & {
   __typename?: 'Shield';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  heat?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
-  position?: Maybe<Scalars['Int']>;
-  power?: Maybe<Power>;
-  frequency?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['Boolean']>;
-  integrity?: Maybe<Scalars['Float']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  frequency?: Maybe<Scalars['Float']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  integrity?: Maybe<Scalars['Float']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  position?: Maybe<Scalars['Int']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['Boolean']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Ship = {
   __typename?: 'Ship';
-  clamps?: Maybe<Scalars['Boolean']>;
-  ramps?: Maybe<Scalars['Boolean']>;
-  airlock?: Maybe<Scalars['Boolean']>;
-  legs?: Maybe<Scalars['Boolean']>;
-  bridgeCrew?: Maybe<Scalars['Int']>;
-  extraPeople?: Maybe<Scalars['Int']>;
-  radiation?: Maybe<Scalars['Float']>;
-  helium?: Maybe<Scalars['Float']>;
-  heliumRate?: Maybe<Scalars['Float']>;
-  showHelium?: Maybe<Scalars['Float']>;
-  velocity?: Maybe<Scalars['Float']>;
-  remoteAccessCodes?: Maybe<Array<Maybe<RemoteAccessCode>>>;
-  selfDestructTime?: Maybe<Scalars['Float']>;
-  selfDestructCode?: Maybe<Scalars['String']>;
-  selfDestructAuto?: Maybe<Scalars['Boolean']>;
+  airlock?: Maybe<Scalars['Boolean']['output']>;
+  bridgeCrew?: Maybe<Scalars['Int']['output']>;
+  clamps?: Maybe<Scalars['Boolean']['output']>;
+  extraPeople?: Maybe<Scalars['Int']['output']>;
+  helium?: Maybe<Scalars['Float']['output']>;
+  heliumRate?: Maybe<Scalars['Float']['output']>;
   inventoryLogs?: Maybe<Array<Maybe<InventoryLog>>>;
+  legs?: Maybe<Scalars['Boolean']['output']>;
+  radiation?: Maybe<Scalars['Float']['output']>;
+  ramps?: Maybe<Scalars['Boolean']['output']>;
+  remoteAccessCodes?: Maybe<Array<Maybe<RemoteAccessCode>>>;
+  selfDestructAuto?: Maybe<Scalars['Boolean']['output']>;
+  selfDestructCode?: Maybe<Scalars['String']['output']>;
+  selfDestructTime?: Maybe<Scalars['Float']['output']>;
+  showHelium?: Maybe<Scalars['Float']['output']>;
+  velocity?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ShortRangeComm = SystemInterface & {
   __typename?: 'ShortRangeComm';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  damage?: Maybe<Damage>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  heat?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
-  frequency?: Maybe<Scalars['Float']>;
-  amplitude?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
+  amplitude?: Maybe<Scalars['Float']['output']>;
   arrows?: Maybe<Array<Maybe<CommArrow>>>;
-  signals?: Maybe<Array<Maybe<CommSignal>>>;
+  coolant?: Maybe<Scalars['Float']['output']>;
+  damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  frequency?: Maybe<Scalars['Float']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  signals?: Maybe<Array<Maybe<CommSignal>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ShortRangeCommExtended = {
   __typename?: 'ShortRangeCommExtended';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
-  damage?: Maybe<Damage>;
-  name?: Maybe<Scalars['String']>;
-  frequency?: Maybe<Scalars['Float']>;
-  amplitude?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
+  amplitude?: Maybe<Scalars['Float']['output']>;
   arrows?: Maybe<Array<Maybe<CommArrow>>>;
+  damage?: Maybe<Damage>;
+  frequency?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
   signals?: Maybe<Array<Maybe<CommSignal>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type ShownCoordinate = {
   __typename?: 'ShownCoordinate';
-  showName?: Maybe<Scalars['Boolean']>;
-  name: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  name: Scalars['String']['output'];
+  showName?: Maybe<Scalars['Boolean']['output']>;
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 export type ShownCoordinateInput = {
-  showName?: Maybe<Scalars['Boolean']>;
-  name: Scalars['String'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  name: Scalars['String']['input'];
+  showName?: InputMaybe<Scalars['Boolean']['input']>;
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type Sickbay = SystemInterface & {
   __typename?: 'Sickbay';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  type?: Maybe<Scalars['String']>;
-  damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  deconProgram?: Maybe<Scalars['String']>;
-  deconLocation?: Maybe<Scalars['String']>;
-  deconActive?: Maybe<Scalars['Boolean']>;
-  deconOffset?: Maybe<Scalars['Float']>;
-  autoFinishDecon?: Maybe<Scalars['Boolean']>;
-  sickbayRoster?: Maybe<Array<Maybe<Crew>>>;
+  autoFinishDecon?: Maybe<Scalars['Boolean']['output']>;
   bunks?: Maybe<Array<Maybe<SickbayBunk>>>;
+  damage?: Maybe<Damage>;
+  deconActive?: Maybe<Scalars['Boolean']['output']>;
+  deconLocation?: Maybe<Scalars['String']['output']>;
+  deconOffset?: Maybe<Scalars['Float']['output']>;
+  deconProgram?: Maybe<Scalars['String']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  sickbayRoster?: Maybe<Array<Maybe<Crew>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SickbayBunk = {
   __typename?: 'SickbayBunk';
-  id?: Maybe<Scalars['ID']>;
-  sickbayId?: Maybe<Scalars['ID']>;
-  scanRequest?: Maybe<Scalars['String']>;
-  scanResults?: Maybe<Scalars['String']>;
-  scanning?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']['output']>;
   patient?: Maybe<Crew>;
+  scanRequest?: Maybe<Scalars['String']['output']>;
+  scanResults?: Maybe<Scalars['String']['output']>;
+  scanning?: Maybe<Scalars['Boolean']['output']>;
+  sickbayId?: Maybe<Scalars['ID']['output']>;
 };
 
 export type Signal = {
   __typename?: 'Signal';
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  level?: Maybe<Scalars['Float']>;
-  power?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  level?: Maybe<Scalars['Float']['output']>;
+  power?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type SignalJammer = SystemInterface & {
   __typename?: 'SignalJammer';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
+  active?: Maybe<Scalars['Boolean']['output']>;
+  addsSensorsInterference?: Maybe<Scalars['Boolean']['output']>;
   damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  addsSensorsInterference?: Maybe<Scalars['Boolean']>;
-  active?: Maybe<Scalars['Boolean']>;
-  level?: Maybe<Scalars['Float']>;
-  strength?: Maybe<Scalars['Float']>;
-  signals?: Maybe<Array<Maybe<Signal>>>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  level?: Maybe<Scalars['Float']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  signals?: Maybe<Array<Maybe<Signal>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  strength?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SignalJammerInput = {
-  id?: Maybe<Scalars['ID']>;
-  active?: Maybe<Scalars['Boolean']>;
-  level?: Maybe<Scalars['Float']>;
-  strength?: Maybe<Scalars['Float']>;
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  level?: InputMaybe<Scalars['Float']['input']>;
+  strength?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Simulator = {
   __typename?: 'Simulator';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  alertlevel?: Maybe<Scalars['String']>;
-  alertLevelLock?: Maybe<Scalars['Boolean']>;
-  layout?: Maybe<Scalars['String']>;
-  caps?: Maybe<Scalars['Boolean']>;
-  template?: Maybe<Scalars['Boolean']>;
-  templateId?: Maybe<Scalars['ID']>;
-  systems?: Maybe<Array<System>>;
-  stations?: Maybe<Array<Station>>;
-  mission?: Maybe<Mission>;
-  missionConfigs?: Maybe<Scalars['JSON']>;
-  currentTimelineStep?: Maybe<Scalars['Int']>;
-  executedTimelineSteps?: Maybe<Array<Scalars['ID']>>;
-  timelines?: Maybe<Array<TimelineInstance>>;
-  decks?: Maybe<Array<Maybe<Deck>>>;
-  rooms?: Maybe<Array<Maybe<Room>>>;
-  ship?: Maybe<Ship>;
-  stepDamage?: Maybe<Scalars['Boolean']>;
-  verifyStep?: Maybe<Scalars['Boolean']>;
-  requiredDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
-  optionalDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
-  exocomps?: Maybe<Scalars['Int']>;
-  training?: Maybe<Scalars['Boolean']>;
-  panels?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  commandLines?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  triggers?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  triggersPaused?: Maybe<Scalars['Boolean']>;
-  interfaces?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  midiSets?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  bridgeOfficerMessaging?: Maybe<Scalars['Boolean']>;
-  hasPrinter?: Maybe<Scalars['Boolean']>;
-  hasLegs?: Maybe<Scalars['Boolean']>;
-  spaceEdventuresId?: Maybe<Scalars['String']>;
-  flipped?: Maybe<Scalars['Boolean']>;
-  capabilities?: Maybe<SimulatorCapabilities>;
-  documents?: Maybe<Array<Document>>;
+  alertLevelLock?: Maybe<Scalars['Boolean']['output']>;
+  alertlevel?: Maybe<Scalars['String']['output']>;
   ambiance?: Maybe<Array<Ambiance>>;
   assets?: Maybe<SimulatorAssets>;
-  soundEffects?: Maybe<Scalars['JSON']>;
+  bridgeOfficerMessaging?: Maybe<Scalars['Boolean']['output']>;
+  capabilities?: Maybe<SimulatorCapabilities>;
+  caps?: Maybe<Scalars['Boolean']['output']>;
+  commandLines?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  currentTimelineStep?: Maybe<Scalars['Int']['output']>;
   damageTasks?: Maybe<Array<Maybe<DamageTask>>>;
+  decks?: Maybe<Array<Maybe<Deck>>>;
+  documents?: Maybe<Array<Document>>;
+  executedTimelineSteps?: Maybe<Array<Scalars['ID']['output']>>;
+  exocomps?: Maybe<Scalars['Int']['output']>;
+  flipped?: Maybe<Scalars['Boolean']['output']>;
+  hasLegs?: Maybe<Scalars['Boolean']['output']>;
+  hasPrinter?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['ID']['output'];
+  interfaces?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  layout?: Maybe<Scalars['String']['output']>;
   lighting?: Maybe<Lighting>;
-  stationSets?: Maybe<Array<Maybe<StationSet>>>;
+  midiSets?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  mission?: Maybe<Mission>;
+  missionConfigs?: Maybe<Scalars['JSON']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  optionalDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
+  panels?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  requiredDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
+  rooms?: Maybe<Array<Maybe<Room>>>;
+  ship?: Maybe<Ship>;
+  soundEffects?: Maybe<Scalars['JSON']['output']>;
+  spaceEdventuresId?: Maybe<Scalars['String']['output']>;
   stationSet?: Maybe<StationSet>;
+  stationSets?: Maybe<Array<Maybe<StationSet>>>;
+  stations?: Maybe<Array<Station>>;
+  stepDamage?: Maybe<Scalars['Boolean']['output']>;
+  systems?: Maybe<Array<System>>;
+  template?: Maybe<Scalars['Boolean']['output']>;
+  templateId?: Maybe<Scalars['ID']['output']>;
+  timelines?: Maybe<Array<TimelineInstance>>;
+  training?: Maybe<Scalars['Boolean']['output']>;
+  triggers?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  triggersPaused?: Maybe<Scalars['Boolean']['output']>;
+  verifyStep?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SimulatorAssets = {
   __typename?: 'SimulatorAssets';
-  mesh?: Maybe<Scalars['String']>;
-  texture?: Maybe<Scalars['String']>;
-  side?: Maybe<Scalars['String']>;
-  top?: Maybe<Scalars['String']>;
-  logo?: Maybe<Scalars['String']>;
-  bridge?: Maybe<Scalars['String']>;
+  bridge?: Maybe<Scalars['String']['output']>;
+  logo?: Maybe<Scalars['String']['output']>;
+  mesh?: Maybe<Scalars['String']['output']>;
+  side?: Maybe<Scalars['String']['output']>;
+  texture?: Maybe<Scalars['String']['output']>;
+  top?: Maybe<Scalars['String']['output']>;
 };
 
 export type SimulatorAssetsInput = {
-  mesh?: Maybe<Scalars['String']>;
-  texture?: Maybe<Scalars['String']>;
-  side?: Maybe<Scalars['String']>;
-  top?: Maybe<Scalars['String']>;
-  logo?: Maybe<Scalars['String']>;
-  bridge?: Maybe<Scalars['String']>;
+  bridge?: InputMaybe<Scalars['String']['input']>;
+  logo?: InputMaybe<Scalars['String']['input']>;
+  mesh?: InputMaybe<Scalars['String']['input']>;
+  side?: InputMaybe<Scalars['String']['input']>;
+  texture?: InputMaybe<Scalars['String']['input']>;
+  top?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SimulatorCapabilities = {
   __typename?: 'SimulatorCapabilities';
-  systems: Array<Scalars['String']>;
-  cards: Array<Scalars['String']>;
-  spaceEdventures?: Maybe<Scalars['Boolean']>;
-  docking?: Maybe<Scalars['Boolean']>;
+  cards: Array<Scalars['String']['output']>;
+  docking?: Maybe<Scalars['Boolean']['output']>;
+  spaceEdventures?: Maybe<Scalars['Boolean']['output']>;
+  systems: Array<Scalars['String']['output']>;
 };
 
 export type SimulatorInput = {
-  simulatorId: Scalars['ID'];
-  stationSet: Scalars['ID'];
-  missionId?: Maybe<Scalars['ID']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  stationSet: Scalars['ID']['input'];
 };
 
 export type SoftwarePanel = {
   __typename?: 'SoftwarePanel';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   cables?: Maybe<Array<Maybe<PanelCable>>>;
   components?: Maybe<Array<Maybe<PanelComponent>>>;
   connections?: Maybe<Array<Maybe<PanelConnection>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type SoftwarePanelInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  cables?: Maybe<Array<Maybe<PanelCableInput>>>;
-  components?: Maybe<Array<Maybe<PanelComponentInput>>>;
-  connections?: Maybe<Array<Maybe<PanelConnectionInput>>>;
+  cables?: InputMaybe<Array<InputMaybe<PanelCableInput>>>;
+  components?: InputMaybe<Array<InputMaybe<PanelComponentInput>>>;
+  connections?: InputMaybe<Array<InputMaybe<PanelConnectionInput>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Sound = {
   __typename?: 'Sound';
-  id?: Maybe<Scalars['ID']>;
-  clients?: Maybe<Array<Maybe<Scalars['String']>>>;
-  asset?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  volume?: Maybe<Scalars['Float']>;
-  playbackRate?: Maybe<Scalars['Float']>;
-  channel?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  looping?: Maybe<Scalars['Boolean']>;
-  preserveChannels?: Maybe<Scalars['Boolean']>;
+  asset?: Maybe<Scalars['String']['output']>;
+  channel?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
+  clients?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  looping?: Maybe<Scalars['Boolean']['output']>;
+  playbackRate?: Maybe<Scalars['Float']['output']>;
+  preserveChannels?: Maybe<Scalars['Boolean']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  volume?: Maybe<Scalars['Float']['output']>;
 };
 
 export type SoundInput = {
-  id?: Maybe<Scalars['ID']>;
-  clients?: Maybe<Array<Maybe<Scalars['String']>>>;
-  asset?: Maybe<Scalars['String']>;
-  volume?: Maybe<Scalars['Float']>;
-  playbackRate?: Maybe<Scalars['Float']>;
-  channel?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  looping?: Maybe<Scalars['Boolean']>;
-  preserveChannels?: Maybe<Scalars['Boolean']>;
+  asset?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  clients?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  looping?: InputMaybe<Scalars['Boolean']['input']>;
+  playbackRate?: InputMaybe<Scalars['Float']['input']>;
+  preserveChannels?: InputMaybe<Scalars['Boolean']['input']>;
+  volume?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type SpaceEdventuresCenter = {
   __typename?: 'SpaceEdventuresCenter';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
-  simulators?: Maybe<Array<Maybe<NamedObject>>>;
-  missions?: Maybe<Array<Maybe<NamedObject>>>;
   badges?: Maybe<Array<Maybe<NamedObject>>>;
   flightTypes?: Maybe<Array<Maybe<FlightType>>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  missions?: Maybe<Array<Maybe<NamedObject>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  simulators?: Maybe<Array<Maybe<NamedObject>>>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type SpaceEdventuresClient = {
   __typename?: 'SpaceEdventuresClient';
-  id?: Maybe<Scalars['ID']>;
-  token?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type Speed = {
   __typename?: 'Speed';
-  text?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['Float']>;
-  velocity?: Maybe<Scalars['Float']>;
-  optimal?: Maybe<Scalars['Boolean']>;
+  number?: Maybe<Scalars['Float']['output']>;
+  optimal?: Maybe<Scalars['Boolean']['output']>;
+  text?: Maybe<Scalars['String']['output']>;
+  velocity?: Maybe<Scalars['Float']['output']>;
 };
 
 export type SpeedInput = {
-  text?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['Float']>;
-  velocity?: Maybe<Scalars['Float']>;
-  optimal?: Maybe<Scalars['Boolean']>;
+  number?: InputMaybe<Scalars['Float']['input']>;
+  optimal?: InputMaybe<Scalars['Boolean']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  velocity?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type StageChildComponent = {
   __typename?: 'StageChildComponent';
-  parentId: Scalars['ID'];
   parent?: Maybe<Entity>;
+  parentId: Scalars['ID']['output'];
 };
 
 export type StageComponent = {
   __typename?: 'StageComponent';
-  scaleLabel?: Maybe<Scalars['String']>;
-  scaleLabelShort?: Maybe<Scalars['String']>;
-  skyboxKey?: Maybe<Scalars['String']>;
-  childrenAsSprites?: Maybe<Scalars['Boolean']>;
+  childrenAsSprites?: Maybe<Scalars['Boolean']['output']>;
+  scaleLabel?: Maybe<Scalars['String']['output']>;
+  scaleLabelShort?: Maybe<Scalars['String']['output']>;
+  skyboxKey?: Maybe<Scalars['String']['output']>;
 };
 
 export type Station = {
   __typename?: 'Station';
-  name: Scalars['String'];
-  tags?: Maybe<Array<Scalars['String']>>;
-  description?: Maybe<Scalars['String']>;
-  training?: Maybe<Scalars['String']>;
-  login?: Maybe<Scalars['Boolean']>;
-  executive?: Maybe<Scalars['Boolean']>;
-  messageGroups?: Maybe<Array<Maybe<Scalars['String']>>>;
-  layout?: Maybe<Scalars['String']>;
-  widgets?: Maybe<Array<Maybe<Scalars['String']>>>;
+  ambiance?: Maybe<Scalars['String']['output']>;
   cards?: Maybe<Array<Card>>;
-  ambiance?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  executive?: Maybe<Scalars['Boolean']['output']>;
+  layout?: Maybe<Scalars['String']['output']>;
+  login?: Maybe<Scalars['Boolean']['output']>;
+  messageGroups?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  name: Scalars['String']['output'];
+  tags?: Maybe<Array<Scalars['String']['output']>>;
+  training?: Maybe<Scalars['String']['output']>;
+  widgets?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
 
 export type StationCardsArgs = {
-  showHidden?: Maybe<Scalars['Boolean']>;
+  showHidden?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type StationSet = {
   __typename?: 'StationSet';
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  crewCount?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   simulator?: Maybe<Simulator>;
-  crewCount?: Maybe<Scalars['Int']>;
   stations: Array<Station>;
 };
 
 export type StealthField = SystemInterface & {
   __typename?: 'StealthField';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
+  activated?: Maybe<Scalars['Boolean']['output']>;
+  changeAlert?: Maybe<Scalars['Boolean']['output']>;
+  charge?: Maybe<Scalars['Boolean']['output']>;
   damage?: Maybe<Damage>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  activated?: Maybe<Scalars['Boolean']>;
-  charge?: Maybe<Scalars['Boolean']>;
-  changeAlert?: Maybe<Scalars['Boolean']>;
-  sensorsSonar?: Maybe<Scalars['Boolean']>;
-  state?: Maybe<Scalars['Boolean']>;
-  quadrants?: Maybe<StealthQuad>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  quadrants?: Maybe<StealthQuad>;
+  sensorsSonar?: Maybe<Scalars['Boolean']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['Boolean']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type StealthQuad = {
   __typename?: 'StealthQuad';
-  fore?: Maybe<Scalars['Float']>;
-  aft?: Maybe<Scalars['Float']>;
-  port?: Maybe<Scalars['Float']>;
-  starboard?: Maybe<Scalars['Float']>;
+  aft?: Maybe<Scalars['Float']['output']>;
+  fore?: Maybe<Scalars['Float']['output']>;
+  port?: Maybe<Scalars['Float']['output']>;
+  starboard?: Maybe<Scalars['Float']['output']>;
 };
 
 export type StringCoordinates = {
   __typename?: 'StringCoordinates';
-  x?: Maybe<Scalars['String']>;
-  y?: Maybe<Scalars['String']>;
-  z?: Maybe<Scalars['String']>;
+  x?: Maybe<Scalars['String']['output']>;
+  y?: Maybe<Scalars['String']['output']>;
+  z?: Maybe<Scalars['String']['output']>;
 };
 
 export type StringCoordinatesInput = {
-  x?: Maybe<Scalars['String']>;
-  y?: Maybe<Scalars['String']>;
-  z?: Maybe<Scalars['String']>;
+  x?: InputMaybe<Scalars['String']['input']>;
+  y?: InputMaybe<Scalars['String']['input']>;
+  z?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  _empty?: Maybe<Scalars['String']>;
+  _empty?: Maybe<Scalars['String']['output']>;
+  _templateUpdate?: Maybe<Template>;
   actionsUpdate?: Maybe<Action>;
+  advancedNavAndAstrometricsUpdate: Array<AdvancedNavigationAndAstrometrics>;
+  advancedNavStarsUpdate: AdvancedNavStarsData;
   assetFolderChange: Array<AssetFolder>;
+  auxTimelinesUpdate?: Maybe<Array<Maybe<TimelineInstance>>>;
+  cancelAllSounds?: Maybe<Scalars['Boolean']['output']>;
+  cancelLoopingSounds?: Maybe<Scalars['Boolean']['output']>;
+  cancelSound?: Maybe<Scalars['ID']['output']>;
+  clearCache?: Maybe<Scalars['Boolean']['output']>;
   clientChanged?: Maybe<Array<Maybe<Client>>>;
-  clientPing?: Maybe<Scalars['Boolean']>;
-  keypadsUpdate?: Maybe<Array<Maybe<Keypad>>>;
-  keypadUpdate?: Maybe<Keypad>;
-  scannersUpdate?: Maybe<Array<Maybe<Scanner>>>;
-  scannerUpdate?: Maybe<Scanner>;
-  commandLineOutputUpdate?: Maybe<Scalars['String']>;
-  commandLinesOutputUpdate?: Maybe<Array<Maybe<Client>>>;
-  clearCache?: Maybe<Scalars['Boolean']>;
-  soundSub?: Maybe<Sound>;
-  cancelSound?: Maybe<Scalars['ID']>;
-  cancelAllSounds?: Maybe<Scalars['Boolean']>;
-  cancelLoopingSounds?: Maybe<Scalars['Boolean']>;
+  clientPing?: Maybe<Scalars['Boolean']['output']>;
+  clockSync?: Maybe<Scalars['String']['output']>;
+  commandLineOutputUpdate?: Maybe<Scalars['String']['output']>;
   commandLineUpdate?: Maybe<Array<Maybe<CommandLine>>>;
+  commandLinesOutputUpdate?: Maybe<Array<Maybe<Client>>>;
   computerCoreUpdate?: Maybe<Array<Maybe<ComputerCore>>>;
-  coolantUpdate?: Maybe<Array<Maybe<CoolantTank>>>;
   coolantSystemUpdate?: Maybe<Array<Maybe<SystemCoolant>>>;
+  coolantUpdate?: Maybe<Array<Maybe<CoolantTank>>>;
   coreFeedUpdate?: Maybe<Array<Maybe<CoreFeed>>>;
-  syncTime?: Maybe<Timer>;
   coreLayoutChange?: Maybe<Array<Maybe<CoreLayout>>>;
+  countermeasuresUpdate?: Maybe<Countermeasures>;
+  crewCountUpdate?: Maybe<Scalars['Int']['output']>;
   crewUpdate?: Maybe<Array<Maybe<Crew>>>;
-  crewCountUpdate?: Maybe<Scalars['Int']>;
-  crmUpdate?: Maybe<Crm>;
-  crmMovementUpdate?: Maybe<Crm>;
   crmFighterUpdate?: Maybe<CrmFighter>;
+  crmMovementUpdate?: Maybe<Crm>;
+  crmUpdate?: Maybe<Crm>;
   decksUpdate?: Maybe<Array<Maybe<Deck>>>;
+  dmxConfigs: Array<DmxConfig>;
+  dmxDevices: Array<DmxDevice>;
+  dmxFixtures: Array<DmxFixture>;
+  dmxSets: Array<DmxSet>;
   dockingUpdate?: Maybe<Array<Maybe<DockingPort>>>;
-  speedChange?: Maybe<Engine>;
-  heatChange?: Maybe<Engine>;
   engineUpdate?: Maybe<Engine>;
+  entities?: Maybe<Array<Maybe<Entity>>>;
+  entity?: Maybe<Entity>;
+  events?: Maybe<Scalars['JSON']['output']>;
   exocompsUpdate?: Maybe<Array<Maybe<Exocomp>>>;
   firebaseCurrentSelectionsUpdate?: Maybe<FbCurrentSelections>;
   flightsUpdate?: Maybe<Array<Maybe<Flight>>>;
-  advancedNavAndAstrometricsUpdate: Array<AdvancedNavigationAndAstrometrics>;
-  advancedNavStarsUpdate: AdvancedNavStarsData;
   googleSheetsUpdate?: Maybe<Array<Maybe<GoogleSheets>>>;
+  heatChange?: Maybe<Engine>;
   hullPlatingUpdate: Array<HullPlating>;
   interfaceUpdate?: Maybe<Array<Maybe<Interface>>>;
   internalCommUpdate?: Maybe<Array<Maybe<InternalComm>>>;
@@ -10387,728 +10391,724 @@ export type Subscription = {
   isochipsUpdate?: Maybe<Array<Maybe<Isochip>>>;
   jumpDriveUpdate?: Maybe<Array<Maybe<JumpDrive>>>;
   keyboardUpdate?: Maybe<Array<Maybe<Keyboard>>>;
+  keypadUpdate?: Maybe<Keypad>;
+  keypadsUpdate?: Maybe<Array<Maybe<Keypad>>>;
   libraryEntriesUpdate?: Maybe<Array<Maybe<LibraryEntry>>>;
   longRangeCommunicationsUpdate?: Maybe<Array<Maybe<LrCommunications>>>;
-  macrosUpdate?: Maybe<Array<Maybe<Macro>>>;
   macroButtonsUpdate?: Maybe<Array<Maybe<MacroButtonConfig>>>;
+  macrosUpdate?: Maybe<Array<Maybe<Macro>>>;
   messageUpdates?: Maybe<Array<Maybe<Message>>>;
-  sendMessage?: Maybe<Message>;
   midiSets?: Maybe<Array<Maybe<MidiSet>>>;
   missionsUpdate: Array<Mission>;
-  auxTimelinesUpdate?: Maybe<Array<Maybe<TimelineInstance>>>;
-  motus?: Maybe<Array<Maybe<Motu>>>;
   motu?: Maybe<Motu>;
   motuChannel?: Maybe<MotuChannel>;
   motuSend?: Maybe<MotuPatch>;
+  motus?: Maybe<Array<Maybe<Motu>>>;
   navigationUpdate?: Maybe<Array<Maybe<Navigation>>>;
+  notify?: Maybe<Notification>;
   objectiveUpdate?: Maybe<Array<Maybe<Objective>>>;
   officerLogsUpdate?: Maybe<Array<Maybe<Log>>>;
-  shipLogsUpdate?: Maybe<Array<Maybe<Log>>>;
   phasersUpdate?: Maybe<Array<Maybe<Phaser>>>;
+  printQueue?: Maybe<Array<Maybe<PrintQueue>>>;
   probesUpdate: Array<Probes>;
-  scienceProbeEmitter?: Maybe<ScienceProbeEvent>;
   railgunUpdate?: Maybe<Array<Maybe<Railgun>>>;
   reactorUpdate: Array<Reactor>;
   recordSnippetsUpdate?: Maybe<Array<Maybe<RecordSnippet>>>;
   recordTemplatesUpdate?: Maybe<Array<Maybe<RecordSnippet>>>;
   roomsUpdate?: Maybe<Array<Maybe<Room>>>;
-  sensorsUpdate: Array<Sensors>;
+  rotationChange?: Maybe<Thruster>;
+  scannerUpdate?: Maybe<Scanner>;
+  scannersUpdate?: Maybe<Array<Maybe<Scanner>>>;
+  scienceProbeEmitter?: Maybe<ScienceProbeEvent>;
+  sendMessage?: Maybe<Message>;
   sensorContactUpdate: Array<SensorContact>;
-  sensorsPing?: Maybe<Scalars['String']>;
+  sensorsPing?: Maybe<Scalars['String']['output']>;
+  sensorsUpdate: Array<Sensors>;
   setsUpdate?: Maybe<Array<Maybe<Set>>>;
   shieldsUpdate?: Maybe<Array<Maybe<Shield>>>;
-  notify?: Maybe<Notification>;
-  widgetNotify?: Maybe<Scalars['String']>;
-  printQueue?: Maybe<Array<Maybe<PrintQueue>>>;
+  shipLogsUpdate?: Maybe<Array<Maybe<Log>>>;
   shortRangeCommUpdate?: Maybe<Array<Maybe<ShortRangeComm>>>;
   sickbayUpdate?: Maybe<Array<Maybe<Sickbay>>>;
   signalJammersUpdate?: Maybe<Array<Maybe<SignalJammer>>>;
   simulatorsUpdate?: Maybe<Array<Maybe<Simulator>>>;
   softwarePanelsUpdate?: Maybe<Array<Maybe<SoftwarePanel>>>;
+  soundSub?: Maybe<Sound>;
+  speedChange?: Maybe<Engine>;
   stationSetUpdate?: Maybe<Array<Maybe<StationSet>>>;
   stealthFieldUpdate?: Maybe<Array<Maybe<StealthField>>>;
   subspaceFieldUpdate?: Maybe<Array<Maybe<SubspaceField>>>;
   surveyformUpdate?: Maybe<Array<Maybe<SurveyForm>>>;
+  syncTime?: Maybe<Timer>;
   systemsUpdate: Array<System>;
-  tacticalMapsUpdate?: Maybe<Array<Maybe<TacticalMap>>>;
   tacticalMapUpdate?: Maybe<TacticalMap>;
+  tacticalMapsUpdate?: Maybe<Array<Maybe<TacticalMap>>>;
   targetingUpdate?: Maybe<Array<Maybe<Targeting>>>;
+  taskFlows: Array<TaskFlow>;
   taskReportUpdate?: Maybe<Array<Maybe<TaskReport>>>;
-  tasksUpdate?: Maybe<Array<Maybe<Task>>>;
   taskTemplatesUpdate: Array<TaskTemplate>;
+  tasksUpdate?: Maybe<Array<Maybe<Task>>>;
   teamsUpdate?: Maybe<Array<Maybe<Team>>>;
-  _templateUpdate?: Maybe<Template>;
   thoriumUpdate?: Maybe<Thorium>;
-  clockSync?: Maybe<Scalars['String']>;
-  events?: Maybe<Scalars['JSON']>;
-  rotationChange?: Maybe<Thruster>;
   thxUpdate?: Maybe<Array<Maybe<Thx>>>;
   torpedosUpdate?: Maybe<Array<Maybe<Torpedo>>>;
   tractorBeamUpdate?: Maybe<Array<Maybe<TractorBeam>>>;
   transporterUpdate?: Maybe<Transporter>;
   transwarpUpdate?: Maybe<Array<Maybe<Transwarp>>>;
   triggersUpdate?: Maybe<Array<Maybe<Trigger>>>;
+  viewscreenVideoToggle?: Maybe<Scalars['Boolean']['output']>;
   viewscreensUpdate?: Maybe<Array<Maybe<Viewscreen>>>;
-  viewscreenVideoToggle?: Maybe<Scalars['Boolean']>;
-  countermeasuresUpdate?: Maybe<Countermeasures>;
-  entity?: Maybe<Entity>;
-  entities?: Maybe<Array<Maybe<Entity>>>;
-  dmxSets: Array<DmxSet>;
-  dmxDevices: Array<DmxDevice>;
-  dmxFixtures: Array<DmxFixture>;
-  dmxConfigs: Array<DmxConfig>;
-  taskFlows: Array<TaskFlow>;
-};
-
-
-export type SubscriptionActionsUpdateArgs = {
-  simulatorId: Scalars['ID'];
-  stationId?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionClientChangedArgs = {
-  all?: Maybe<Scalars['Boolean']>;
-  clientId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  stationName?: Maybe<Scalars['String']>;
-  flightId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionClientPingArgs = {
-  clientId: Scalars['ID'];
-};
-
-
-export type SubscriptionKeypadsUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionKeypadUpdateArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type SubscriptionScannersUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionScannerUpdateArgs = {
-  client: Scalars['ID'];
-};
-
-
-export type SubscriptionCommandLineOutputUpdateArgs = {
-  clientId: Scalars['ID'];
-};
-
-
-export type SubscriptionCommandLinesOutputUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionClearCacheArgs = {
-  client?: Maybe<Scalars['ID']>;
-  flight?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionSoundSubArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCancelSoundArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCancelAllSoundsArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCancelLoopingSoundsArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCommandLineUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionComputerCoreUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCoolantUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionCoolantSystemUpdateArgs = {
-  simulatorId: Scalars['ID'];
-  systemId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCoreFeedUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionSyncTimeArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionCrewUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  position?: Maybe<Scalars['String']>;
-  killed?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionCrewCountUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  position?: Maybe<Scalars['String']>;
-  killed?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionCrmUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionCrmMovementUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionCrmFighterUpdateArgs = {
-  simulatorId: Scalars['ID'];
-  clientId: Scalars['ID'];
-};
-
-
-export type SubscriptionDecksUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionDockingUpdateArgs = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Docking_Types>;
-};
-
-
-export type SubscriptionSpeedChangeArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionHeatChangeArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionEngineUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionExocompsUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionFlightsUpdateArgs = {
-  running?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionAdvancedNavAndAstrometricsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionAdvancedNavStarsUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionGoogleSheetsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionHullPlatingUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionInterfaceUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionInternalCommUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionInventoryUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionIsochipsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionJumpDriveUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionLibraryEntriesUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  all?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionLongRangeCommunicationsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionMessageUpdatesArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionSendMessageArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionMidiSetsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionMissionsUpdateArgs = {
-  missionId?: Maybe<Scalars['ID']>;
-  aux?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionAuxTimelinesUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionMotuArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type SubscriptionMotuChannelArgs = {
-  id: Scalars['ID'];
-  channelId: Scalars['ID'];
-};
-
-
-export type SubscriptionMotuSendArgs = {
-  id: Scalars['ID'];
-  inputId: Scalars['ID'];
-  outputId: Scalars['ID'];
-};
-
-
-export type SubscriptionNavigationUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionObjectiveUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionOfficerLogsUpdateArgs = {
-  clientId?: Maybe<Scalars['ID']>;
-  flightId: Scalars['ID'];
-};
-
-
-export type SubscriptionShipLogsUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionPhasersUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionProbesUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionScienceProbeEmitterArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionRailgunUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionReactorUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionRecordSnippetsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  visible?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionRoomsUpdateArgs = {
-  simulatorId: Scalars['ID'];
-  role?: Maybe<RoomRoles>;
-};
-
-
-export type SubscriptionSensorsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  domain?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionSensorContactUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  sensorId?: Maybe<Scalars['ID']>;
-  hostile?: Maybe<Scalars['Boolean']>;
-  type?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionSensorsPingArgs = {
-  sensorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionShieldsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionNotifyArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-  trigger?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionWidgetNotifyArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionPrintQueueArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionShortRangeCommUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionSickbayUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionSignalJammersUpdateArgs = {
-  simulatorId: Scalars['ID'];
-};
-
-
-export type SubscriptionSimulatorsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  template?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionSoftwarePanelsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionStealthFieldUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionSubspaceFieldUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionSurveyformUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  active?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionSystemsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power?: Maybe<Scalars['Boolean']>;
-  heat?: Maybe<Scalars['Boolean']>;
-  extra?: Maybe<Scalars['Boolean']>;
-  damageWhich?: Maybe<Scalars['String']>;
-};
-
-
-export type SubscriptionTacticalMapsUpdateArgs = {
-  flightId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionTacticalMapUpdateArgs = {
-  id: Scalars['ID'];
-  lowInterval?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionTargetingUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionTaskReportUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  cleared?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type SubscriptionTasksUpdateArgs = {
-  simulatorId: Scalars['ID'];
-  station?: Maybe<Scalars['String']>;
-  isCore?: Maybe<Scalars['Boolean']>;
-  definitions?: Maybe<Array<Scalars['String']>>;
-};
-
-
-export type SubscriptionTeamsUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  cleared?: Maybe<Scalars['Boolean']>;
+  widgetNotify?: Maybe<Scalars['String']['output']>;
 };
 
 
 export type Subscription_TemplateUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionActionsUpdateArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  stationId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionAdvancedNavAndAstrometricsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionAdvancedNavStarsUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionAuxTimelinesUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionCancelAllSoundsArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionCancelLoopingSoundsArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionCancelSoundArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionClearCacheArgs = {
+  client?: InputMaybe<Scalars['ID']['input']>;
+  flight?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionClientChangedArgs = {
+  all?: InputMaybe<Scalars['Boolean']['input']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  stationName?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionClientPingArgs = {
+  clientId: Scalars['ID']['input'];
 };
 
 
 export type SubscriptionClockSyncArgs = {
-  clientId: Scalars['ID'];
+  clientId: Scalars['ID']['input'];
 };
 
 
-export type SubscriptionEventsArgs = {
-  includeEvents?: Maybe<Array<Scalars['String']>>;
-  omitEvents?: Maybe<Array<Scalars['String']>>;
+export type SubscriptionCommandLineOutputUpdateArgs = {
+  clientId: Scalars['ID']['input'];
 };
 
 
-export type SubscriptionRotationChangeArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type SubscriptionCommandLineUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type SubscriptionThxUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type SubscriptionCommandLinesOutputUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type SubscriptionTorpedosUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type SubscriptionComputerCoreUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type SubscriptionTractorBeamUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type SubscriptionCoolantSystemUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+  systemId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type SubscriptionTransporterUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+export type SubscriptionCoolantUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type SubscriptionTranswarpUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionTriggersUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionViewscreensUpdateArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionViewscreenVideoToggleArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  viewscreenId?: Maybe<Scalars['ID']>;
+export type SubscriptionCoreFeedUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type SubscriptionCountermeasuresUpdateArgs = {
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 };
 
 
-export type SubscriptionEntityArgs = {
-  id?: Maybe<Scalars['ID']>;
+export type SubscriptionCrewCountUpdateArgs = {
+  killed?: InputMaybe<Scalars['Boolean']['input']>;
+  position?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
-export type SubscriptionEntitiesArgs = {
-  flightId: Scalars['ID'];
-  stageId?: Maybe<Scalars['ID']>;
-  template?: Maybe<Scalars['Boolean']>;
+export type SubscriptionCrewUpdateArgs = {
+  killed?: InputMaybe<Scalars['Boolean']['input']>;
+  position?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionCrmFighterUpdateArgs = {
+  clientId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionCrmMovementUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionCrmUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionDecksUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
 };
 
 
 export type SubscriptionDmxFixturesArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionDockingUpdateArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Docking_Types>;
+};
+
+
+export type SubscriptionEngineUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionEntitiesArgs = {
+  flightId: Scalars['ID']['input'];
+  stageId?: InputMaybe<Scalars['ID']['input']>;
+  template?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type SubscriptionEntityArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionEventsArgs = {
+  includeEvents?: InputMaybe<Array<Scalars['String']['input']>>;
+  omitEvents?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
+export type SubscriptionExocompsUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionFlightsUpdateArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  running?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type SubscriptionGoogleSheetsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionHeatChangeArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionHullPlatingUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionInterfaceUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionInternalCommUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionInventoryUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionIsochipsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionJumpDriveUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionKeypadUpdateArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionKeypadsUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionLibraryEntriesUpdateArgs = {
+  all?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionLongRangeCommunicationsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionMessageUpdatesArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionMidiSetsArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionMissionsUpdateArgs = {
+  aux?: InputMaybe<Scalars['Boolean']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionMotuArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionMotuChannelArgs = {
+  channelId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionMotuSendArgs = {
+  id: Scalars['ID']['input'];
+  inputId: Scalars['ID']['input'];
+  outputId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionNavigationUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionNotifyArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+  trigger?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionObjectiveUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionOfficerLogsUpdateArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  flightId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionPhasersUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionPrintQueueArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionProbesUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionRailgunUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionReactorUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionRecordSnippetsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  visible?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type SubscriptionRoomsUpdateArgs = {
+  role?: InputMaybe<RoomRoles>;
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionRotationChangeArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionScannerUpdateArgs = {
+  client: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionScannersUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionScienceProbeEmitterArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionSendMessageArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionSensorContactUpdateArgs = {
+  hostile?: InputMaybe<Scalars['Boolean']['input']>;
+  sensorId?: InputMaybe<Scalars['ID']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionSensorsPingArgs = {
+  sensorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSensorsUpdateArgs = {
+  domain?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionShieldsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionShipLogsUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionShortRangeCommUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionSickbayUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSignalJammersUpdateArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionSimulatorsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  template?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type SubscriptionSoftwarePanelsUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSoundSubArgs = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSpeedChangeArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionStealthFieldUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSubspaceFieldUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSurveyformUpdateArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionSyncTimeArgs = {
+  simulatorId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionSystemsUpdateArgs = {
+  damageWhich?: InputMaybe<Scalars['String']['input']>;
+  extra?: InputMaybe<Scalars['Boolean']['input']>;
+  heat?: InputMaybe<Scalars['Boolean']['input']>;
+  power?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionTacticalMapUpdateArgs = {
+  id: Scalars['ID']['input'];
+  lowInterval?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type SubscriptionTacticalMapsUpdateArgs = {
+  flightId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTargetingUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type SubscriptionTaskFlowsArgs = {
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTaskReportUpdateArgs = {
+  cleared?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionTasksUpdateArgs = {
+  definitions?: InputMaybe<Array<Scalars['String']['input']>>;
+  isCore?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionTeamsUpdateArgs = {
+  cleared?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type SubscriptionThxUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTorpedosUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTractorBeamUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTransporterUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTranswarpUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionTriggersUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionViewscreenVideoToggleArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  viewscreenId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionViewscreensUpdateArgs = {
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionWidgetNotifyArgs = {
+  simulatorId: Scalars['ID']['input'];
+  station?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SubspaceField = SystemInterface & {
   __typename?: 'SubspaceField';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  totalPower?: Maybe<Scalars['Int']>;
-  fore?: Maybe<SubspaceFieldSector>;
   aft?: Maybe<SubspaceFieldSector>;
-  port?: Maybe<SubspaceFieldSector>;
-  starboard?: Maybe<SubspaceFieldSector>;
-  ventral?: Maybe<SubspaceFieldSector>;
+  damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
   dorsal?: Maybe<SubspaceFieldSector>;
+  fore?: Maybe<SubspaceFieldSector>;
+  id?: Maybe<Scalars['ID']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  port?: Maybe<SubspaceFieldSector>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  starboard?: Maybe<SubspaceFieldSector>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  totalPower?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
+  ventral?: Maybe<SubspaceFieldSector>;
 };
 
 export type SubspaceFieldSector = {
   __typename?: 'SubspaceFieldSector';
-  required?: Maybe<Scalars['Int']>;
-  value?: Maybe<Scalars['Int']>;
+  required?: Maybe<Scalars['Int']['output']>;
+  value?: Maybe<Scalars['Int']['output']>;
 };
 
 export type SurveyForm = {
   __typename?: 'SurveyForm';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  active?: Maybe<Scalars['Boolean']>;
-  googleSpreadsheet?: Maybe<Scalars['ID']>;
-  googleSpreadsheetName?: Maybe<Scalars['String']>;
-  googleSheet?: Maybe<Scalars['String']>;
+  active?: Maybe<Scalars['Boolean']['output']>;
   form?: Maybe<Array<Maybe<FormFields>>>;
+  googleSheet?: Maybe<Scalars['String']['output']>;
+  googleSpreadsheet?: Maybe<Scalars['ID']['output']>;
+  googleSpreadsheetName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   results?: Maybe<Array<Maybe<FormResults>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type System = SystemInterface & {
   __typename?: 'System';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  wing?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  upgradeMacros?: Maybe<Array<Maybe<TimelineItem>>>;
-  upgradeBoard?: Maybe<Scalars['ID']>;
-  extra?: Maybe<Scalars['Boolean']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  heat?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
-  heatRate?: Maybe<Scalars['Float']>;
+  damageTasks?: Maybe<Array<Maybe<DamageTask>>>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  extra?: Maybe<Scalars['Boolean']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  heatRate?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   isochips?: Maybe<Array<Maybe<Isochip>>>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  requiredDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
+  name?: Maybe<Scalars['String']['output']>;
   optionalDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
-  damageTasks?: Maybe<Array<Maybe<DamageTask>>>;
+  power?: Maybe<Power>;
+  requiredDamageSteps?: Maybe<Array<Maybe<DamageStep>>>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeBoard?: Maybe<Scalars['ID']['output']>;
+  upgradeMacros?: Maybe<Array<Maybe<TimelineItem>>>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
+  wing?: Maybe<Scalars['String']['output']>;
 };
 
 export type SystemCoolant = {
   __typename?: 'SystemCoolant';
-  systemId?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  coolant?: Maybe<Scalars['Float']>;
-  coolantRate?: Maybe<Scalars['Float']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
+  coolantRate?: Maybe<Scalars['Float']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  systemId?: Maybe<Scalars['ID']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type SystemInterface = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
   damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export enum Tactical_Types {
@@ -11120,16 +11120,16 @@ export enum Tactical_Types {
 }
 
 export enum Team_Types {
-  Security = 'security',
   Damage = 'damage',
-  Medical = 'medical'
+  Medical = 'medical',
+  Security = 'security'
 }
 
 export enum Terminal_Status {
   F = 'F',
   O = 'O',
-  S = 'S',
-  R = 'R'
+  R = 'R',
+  S = 'S'
 }
 
 export enum Timeline_Item_Config_Type {
@@ -11139,743 +11139,620 @@ export enum Timeline_Item_Config_Type {
 
 export type TacticalItem = {
   __typename?: 'TacticalItem';
-  id?: Maybe<Scalars['ID']>;
-  layerId?: Maybe<Scalars['ID']>;
-  label?: Maybe<Scalars['String']>;
-  font?: Maybe<Scalars['String']>;
-  fontSize?: Maybe<Scalars['Float']>;
-  fontColor?: Maybe<Scalars['String']>;
-  flash?: Maybe<Scalars['Boolean']>;
-  icon?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  opacity?: Maybe<Scalars['Float']>;
-  speed?: Maybe<Scalars['Float']>;
-  velocity?: Maybe<Coordinates>;
-  location?: Maybe<Coordinates>;
-  locationJson?: Maybe<Scalars['String']>;
   destination?: Maybe<Coordinates>;
-  rotation?: Maybe<Scalars['Float']>;
-  wasd?: Maybe<Scalars['Boolean']>;
-  ijkl?: Maybe<Scalars['Boolean']>;
-  thrusters?: Maybe<Scalars['Boolean']>;
-  rotationMatch?: Maybe<Scalars['Boolean']>;
+  flash?: Maybe<Scalars['Boolean']['output']>;
+  font?: Maybe<Scalars['String']['output']>;
+  fontColor?: Maybe<Scalars['String']['output']>;
+  fontSize?: Maybe<Scalars['Float']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  ijkl?: Maybe<Scalars['Boolean']['output']>;
+  label?: Maybe<Scalars['String']['output']>;
+  layerId?: Maybe<Scalars['ID']['output']>;
+  location?: Maybe<Coordinates>;
+  locationJson?: Maybe<Scalars['String']['output']>;
+  opacity?: Maybe<Scalars['Float']['output']>;
+  rotation?: Maybe<Scalars['Float']['output']>;
+  rotationMatch?: Maybe<Scalars['Boolean']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
+  speed?: Maybe<Scalars['Float']['output']>;
   thrusterControls?: Maybe<ThrusterControls>;
+  thrusters?: Maybe<Scalars['Boolean']['output']>;
+  velocity?: Maybe<Coordinates>;
+  wasd?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TacticalItemInput = {
-  id?: Maybe<Scalars['ID']>;
-  label?: Maybe<Scalars['String']>;
-  font?: Maybe<Scalars['String']>;
-  fontSize?: Maybe<Scalars['Float']>;
-  fontColor?: Maybe<Scalars['String']>;
-  flash?: Maybe<Scalars['Boolean']>;
-  icon?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  opacity?: Maybe<Scalars['Float']>;
-  speed?: Maybe<Scalars['Float']>;
-  velocity?: Maybe<CoordinatesInput>;
-  location?: Maybe<CoordinatesInput>;
-  destination?: Maybe<CoordinatesInput>;
-  rotation?: Maybe<Scalars['Float']>;
-  wasd?: Maybe<Scalars['Boolean']>;
-  ijkl?: Maybe<Scalars['Boolean']>;
-  thrusters?: Maybe<Scalars['Boolean']>;
-  rotationMatch?: Maybe<Scalars['Boolean']>;
-  thrusterControls?: Maybe<ThrusterControlsInput>;
+  destination?: InputMaybe<CoordinatesInput>;
+  flash?: InputMaybe<Scalars['Boolean']['input']>;
+  font?: InputMaybe<Scalars['String']['input']>;
+  fontColor?: InputMaybe<Scalars['String']['input']>;
+  fontSize?: InputMaybe<Scalars['Float']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  ijkl?: InputMaybe<Scalars['Boolean']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<CoordinatesInput>;
+  opacity?: InputMaybe<Scalars['Float']['input']>;
+  rotation?: InputMaybe<Scalars['Float']['input']>;
+  rotationMatch?: InputMaybe<Scalars['Boolean']['input']>;
+  size?: InputMaybe<Scalars['Float']['input']>;
+  speed?: InputMaybe<Scalars['Float']['input']>;
+  thrusterControls?: InputMaybe<ThrusterControlsInput>;
+  thrusters?: InputMaybe<Scalars['Boolean']['input']>;
+  velocity?: InputMaybe<CoordinatesInput>;
+  wasd?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type TacticalLayer = {
   __typename?: 'TacticalLayer';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Tactical_Types>;
-  opacity?: Maybe<Scalars['Float']>;
+  advance?: Maybe<Scalars['Boolean']['output']>;
+  asset?: Maybe<Scalars['String']['output']>;
+  autoplay?: Maybe<Scalars['Boolean']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
+  gridCols?: Maybe<Scalars['Int']['output']>;
+  gridRows?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
   items?: Maybe<Array<Maybe<TacticalItem>>>;
-  image?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  labels?: Maybe<Scalars['Boolean']>;
-  gridCols?: Maybe<Scalars['Int']>;
-  gridRows?: Maybe<Scalars['Int']>;
+  labels?: Maybe<Scalars['Boolean']['output']>;
+  loop?: Maybe<Scalars['Boolean']['output']>;
+  mute?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  opacity?: Maybe<Scalars['Float']['output']>;
   paths?: Maybe<Array<Maybe<TacticalPath>>>;
-  advance?: Maybe<Scalars['Boolean']>;
-  asset?: Maybe<Scalars['String']>;
-  autoplay?: Maybe<Scalars['Boolean']>;
-  loop?: Maybe<Scalars['Boolean']>;
-  playbackSpeed?: Maybe<Scalars['Float']>;
-  mute?: Maybe<Scalars['Boolean']>;
+  playbackSpeed?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Tactical_Types>;
 };
 
 export type TacticalLayerInput = {
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Tactical_Types>;
-  opacity?: Maybe<Scalars['Float']>;
-  image?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  labels?: Maybe<Scalars['Boolean']>;
-  gridCols?: Maybe<Scalars['Int']>;
-  gridRows?: Maybe<Scalars['Int']>;
-  advance?: Maybe<Scalars['Boolean']>;
-  asset?: Maybe<Scalars['String']>;
-  autoplay?: Maybe<Scalars['Boolean']>;
-  loop?: Maybe<Scalars['Boolean']>;
-  mute?: Maybe<Scalars['Boolean']>;
-  playbackSpeed?: Maybe<Scalars['Float']>;
+  advance?: InputMaybe<Scalars['Boolean']['input']>;
+  asset?: InputMaybe<Scalars['String']['input']>;
+  autoplay?: InputMaybe<Scalars['Boolean']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  gridCols?: InputMaybe<Scalars['Int']['input']>;
+  gridRows?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  labels?: InputMaybe<Scalars['Boolean']['input']>;
+  loop?: InputMaybe<Scalars['Boolean']['input']>;
+  mute?: InputMaybe<Scalars['Boolean']['input']>;
+  opacity?: InputMaybe<Scalars['Float']['input']>;
+  playbackSpeed?: InputMaybe<Scalars['Float']['input']>;
+  type?: InputMaybe<Tactical_Types>;
 };
 
 export type TacticalMap = {
   __typename?: 'TacticalMap';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  template?: Maybe<Scalars['Boolean']>;
   flight?: Maybe<Flight>;
+  frozen?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  interval?: Maybe<Scalars['Float']['output']>;
   layers?: Maybe<Array<Maybe<TacticalLayer>>>;
-  frozen?: Maybe<Scalars['Boolean']>;
-  interval?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']['output']>;
+  template?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TacticalPath = {
   __typename?: 'TacticalPath';
-  id?: Maybe<Scalars['ID']>;
-  layerId?: Maybe<Scalars['ID']>;
-  start?: Maybe<Coordinates>;
-  end?: Maybe<Coordinates>;
+  arrow?: Maybe<Scalars['Boolean']['output']>;
   c1?: Maybe<Coordinates>;
   c2?: Maybe<Coordinates>;
-  color?: Maybe<Scalars['String']>;
-  width?: Maybe<Scalars['Float']>;
-  arrow?: Maybe<Scalars['Boolean']>;
+  color?: Maybe<Scalars['String']['output']>;
+  end?: Maybe<Coordinates>;
+  id?: Maybe<Scalars['ID']['output']>;
+  layerId?: Maybe<Scalars['ID']['output']>;
+  start?: Maybe<Coordinates>;
+  width?: Maybe<Scalars['Float']['output']>;
 };
 
 export type TacticalPathInput = {
-  id?: Maybe<Scalars['ID']>;
-  start?: Maybe<CoordinatesInput>;
-  end?: Maybe<CoordinatesInput>;
-  c1?: Maybe<CoordinatesInput>;
-  c2?: Maybe<CoordinatesInput>;
-  color?: Maybe<Scalars['String']>;
-  width?: Maybe<Scalars['Float']>;
-  arrow?: Maybe<Scalars['Boolean']>;
+  arrow?: InputMaybe<Scalars['Boolean']['input']>;
+  c1?: InputMaybe<CoordinatesInput>;
+  c2?: InputMaybe<CoordinatesInput>;
+  color?: InputMaybe<Scalars['String']['input']>;
+  end?: InputMaybe<CoordinatesInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  start?: InputMaybe<CoordinatesInput>;
+  width?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type TargetClassInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  icon?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-  speed?: Maybe<Scalars['Float']>;
-  quadrant?: Maybe<Scalars['Int']>;
-  moving?: Maybe<Scalars['Boolean']>;
-  clickToTarget?: Maybe<Scalars['Boolean']>;
+  clickToTarget?: InputMaybe<Scalars['Boolean']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  moving?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  picture?: InputMaybe<Scalars['String']['input']>;
+  quadrant?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars['Float']['input']>;
+  speed?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Targeting = SystemInterface & {
   __typename?: 'Targeting';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  power?: Maybe<Power>;
-  damage?: Maybe<Damage>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  contacts?: Maybe<Array<Maybe<TargetingContact>>>;
-  classes?: Maybe<Array<Maybe<TargetingClass>>>;
-  quadrants?: Maybe<Scalars['Boolean']>;
-  range?: Maybe<Scalars['Float']>;
-  coordinateTargeting?: Maybe<Scalars['Boolean']>;
-  interference?: Maybe<Scalars['Float']>;
-  targetedSensorContact?: Maybe<SensorContact>;
   calculatedTarget?: Maybe<StringCoordinates>;
+  classes?: Maybe<Array<Maybe<TargetingClass>>>;
+  contacts?: Maybe<Array<Maybe<TargetingContact>>>;
+  coordinateTargeting?: Maybe<Scalars['Boolean']['output']>;
+  damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
   enteredTarget?: Maybe<StringCoordinates>;
+  id?: Maybe<Scalars['ID']['output']>;
+  interference?: Maybe<Scalars['Float']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  quadrants?: Maybe<Scalars['Boolean']['output']>;
+  range?: Maybe<Scalars['Float']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  targetedSensorContact?: Maybe<SensorContact>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TargetingClass = {
   __typename?: 'TargetingClass';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  icon?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-  speed?: Maybe<Scalars['Float']>;
-  quadrant?: Maybe<Scalars['Int']>;
-  moving?: Maybe<Scalars['Boolean']>;
-  clickToTarget?: Maybe<Scalars['Boolean']>;
+  clickToTarget?: Maybe<Scalars['Boolean']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  moving?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  picture?: Maybe<Scalars['String']['output']>;
+  quadrant?: Maybe<Scalars['Int']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
+  speed?: Maybe<Scalars['Float']['output']>;
 };
 
 export type TargetingContact = {
   __typename?: 'TargetingContact';
-  id?: Maybe<Scalars['ID']>;
-  class?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  targeted?: Maybe<Scalars['Boolean']>;
-  system?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-  speed?: Maybe<Scalars['Float']>;
-  quadrant?: Maybe<Scalars['Int']>;
-  destroyed?: Maybe<Scalars['Boolean']>;
-  moving?: Maybe<Scalars['Boolean']>;
-  clickToTarget?: Maybe<Scalars['Boolean']>;
+  class?: Maybe<Scalars['ID']['output']>;
+  clickToTarget?: Maybe<Scalars['Boolean']['output']>;
+  destroyed?: Maybe<Scalars['Boolean']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  moving?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  picture?: Maybe<Scalars['String']['output']>;
+  quadrant?: Maybe<Scalars['Int']['output']>;
+  size?: Maybe<Scalars['Float']['output']>;
+  speed?: Maybe<Scalars['Float']['output']>;
+  system?: Maybe<Scalars['String']['output']>;
+  targeted?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Task = {
   __typename?: 'Task';
-  id: Scalars['ID'];
-  simulatorId?: Maybe<Scalars['ID']>;
-  stationTags?: Maybe<Array<Scalars['String']>>;
-  station?: Maybe<Scalars['String']>;
-  private?: Maybe<Scalars['Boolean']>;
-  systemId?: Maybe<Scalars['ID']>;
+  assigned?: Maybe<Scalars['Boolean']['output']>;
   deck?: Maybe<Deck>;
-  room?: Maybe<Room>;
-  definition: Scalars['String'];
-  verified?: Maybe<Scalars['Boolean']>;
-  verifyRequested?: Maybe<Scalars['Boolean']>;
-  dismissed?: Maybe<Scalars['Boolean']>;
-  values?: Maybe<Scalars['JSON']>;
-  instructions?: Maybe<Scalars['String']>;
-  startTime?: Maybe<Scalars['String']>;
-  endTime?: Maybe<Scalars['String']>;
-  timeElapsedInMS?: Maybe<Scalars['Int']>;
+  definition: Scalars['String']['output'];
+  dismissed?: Maybe<Scalars['Boolean']['output']>;
+  endTime?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  instructions?: Maybe<Scalars['String']['output']>;
   macros?: Maybe<Array<MacroAction>>;
   preMacros: Array<MacroAction>;
-  assigned?: Maybe<Scalars['Boolean']>;
+  private?: Maybe<Scalars['Boolean']['output']>;
+  room?: Maybe<Room>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  startTime?: Maybe<Scalars['String']['output']>;
+  station?: Maybe<Scalars['String']['output']>;
+  stationTags?: Maybe<Array<Scalars['String']['output']>>;
+  systemId?: Maybe<Scalars['ID']['output']>;
+  timeElapsedInMS?: Maybe<Scalars['Int']['output']>;
+  values?: Maybe<Scalars['JSON']['output']>;
+  verified?: Maybe<Scalars['Boolean']['output']>;
+  verifyRequested?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TaskDefinition = {
   __typename?: 'TaskDefinition';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  class: Scalars['String'];
+  active: Scalars['Boolean']['output'];
+  class: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   stations?: Maybe<Array<Maybe<Station>>>;
-  active: Scalars['Boolean'];
-  valuesInput: Scalars['JSON'];
-  valuesValue: Scalars['JSON'];
+  valuesInput: Scalars['JSON']['output'];
+  valuesValue: Scalars['JSON']['output'];
 };
 
 export type TaskFlow = {
   __typename?: 'TaskFlow';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  category: Scalars['String'];
-  currentStep: Scalars['Int'];
+  category: Scalars['String']['output'];
+  completed: Scalars['Boolean']['output'];
+  currentStep: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   steps: Array<TaskFlowStep>;
-  completed: Scalars['Boolean'];
 };
 
 export type TaskFlowStep = {
   __typename?: 'TaskFlowStep';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  tasks: Array<Task>;
   activeTasks: Array<Task>;
-  completeAll: Scalars['Boolean'];
-  delay: Scalars['Int'];
-  completed: Scalars['Boolean'];
+  completeAll: Scalars['Boolean']['output'];
+  completed: Scalars['Boolean']['output'];
+  delay: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  tasks: Array<Task>;
 };
 
 export type TaskInput = {
-  simulatorId?: Maybe<Scalars['ID']>;
-  definition?: Maybe<Scalars['String']>;
-  values?: Maybe<Scalars['JSON']>;
-  stationTags?: Maybe<Array<Scalars['String']>>;
-  station?: Maybe<Scalars['String']>;
-  private?: Maybe<Scalars['Boolean']>;
-  macros?: Maybe<Array<Maybe<ActionInput>>>;
-  preMacros?: Maybe<Array<Maybe<ActionInput>>>;
+  definition?: InputMaybe<Scalars['String']['input']>;
+  macros?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  preMacros?: InputMaybe<Array<InputMaybe<ActionInput>>>;
+  private?: InputMaybe<Scalars['Boolean']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  station?: InputMaybe<Scalars['String']['input']>;
+  stationTags?: InputMaybe<Array<Scalars['String']['input']>>;
+  values?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type TaskReport = {
   __typename?: 'TaskReport';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stepCount?: Maybe<Scalars['Int']['output']>;
   system?: Maybe<System>;
-  type?: Maybe<Scalars['String']>;
-  stepCount?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
   tasks?: Maybe<Array<Maybe<Task>>>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type TaskTemplate = {
   __typename?: 'TaskTemplate';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  values?: Maybe<Scalars['JSON']>;
-  definition: Scalars['String'];
-  reportTypes?: Maybe<Array<Scalars['String']>>;
+  definition: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   macros?: Maybe<Array<MacroAction>>;
+  name: Scalars['String']['output'];
   preMacros?: Maybe<Array<MacroAction>>;
+  reportTypes?: Maybe<Array<Scalars['String']['output']>>;
+  values?: Maybe<Scalars['JSON']['output']>;
 };
 
 export type Team = {
   __typename?: 'Team';
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Team_Types>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  priority?: Maybe<Priorities>;
+  cleared?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   location?: Maybe<Location>;
-  orders?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']['output']>;
   officers?: Maybe<Array<Maybe<Crew>>>;
-  cleared?: Maybe<Scalars['Boolean']>;
+  orders?: Maybe<Scalars['String']['output']>;
+  priority?: Maybe<Priorities>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  type?: Maybe<Team_Types>;
 };
 
 export type TeamCount = {
   __typename?: 'TeamCount';
+  count?: Maybe<Scalars['Int']['output']>;
   team?: Maybe<Team>;
-  count?: Maybe<Scalars['Int']>;
 };
 
 export type TeamCountInput = {
   __typename?: 'TeamCountInput';
-  team?: Maybe<Scalars['ID']>;
-  count?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  team?: Maybe<Scalars['ID']['output']>;
 };
 
 export type TeamInput = {
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Team_Types>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  priority?: Maybe<Priorities>;
-  location?: Maybe<Scalars['String']>;
-  orders?: Maybe<Scalars['String']>;
-  officers?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  officers?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  orders?: InputMaybe<Scalars['String']['input']>;
+  priority?: InputMaybe<Priorities>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Team_Types>;
 };
 
 export type Template = {
   __typename?: 'Template';
-  id?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']['output']>;
 };
 
 export type TemplateComponent = {
   __typename?: 'TemplateComponent';
-  category?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']['output']>;
 };
 
 export type Thorium = {
   __typename?: 'Thorium';
-  thoriumId?: Maybe<Scalars['String']>;
-  doTrack?: Maybe<Scalars['Boolean']>;
-  askedToTrack?: Maybe<Scalars['Boolean']>;
-  addedTaskTemplates?: Maybe<Scalars['Boolean']>;
-  spaceEdventuresToken?: Maybe<Scalars['String']>;
+  addedTaskTemplates?: Maybe<Scalars['Boolean']['output']>;
+  askedToTrack?: Maybe<Scalars['Boolean']['output']>;
+  doTrack?: Maybe<Scalars['Boolean']['output']>;
+  httpOnly?: Maybe<Scalars['Boolean']['output']>;
+  port?: Maybe<Scalars['Int']['output']>;
   spaceEdventuresCenter?: Maybe<SpaceEdventuresCenter>;
-  port?: Maybe<Scalars['Int']>;
-  httpOnly?: Maybe<Scalars['Boolean']>;
+  spaceEdventuresToken?: Maybe<Scalars['String']['output']>;
+  thoriumId?: Maybe<Scalars['String']['output']>;
 };
 
 export type Thruster = SystemInterface & {
   __typename?: 'Thruster';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  type?: Maybe<Scalars['String']>;
-  simulatorId?: Maybe<Scalars['ID']>;
+  damage?: Maybe<Damage>;
   direction?: Maybe<Coordinates>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  manualThrusters?: Maybe<Scalars['Boolean']['output']>;
+  movementSpeed?: Maybe<Scalars['Float']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
   rotation?: Maybe<Rotation>;
   rotationDelta?: Maybe<Rotation>;
   rotationRequired?: Maybe<Rotation>;
-  manualThrusters?: Maybe<Scalars['Boolean']>;
-  power?: Maybe<Power>;
-  damage?: Maybe<Damage>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  rotationSpeed?: Maybe<Scalars['Float']>;
-  movementSpeed?: Maybe<Scalars['Float']>;
+  rotationSpeed?: Maybe<Scalars['Float']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ThrusterControls = {
   __typename?: 'ThrusterControls';
-  rotation?: Maybe<Scalars['String']>;
-  reversed?: Maybe<Scalars['Boolean']>;
-  matchRotation?: Maybe<Scalars['Boolean']>;
-  up?: Maybe<Scalars['String']>;
-  down?: Maybe<Scalars['String']>;
-  left?: Maybe<Scalars['String']>;
-  right?: Maybe<Scalars['String']>;
+  down?: Maybe<Scalars['String']['output']>;
+  left?: Maybe<Scalars['String']['output']>;
+  matchRotation?: Maybe<Scalars['Boolean']['output']>;
+  reversed?: Maybe<Scalars['Boolean']['output']>;
+  right?: Maybe<Scalars['String']['output']>;
+  rotation?: Maybe<Scalars['String']['output']>;
+  up?: Maybe<Scalars['String']['output']>;
 };
 
 export type ThrusterControlsInput = {
-  rotation?: Maybe<Scalars['String']>;
-  reversed?: Maybe<Scalars['Boolean']>;
-  matchRotation?: Maybe<Scalars['Boolean']>;
-  up?: Maybe<Scalars['String']>;
-  down?: Maybe<Scalars['String']>;
-  left?: Maybe<Scalars['String']>;
-  right?: Maybe<Scalars['String']>;
+  down?: InputMaybe<Scalars['String']['input']>;
+  left?: InputMaybe<Scalars['String']['input']>;
+  matchRotation?: InputMaybe<Scalars['Boolean']['input']>;
+  reversed?: InputMaybe<Scalars['Boolean']['input']>;
+  right?: InputMaybe<Scalars['String']['input']>;
+  rotation?: InputMaybe<Scalars['String']['input']>;
+  up?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ThrustersComponent = {
   __typename?: 'ThrustersComponent';
   direction?: Maybe<Coordinates>;
+  movementSpeed?: Maybe<Scalars['Float']['output']>;
   rotationDelta?: Maybe<Coordinates>;
-  rotationSpeed?: Maybe<Scalars['Float']>;
-  movementSpeed?: Maybe<Scalars['Float']>;
+  rotationSpeed?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Thx = SystemInterface & {
   __typename?: 'Thx';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
-  activated?: Maybe<Scalars['Boolean']>;
+  activated?: Maybe<Scalars['Boolean']['output']>;
   clients?: Maybe<Array<Maybe<ThxClient>>>;
+  damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ThxClient = {
   __typename?: 'ThxClient';
-  id?: Maybe<Scalars['ID']>;
-  charge?: Maybe<Scalars['Float']>;
-  lock?: Maybe<Scalars['Boolean']>;
+  charge?: Maybe<Scalars['Float']['output']>;
+  connected?: Maybe<Scalars['Boolean']['output']>;
+  executive?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  lock?: Maybe<Scalars['Boolean']['output']>;
   station?: Maybe<Station>;
-  executive?: Maybe<Scalars['Boolean']>;
-  connected?: Maybe<Scalars['Boolean']>;
 };
 
 export type TimelineInstance = {
   __typename?: 'TimelineInstance';
-  id?: Maybe<Scalars['ID']>;
+  currentTimelineStep?: Maybe<Scalars['Int']['output']>;
+  executedTimelineSteps?: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  id?: Maybe<Scalars['ID']['output']>;
   mission?: Maybe<Mission>;
-  currentTimelineStep?: Maybe<Scalars['Int']>;
-  executedTimelineSteps?: Maybe<Array<Maybe<Scalars['ID']>>>;
 };
 
 export type TimelineItem = {
   __typename?: 'TimelineItem';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  event: Scalars['String'];
-  needsConfig?: Maybe<Scalars['Boolean']>;
-  args?: Maybe<Scalars['String']>;
-  delay?: Maybe<Scalars['Int']>;
-  noCancelOnReset?: Maybe<Scalars['Boolean']>;
+  args?: Maybe<Scalars['String']['output']>;
+  delay?: Maybe<Scalars['Int']['output']>;
+  event: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  needsConfig?: Maybe<Scalars['Boolean']['output']>;
+  noCancelOnReset?: Maybe<Scalars['Boolean']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type TimelineItemInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  event?: Maybe<Scalars['String']>;
-  args?: Maybe<Scalars['String']>;
-  delay?: Maybe<Scalars['Int']>;
-  noCancelOnReset?: Maybe<Scalars['Boolean']>;
+  args?: InputMaybe<Scalars['String']['input']>;
+  delay?: InputMaybe<Scalars['Int']['input']>;
+  event?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  noCancelOnReset?: InputMaybe<Scalars['Boolean']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TimelineStep = {
   __typename?: 'TimelineStep';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  order?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  order?: Maybe<Scalars['Int']['output']>;
   timelineItems: Array<TimelineItem>;
 };
 
 export type Timer = {
   __typename?: 'Timer';
-  time?: Maybe<Scalars['String']>;
-  active?: Maybe<Scalars['Boolean']>;
+  active?: Maybe<Scalars['Boolean']['output']>;
+  time?: Maybe<Scalars['String']['output']>;
 };
 
 export type Torpedo = SystemInterface & {
   __typename?: 'Torpedo';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  power?: Maybe<Power>;
   damage?: Maybe<Damage>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   inventory?: Maybe<Array<Maybe<Warhead>>>;
-  loaded?: Maybe<Scalars['ID']>;
-  state?: Maybe<Scalars['String']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  loaded?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TractorBeam = SystemInterface & {
   __typename?: 'TractorBeam';
-  id: Scalars['ID'];
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  power: Power;
-  damage: Damage;
-  name: Scalars['String'];
-  displayName: Scalars['String'];
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
-  locations?: Maybe<Array<Maybe<Room>>>;
   beams: Array<TractorBeamBeam>;
+  damage: Damage;
+  displayName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  locations?: Maybe<Array<Maybe<Room>>>;
+  name: Scalars['String']['output'];
+  power: Power;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TractorBeamBeam = {
   __typename?: 'TractorBeamBeam';
-  id: Scalars['ID'];
-  state: Scalars['Boolean'];
-  target: Scalars['Boolean'];
-  targetLabel: Scalars['String'];
-  strength: Scalars['Float'];
-  stress: Scalars['Float'];
-  scanning: Scalars['Boolean'];
+  id: Scalars['ID']['output'];
+  scanning: Scalars['Boolean']['output'];
+  state: Scalars['Boolean']['output'];
+  strength: Scalars['Float']['output'];
+  stress: Scalars['Float']['output'];
+  target: Scalars['Boolean']['output'];
+  targetLabel: Scalars['String']['output'];
 };
 
 export type Transporter = SystemInterface & {
   __typename?: 'Transporter';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  targets?: Maybe<Array<Maybe<TransporterTarget>>>;
-  requestedTarget?: Maybe<Scalars['String']>;
-  destination?: Maybe<Scalars['String']>;
-  charge?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
-  power?: Maybe<Power>;
+  charge?: Maybe<Scalars['Float']['output']>;
+  chargeSpeed?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  chargeSpeed?: Maybe<Scalars['Float']>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  destination?: Maybe<Scalars['String']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
+  requestedTarget?: Maybe<Scalars['String']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  targets?: Maybe<Array<Maybe<TransporterTarget>>>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TransporterInput = {
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  requestedTarget?: Maybe<Scalars['String']>;
-  destination?: Maybe<Scalars['String']>;
-  charge?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
+  charge?: InputMaybe<Scalars['Float']['input']>;
+  destination?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  requestedTarget?: InputMaybe<Scalars['String']['input']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TransporterTarget = {
   __typename?: 'TransporterTarget';
-  id?: Maybe<Scalars['ID']>;
-  icon?: Maybe<Scalars['String']>;
-  moving?: Maybe<Scalars['Boolean']>;
+  icon?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  moving?: Maybe<Scalars['Boolean']['output']>;
   position?: Maybe<Coordinates>;
 };
 
 export type Transwarp = SystemInterface & {
   __typename?: 'Transwarp';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  upgradeName?: Maybe<Scalars['String']>;
-  upgraded?: Maybe<Scalars['Boolean']>;
+  active?: Maybe<Scalars['Boolean']['output']>;
+  coolant?: Maybe<Scalars['Float']['output']>;
   damage?: Maybe<Damage>;
-  power?: Maybe<Power>;
-  stealthFactor?: Maybe<Scalars['Float']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  heat?: Maybe<Scalars['Float']['output']>;
+  heatRate?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   locations?: Maybe<Array<Maybe<Room>>>;
-  heat?: Maybe<Scalars['Float']>;
-  heatRate?: Maybe<Scalars['Float']>;
-  coolant?: Maybe<Scalars['Float']>;
-  active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']['output']>;
+  power?: Maybe<Power>;
   quad1?: Maybe<TranswarpQuad>;
   quad2?: Maybe<TranswarpQuad>;
   quad3?: Maybe<TranswarpQuad>;
   quad4?: Maybe<TranswarpQuad>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
+  stealthFactor?: Maybe<Scalars['Float']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  upgradeName?: Maybe<Scalars['String']['output']>;
+  upgraded?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type TranswarpQuad = {
   __typename?: 'TranswarpQuad';
-  field?: Maybe<SubspaceFieldSector>;
   core?: Maybe<SubspaceFieldSector>;
+  field?: Maybe<SubspaceFieldSector>;
   warp?: Maybe<SubspaceFieldSector>;
 };
 
 export type Trigger = {
   __typename?: 'Trigger';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  components?: Maybe<Scalars['JSON']>;
-  connections?: Maybe<Scalars['JSON']>;
-  values?: Maybe<Scalars['JSON']>;
-  config?: Maybe<Scalars['JSON']>;
+  components?: Maybe<Scalars['JSON']['output']>;
+  config?: Maybe<Scalars['JSON']['output']>;
+  connections?: Maybe<Scalars['JSON']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  values?: Maybe<Scalars['JSON']['output']>;
 };
 
 export type Viewscreen = {
   __typename?: 'Viewscreen';
-  id?: Maybe<Scalars['ID']>;
-  simulatorId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  component?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['String']>;
-  auto?: Maybe<Scalars['Boolean']>;
-  secondary?: Maybe<Scalars['Boolean']>;
-  overlay?: Maybe<Scalars['Boolean']>;
+  auto?: Maybe<Scalars['Boolean']['output']>;
+  component?: Maybe<Scalars['String']['output']>;
+  data?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  overlay?: Maybe<Scalars['Boolean']['output']>;
   pictureInPicture?: Maybe<ViewscreenPictureInPicture>;
+  secondary?: Maybe<Scalars['Boolean']['output']>;
+  simulatorId?: Maybe<Scalars['ID']['output']>;
 };
 
 export type ViewscreenPictureInPicture = {
   __typename?: 'ViewscreenPictureInPicture';
-  component?: Maybe<Scalars['String']>;
-  data?: Maybe<Scalars['JSON']>;
+  component?: Maybe<Scalars['String']['output']>;
+  data?: Maybe<Scalars['JSON']['output']>;
   position?: Maybe<Pip_Position>;
   size?: Maybe<Pip_Size>;
 };
 
 export type Warhead = {
   __typename?: 'Warhead';
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']['output']>;
   probe?: Maybe<Probe>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type WarheadInput = {
-  type?: Maybe<Scalars['String']>;
-  probe?: Maybe<Scalars['ID']>;
+  probe?: InputMaybe<Scalars['ID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type XyLocation = {
   __typename?: 'XYLocation';
-  x: Scalars['Float'];
-  y: Scalars['Float'];
-};
-
-/** A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations. */
-export type __Schema = {
-  __typename?: '__Schema';
-  description?: Maybe<Scalars['String']>;
-  /** A list of all types supported by this server. */
-  types: Array<__Type>;
-  /** The type that query operations will be rooted at. */
-  queryType: __Type;
-  /** If this server supports mutation, the type that mutation operations will be rooted at. */
-  mutationType?: Maybe<__Type>;
-  /** If this server support subscription, the type that subscription operations will be rooted at. */
-  subscriptionType?: Maybe<__Type>;
-  /** A list of all directives supported by this server. */
-  directives: Array<__Directive>;
-};
-
-/**
- * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
- *
- * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
- */
-export type __Type = {
-  __typename?: '__Type';
-  kind: __TypeKind;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  specifiedByUrl?: Maybe<Scalars['String']>;
-  fields?: Maybe<Array<__Field>>;
-  interfaces?: Maybe<Array<__Type>>;
-  possibleTypes?: Maybe<Array<__Type>>;
-  enumValues?: Maybe<Array<__EnumValue>>;
-  inputFields?: Maybe<Array<__InputValue>>;
-  ofType?: Maybe<__Type>;
-};
-
-
-/**
- * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
- *
- * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
- */
-export type __TypeFieldsArgs = {
-  includeDeprecated?: Maybe<Scalars['Boolean']>;
-};
-
-
-/**
- * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
- *
- * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
- */
-export type __TypeEnumValuesArgs = {
-  includeDeprecated?: Maybe<Scalars['Boolean']>;
-};
-
-
-/**
- * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
- *
- * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
- */
-export type __TypeInputFieldsArgs = {
-  includeDeprecated?: Maybe<Scalars['Boolean']>;
-};
-
-/** An enum describing what kind of type a given `__Type` is. */
-export enum __TypeKind {
-  /** Indicates this type is a scalar. */
-  Scalar = 'SCALAR',
-  /** Indicates this type is an object. `fields` and `interfaces` are valid fields. */
-  Object = 'OBJECT',
-  /** Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields. */
-  Interface = 'INTERFACE',
-  /** Indicates this type is a union. `possibleTypes` is a valid field. */
-  Union = 'UNION',
-  /** Indicates this type is an enum. `enumValues` is a valid field. */
-  Enum = 'ENUM',
-  /** Indicates this type is an input object. `inputFields` is a valid field. */
-  InputObject = 'INPUT_OBJECT',
-  /** Indicates this type is a list. `ofType` is a valid field. */
-  List = 'LIST',
-  /** Indicates this type is a non-null. `ofType` is a valid field. */
-  NonNull = 'NON_NULL'
-}
-
-/** Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type. */
-export type __Field = {
-  __typename?: '__Field';
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  args: Array<__InputValue>;
-  type: __Type;
-  isDeprecated: Scalars['Boolean'];
-  deprecationReason?: Maybe<Scalars['String']>;
-};
-
-
-/** Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type. */
-export type __FieldArgsArgs = {
-  includeDeprecated?: Maybe<Scalars['Boolean']>;
-};
-
-/** Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value. */
-export type __InputValue = {
-  __typename?: '__InputValue';
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  type: __Type;
-  /** A GraphQL-formatted string representing the default value for this input value. */
-  defaultValue?: Maybe<Scalars['String']>;
-  isDeprecated: Scalars['Boolean'];
-  deprecationReason?: Maybe<Scalars['String']>;
-};
-
-/** One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string. */
-export type __EnumValue = {
-  __typename?: '__EnumValue';
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  isDeprecated: Scalars['Boolean'];
-  deprecationReason?: Maybe<Scalars['String']>;
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
 };
 
 /**
@@ -11885,9 +11762,9 @@ export type __EnumValue = {
  */
 export type __Directive = {
   __typename?: '__Directive';
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  isRepeatable: Scalars['Boolean'];
+  name: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  isRepeatable: Scalars['Boolean']['output'];
   locations: Array<__DirectiveLocation>;
   args: Array<__InputValue>;
 };
@@ -11899,7 +11776,7 @@ export type __Directive = {
  * In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
  */
 export type __DirectiveArgsArgs = {
-  includeDeprecated?: Maybe<Scalars['Boolean']>;
+  includeDeprecated?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies. */
@@ -11944,4295 +11821,2466 @@ export enum __DirectiveLocation {
   InputFieldDefinition = 'INPUT_FIELD_DEFINITION'
 }
 
+/** One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string. */
+export type __EnumValue = {
+  __typename?: '__EnumValue';
+  name: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  isDeprecated: Scalars['Boolean']['output'];
+  deprecationReason?: Maybe<Scalars['String']['output']>;
+};
+
+/** Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type. */
+export type __Field = {
+  __typename?: '__Field';
+  name: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  args: Array<__InputValue>;
+  type: __Type;
+  isDeprecated: Scalars['Boolean']['output'];
+  deprecationReason?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type. */
+export type __FieldArgsArgs = {
+  includeDeprecated?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value. */
+export type __InputValue = {
+  __typename?: '__InputValue';
+  name: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  type: __Type;
+  /** A GraphQL-formatted string representing the default value for this input value. */
+  defaultValue?: Maybe<Scalars['String']['output']>;
+  isDeprecated: Scalars['Boolean']['output'];
+  deprecationReason?: Maybe<Scalars['String']['output']>;
+};
+
+/** A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations. */
+export type __Schema = {
+  __typename?: '__Schema';
+  description?: Maybe<Scalars['String']['output']>;
+  /** A list of all types supported by this server. */
+  types: Array<__Type>;
+  /** The type that query operations will be rooted at. */
+  queryType: __Type;
+  /** If this server supports mutation, the type that mutation operations will be rooted at. */
+  mutationType?: Maybe<__Type>;
+  /** If this server support subscription, the type that subscription operations will be rooted at. */
+  subscriptionType?: Maybe<__Type>;
+  /** A list of all directives supported by this server. */
+  directives: Array<__Directive>;
+};
+
+/**
+ * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+ *
+ * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+ */
+export type __Type = {
+  __typename?: '__Type';
+  kind: __TypeKind;
+  name?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  specifiedByUrl?: Maybe<Scalars['String']['output']>;
+  fields?: Maybe<Array<__Field>>;
+  interfaces?: Maybe<Array<__Type>>;
+  possibleTypes?: Maybe<Array<__Type>>;
+  enumValues?: Maybe<Array<__EnumValue>>;
+  inputFields?: Maybe<Array<__InputValue>>;
+  ofType?: Maybe<__Type>;
+};
+
+
+/**
+ * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+ *
+ * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+ */
+export type __TypeFieldsArgs = {
+  includeDeprecated?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/**
+ * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+ *
+ * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+ */
+export type __TypeEnumValuesArgs = {
+  includeDeprecated?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/**
+ * The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+ *
+ * Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+ */
+export type __TypeInputFieldsArgs = {
+  includeDeprecated?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** An enum describing what kind of type a given `__Type` is. */
+export enum __TypeKind {
+  /** Indicates this type is a scalar. */
+  Scalar = 'SCALAR',
+  /** Indicates this type is an object. `fields` and `interfaces` are valid fields. */
+  Object = 'OBJECT',
+  /** Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields. */
+  Interface = 'INTERFACE',
+  /** Indicates this type is a union. `possibleTypes` is a valid field. */
+  Union = 'UNION',
+  /** Indicates this type is an enum. `enumValues` is a valid field. */
+  Enum = 'ENUM',
+  /** Indicates this type is an input object. `inputFields` is a valid field. */
+  InputObject = 'INPUT_OBJECT',
+  /** Indicates this type is a list. `ofType` is a valid field. */
+  List = 'LIST',
+  /** Indicates this type is a non-null. `ofType` is a valid field. */
+  NonNull = 'NON_NULL'
+}
+
 export type ActivateLightingMutationVariables = Exact<{
-  clientId: Scalars['ID'];
-  dmxSetId: Scalars['ID'];
+  clientId: Scalars['ID']['input'];
+  dmxSetId: Scalars['ID']['input'];
 }>;
 
 
-export type ActivateLightingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientActivateLights'>
-);
+export type ActivateLightingMutation = { __typename?: 'Mutation', clientActivateLights?: string | null };
 
 export type AmbianceQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type AmbianceQuery = (
-  { __typename?: 'Query' }
-  & { simulators: Array<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id'>
-    & { ambiance?: Maybe<Array<(
-      { __typename?: 'Ambiance' }
-      & Pick<Ambiance, 'id' | 'name' | 'asset' | 'volume' | 'channel' | 'playbackRate'>
-    )>> }
-  )> }
-);
+export type AmbianceQuery = { __typename?: 'Query', simulators: Array<{ __typename?: 'Simulator', id: string, ambiance?: Array<{ __typename?: 'Ambiance', id: string, name: string, asset: string, volume: number, channel: Array<number>, playbackRate: number }> | null }> };
 
-export type ClientDataFragment = (
-  { __typename?: 'Client' }
-  & Pick<Client, 'id' | 'token' | 'email' | 'cracked' | 'loginName' | 'loginState' | 'offlineState' | 'hypercard' | 'movie' | 'training' | 'caches' | 'overlay' | 'soundPlayer'>
-  & { flight?: Maybe<(
-    { __typename?: 'Flight' }
-    & Pick<Flight, 'id' | 'name' | 'date'>
-  )>, simulator?: Maybe<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id' | 'name'>
-  )>, station?: Maybe<(
-    { __typename?: 'Station' }
-    & Pick<Station, 'name'>
-  )>, currentCard?: Maybe<(
-    { __typename?: 'Card' }
-    & Pick<Card, 'name' | 'component'>
-  )> }
-);
+export type ClientDataFragment = { __typename?: 'Client', id: string, token?: string | null, email?: string | null, cracked?: boolean | null, loginName?: string | null, loginState?: string | null, offlineState?: string | null, hypercard?: string | null, movie?: string | null, training?: boolean | null, caches?: Array<string | null> | null, overlay?: boolean | null, soundPlayer?: boolean | null, flight?: { __typename?: 'Flight', id: string, name?: string | null, date?: string | null } | null, simulator?: { __typename?: 'Simulator', id: string, name?: string | null } | null, station?: { __typename?: 'Station', name: string } | null, currentCard?: { __typename?: 'Card', name: string, component: string } | null };
 
 export type ClientQueryVariables = Exact<{
-  clientId: Scalars['ID'];
+  clientId: Scalars['ID']['input'];
 }>;
 
 
-export type ClientQuery = (
-  { __typename?: 'Query' }
-  & { clients?: Maybe<Array<Maybe<(
-    { __typename?: 'Client' }
-    & ClientDataFragment
-  )>>> }
-);
+export type ClientQuery = { __typename?: 'Query', clients?: Array<{ __typename?: 'Client', id: string, token?: string | null, email?: string | null, cracked?: boolean | null, loginName?: string | null, loginState?: string | null, offlineState?: string | null, hypercard?: string | null, movie?: string | null, training?: boolean | null, caches?: Array<string | null> | null, overlay?: boolean | null, soundPlayer?: boolean | null, flight?: { __typename?: 'Flight', id: string, name?: string | null, date?: string | null } | null, simulator?: { __typename?: 'Simulator', id: string, name?: string | null } | null, station?: { __typename?: 'Station', name: string } | null, currentCard?: { __typename?: 'Card', name: string, component: string } | null } | null> | null };
 
 export type ClientUpdateSubscriptionVariables = Exact<{
-  clientId: Scalars['ID'];
+  clientId: Scalars['ID']['input'];
 }>;
 
 
-export type ClientUpdateSubscription = (
-  { __typename?: 'Subscription' }
-  & { clientChanged?: Maybe<Array<Maybe<(
-    { __typename?: 'Client' }
-    & ClientDataFragment
-  )>>> }
-);
+export type ClientUpdateSubscription = { __typename?: 'Subscription', clientChanged?: Array<{ __typename?: 'Client', id: string, token?: string | null, email?: string | null, cracked?: boolean | null, loginName?: string | null, loginState?: string | null, offlineState?: string | null, hypercard?: string | null, movie?: string | null, training?: boolean | null, caches?: Array<string | null> | null, overlay?: boolean | null, soundPlayer?: boolean | null, flight?: { __typename?: 'Flight', id: string, name?: string | null, date?: string | null } | null, simulator?: { __typename?: 'Simulator', id: string, name?: string | null } | null, station?: { __typename?: 'Station', name: string } | null, currentCard?: { __typename?: 'Card', name: string, component: string } | null } | null> | null };
 
 export type ClientPingMutationVariables = Exact<{
-  clientId: Scalars['ID'];
+  clientId: Scalars['ID']['input'];
 }>;
 
 
-export type ClientPingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientPing'>
-);
+export type ClientPingMutation = { __typename?: 'Mutation', clientPing?: string | null };
 
 export type LightingControlSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type LightingControlSubscription = (
-  { __typename?: 'Subscription' }
-  & { simulatorsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id' | 'alertlevel' | 'training'>
-    & { lighting?: Maybe<(
-      { __typename?: 'Lighting' }
-      & Pick<Lighting, 'intensity' | 'action' | 'actionStrength' | 'transitionDuration'>
-      & { dmxConfig?: Maybe<(
-        { __typename?: 'DMXConfig' }
-        & Pick<DmxConfig, 'id' | 'config' | 'actionStrength'>
-      )> }
-    )> }
-  )>>> }
-);
+export type LightingControlSubscription = { __typename?: 'Subscription', simulatorsUpdate?: Array<{ __typename?: 'Simulator', id: string, alertlevel?: string | null, training?: boolean | null, lighting?: { __typename?: 'Lighting', intensity: number, action: Lighting_Action, actionStrength: number, transitionDuration: number, dmxConfig?: { __typename?: 'DMXConfig', id: string, config: {[key: string]: any}, actionStrength: number } | null } | null } | null> | null };
 
 export type RegisterClientMutationVariables = Exact<{
-  client: Scalars['ID'];
+  client: Scalars['ID']['input'];
 }>;
 
 
-export type RegisterClientMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientConnect'>
-);
+export type RegisterClientMutation = { __typename?: 'Mutation', clientConnect?: string | null };
 
 export type RemoveClientMutationVariables = Exact<{
-  client: Scalars['ID'];
+  client: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveClientMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientDisconnect'>
-);
+export type RemoveClientMutation = { __typename?: 'Mutation', clientDisconnect?: string | null };
 
-export type SimulatorDataFragment = (
-  { __typename?: 'Simulator' }
-  & Pick<Simulator, 'id' | 'name' | 'caps' | 'alertlevel' | 'layout' | 'bridgeOfficerMessaging' | 'training' | 'hasPrinter' | 'hasLegs' | 'panels' | 'flipped' | 'soundEffects'>
-  & { assets?: Maybe<(
-    { __typename?: 'SimulatorAssets' }
-    & Pick<SimulatorAssets, 'mesh' | 'texture' | 'side' | 'top' | 'logo' | 'bridge'>
-  )>, stations?: Maybe<Array<(
-    { __typename?: 'Station' }
-    & Pick<Station, 'name' | 'login' | 'training' | 'ambiance' | 'executive' | 'layout' | 'messageGroups' | 'widgets'>
-    & { cards?: Maybe<Array<(
-      { __typename?: 'Card' }
-      & Pick<Card, 'name' | 'component' | 'hidden' | 'assigned' | 'newStation'>
-    )>> }
-  )>> }
-);
+export type SimulatorDataFragment = { __typename?: 'Simulator', id: string, name?: string | null, caps?: boolean | null, alertlevel?: string | null, layout?: string | null, bridgeOfficerMessaging?: boolean | null, training?: boolean | null, hasPrinter?: boolean | null, hasLegs?: boolean | null, panels?: Array<string | null> | null, flipped?: boolean | null, soundEffects?: {[key: string]: any} | null, assets?: { __typename?: 'SimulatorAssets', mesh?: string | null, texture?: string | null, side?: string | null, top?: string | null, logo?: string | null, bridge?: string | null } | null, stations?: Array<{ __typename?: 'Station', name: string, login?: boolean | null, training?: string | null, ambiance?: string | null, executive?: boolean | null, layout?: string | null, messageGroups?: Array<string | null> | null, widgets?: Array<string | null> | null, cards?: Array<{ __typename?: 'Card', name: string, component: string, hidden?: boolean | null, assigned?: boolean | null, newStation?: boolean | null }> | null }> | null };
 
 export type SimulatorQueryVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type SimulatorQuery = (
-  { __typename?: 'Query' }
-  & { simulators: Array<(
-    { __typename?: 'Simulator' }
-    & SimulatorDataFragment
-  )> }
-);
+export type SimulatorQuery = { __typename?: 'Query', simulators: Array<{ __typename?: 'Simulator', id: string, name?: string | null, caps?: boolean | null, alertlevel?: string | null, layout?: string | null, bridgeOfficerMessaging?: boolean | null, training?: boolean | null, hasPrinter?: boolean | null, hasLegs?: boolean | null, panels?: Array<string | null> | null, flipped?: boolean | null, soundEffects?: {[key: string]: any} | null, assets?: { __typename?: 'SimulatorAssets', mesh?: string | null, texture?: string | null, side?: string | null, top?: string | null, logo?: string | null, bridge?: string | null } | null, stations?: Array<{ __typename?: 'Station', name: string, login?: boolean | null, training?: string | null, ambiance?: string | null, executive?: boolean | null, layout?: string | null, messageGroups?: Array<string | null> | null, widgets?: Array<string | null> | null, cards?: Array<{ __typename?: 'Card', name: string, component: string, hidden?: boolean | null, assigned?: boolean | null, newStation?: boolean | null }> | null }> | null }> };
 
 export type SimulatorUpdateSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type SimulatorUpdateSubscription = (
-  { __typename?: 'Subscription' }
-  & { simulatorsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Simulator' }
-    & SimulatorDataFragment
-  )>>> }
-);
+export type SimulatorUpdateSubscription = { __typename?: 'Subscription', simulatorsUpdate?: Array<{ __typename?: 'Simulator', id: string, name?: string | null, caps?: boolean | null, alertlevel?: string | null, layout?: string | null, bridgeOfficerMessaging?: boolean | null, training?: boolean | null, hasPrinter?: boolean | null, hasLegs?: boolean | null, panels?: Array<string | null> | null, flipped?: boolean | null, soundEffects?: {[key: string]: any} | null, assets?: { __typename?: 'SimulatorAssets', mesh?: string | null, texture?: string | null, side?: string | null, top?: string | null, logo?: string | null, bridge?: string | null } | null, stations?: Array<{ __typename?: 'Station', name: string, login?: boolean | null, training?: string | null, ambiance?: string | null, executive?: boolean | null, layout?: string | null, messageGroups?: Array<string | null> | null, widgets?: Array<string | null> | null, cards?: Array<{ __typename?: 'Card', name: string, component: string, hidden?: boolean | null, assigned?: boolean | null, newStation?: boolean | null }> | null }> | null } | null> | null };
 
 export type MacroDmxConfigsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MacroDmxConfigsQuery = (
-  { __typename?: 'Query' }
-  & { dmxConfigs: Array<(
-    { __typename?: 'DMXConfig' }
-    & Pick<DmxConfig, 'id' | 'name'>
-  )> }
-);
+export type MacroDmxConfigsQuery = { __typename?: 'Query', dmxConfigs: Array<{ __typename?: 'DMXConfig', id: string, name: string }> };
 
 export type DockingShuttleConfigQueryVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type DockingShuttleConfigQuery = (
-  { __typename?: 'Query' }
-  & { docking?: Maybe<Array<Maybe<(
-    { __typename?: 'DockingPort' }
-    & Pick<DockingPort, 'id' | 'name' | 'type' | 'image' | 'shipName' | 'clamps' | 'compress' | 'doors' | 'docked' | 'direction'>
-  )>>>, assetFolders?: Maybe<Array<Maybe<(
-    { __typename?: 'AssetFolder' }
-    & Pick<AssetFolder, 'id' | 'name'>
-    & { objects: Array<(
-      { __typename?: 'AssetObject' }
-      & Pick<AssetObject, 'id' | 'name' | 'fullPath'>
-    )> }
-  )>>> }
-);
+export type DockingShuttleConfigQuery = { __typename?: 'Query', docking?: Array<{ __typename?: 'DockingPort', id?: string | null, name?: string | null, type?: Docking_Types | null, image?: string | null, shipName?: string | null, clamps?: boolean | null, compress?: boolean | null, doors?: boolean | null, docked?: boolean | null, direction?: Docking_Direction | null } | null> | null, assetFolders?: Array<{ __typename?: 'AssetFolder', id: string, name: string, objects: Array<{ __typename?: 'AssetObject', id: string, name: string, fullPath: string }> } | null> | null };
 
 export type MissionMacrosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MissionMacrosQuery = (
-  { __typename?: 'Query' }
-  & { missions: Array<(
-    { __typename?: 'Mission' }
-    & Pick<Mission, 'id' | 'name' | 'category'>
-    & { timeline: Array<(
-      { __typename?: 'TimelineStep' }
-      & Pick<TimelineStep, 'id' | 'name'>
-    )> }
-  )> }
-);
+export type MissionMacrosQuery = { __typename?: 'Query', missions: Array<{ __typename?: 'Mission', id: string, name?: string | null, category?: string | null, timeline: Array<{ __typename?: 'TimelineStep', id: string, name: string }> }> };
 
 export type RemoteAssetLoadMutationVariables = Exact<{
-  folderPath: Scalars['String'];
+  folderPath: Scalars['String']['input'];
   files: Array<RemoteAsset> | RemoteAsset;
 }>;
 
 
-export type RemoteAssetLoadMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'downloadRemoteAssets'>
-);
+export type RemoteAssetLoadMutation = { __typename?: 'Mutation', downloadRemoteAssets?: string | null };
 
 export type HandleAddFlightSetToNavigationMutationVariables = Exact<{
-  id: Scalars['ID'];
-  flightSetId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  flightSetId: Scalars['ID']['input'];
 }>;
 
 
-export type HandleAddFlightSetToNavigationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleAddFlightSetToNavigation'>
-);
+export type HandleAddFlightSetToNavigationMutation = { __typename?: 'Mutation', handleAddFlightSetToNavigation?: string | null };
 
 export type GetAdvancedNavAndAstrometricsQueryVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type GetAdvancedNavAndAstrometricsQuery = (
-  { __typename?: 'Query' }
-  & { advancedNavAndAstrometrics?: Maybe<Array<Maybe<(
-    { __typename?: 'AdvancedNavigationAndAstrometrics' }
-    & Pick<AdvancedNavigationAndAstrometrics, 'id' | 'simulatorId' | 'type' | 'name' | 'displayName' | 'stealthFactor' | 'coolantLevel' | 'heatLevel' | 'engineStatus' | 'hasEmergencyPower' | 'startingStartupTime' | 'remainingEta' | 'totalEta' | 'remainingStartupTime' | 'showEta' | 'showFlightSet' | 'currentLocationName' | 'currentLocationUrl' | 'flightSetPathMap' | 'probeAssignments'>
-    & { power?: Maybe<(
-      { __typename?: 'Power' }
-      & Pick<Power, 'power' | 'powerLevels'>
-    )>, damage?: Maybe<(
-      { __typename?: 'Damage' }
-      & Pick<Damage, 'damaged' | 'report'>
-    )>, flightSets: Array<(
-      { __typename?: 'FlightSet' }
-      & Pick<FlightSet, 'id' | 'name' | 'backgroundImg' | 'pixelDistanceModifier' | 'imageMaxX' | 'imageMaxY' | 'pixelsPerSecond' | 'label' | 'probeLaunchRangeRadius' | 'addOnTraining'>
-      & { startOptions: Array<(
-        { __typename?: 'NavigationStartOptions' }
-        & Pick<NavigationStartOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl' | 'secondsForStartup'>
-      )>, speedOptions: Array<(
-        { __typename?: 'NavigationSpeedOptions' }
-        & Pick<NavigationSpeedOptions, 'id' | 'name' | 'speedModifier' | 'riskModifier' | 'requiresMaxEngines' | 'imgUrl'>
-      )>, exitOptions: Array<(
-        { __typename?: 'NavigationExitOptions' }
-        & Pick<NavigationExitOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl'>
-      )>, pointsOfInterest: Array<(
-        { __typename?: 'PointOfInterest' }
-        & Pick<PointOfInterest, 'id' | 'name' | 'isVisible' | 'isFogOfWar' | 'speedIndex' | 'riskIndex' | 'iconUrl' | 'fullImageUrl' | 'showName'>
-        & { location: (
-          { __typename?: 'XYLocation' }
-          & Pick<XyLocation, 'x' | 'y'>
-        ), type: (
-          { __typename?: 'PointOfInterestType' }
-          & Pick<PointOfInterestType, 'category' | 'imageUri'>
-        ), information: (
-          { __typename?: 'PointOfInterestInformation' }
-          & Pick<PointOfInterestInformation, 'basicInformation' | 'hasBasicInformation' | 'detailedInformation' | 'hasDetailedInformation' | 'secretInformation' | 'hasSecretInformation'>
-        ), transitOptions?: Maybe<Array<(
-          { __typename?: 'SecondaryStopTransitOption' }
-          & Pick<SecondaryStopTransitOption, 'name' | 'timeModifier' | 'riskModifier' | 'iconUrl'>
-        )>> }
-      )>, defaultStartingLocation: (
-        { __typename?: 'BasicCoordinate' }
-        & Pick<BasicCoordinate, 'x' | 'y'>
-      ), borders: Array<(
-        { __typename?: 'MapBorder' }
-        & Pick<MapBorder, 'name' | 'id' | 'iconUrl' | 'riskIndex'>
-        & { location: (
-          { __typename?: 'MapBorderLocation' }
-          & Pick<MapBorderLocation, 'side'>
-        ) }
-      )> }
-    )>, currentLocation: (
-      { __typename?: 'BasicCoordinate' }
-      & Pick<BasicCoordinate, 'x' | 'y'>
-    ), flightPaths: Array<(
-      { __typename?: 'NamedNavigationRoute' }
-      & Pick<NamedNavigationRoute, 'name' | 'id' | 'targetLocationId' | 'isBorder'>
-      & { secondaryRouteOptions: Array<(
-        { __typename?: 'SecondaryNavigationRouteOption' }
-        & Pick<SecondaryNavigationRouteOption, 'targetLocationId'>
-      )>, startOption: (
-        { __typename?: 'NavigationStartOptions' }
-        & Pick<NavigationStartOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl' | 'secondsForStartup'>
-      ), speedOption: (
-        { __typename?: 'NavigationSpeedOptions' }
-        & Pick<NavigationSpeedOptions, 'id' | 'name' | 'speedModifier' | 'riskModifier' | 'requiresMaxEngines' | 'imgUrl'>
-      ), exitOption: (
-        { __typename?: 'NavigationExitOptions' }
-        & Pick<NavigationExitOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl'>
-      ) }
-    )>, flightPathCoords: Array<(
-      { __typename?: 'FullCoordinate' }
-      & Pick<FullCoordinate, 'speed' | 'color' | 'x' | 'y'>
-    )>, currentFlightSet?: Maybe<(
-      { __typename?: 'FlightSet' }
-      & Pick<FlightSet, 'id' | 'name' | 'backgroundImg' | 'imageMaxX' | 'imageMaxY' | 'pixelsPerSecond' | 'label' | 'probeLaunchRangeRadius' | 'addOnTraining'>
-      & { startOptions: Array<(
-        { __typename?: 'NavigationStartOptions' }
-        & Pick<NavigationStartOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl' | 'secondsForStartup'>
-      )>, speedOptions: Array<(
-        { __typename?: 'NavigationSpeedOptions' }
-        & Pick<NavigationSpeedOptions, 'id' | 'name' | 'speedModifier' | 'riskModifier' | 'requiresMaxEngines' | 'imgUrl'>
-      )>, exitOptions: Array<(
-        { __typename?: 'NavigationExitOptions' }
-        & Pick<NavigationExitOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl'>
-      )>, pointsOfInterest: Array<(
-        { __typename?: 'PointOfInterest' }
-        & Pick<PointOfInterest, 'id' | 'name' | 'isVisible' | 'isFogOfWar' | 'speedIndex' | 'riskIndex' | 'iconUrl' | 'fullImageUrl' | 'showName'>
-        & { location: (
-          { __typename?: 'XYLocation' }
-          & Pick<XyLocation, 'x' | 'y'>
-        ), type: (
-          { __typename?: 'PointOfInterestType' }
-          & Pick<PointOfInterestType, 'category' | 'imageUri'>
-        ), information: (
-          { __typename?: 'PointOfInterestInformation' }
-          & Pick<PointOfInterestInformation, 'basicInformation' | 'hasBasicInformation' | 'detailedInformation' | 'hasDetailedInformation' | 'secretInformation' | 'hasSecretInformation'>
-        ), transitOptions?: Maybe<Array<(
-          { __typename?: 'SecondaryStopTransitOption' }
-          & Pick<SecondaryStopTransitOption, 'name' | 'timeModifier' | 'riskModifier' | 'iconUrl'>
-        )>> }
-      )>, defaultStartingLocation: (
-        { __typename?: 'BasicCoordinate' }
-        & Pick<BasicCoordinate, 'x' | 'y'>
-      ), borders: Array<(
-        { __typename?: 'MapBorder' }
-        & Pick<MapBorder, 'name' | 'id' | 'iconUrl' | 'riskIndex'>
-        & { location: (
-          { __typename?: 'MapBorderLocation' }
-          & Pick<MapBorderLocation, 'side'>
-        ) }
-      )> }
-    )>, currentFlightPath?: Maybe<(
-      { __typename?: 'NavigationRoute' }
-      & Pick<NavigationRoute, 'targetLocationId' | 'isBorder'>
-      & { secondaryRouteOptions: Array<(
-        { __typename?: 'SecondaryNavigationRouteOption' }
-        & Pick<SecondaryNavigationRouteOption, 'targetLocationId'>
-      )>, startOption: (
-        { __typename?: 'NavigationStartOptions' }
-        & Pick<NavigationStartOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl' | 'secondsForStartup'>
-      ), speedOption: (
-        { __typename?: 'NavigationSpeedOptions' }
-        & Pick<NavigationSpeedOptions, 'id' | 'name' | 'speedModifier' | 'riskModifier' | 'requiresMaxEngines' | 'imgUrl'>
-      ), exitOption: (
-        { __typename?: 'NavigationExitOptions' }
-        & Pick<NavigationExitOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl'>
-      ) }
-    )>, probes: Array<(
-      { __typename?: 'FSProbe' }
-      & Pick<FsProbe, 'id' | 'name' | 'type'>
-      & { equipment: Array<(
-        { __typename?: 'Equipment' }
-        & Pick<Equipment, 'id' | 'count'>
-      )> }
-    )> }
-  )>>> }
-);
+export type GetAdvancedNavAndAstrometricsQuery = { __typename?: 'Query', advancedNavAndAstrometrics?: Array<{ __typename?: 'AdvancedNavigationAndAstrometrics', id?: string | null, simulatorId?: string | null, type?: string | null, name?: string | null, displayName?: string | null, stealthFactor?: number | null, coolantLevel: number, heatLevel: number, engineStatus: string, hasEmergencyPower: boolean, startingStartupTime: number, remainingEta: number, totalEta: number, remainingStartupTime?: number | null, showEta: boolean, showFlightSet: boolean, currentLocationName?: string | null, currentLocationUrl?: string | null, flightSetPathMap: string, probeAssignments: string, power?: { __typename?: 'Power', power?: number | null, powerLevels?: Array<number | null> | null } | null, damage?: { __typename?: 'Damage', damaged?: boolean | null, report?: string | null } | null, flightSets: Array<{ __typename?: 'FlightSet', id: string, name: string, backgroundImg: string, pixelDistanceModifier?: number | null, imageMaxX: number, imageMaxY: number, pixelsPerSecond: number, label?: string | null, probeLaunchRangeRadius: number, addOnTraining?: boolean | null, startOptions: Array<{ __typename?: 'NavigationStartOptions', id: string, name: string, riskModifier: number, imgUrl: string, secondsForStartup: number }>, speedOptions: Array<{ __typename?: 'NavigationSpeedOptions', id: string, name: string, speedModifier: number, riskModifier: number, requiresMaxEngines: boolean, imgUrl: string }>, exitOptions: Array<{ __typename?: 'NavigationExitOptions', id: string, name: string, riskModifier: number, imgUrl: string }>, pointsOfInterest: Array<{ __typename?: 'PointOfInterest', id: string, name: string, isVisible: boolean, isFogOfWar: boolean, speedIndex: number, riskIndex: number, iconUrl: string, fullImageUrl: string, showName?: boolean | null, location: { __typename?: 'XYLocation', x: number, y: number }, type: { __typename?: 'PointOfInterestType', category: string, imageUri: string }, information: { __typename?: 'PointOfInterestInformation', basicInformation: string, hasBasicInformation: boolean, detailedInformation: string, hasDetailedInformation: boolean, secretInformation: string, hasSecretInformation: boolean }, transitOptions?: Array<{ __typename?: 'SecondaryStopTransitOption', name: string, timeModifier: number, riskModifier: number, iconUrl: string }> | null }>, defaultStartingLocation: { __typename?: 'BasicCoordinate', x: number, y: number }, borders: Array<{ __typename?: 'MapBorder', name: string, id: string, iconUrl: string, riskIndex: number, location: { __typename?: 'MapBorderLocation', side: string } }> }>, currentLocation: { __typename?: 'BasicCoordinate', x: number, y: number }, flightPaths: Array<{ __typename?: 'NamedNavigationRoute', name: string, id: string, targetLocationId: string, isBorder: boolean, secondaryRouteOptions: Array<{ __typename?: 'SecondaryNavigationRouteOption', targetLocationId: string }>, startOption: { __typename?: 'NavigationStartOptions', id: string, name: string, riskModifier: number, imgUrl: string, secondsForStartup: number }, speedOption: { __typename?: 'NavigationSpeedOptions', id: string, name: string, speedModifier: number, riskModifier: number, requiresMaxEngines: boolean, imgUrl: string }, exitOption: { __typename?: 'NavigationExitOptions', id: string, name: string, riskModifier: number, imgUrl: string } }>, flightPathCoords: Array<{ __typename?: 'FullCoordinate', speed: number, color: string, x: number, y: number }>, currentFlightSet?: { __typename?: 'FlightSet', id: string, name: string, backgroundImg: string, imageMaxX: number, imageMaxY: number, pixelsPerSecond: number, label?: string | null, probeLaunchRangeRadius: number, addOnTraining?: boolean | null, startOptions: Array<{ __typename?: 'NavigationStartOptions', id: string, name: string, riskModifier: number, imgUrl: string, secondsForStartup: number }>, speedOptions: Array<{ __typename?: 'NavigationSpeedOptions', id: string, name: string, speedModifier: number, riskModifier: number, requiresMaxEngines: boolean, imgUrl: string }>, exitOptions: Array<{ __typename?: 'NavigationExitOptions', id: string, name: string, riskModifier: number, imgUrl: string }>, pointsOfInterest: Array<{ __typename?: 'PointOfInterest', id: string, name: string, isVisible: boolean, isFogOfWar: boolean, speedIndex: number, riskIndex: number, iconUrl: string, fullImageUrl: string, showName?: boolean | null, location: { __typename?: 'XYLocation', x: number, y: number }, type: { __typename?: 'PointOfInterestType', category: string, imageUri: string }, information: { __typename?: 'PointOfInterestInformation', basicInformation: string, hasBasicInformation: boolean, detailedInformation: string, hasDetailedInformation: boolean, secretInformation: string, hasSecretInformation: boolean }, transitOptions?: Array<{ __typename?: 'SecondaryStopTransitOption', name: string, timeModifier: number, riskModifier: number, iconUrl: string }> | null }>, defaultStartingLocation: { __typename?: 'BasicCoordinate', x: number, y: number }, borders: Array<{ __typename?: 'MapBorder', name: string, id: string, iconUrl: string, riskIndex: number, location: { __typename?: 'MapBorderLocation', side: string } }> } | null, currentFlightPath?: { __typename?: 'NavigationRoute', targetLocationId: string, isBorder: boolean, secondaryRouteOptions: Array<{ __typename?: 'SecondaryNavigationRouteOption', targetLocationId: string }>, startOption: { __typename?: 'NavigationStartOptions', id: string, name: string, riskModifier: number, imgUrl: string, secondsForStartup: number }, speedOption: { __typename?: 'NavigationSpeedOptions', id: string, name: string, speedModifier: number, riskModifier: number, requiresMaxEngines: boolean, imgUrl: string }, exitOption: { __typename?: 'NavigationExitOptions', id: string, name: string, riskModifier: number, imgUrl: string } } | null, probes: Array<{ __typename?: 'FSProbe', id: string, name: string, type: string, equipment: Array<{ __typename?: 'Equipment', id: string, count: number }> }> } | null> | null };
 
 export type GetBasicFlightSetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBasicFlightSetsQuery = (
-  { __typename?: 'Query' }
-  & { getAllFlightSets: Array<Maybe<(
-    { __typename?: 'FlightSet' }
-    & Pick<FlightSet, 'id' | 'name' | 'label'>
-  )>> }
-);
+export type GetBasicFlightSetsQuery = { __typename?: 'Query', getAllFlightSets: Array<{ __typename?: 'FlightSet', id: string, name: string, label?: string | null } | null> };
 
 export type HandleAddProbeAssignmentMutationVariables = Exact<{
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  poiId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+  poiId: Scalars['ID']['input'];
 }>;
 
 
-export type HandleAddProbeAssignmentMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleAddProbeAssignment'>
-);
+export type HandleAddProbeAssignmentMutation = { __typename?: 'Mutation', handleAddProbeAssignment?: string | null };
 
 export type HandleUpdateAdvNavFlightSetDataMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   flightSet: FlightSetInput;
 }>;
 
 
-export type HandleUpdateAdvNavFlightSetDataMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateAdvNavFlightSetData'>
-);
+export type HandleUpdateAdvNavFlightSetDataMutation = { __typename?: 'Mutation', updateAdvNavFlightSetData?: string | null };
 
 export type HandleAdvancedNavCoolantFlushMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HandleAdvancedNavCoolantFlushMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleCoolantFlush'>
-);
+export type HandleAdvancedNavCoolantFlushMutation = { __typename?: 'Mutation', handleCoolantFlush?: string | null };
 
 export type HandleEmergencyStopMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HandleEmergencyStopMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleEmergencyStop'>
-);
+export type HandleEmergencyStopMutation = { __typename?: 'Mutation', handleEmergencyStop?: string | null };
 
 export type HandleEngageFlightPathMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   path: NavigationRouteInput;
 }>;
 
 
-export type HandleEngageFlightPathMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleEngageFlightPath'>
-);
+export type HandleEngageFlightPathMutation = { __typename?: 'Mutation', handleEngageFlightPath?: string | null };
 
 export type HandleEngineFluxMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HandleEngineFluxMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleEngineFlux'>
-);
+export type HandleEngineFluxMutation = { __typename?: 'Mutation', handleEngineFlux?: string | null };
 
 export type HandleOnAssignProbeMutationVariables = Exact<{
-  id: Scalars['ID'];
-  probeId: Scalars['ID'];
-  poiId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  probeId: Scalars['ID']['input'];
+  poiId: Scalars['ID']['input'];
 }>;
 
 
-export type HandleOnAssignProbeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleOnAssignProbe'>
-);
+export type HandleOnAssignProbeMutation = { __typename?: 'Mutation', handleOnAssignProbe?: string | null };
 
 export type HandleOverrideLocationMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   location: BasicCoordinateInput;
-  currentLocationUrl?: Maybe<Scalars['String']>;
-  currentLocationName?: Maybe<Scalars['String']>;
+  currentLocationUrl?: InputMaybe<Scalars['String']['input']>;
+  currentLocationName?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type HandleOverrideLocationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleOverrideLocation'>
-);
+export type HandleOverrideLocationMutation = { __typename?: 'Mutation', handleOverrideLocation?: string | null };
 
 export type HandleResumePathMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HandleResumePathMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleResumePath'>
-);
+export type HandleResumePathMutation = { __typename?: 'Mutation', handleResumePath?: string | null };
 
 export type HandleSaveFlightPathMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   path: NamedNavigationRouteInput;
 }>;
 
 
-export type HandleSaveFlightPathMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleSaveFlightPath'>
-);
+export type HandleSaveFlightPathMutation = { __typename?: 'Mutation', handleSaveFlightPath?: string | null };
 
 export type HandleSetCoolantLevelMutationVariables = Exact<{
-  id: Scalars['ID'];
-  level: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  level: Scalars['Float']['input'];
 }>;
 
 
-export type HandleSetCoolantLevelMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleSetCoolantLevel'>
-);
+export type HandleSetCoolantLevelMutation = { __typename?: 'Mutation', handleSetCoolantLevel?: string | null };
 
 export type HandleSetHeatLevelMutationVariables = Exact<{
-  id: Scalars['ID'];
-  level: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  level: Scalars['Float']['input'];
 }>;
 
 
-export type HandleSetHeatLevelMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleSetHeatLevel'>
-);
+export type HandleSetHeatLevelMutation = { __typename?: 'Mutation', handleSetHeatLevel?: string | null };
 
 export type HandleShowEtaMutationVariables = Exact<{
-  id: Scalars['ID'];
-  show: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  show: Scalars['Boolean']['input'];
 }>;
 
 
-export type HandleShowEtaMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleShowEta'>
-);
+export type HandleShowEtaMutation = { __typename?: 'Mutation', handleShowEta?: string | null };
 
 export type HandleShowFlightSetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  show: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  show: Scalars['Boolean']['input'];
 }>;
 
 
-export type HandleShowFlightSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleShowFlightSet'>
-);
+export type HandleShowFlightSetMutation = { __typename?: 'Mutation', handleShowFlightSet?: string | null };
 
 export type HandleUpdateAdvNavFlightSetMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   flightSet: FlightSetInput;
 }>;
 
 
-export type HandleUpdateAdvNavFlightSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateAdvNavFlightSet'>
-);
+export type HandleUpdateAdvNavFlightSetMutation = { __typename?: 'Mutation', updateAdvNavFlightSet?: string | null };
 
 export type HandleUpdateCurrentFlightPathMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   route: NavigationRouteInput;
 }>;
 
 
-export type HandleUpdateCurrentFlightPathMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleUpdateCurrentFlightPath'>
-);
+export type HandleUpdateCurrentFlightPathMutation = { __typename?: 'Mutation', handleUpdateCurrentFlightPath?: string | null };
 
 export type HandleUpdateCurrentFlightSetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  flightSetId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  flightSetId: Scalars['ID']['input'];
 }>;
 
 
-export type HandleUpdateCurrentFlightSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleUpdateCurrentFlightSet'>
-);
+export type HandleUpdateCurrentFlightSetMutation = { __typename?: 'Mutation', handleUpdateCurrentFlightSet?: string | null };
 
 export type HandleUpdateEtaMutationVariables = Exact<{
-  id: Scalars['ID'];
-  eta: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  eta: Scalars['Float']['input'];
 }>;
 
 
-export type HandleUpdateEtaMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleUpdateEta'>
-);
+export type HandleUpdateEtaMutation = { __typename?: 'Mutation', handleUpdateEta?: string | null };
 
 export type HandleUpdateProbeAssignmentsMutationVariables = Exact<{
-  id: Scalars['ID'];
-  probeAssignments: Scalars['String'];
+  id: Scalars['ID']['input'];
+  probeAssignments: Scalars['String']['input'];
 }>;
 
 
-export type HandleUpdateProbeAssignmentsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'handleUpdateProbeAssignments'>
-);
+export type HandleUpdateProbeAssignmentsMutation = { __typename?: 'Mutation', handleUpdateProbeAssignments: string };
 
-export type CountermeasureModuleFragment = (
-  { __typename?: 'CountermeasureModule' }
-  & Pick<CountermeasureModule, 'id' | 'name' | 'config' | 'buildProgress' | 'activated' | 'powerRequirement'>
-  & { resourceRequirements: (
-    { __typename?: 'CountermeasureResources' }
-    & Pick<CountermeasureResources, 'copper' | 'titanium' | 'carbon' | 'plastic' | 'plasma'>
-  ), configurationOptions: Array<(
-    { __typename?: 'CountermeasureConfigOptions' }
-    & Pick<CountermeasureConfigOptions, 'type' | 'label'>
-  )> }
-);
+export type CountermeasureModuleFragment = { __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> };
 
-export type CountermeasureFragment = (
-  { __typename?: 'Countermeasure' }
-  & Pick<Countermeasure, 'id' | 'name' | 'locked' | 'active' | 'building' | 'totalPowerUsed' | 'readyToLaunch' | 'powerUsage' | 'availablePower' | 'buildPercentage' | 'note'>
-  & { modules: Array<(
-    { __typename?: 'CountermeasureModule' }
-    & CountermeasureModuleFragment
-  )> }
-);
+export type CountermeasureFragment = { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> };
 
 export type CountermeasuresSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type CountermeasuresSubscription = (
-  { __typename?: 'Subscription' }
-  & { countermeasuresUpdate?: Maybe<(
-    { __typename?: 'Countermeasures' }
-    & Pick<Countermeasures, 'id' | 'name' | 'displayName'>
-    & { damage: (
-      { __typename?: 'Damage' }
-      & Pick<Damage, 'damaged'>
-    ), power: (
-      { __typename?: 'Power' }
-      & Pick<Power, 'power' | 'powerLevels'>
-    ), materials: (
-      { __typename?: 'CountermeasureResources' }
-      & Pick<CountermeasureResources, 'copper' | 'titanium' | 'carbon' | 'plastic' | 'plasma'>
-    ), launched: Array<(
-      { __typename?: 'Countermeasure' }
-      & CountermeasureFragment
-    )>, slots: (
-      { __typename?: 'CountermeasureSlot' }
-      & { slot1?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot2?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot3?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot4?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot5?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot6?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot7?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )>, slot8?: Maybe<(
-        { __typename?: 'Countermeasure' }
-        & CountermeasureFragment
-      )> }
-    ) }
-  )> }
-);
+export type CountermeasuresSubscription = { __typename?: 'Subscription', countermeasuresUpdate?: { __typename?: 'Countermeasures', id: string, name: string, displayName: string, damage: { __typename?: 'Damage', damaged?: boolean | null }, power: { __typename?: 'Power', power?: number | null, powerLevels?: Array<number | null> | null }, materials: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, launched: Array<{ __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> }>, slots: { __typename?: 'CountermeasureSlot', slot1?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot2?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot3?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot4?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot5?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot6?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot7?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null, slot8?: { __typename?: 'Countermeasure', id: string, name: string, locked: boolean, active: boolean, building: boolean, totalPowerUsed: number, readyToLaunch: boolean, powerUsage: number, availablePower: number, buildPercentage: number, note: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, buildProgress: number, activated: boolean, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null } } | null };
 
 export type CountermeasuresCoreSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type CountermeasuresCoreSubscription = (
-  { __typename?: 'Subscription' }
-  & { countermeasuresUpdate?: Maybe<(
-    { __typename?: 'Countermeasures' }
-    & Pick<Countermeasures, 'id' | 'name' | 'displayName'>
-    & { materials: (
-      { __typename?: 'CountermeasureResources' }
-      & Pick<CountermeasureResources, 'copper' | 'titanium' | 'carbon' | 'plastic' | 'plasma'>
-    ), launched: Array<(
-      { __typename?: 'Countermeasure' }
-      & Pick<Countermeasure, 'id' | 'name' | 'powerUsage' | 'availablePower'>
-      & { modules: Array<(
-        { __typename?: 'CountermeasureModule' }
-        & Pick<CountermeasureModule, 'id' | 'name' | 'config' | 'activated'>
-        & { configurationOptions: Array<(
-          { __typename?: 'CountermeasureConfigOptions' }
-          & Pick<CountermeasureConfigOptions, 'type' | 'label'>
-        )> }
-      )> }
-    )> }
-  )> }
-);
+export type CountermeasuresCoreSubscription = { __typename?: 'Subscription', countermeasuresUpdate?: { __typename?: 'Countermeasures', id: string, name: string, displayName: string, materials: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, launched: Array<{ __typename?: 'Countermeasure', id: string, name: string, powerUsage: number, availablePower: number, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, config: {[key: string]: any}, activated: boolean, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> }> } | null };
 
 export type CountermeasureModulesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CountermeasureModulesQuery = (
-  { __typename?: 'Query' }
-  & { countermeasureModuleType: Array<(
-    { __typename?: 'CountermeasureModule' }
-    & Pick<CountermeasureModule, 'id' | 'name' | 'description' | 'powerRequirement'>
-    & { resourceRequirements: (
-      { __typename?: 'CountermeasureResources' }
-      & Pick<CountermeasureResources, 'copper' | 'titanium' | 'carbon' | 'plastic' | 'plasma'>
-    ), configurationOptions: Array<(
-      { __typename?: 'CountermeasureConfigOptions' }
-      & Pick<CountermeasureConfigOptions, 'type' | 'label'>
-    )> }
-  )> }
-);
+export type CountermeasureModulesQuery = { __typename?: 'Query', countermeasureModuleType: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, description: string, powerRequirement: number, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, carbon: number, plastic: number, plasma: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> };
 
 export type CountermeasureRemoveModuleMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
-  moduleId: Scalars['ID'];
+  moduleId: Scalars['ID']['input'];
 }>;
 
 
-export type CountermeasureRemoveModuleMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresRemoveModule'>
-);
+export type CountermeasureRemoveModuleMutation = { __typename?: 'Mutation', countermeasuresRemoveModule?: string | null };
 
 export type CountermeasureSetResourceMutationVariables = Exact<{
-  id: Scalars['ID'];
-  resource: Scalars['String'];
-  value: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  resource: Scalars['String']['input'];
+  value: Scalars['Float']['input'];
 }>;
 
 
-export type CountermeasureSetResourceMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresSetResource'>
-);
+export type CountermeasureSetResourceMutation = { __typename?: 'Mutation', countermeasuresSetResource?: string | null };
 
 export type CountermeasuresActivateCountermeasureMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
 }>;
 
 
-export type CountermeasuresActivateCountermeasureMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresActivateCountermeasure'>
-);
+export type CountermeasuresActivateCountermeasureMutation = { __typename?: 'Mutation', countermeasuresActivateCountermeasure?: string | null };
 
 export type CountermeasuresAddModuleMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
-  moduleType: Scalars['String'];
+  moduleType: Scalars['String']['input'];
 }>;
 
 
-export type CountermeasuresAddModuleMutation = (
-  { __typename?: 'Mutation' }
-  & { countermeasuresAddModule?: Maybe<(
-    { __typename?: 'Countermeasure' }
-    & Pick<Countermeasure, 'id'>
-    & { modules: Array<(
-      { __typename?: 'CountermeasureModule' }
-      & Pick<CountermeasureModule, 'id' | 'name' | 'description' | 'powerRequirement' | 'config' | 'buildProgress' | 'activated'>
-      & { resourceRequirements: (
-        { __typename?: 'CountermeasureResources' }
-        & Pick<CountermeasureResources, 'copper' | 'titanium' | 'plasma' | 'carbon'>
-      ), configurationOptions: Array<(
-        { __typename?: 'CountermeasureConfigOptions' }
-        & Pick<CountermeasureConfigOptions, 'type' | 'label'>
-      )> }
-    )> }
-  )> }
-);
+export type CountermeasuresAddModuleMutation = { __typename?: 'Mutation', countermeasuresAddModule?: { __typename?: 'Countermeasure', id: string, modules: Array<{ __typename?: 'CountermeasureModule', id: string, name: string, description: string, powerRequirement: number, config: {[key: string]: any}, buildProgress: number, activated: boolean, resourceRequirements: { __typename?: 'CountermeasureResources', copper: number, titanium: number, plasma: number, carbon: number }, configurationOptions: Array<{ __typename?: 'CountermeasureConfigOptions', type: string, label: string }> }> } | null };
 
 export type CountermeasuresBuildCountermeasureMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
 }>;
 
 
-export type CountermeasuresBuildCountermeasureMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresBuildCountermeasure'>
-);
+export type CountermeasuresBuildCountermeasureMutation = { __typename?: 'Mutation', countermeasuresBuildCountermeasure?: string | null };
 
 export type CountermeasuresConfigureModuleMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
-  moduleId: Scalars['ID'];
-  config: Scalars['JSON'];
+  moduleId: Scalars['ID']['input'];
+  config: Scalars['JSON']['input'];
 }>;
 
 
-export type CountermeasuresConfigureModuleMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresConfigureModule'>
-);
+export type CountermeasuresConfigureModuleMutation = { __typename?: 'Mutation', countermeasuresConfigureModule?: string | null };
 
 export type CountermeasureCreateCountermeasureMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type CountermeasureCreateCountermeasureMutation = (
-  { __typename?: 'Mutation' }
-  & { countermeasuresCreateCountermeasure?: Maybe<(
-    { __typename?: 'Countermeasure' }
-    & Pick<Countermeasure, 'id'>
-  )> }
-);
+export type CountermeasureCreateCountermeasureMutation = { __typename?: 'Mutation', countermeasuresCreateCountermeasure?: { __typename?: 'Countermeasure', id: string } | null };
 
 export type CountermeasuresDeactivateCountermeasureMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
 }>;
 
 
-export type CountermeasuresDeactivateCountermeasureMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresDeactivateCountermeasure'>
-);
+export type CountermeasuresDeactivateCountermeasureMutation = { __typename?: 'Mutation', countermeasuresDeactivateCountermeasure?: string | null };
 
 export type CountermeasuresLaunchCountermeasureMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
 }>;
 
 
-export type CountermeasuresLaunchCountermeasureMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresLaunchCountermeasure'>
-);
+export type CountermeasuresLaunchCountermeasureMutation = { __typename?: 'Mutation', countermeasuresLaunchCountermeasure?: string | null };
 
 export type CountermeasuresLaunchUnlockedCountermeasuresMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type CountermeasuresLaunchUnlockedCountermeasuresMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresLaunchUnlockedCountermeasures'>
-);
+export type CountermeasuresLaunchUnlockedCountermeasuresMutation = { __typename?: 'Mutation', countermeasuresLaunchUnlockedCountermeasures?: string | null };
 
 export type CountermeasureRemoveCountermeasureMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
 }>;
 
 
-export type CountermeasureRemoveCountermeasureMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresRemoveCountermeasure'>
-);
+export type CountermeasureRemoveCountermeasureMutation = { __typename?: 'Mutation', countermeasuresRemoveCountermeasure?: string | null };
 
 export type CountermeasuresRemoveModuleMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   slot: CountermeasureSlotEnum;
-  moduleId: Scalars['ID'];
+  moduleId: Scalars['ID']['input'];
 }>;
 
 
-export type CountermeasuresRemoveModuleMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresRemoveModule'>
-);
+export type CountermeasuresRemoveModuleMutation = { __typename?: 'Mutation', countermeasuresRemoveModule?: string | null };
 
 export type CountermeasuresSetFdNoteMutationVariables = Exact<{
-  id: Scalars['ID'];
-  countermeasureId: Scalars['ID'];
-  note: Scalars['String'];
+  id: Scalars['ID']['input'];
+  countermeasureId: Scalars['ID']['input'];
+  note: Scalars['String']['input'];
 }>;
 
 
-export type CountermeasuresSetFdNoteMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'countermeasuresSetFDNote'>
-);
+export type CountermeasuresSetFdNoteMutation = { __typename?: 'Mutation', countermeasuresSetFDNote?: string | null };
 
 export type SystemsCoreEnginesQueryVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type SystemsCoreEnginesQuery = (
-  { __typename?: 'Query' }
-  & { engines?: Maybe<Array<Maybe<(
-    { __typename?: 'Engine' }
-    & Pick<Engine, 'id'>
-    & { speeds?: Maybe<Array<Maybe<(
-      { __typename?: 'Speed' }
-      & Pick<Speed, 'number'>
-    )>>> }
-  )>>> }
-);
+export type SystemsCoreEnginesQuery = { __typename?: 'Query', engines?: Array<{ __typename?: 'Engine', id?: string | null, speeds?: Array<{ __typename?: 'Speed', number?: number | null } | null> | null } | null> | null };
 
 export type SystemChangePowerMutationVariables = Exact<{
-  systemId: Scalars['ID'];
-  power: Scalars['Int'];
+  systemId: Scalars['ID']['input'];
+  power: Scalars['Int']['input'];
 }>;
 
 
-export type SystemChangePowerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'changePower'>
-);
+export type SystemChangePowerMutation = { __typename?: 'Mutation', changePower?: string | null };
 
 export type SystemUpgradeMutationVariables = Exact<{
-  systemId: Scalars['ID'];
+  systemId: Scalars['ID']['input'];
 }>;
 
 
-export type SystemUpgradeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'upgradeSystem'>
-);
+export type SystemUpgradeMutation = { __typename?: 'Mutation', upgradeSystem?: string | null };
 
 export type AddDocumentMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  name: Scalars['String'];
-  asset: Scalars['String'];
+  simulatorId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  asset: Scalars['String']['input'];
 }>;
 
 
-export type AddDocumentMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'documentAdd'>
-);
+export type AddDocumentMutation = { __typename?: 'Mutation', documentAdd?: string | null };
 
 export type DocumentsSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type DocumentsSubscription = (
-  { __typename?: 'Subscription' }
-  & { simulatorsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id'>
-    & { documents?: Maybe<Array<(
-      { __typename?: 'Document' }
-      & Pick<Document, 'id' | 'name' | 'asset'>
-    )>> }
-  )>>> }
-);
+export type DocumentsSubscription = { __typename?: 'Subscription', simulatorsUpdate?: Array<{ __typename?: 'Simulator', id: string, documents?: Array<{ __typename?: 'Document', id: string, name: string, asset: string }> | null } | null> | null };
 
 export type RemoveDocumentMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  id: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveDocumentMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'documentRemove'>
-);
+export type RemoveDocumentMutation = { __typename?: 'Mutation', documentRemove?: string | null };
 
 export type HackingAllowHackingMutationVariables = Exact<{
-  id: Scalars['ID'];
-  state: Scalars['String'];
+  id: Scalars['ID']['input'];
+  state: Scalars['String']['input'];
 }>;
 
 
-export type HackingAllowHackingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreSetHackingState'>
-);
+export type HackingAllowHackingMutation = { __typename?: 'Mutation', computerCoreSetHackingState?: string | null };
 
 export type HackingAppendLogMutationVariables = Exact<{
-  id: Scalars['ID'];
-  log: Scalars['String'];
+  id: Scalars['ID']['input'];
+  log: Scalars['String']['input'];
 }>;
 
 
-export type HackingAppendLogMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreAppendLog'>
-);
+export type HackingAppendLogMutation = { __typename?: 'Mutation', computerCoreAppendLog?: string | null };
 
 export type HackingCopyFileMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   file: ComputerCoreFileInput;
 }>;
 
 
-export type HackingCopyFileMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreAddFile'>
-);
+export type HackingCopyFileMutation = { __typename?: 'Mutation', computerCoreAddFile?: string | null };
 
 export type HackingActivateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HackingActivateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreActivateHacking'>
-);
+export type HackingActivateMutation = { __typename?: 'Mutation', computerCoreActivateHacking?: string | null };
 
 export type HackingDeactivateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HackingDeactivateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreDeactivateHacking'>
-);
+export type HackingDeactivateMutation = { __typename?: 'Mutation', computerCoreDeactivateHacking?: string | null };
 
 export type ComputerCoreHackingSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type ComputerCoreHackingSubscription = (
-  { __typename?: 'Subscription' }
-  & { computerCoreUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'ComputerCore' }
-    & Pick<ComputerCore, 'id' | 'hackingActive' | 'hackingState' | 'hackingLog' | 'hackingPortScanFrequency'>
-    & { activeHackingPreset?: Maybe<(
-      { __typename?: 'HackingPreset' }
-      & Pick<HackingPreset, 'id' | 'longRange' | 'remoteControl' | 'logs' | 'commandLines' | 'fileViewer'>
-      & { longRangeMessages: Array<(
-        { __typename?: 'HackingLRM' }
-        & Pick<HackingLrm, 'id' | 'title' | 'message'>
-      )>, files: Array<(
-        { __typename?: 'ComputerCoreFile' }
-        & Pick<ComputerCoreFile, 'id' | 'name' | 'level' | 'corrupted'>
-      )> }
-    )>, hackingPorts: (
-      { __typename?: 'HackingPorts' }
-      & Pick<HackingPorts, 'logs' | 'longRange' | 'remoteControl' | 'fileViewer'>
-    ) }
-  )>>> }
-);
+export type ComputerCoreHackingSubscription = { __typename?: 'Subscription', computerCoreUpdate?: Array<{ __typename?: 'ComputerCore', id?: string | null, hackingActive?: boolean | null, hackingState?: string | null, hackingLog: Array<string>, hackingPortScanFrequency?: number | null, activeHackingPreset?: { __typename?: 'HackingPreset', id: string, longRange: boolean, remoteControl: boolean, logs: boolean, commandLines: Array<string>, fileViewer: boolean, longRangeMessages: Array<{ __typename?: 'HackingLRM', id: string, title: string, message: string }>, files: Array<{ __typename?: 'ComputerCoreFile', id?: string | null, name?: string | null, level?: number | null, corrupted?: boolean | null }> } | null, hackingPorts: { __typename?: 'HackingPorts', logs?: number | null, longRange?: number | null, remoteControl?: number | null, fileViewer?: number | null } } | null> | null };
 
 export type HackingRemoveLogMutationVariables = Exact<{
-  id: Scalars['ID'];
-  index: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  index: Scalars['Int']['input'];
 }>;
 
 
-export type HackingRemoveLogMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreDeleteLog'>
-);
+export type HackingRemoveLogMutation = { __typename?: 'Mutation', computerCoreDeleteLog?: string | null };
 
 export type HackingTransferToLongRangeMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  message: Scalars['String'];
-  sender?: Maybe<Scalars['String']>;
+  simulatorId: Scalars['ID']['input'];
+  message: Scalars['String']['input'];
+  sender?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type HackingTransferToLongRangeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'sendLongRangeMessage'>
-);
+export type HackingTransferToLongRangeMutation = { __typename?: 'Mutation', sendLongRangeMessage?: string | null };
 
 export type HackingSetFrequencyMutationVariables = Exact<{
-  id: Scalars['ID'];
-  frequency: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  frequency: Scalars['Float']['input'];
 }>;
 
 
-export type HackingSetFrequencyMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreSetHackingFrequency'>
-);
+export type HackingSetFrequencyMutation = { __typename?: 'Mutation', computerCoreSetHackingFrequency?: string | null };
 
 export type HackingSetPresetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  presetId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  presetId: Scalars['ID']['input'];
 }>;
 
 
-export type HackingSetPresetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreHackingPreset'>
-);
+export type HackingSetPresetMutation = { __typename?: 'Mutation', computerCoreHackingPreset?: string | null };
 
 export type HackingUpdateFilesMutationVariables = Exact<{
-  id: Scalars['ID'];
-  files: Scalars['JSON'];
+  id: Scalars['ID']['input'];
+  files: Scalars['JSON']['input'];
 }>;
 
 
-export type HackingUpdateFilesMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'computerCoreUpdateHackingFiles'>
-);
+export type HackingUpdateFilesMutation = { __typename?: 'Mutation', computerCoreUpdateHackingFiles?: string | null };
 
 export type LightingSetEffectMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
   effect: Lighting_Action;
-  duration: Scalars['Float'];
+  duration: Scalars['Float']['input'];
 }>;
 
 
-export type LightingSetEffectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'lightingSetEffect'>
-);
+export type LightingSetEffectMutation = { __typename?: 'Mutation', lightingSetEffect?: string | null };
 
 export type LightingSetIntensityMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  intensity: Scalars['Float'];
+  simulatorId: Scalars['ID']['input'];
+  intensity: Scalars['Float']['input'];
 }>;
 
 
-export type LightingSetIntensityMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'lightingSetIntensity'>
-);
+export type LightingSetIntensityMutation = { __typename?: 'Mutation', lightingSetIntensity?: string | null };
 
 export type ShakeLightsMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  duration: Scalars['Float'];
+  simulatorId: Scalars['ID']['input'];
+  duration: Scalars['Float']['input'];
 }>;
 
 
-export type ShakeLightsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'lightingShakeLights'>
-);
+export type ShakeLightsMutation = { __typename?: 'Mutation', lightingShakeLights?: string | null };
 
 export type UpdateLightingMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   lighting: LightingInput;
 }>;
 
 
-export type UpdateLightingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateSimulatorLighting'>
-);
+export type UpdateLightingMutation = { __typename?: 'Mutation', updateSimulatorLighting?: string | null };
 
 export type ClearPdfMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type ClearPdfMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clearPdf'>
-);
+export type ClearPdfMutation = { __typename?: 'Mutation', clearPdf?: string | null };
 
 export type PrintQueueSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type PrintQueueSubscription = (
-  { __typename?: 'Subscription' }
-  & { printQueue?: Maybe<Array<Maybe<(
-    { __typename?: 'PrintQueue' }
-    & Pick<PrintQueue, 'id' | 'asset' | 'timestamp'>
-  )>>> }
-);
+export type PrintQueueSubscription = { __typename?: 'Subscription', printQueue?: Array<{ __typename?: 'PrintQueue', id: string, asset: string, timestamp: number } | null> | null };
 
 export type ReactorAckWingPowerMutationVariables = Exact<{
-  id: Scalars['ID'];
-  wing: Scalars['String'];
-  ack: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  wing: Scalars['String']['input'];
+  ack: Scalars['Boolean']['input'];
 }>;
 
 
-export type ReactorAckWingPowerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorAckWingRequest'>
-);
+export type ReactorAckWingPowerMutation = { __typename?: 'Mutation', reactorAckWingRequest?: string | null };
 
 export type BatteryChargeLevelMutationVariables = Exact<{
-  id: Scalars['ID'];
-  e: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  e: Scalars['Float']['input'];
 }>;
 
 
-export type BatteryChargeLevelMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorBatteryChargeLevel'>
-);
+export type BatteryChargeLevelMutation = { __typename?: 'Mutation', reactorBatteryChargeLevel?: string | null };
 
 export type BatteryChargeRateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  e: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  e: Scalars['Float']['input'];
 }>;
 
 
-export type BatteryChargeRateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorBatteryChargeRate'>
-);
+export type BatteryChargeRateMutation = { __typename?: 'Mutation', reactorBatteryChargeRate?: string | null };
 
 export type SetDilithiumRateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  rate: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  rate: Scalars['Float']['input'];
 }>;
 
 
-export type SetDilithiumRateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setDilithiumStressRate'>
-);
+export type SetDilithiumRateMutation = { __typename?: 'Mutation', setDilithiumStressRate?: string | null };
 
 export type ReactorDockingSubscriptionVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type ReactorDockingSubscription = (
-  { __typename?: 'Subscription' }
-  & { simulatorsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id'>
-    & { ship?: Maybe<(
-      { __typename?: 'Ship' }
-      & Pick<Ship, 'clamps' | 'ramps' | 'airlock' | 'legs'>
-    )> }
-  )>>> }
-);
+export type ReactorDockingSubscription = { __typename?: 'Subscription', simulatorsUpdate?: Array<{ __typename?: 'Simulator', id: string, ship?: { __typename?: 'Ship', clamps?: boolean | null, ramps?: boolean | null, airlock?: boolean | null, legs?: boolean | null } | null } | null> | null };
 
 export type FluxDilithiumMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type FluxDilithiumMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'fluxDilithiumStress'>
-);
+export type FluxDilithiumMutation = { __typename?: 'Mutation', fluxDilithiumStress?: string | null };
 
 export type ReactorPowerSubscriptionVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type ReactorPowerSubscription = (
-  { __typename?: 'Subscription' }
-  & { systemsUpdate: Array<(
-    { __typename?: 'System' }
-    & Pick<System, 'id' | 'name'>
-    & { power?: Maybe<(
-      { __typename?: 'Power' }
-      & Pick<Power, 'power'>
-    )> }
-  )> }
-);
+export type ReactorPowerSubscription = { __typename?: 'Subscription', systemsUpdate: Array<{ __typename?: 'System', id?: string | null, name?: string | null, power?: { __typename?: 'Power', power?: number | null } | null }> };
 
 export type ReactorCoolMutationVariables = Exact<{
-  id: Scalars['ID'];
-  state?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID']['input'];
+  state?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type ReactorCoolMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'engineCool'>
-);
+export type ReactorCoolMutation = { __typename?: 'Mutation', engineCool?: string | null };
 
 export type ReactorHeatMutationVariables = Exact<{
-  id: Scalars['ID'];
-  heat?: Maybe<Scalars['Float']>;
+  id: Scalars['ID']['input'];
+  heat?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type ReactorHeatMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addHeat'>
-);
+export type ReactorHeatMutation = { __typename?: 'Mutation', addHeat?: string | null };
 
 export type ReactorSetHeatRateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  rate: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  rate: Scalars['Float']['input'];
 }>;
 
 
-export type ReactorSetHeatRateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setHeatRate'>
-);
+export type ReactorSetHeatRateMutation = { __typename?: 'Mutation', setHeatRate?: string | null };
 
 export type ReactorPowerLevelMutationVariables = Exact<{
-  id: Scalars['ID'];
-  e: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  e: Scalars['Int']['input'];
 }>;
 
 
-export type ReactorPowerLevelMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorChangeOutput'>
-);
+export type ReactorPowerLevelMutation = { __typename?: 'Mutation', reactorChangeOutput?: string | null };
 
 export type ReactorsSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type ReactorsSubscription = (
-  { __typename?: 'Subscription' }
-  & { reactorUpdate: Array<(
-    { __typename?: 'Reactor' }
-    & Pick<Reactor, 'id' | 'type' | 'name' | 'heat' | 'heatRate' | 'model' | 'coolant' | 'ejected' | 'externalPower' | 'efficiency' | 'displayName' | 'powerOutput' | 'batteryChargeRate' | 'batteryChargeLevel' | 'depletion' | 'alphaLevel' | 'betaLevel' | 'alphaTarget' | 'betaTarget' | 'dilithiumRate' | 'hasWings' | 'leftWingPower' | 'leftWingRequest' | 'leftWingRequested' | 'rightWingPower' | 'rightWingRequest' | 'rightWingRequested'>
-    & { damage?: Maybe<(
-      { __typename?: 'Damage' }
-      & Pick<Damage, 'damaged'>
-    )>, efficiencies?: Maybe<Array<(
-      { __typename?: 'ReactorEfficiency' }
-      & Pick<ReactorEfficiency, 'label' | 'color' | 'efficiency'>
-    )>> }
-  )> }
-);
+export type ReactorsSubscription = { __typename?: 'Subscription', reactorUpdate: Array<{ __typename?: 'Reactor', id: string, type?: string | null, name?: string | null, heat?: number | null, heatRate?: number | null, model?: Reactor_Models | null, coolant?: number | null, ejected?: boolean | null, externalPower?: boolean | null, efficiency?: number | null, displayName?: string | null, powerOutput?: number | null, batteryChargeRate?: number | null, batteryChargeLevel?: number | null, depletion?: number | null, alphaLevel?: number | null, betaLevel?: number | null, alphaTarget?: number | null, betaTarget?: number | null, dilithiumRate?: number | null, hasWings?: boolean | null, leftWingPower?: number | null, leftWingRequest?: number | null, leftWingRequested?: boolean | null, rightWingPower?: number | null, rightWingRequest?: number | null, rightWingRequested?: boolean | null, damage?: { __typename?: 'Damage', damaged?: boolean | null } | null, efficiencies?: Array<{ __typename?: 'ReactorEfficiency', label: string, color: string, efficiency?: number | null }> | null }> };
 
 export type ReactorRequestWingPowerMutationVariables = Exact<{
-  id: Scalars['ID'];
-  wing: Scalars['String'];
-  power: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  wing: Scalars['String']['input'];
+  power: Scalars['Int']['input'];
 }>;
 
 
-export type ReactorRequestWingPowerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorRequestWingPower'>
-);
+export type ReactorRequestWingPowerMutation = { __typename?: 'Mutation', reactorRequestWingPower?: string | null };
 
 export type ReactorSetEfficiencyMutationVariables = Exact<{
-  id: Scalars['ID'];
-  e?: Maybe<Scalars['Float']>;
+  id: Scalars['ID']['input'];
+  e?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type ReactorSetEfficiencyMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorChangeEfficiency'>
-);
+export type ReactorSetEfficiencyMutation = { __typename?: 'Mutation', reactorChangeEfficiency?: string | null };
 
 export type ReactorSetWingPowerMutationVariables = Exact<{
-  id: Scalars['ID'];
-  wing: Scalars['String'];
-  power: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  wing: Scalars['String']['input'];
+  power: Scalars['Int']['input'];
 }>;
 
 
-export type ReactorSetWingPowerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorSetWingPower'>
-);
+export type ReactorSetWingPowerMutation = { __typename?: 'Mutation', reactorSetWingPower?: string | null };
 
 export type SensorsPingSubSubscriptionVariables = Exact<{
-  sensorsId: Scalars['ID'];
+  sensorsId: Scalars['ID']['input'];
 }>;
 
 
-export type SensorsPingSubSubscription = (
-  { __typename?: 'Subscription' }
-  & Pick<Subscription, 'sensorsPing'>
-);
+export type SensorsPingSubSubscription = { __typename?: 'Subscription', sensorsPing?: string | null };
 
 export type SensorsProbeDataMutationVariables = Exact<{
-  id: Scalars['ID'];
-  data: Scalars['String'];
-  flash?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID']['input'];
+  data: Scalars['String']['input'];
+  flash?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type SensorsProbeDataMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'probeProcessedData'>
-);
+export type SensorsProbeDataMutation = { __typename?: 'Mutation', probeProcessedData?: string | null };
 
 export type SensorsProcessedDataMutationVariables = Exact<{
-  id?: Maybe<Scalars['ID']>;
-  data: Scalars['String'];
-  flash?: Maybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  data: Scalars['String']['input'];
+  flash?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type SensorsProcessedDataMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'processedData'>
-);
+export type SensorsProcessedDataMutation = { __typename?: 'Mutation', processedData?: string | null };
 
 export type SensorsRemoveProcessedDataMutationVariables = Exact<{
-  id: Scalars['ID'];
-  time: Scalars['String'];
+  id: Scalars['ID']['input'];
+  time: Scalars['String']['input'];
 }>;
 
 
-export type SensorsRemoveProcessedDataMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeProcessedData'>
-);
+export type SensorsRemoveProcessedDataMutation = { __typename?: 'Mutation', removeProcessedData?: string | null };
 
 export type SensorsSendPingMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type SensorsSendPingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'pingSensors'>
-);
+export type SensorsSendPingMutation = { __typename?: 'Mutation', pingSensors?: string | null };
 
 export type SensorScanResponseMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   scan: SensorScanInput;
 }>;
 
 
-export type SensorScanResponseMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateSensorScan'>
-);
+export type SensorScanResponseMutation = { __typename?: 'Mutation', updateSensorScan?: string | null };
 
 export type SensorScanResultMutationVariables = Exact<{
-  id: Scalars['ID'];
-  result: Scalars['String'];
+  id: Scalars['ID']['input'];
+  result: Scalars['String']['input'];
 }>;
 
 
-export type SensorScanResultMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'sensorScanResult'>
-);
+export type SensorScanResultMutation = { __typename?: 'Mutation', sensorScanResult?: string | null };
 
 export type SensorsProbesQueryVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type SensorsProbesQuery = (
-  { __typename?: 'Query' }
-  & { probes: Array<(
-    { __typename?: 'Probes' }
-    & Pick<Probes, 'id'>
-  )> }
-);
+export type SensorsProbesQuery = { __typename?: 'Query', probes: Array<{ __typename?: 'Probes', id: string }> };
 
 export type SensorsSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  domain?: Maybe<Scalars['String']>;
+  simulatorId: Scalars['ID']['input'];
+  domain?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type SensorsSubscription = (
-  { __typename?: 'Subscription' }
-  & { sensorsUpdate: Array<(
-    { __typename?: 'Sensors' }
-    & Pick<Sensors, 'id' | 'scanResults' | 'scanRequest' | 'scanning' | 'pings' | 'pingMode' | 'timeSincePing' | 'domain' | 'interference' | 'history'>
-    & { processedData?: Maybe<Array<(
-      { __typename?: 'ProcessedData' }
-      & Pick<ProcessedData, 'value' | 'time'>
-    )>>, movement?: Maybe<(
-      { __typename?: 'Coordinates' }
-      & Pick<Coordinates, 'x' | 'y' | 'z'>
-    )>, segments?: Maybe<Array<Maybe<(
-      { __typename?: 'SensorsSegment' }
-      & Pick<SensorsSegment, 'ring' | 'line' | 'state'>
-    )>>>, presetAnswers?: Maybe<Array<Maybe<(
-      { __typename?: 'PresetAnswer' }
-      & Pick<PresetAnswer, 'label' | 'value'>
-    )>>>, scans?: Maybe<Array<Maybe<(
-      { __typename?: 'SensorScan' }
-      & Pick<SensorScan, 'id' | 'request' | 'mode' | 'location' | 'response' | 'scanning' | 'timestamp' | 'cancelled'>
-    )>>>, damage?: Maybe<(
-      { __typename?: 'Damage' }
-      & Pick<Damage, 'damaged'>
-    )>, power?: Maybe<(
-      { __typename?: 'Power' }
-      & Pick<Power, 'power' | 'powerLevels'>
-    )> }
-  )> }
-);
+export type SensorsSubscription = { __typename?: 'Subscription', sensorsUpdate: Array<{ __typename?: 'Sensors', id: string, scanResults?: string | null, scanRequest?: string | null, scanning?: boolean | null, pings?: boolean | null, pingMode?: Ping_Modes | null, timeSincePing?: number | null, domain: string, interference?: number | null, history?: boolean | null, processedData?: Array<{ __typename?: 'ProcessedData', value: string, time: string }> | null, movement?: { __typename?: 'Coordinates', x?: number | null, y?: number | null, z?: number | null } | null, segments?: Array<{ __typename?: 'SensorsSegment', ring?: number | null, line?: number | null, state?: boolean | null } | null> | null, presetAnswers?: Array<{ __typename?: 'PresetAnswer', label: string, value: string } | null> | null, scans?: Array<{ __typename?: 'SensorScan', id: string, request?: string | null, mode?: string | null, location?: string | null, response?: string | null, scanning?: boolean | null, timestamp?: string | null, cancelled?: boolean | null } | null> | null, damage?: { __typename?: 'Damage', damaged?: boolean | null } | null, power?: { __typename?: 'Power', power?: number | null, powerLevels?: Array<number | null> | null } | null }> };
 
 export type SetCalculatedTargetMutationVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
   coordinates: CoordinatesInput;
-  contactId?: Maybe<Scalars['ID']>;
+  contactId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type SetCalculatedTargetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTargetingCalculatedTarget'>
-);
+export type SetCalculatedTargetMutation = { __typename?: 'Mutation', setTargetingCalculatedTarget?: string | null };
 
 export type SensorsSetHistoryMutationVariables = Exact<{
-  id: Scalars['ID'];
-  history: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  history: Scalars['Boolean']['input'];
 }>;
 
 
-export type SensorsSetHistoryMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setSensorsHistory'>
-);
+export type SensorsSetHistoryMutation = { __typename?: 'Mutation', setSensorsHistory?: string | null };
 
 export type SensorsSetPingModeMutationVariables = Exact<{
-  id: Scalars['ID'];
-  mode?: Maybe<Ping_Modes>;
+  id: Scalars['ID']['input'];
+  mode?: InputMaybe<Ping_Modes>;
 }>;
 
 
-export type SensorsSetPingModeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setSensorPingMode'>
-);
+export type SensorsSetPingModeMutation = { __typename?: 'Mutation', setSensorPingMode?: string | null };
 
 export type TargetingRangeQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type TargetingRangeQuery = (
-  { __typename?: 'Query' }
-  & { targeting?: Maybe<Array<Maybe<(
-    { __typename?: 'Targeting' }
-    & Pick<Targeting, 'id' | 'range'>
-  )>>> }
-);
+export type TargetingRangeQuery = { __typename?: 'Query', targeting?: Array<{ __typename?: 'Targeting', id?: string | null, range?: number | null } | null> | null };
 
 export type NewLayerMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  name: Scalars['String'];
+  mapId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type NewLayerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addTacticalMapLayer'>
-);
+export type NewLayerMutation = { __typename?: 'Mutation', addTacticalMapLayer?: string | null };
 
 export type AddTacticalItemMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
   item: TacticalItemInput;
 }>;
 
 
-export type AddTacticalItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addTacticalMapItem'>
-);
+export type AddTacticalItemMutation = { __typename?: 'Mutation', addTacticalMapItem?: string | null };
 
 export type AssetFoldersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AssetFoldersSubscription = (
-  { __typename?: 'Subscription' }
-  & { assetFolderChange: Array<(
-    { __typename?: 'AssetFolder' }
-    & Pick<AssetFolder, 'name' | 'fullPath' | 'id' | 'folderPath'>
-    & { objects: Array<(
-      { __typename?: 'AssetObject' }
-      & Pick<AssetObject, 'id' | 'name' | 'fullPath' | 'url'>
-    )> }
-  )> }
-);
+export type AssetFoldersSubscription = { __typename?: 'Subscription', assetFolderChange: Array<{ __typename?: 'AssetFolder', name: string, fullPath: string, id: string, folderPath: string, objects: Array<{ __typename?: 'AssetObject', id: string, name: string, fullPath: string, url: string }> }> };
 
 export type AssetsAddFolderMutationVariables = Exact<{
-  name: Scalars['String'];
-  fullPath: Scalars['String'];
-  folderPath: Scalars['String'];
+  name: Scalars['String']['input'];
+  fullPath: Scalars['String']['input'];
+  folderPath: Scalars['String']['input'];
 }>;
 
 
-export type AssetsAddFolderMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addAssetFolder'>
-);
+export type AssetsAddFolderMutation = { __typename?: 'Mutation', addAssetFolder?: string | null };
 
 export type DuplicateTacticalMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DuplicateTacticalMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'duplicateTacticalMap'>
-);
+export type DuplicateTacticalMutation = { __typename?: 'Mutation', duplicateTacticalMap?: string | null };
 
 export type FreezeTacticalMapMutationVariables = Exact<{
-  id: Scalars['ID'];
-  freeze: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  freeze: Scalars['Boolean']['input'];
 }>;
 
 
-export type FreezeTacticalMapMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'freezeTacticalMap'>
-);
+export type FreezeTacticalMapMutation = { __typename?: 'Mutation', freezeTacticalMap?: string | null };
 
 export type NewTacticalMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type NewTacticalMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'newTacticalMap'>
-);
+export type NewTacticalMutation = { __typename?: 'Mutation', newTacticalMap?: string | null };
 
 export type AssetsRemoveObjectMutationVariables = Exact<{
-  fullPath: Scalars['String'];
+  fullPath: Scalars['String']['input'];
 }>;
 
 
-export type AssetsRemoveObjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeAssetObject'>
-);
+export type AssetsRemoveObjectMutation = { __typename?: 'Mutation', removeAssetObject?: string | null };
 
 export type AssetsRemoveFolderMutationVariables = Exact<{
-  fullPath: Scalars['String'];
+  fullPath: Scalars['String']['input'];
 }>;
 
 
-export type AssetsRemoveFolderMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeAssetFolder'>
-);
+export type AssetsRemoveFolderMutation = { __typename?: 'Mutation', removeAssetFolder?: string | null };
 
 export type RemoveLayerMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveLayerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTacticalMapLayer'>
-);
+export type RemoveLayerMutation = { __typename?: 'Mutation', removeTacticalMapLayer?: string | null };
 
 export type RemoveMapMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveMapMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTacticalMap'>
-);
+export type RemoveMapMutation = { __typename?: 'Mutation', removeTacticalMap?: string | null };
 
 export type RemoveTacticalItemMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
-  itemId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
+  itemId: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveTacticalItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTacticalMapItem'>
-);
+export type RemoveTacticalItemMutation = { __typename?: 'Mutation', removeTacticalMapItem?: string | null };
 
 export type RemoveTacticalPathMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
-  pathId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
+  pathId: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveTacticalPathMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTacticalMapPath'>
-);
+export type RemoveTacticalPathMutation = { __typename?: 'Mutation', removeTacticalMapPath?: string | null };
 
 export type ReorderTacticalLayerMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layer: Scalars['ID'];
-  order: Scalars['Int'];
+  mapId: Scalars['ID']['input'];
+  layer: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
 }>;
 
 
-export type ReorderTacticalLayerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reorderTacticalMapLayer'>
-);
+export type ReorderTacticalLayerMutation = { __typename?: 'Mutation', reorderTacticalMapLayer?: string | null };
 
 export type TacticalMapUpdateSubscriptionVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type TacticalMapUpdateSubscription = (
-  { __typename?: 'Subscription' }
-  & { tacticalMapUpdate?: Maybe<(
-    { __typename?: 'TacticalMap' }
-    & Pick<TacticalMap, 'id' | 'name' | 'interval' | 'frozen' | 'template'>
-    & { flight?: Maybe<(
-      { __typename?: 'Flight' }
-      & Pick<Flight, 'id'>
-    )>, layers?: Maybe<Array<Maybe<(
-      { __typename?: 'TacticalLayer' }
-      & Pick<TacticalLayer, 'id' | 'name' | 'type' | 'image' | 'color' | 'labels' | 'gridCols' | 'gridRows' | 'advance' | 'asset' | 'autoplay' | 'loop' | 'playbackSpeed' | 'opacity' | 'mute'>
-      & { items?: Maybe<Array<Maybe<(
-        { __typename?: 'TacticalItem' }
-        & Pick<TacticalItem, 'id' | 'layerId' | 'font' | 'label' | 'fontSize' | 'fontColor' | 'icon' | 'size' | 'speed' | 'rotation' | 'opacity' | 'flash' | 'ijkl' | 'wasd' | 'thrusters' | 'rotationMatch'>
-        & { velocity?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )>, location?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )>, destination?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )>, thrusterControls?: Maybe<(
-          { __typename?: 'ThrusterControls' }
-          & Pick<ThrusterControls, 'rotation' | 'reversed' | 'matchRotation' | 'up' | 'down' | 'left' | 'right'>
-        )> }
-      )>>>, paths?: Maybe<Array<Maybe<(
-        { __typename?: 'TacticalPath' }
-        & Pick<TacticalPath, 'id' | 'layerId' | 'color' | 'width' | 'arrow'>
-        & { start?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )>, end?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )>, c1?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )>, c2?: Maybe<(
-          { __typename?: 'Coordinates' }
-          & Pick<Coordinates, 'x' | 'y'>
-        )> }
-      )>>> }
-    )>>> }
-  )> }
-);
+export type TacticalMapUpdateSubscription = { __typename?: 'Subscription', tacticalMapUpdate?: { __typename?: 'TacticalMap', id?: string | null, name?: string | null, interval?: number | null, frozen?: boolean | null, template?: boolean | null, flight?: { __typename?: 'Flight', id: string } | null, layers?: Array<{ __typename?: 'TacticalLayer', id?: string | null, name?: string | null, type?: Tactical_Types | null, image?: string | null, color?: string | null, labels?: boolean | null, gridCols?: number | null, gridRows?: number | null, advance?: boolean | null, asset?: string | null, autoplay?: boolean | null, loop?: boolean | null, playbackSpeed?: number | null, opacity?: number | null, mute?: boolean | null, items?: Array<{ __typename?: 'TacticalItem', id?: string | null, layerId?: string | null, font?: string | null, label?: string | null, fontSize?: number | null, fontColor?: string | null, icon?: string | null, size?: number | null, speed?: number | null, rotation?: number | null, opacity?: number | null, flash?: boolean | null, ijkl?: boolean | null, wasd?: boolean | null, thrusters?: boolean | null, rotationMatch?: boolean | null, velocity?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null, location?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null, destination?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null, thrusterControls?: { __typename?: 'ThrusterControls', rotation?: string | null, reversed?: boolean | null, matchRotation?: boolean | null, up?: string | null, down?: string | null, left?: string | null, right?: string | null } | null } | null> | null, paths?: Array<{ __typename?: 'TacticalPath', id?: string | null, layerId?: string | null, color?: string | null, width?: number | null, arrow?: boolean | null, start?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null, end?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null, c1?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null, c2?: { __typename?: 'Coordinates', x?: number | null, y?: number | null } | null } | null> | null } | null> | null } | null };
 
 export type TacticalMapListSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TacticalMapListSubscription = (
-  { __typename?: 'Subscription' }
-  & { tacticalMapsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'TacticalMap' }
-    & Pick<TacticalMap, 'id' | 'name' | 'template'>
-    & { flight?: Maybe<(
-      { __typename?: 'Flight' }
-      & Pick<Flight, 'id'>
-    )> }
-  )>>> }
-);
+export type TacticalMapListSubscription = { __typename?: 'Subscription', tacticalMapsUpdate?: Array<{ __typename?: 'TacticalMap', id?: string | null, name?: string | null, template?: boolean | null, flight?: { __typename?: 'Flight', id: string } | null } | null> | null };
 
 export type UpdateLayerMutationVariables = Exact<{
-  mapId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
   layer: TacticalLayerInput;
 }>;
 
 
-export type UpdateLayerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateTacticalMapLayer'>
-);
+export type UpdateLayerMutation = { __typename?: 'Mutation', updateTacticalMapLayer?: string | null };
 
 export type UpdateTacticalItemMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
   item: TacticalItemInput;
 }>;
 
 
-export type UpdateTacticalItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateTacticalMapItem'>
-);
+export type UpdateTacticalItemMutation = { __typename?: 'Mutation', updateTacticalMapItem?: string | null };
 
 export type UpdateTacticalPathMutationVariables = Exact<{
-  mapId: Scalars['ID'];
-  layerId: Scalars['ID'];
+  mapId: Scalars['ID']['input'];
+  layerId: Scalars['ID']['input'];
   path: TacticalPathInput;
 }>;
 
 
-export type UpdateTacticalPathMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateTacticalMapPath'>
-);
+export type UpdateTacticalPathMutation = { __typename?: 'Mutation', updateTacticalMapPath?: string | null };
 
 export type ProbeEquipmentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProbeEquipmentQuery = (
-  { __typename?: 'Query' }
-  & { probeEquipment: Array<(
-    { __typename?: 'ProbeEquipment' }
-    & Pick<ProbeEquipment, 'id' | 'name'>
-  )> }
-);
+export type ProbeEquipmentQuery = { __typename?: 'Query', probeEquipment: Array<{ __typename?: 'ProbeEquipment', id?: string | null, name?: string | null }> };
 
 export type ActivateTaskFlowMutationVariables = Exact<{
-  id: Scalars['ID'];
-  simulatorId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type ActivateTaskFlowMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowActivate'>
-);
+export type ActivateTaskFlowMutation = { __typename?: 'Mutation', taskFlowActivate?: string | null };
 
 export type TaskFlowListSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TaskFlowListSubscription = (
-  { __typename?: 'Subscription' }
-  & { taskFlows: Array<(
-    { __typename?: 'TaskFlow' }
-    & Pick<TaskFlow, 'id' | 'name' | 'category'>
-  )> }
-);
+export type TaskFlowListSubscription = { __typename?: 'Subscription', taskFlows: Array<{ __typename?: 'TaskFlow', id: string, name: string, category: string }> };
 
 export type TaskFlowSubSubscriptionVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type TaskFlowSubSubscription = (
-  { __typename?: 'Subscription' }
-  & { taskFlows: Array<(
-    { __typename?: 'TaskFlow' }
-    & Pick<TaskFlow, 'id' | 'name' | 'category' | 'currentStep' | 'completed'>
-    & { steps: Array<(
-      { __typename?: 'TaskFlowStep' }
-      & Pick<TaskFlowStep, 'id' | 'name' | 'completeAll' | 'delay' | 'completed'>
-      & { activeTasks: Array<(
-        { __typename?: 'Task' }
-        & Pick<Task, 'id' | 'station' | 'definition' | 'verified'>
-      )> }
-    )> }
-  )> }
-);
+export type TaskFlowSubSubscription = { __typename?: 'Subscription', taskFlows: Array<{ __typename?: 'TaskFlow', id: string, name: string, category: string, currentStep: number, completed: boolean, steps: Array<{ __typename?: 'TaskFlowStep', id: string, name: string, completeAll: boolean, delay: number, completed: boolean, activeTasks: Array<{ __typename?: 'Task', id: string, station?: string | null, definition: string, verified?: boolean | null }> }> }> };
 
-export type TemplateFragmentFragment = (
-  { __typename: 'Template' }
-  & Pick<Template, 'id'>
-);
+export type TemplateFragmentFragment = { __typename: 'Template', id?: string | null };
 
 export type TemplateQueryVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type TemplateQuery = (
-  { __typename?: 'Query' }
-  & { _template?: Maybe<(
-    { __typename?: 'Template' }
-    & TemplateFragmentFragment
-  )> }
-);
+export type TemplateQuery = { __typename?: 'Query', _template?: { __typename: 'Template', id?: string | null } | null };
 
 export type TemplateUpdateSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type TemplateUpdateSubscription = (
-  { __typename?: 'Subscription' }
-  & { _templateUpdate?: Maybe<(
-    { __typename: 'Template' }
-    & TemplateFragmentFragment
-  )> }
-);
+export type TemplateUpdateSubscription = { __typename?: 'Subscription', _templateUpdate?: { __typename: 'Template', id?: string | null } | null };
 
 export type AddMissionMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type AddMissionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createMission'>
-);
+export type AddMissionMutation = { __typename?: 'Mutation', createMission?: string | null };
 
 export type ExecuteMacrosMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  macros: Array<Maybe<MacroInput>> | Maybe<MacroInput>;
+  simulatorId: Scalars['ID']['input'];
+  macros: Array<InputMaybe<MacroInput>> | InputMaybe<MacroInput>;
 }>;
 
 
-export type ExecuteMacrosMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'triggerMacros'>
-);
+export type ExecuteMacrosMutation = { __typename?: 'Mutation', triggerMacros?: string | null };
 
 export type SetSimulatorMissionMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  missionId: Scalars['ID'];
-  stepId?: Maybe<Scalars['ID']>;
+  simulatorId: Scalars['ID']['input'];
+  missionId: Scalars['ID']['input'];
+  stepId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type SetSimulatorMissionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setSimulatorMission'>
-);
+export type SetSimulatorMissionMutation = { __typename?: 'Mutation', setSimulatorMission?: string | null };
 
 export type SetSimulatorTimelineStepMutationVariables = Exact<{
-  simulatorId: Scalars['ID'];
-  auxTimelineId?: Maybe<Scalars['ID']>;
-  step: Scalars['Int'];
+  simulatorId: Scalars['ID']['input'];
+  auxTimelineId?: InputMaybe<Scalars['ID']['input']>;
+  step: Scalars['Int']['input'];
 }>;
 
 
-export type SetSimulatorTimelineStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setSimulatorTimelineStep'>
-);
+export type SetSimulatorTimelineStepMutation = { __typename?: 'Mutation', setSimulatorTimelineStep?: string | null };
 
 export type TimelineSimulatorSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type TimelineSimulatorSubscription = (
-  { __typename?: 'Subscription' }
-  & { simulatorsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id' | 'currentTimelineStep' | 'executedTimelineSteps' | 'missionConfigs'>
-    & { stationSet?: Maybe<(
-      { __typename?: 'StationSet' }
-      & Pick<StationSet, 'id'>
-    )>, mission?: Maybe<(
-      { __typename?: 'Mission' }
-      & Pick<Mission, 'id'>
-    )> }
-  )>>> }
-);
+export type TimelineSimulatorSubscription = { __typename?: 'Subscription', simulatorsUpdate?: Array<{ __typename?: 'Simulator', id: string, currentTimelineStep?: number | null, executedTimelineSteps?: Array<string> | null, missionConfigs?: {[key: string]: any} | null, stationSet?: { __typename?: 'StationSet', id: string } | null, mission?: { __typename?: 'Mission', id: string } | null } | null> | null };
 
 export type TimelineMissionSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TimelineMissionSubscription = (
-  { __typename?: 'Subscription' }
-  & { missionsUpdate: Array<(
-    { __typename?: 'Mission' }
-    & Pick<Mission, 'id' | 'name' | 'description' | 'category'>
-    & { timeline: Array<(
-      { __typename?: 'TimelineStep' }
-      & Pick<TimelineStep, 'id' | 'name' | 'order' | 'description'>
-      & { timelineItems: Array<(
-        { __typename?: 'TimelineItem' }
-        & Pick<TimelineItem, 'id' | 'name' | 'type' | 'args' | 'event' | 'delay'>
-      )> }
-    )> }
-  )> }
-);
+export type TimelineMissionSubscription = { __typename?: 'Subscription', missionsUpdate: Array<{ __typename?: 'Mission', id: string, name?: string | null, description?: string | null, category?: string | null, timeline: Array<{ __typename?: 'TimelineStep', id: string, name: string, order?: number | null, description?: string | null, timelineItems: Array<{ __typename?: 'TimelineItem', id: string, name?: string | null, type?: string | null, args?: string | null, event: string, delay?: number | null }> }> }> };
 
 export type TractorBeamTargetLabelMutationVariables = Exact<{
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  label: Scalars['String'];
+  id: Scalars['ID']['input'];
+  beam: Scalars['ID']['input'];
+  label: Scalars['String']['input'];
 }>;
 
 
-export type TractorBeamTargetLabelMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTractorBeamTargetLabel'>
-);
+export type TractorBeamTargetLabelMutation = { __typename?: 'Mutation', setTractorBeamTargetLabel?: string | null };
 
 export type TractorBeamStateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  state: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  beam: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
 }>;
 
 
-export type TractorBeamStateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTractorBeamState'>
-);
+export type TractorBeamStateMutation = { __typename?: 'Mutation', setTractorBeamState?: string | null };
 
 export type TractorBeamStrengthMutationVariables = Exact<{
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  strength: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  beam: Scalars['ID']['input'];
+  strength: Scalars['Float']['input'];
 }>;
 
 
-export type TractorBeamStrengthMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTractorBeamStrength'>
-);
+export type TractorBeamStrengthMutation = { __typename?: 'Mutation', setTractorBeamStrength?: string | null };
 
 export type TractorBeamStressMutationVariables = Exact<{
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  stress: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  beam: Scalars['ID']['input'];
+  stress: Scalars['Float']['input'];
 }>;
 
 
-export type TractorBeamStressMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTractorBeamStress'>
-);
+export type TractorBeamStressMutation = { __typename?: 'Mutation', setTractorBeamStress?: string | null };
 
 export type TractorBeamUpdateSubscriptionVariables = Exact<{
-  simulatorId: Scalars['ID'];
+  simulatorId: Scalars['ID']['input'];
 }>;
 
 
-export type TractorBeamUpdateSubscription = (
-  { __typename?: 'Subscription' }
-  & { tractorBeamUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'TractorBeam' }
-    & Pick<TractorBeam, 'id' | 'name' | 'displayName'>
-    & { beams: Array<(
-      { __typename?: 'TractorBeamBeam' }
-      & Pick<TractorBeamBeam, 'id' | 'state' | 'target' | 'targetLabel' | 'strength' | 'stress' | 'scanning'>
-    )>, damage: (
-      { __typename?: 'Damage' }
-      & Pick<Damage, 'damaged' | 'report'>
-    ), power: (
-      { __typename?: 'Power' }
-      & Pick<Power, 'power' | 'powerLevels'>
-    ) }
-  )>>> }
-);
+export type TractorBeamUpdateSubscription = { __typename?: 'Subscription', tractorBeamUpdate?: Array<{ __typename?: 'TractorBeam', id: string, name: string, displayName: string, beams: Array<{ __typename?: 'TractorBeamBeam', id: string, state: boolean, target: boolean, targetLabel: string, strength: number, stress: number, scanning: boolean }>, damage: { __typename?: 'Damage', damaged?: boolean | null, report?: string | null }, power: { __typename?: 'Power', power?: number | null, powerLevels?: Array<number | null> | null } } | null> | null };
 
 export type TractorBeamTargetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  beam: Scalars['ID'];
-  state: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  beam: Scalars['ID']['input'];
+  state: Scalars['Boolean']['input'];
 }>;
 
 
-export type TractorBeamTargetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTractorBeamTarget'>
-);
+export type TractorBeamTargetMutation = { __typename?: 'Mutation', setTractorBeamTarget?: string | null };
 
 export type ClientChangedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ClientChangedSubscription = (
-  { __typename?: 'Subscription' }
-  & { clientChanged?: Maybe<Array<Maybe<(
-    { __typename?: 'Client' }
-    & Pick<Client, 'id' | 'label' | 'mobile' | 'cards' | 'loginName' | 'loginState' | 'training' | 'soundPlayer'>
-    & { flight?: Maybe<(
-      { __typename?: 'Flight' }
-      & Pick<Flight, 'id' | 'name' | 'date'>
-      & { simulators?: Maybe<Array<Maybe<(
-        { __typename?: 'Simulator' }
-        & Pick<Simulator, 'id' | 'name'>
-      )>>> }
-    )>, simulator?: Maybe<(
-      { __typename?: 'Simulator' }
-      & Pick<Simulator, 'id' | 'name' | 'alertlevel' | 'layout' | 'interfaces'>
-      & { stations?: Maybe<Array<(
-        { __typename?: 'Station' }
-        & Pick<Station, 'name'>
-      )>> }
-    )>, station?: Maybe<(
-      { __typename?: 'Station' }
-      & Pick<Station, 'name'>
-    )> }
-  )>>> }
-);
+export type ClientChangedSubscription = { __typename?: 'Subscription', clientChanged?: Array<{ __typename?: 'Client', id: string, label?: string | null, mobile?: boolean | null, cards?: Array<string | null> | null, loginName?: string | null, loginState?: string | null, training?: boolean | null, soundPlayer?: boolean | null, flight?: { __typename?: 'Flight', id: string, name?: string | null, date?: string | null, simulators?: Array<{ __typename?: 'Simulator', id: string, name?: string | null } | null> | null } | null, simulator?: { __typename?: 'Simulator', id: string, name?: string | null, alertlevel?: string | null, layout?: string | null, interfaces?: Array<string | null> | null, stations?: Array<{ __typename?: 'Station', name: string }> | null } | null, station?: { __typename?: 'Station', name: string } | null } | null> | null };
 
 export type DisconnectClientMutationVariables = Exact<{
-  client: Scalars['ID'];
+  client: Scalars['ID']['input'];
 }>;
 
 
-export type DisconnectClientMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientDisconnect'>
-);
+export type DisconnectClientMutation = { __typename?: 'Mutation', clientDisconnect?: string | null };
 
 export type FlightsSubSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FlightsSubSubscription = (
-  { __typename?: 'Subscription' }
-  & { flightsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Flight' }
-    & Pick<Flight, 'id' | 'name' | 'date' | 'running'>
-    & { simulators?: Maybe<Array<Maybe<(
-      { __typename?: 'Simulator' }
-      & Pick<Simulator, 'id' | 'name'>
-      & { stations?: Maybe<Array<(
-        { __typename?: 'Station' }
-        & Pick<Station, 'name'>
-      )>> }
-    )>>> }
-  )>>> }
-);
+export type FlightsSubSubscription = { __typename?: 'Subscription', flightsUpdate?: Array<{ __typename?: 'Flight', id: string, name?: string | null, date?: string | null, running?: boolean | null, simulators?: Array<{ __typename?: 'Simulator', id: string, name?: string | null, stations?: Array<{ __typename?: 'Station', name: string }> | null } | null> | null } | null> | null };
 
 export type ClientsInterfacesAndKeyboardsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ClientsInterfacesAndKeyboardsQuery = (
-  { __typename?: 'Query' }
-  & { interfaces?: Maybe<Array<Maybe<(
-    { __typename?: 'Interface' }
-    & Pick<Interface, 'id' | 'name'>
-  )>>>, keyboard?: Maybe<Array<Maybe<(
-    { __typename?: 'Keyboard' }
-    & Pick<Keyboard, 'id' | 'name'>
-  )>>>, dmxSets: Array<(
-    { __typename?: 'DMXSet' }
-    & Pick<DmxSet, 'id' | 'name'>
-  )> }
-);
+export type ClientsInterfacesAndKeyboardsQuery = { __typename?: 'Query', interfaces?: Array<{ __typename?: 'Interface', id?: string | null, name?: string | null } | null> | null, keyboard?: Array<{ __typename?: 'Keyboard', id: string, name?: string | null } | null> | null, dmxSets: Array<{ __typename?: 'DMXSet', id: string, name: string }> };
 
 export type SetClientFlightMutationVariables = Exact<{
-  client: Scalars['ID'];
-  id: Scalars['ID'];
+  client: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type SetClientFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientSetFlight'>
-);
+export type SetClientFlightMutation = { __typename?: 'Mutation', clientSetFlight?: string | null };
 
 export type SetClientSimulatorMutationVariables = Exact<{
-  client: Scalars['ID'];
-  id: Scalars['ID'];
+  client: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type SetClientSimulatorMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientSetSimulator'>
-);
+export type SetClientSimulatorMutation = { __typename?: 'Mutation', clientSetSimulator?: string | null };
 
 export type SetClientStationMutationVariables = Exact<{
-  client: Scalars['ID'];
-  id: Scalars['ID'];
+  client: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type SetClientStationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientSetStation'>
-);
+export type SetClientStationMutation = { __typename?: 'Mutation', clientSetStation?: string | null };
 
 export type SetSoundPlayerMutationVariables = Exact<{
-  id: Scalars['ID'];
-  soundPlayer: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  soundPlayer: Scalars['Boolean']['input'];
 }>;
 
 
-export type SetSoundPlayerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'clientSetSoundPlayer'>
-);
+export type SetSoundPlayerMutation = { __typename?: 'Mutation', clientSetSoundPlayer?: string | null };
 
 export type ApplyClientSetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  flightId: Scalars['ID'];
-  simulatorId: Scalars['ID'];
-  templateId: Scalars['ID'];
-  stationSetId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  flightId: Scalars['ID']['input'];
+  simulatorId: Scalars['ID']['input'];
+  templateId: Scalars['ID']['input'];
+  stationSetId: Scalars['ID']['input'];
 }>;
 
 
-export type ApplyClientSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'applyClientSet'>
-);
+export type ApplyClientSetMutation = { __typename?: 'Mutation', applyClientSet?: string | null };
 
 export type DeleteFlightMutationVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteFlight'>
-);
+export type DeleteFlightMutation = { __typename?: 'Mutation', deleteFlight?: string | null };
 
 export type FlightQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FlightQuery = (
-  { __typename?: 'Query' }
-  & { flights: Array<(
-    { __typename?: 'Flight' }
-    & Pick<Flight, 'id' | 'name' | 'flightType' | 'transmitted' | 'running'>
-  )> }
-);
+export type FlightQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, name?: string | null, flightType?: string | null, transmitted?: boolean | null, running?: boolean | null }> };
 
 export type PauseFlightMutationVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
 }>;
 
 
-export type PauseFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'pauseFlight'>
-);
+export type PauseFlightMutation = { __typename?: 'Mutation', pauseFlight?: string | null };
 
 export type ResetFlightMutationVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
 }>;
 
 
-export type ResetFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'resetFlight'>
-);
+export type ResetFlightMutation = { __typename?: 'Mutation', resetFlight?: string | null };
 
 export type LobbyResumeFlightMutationVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
 }>;
 
 
-export type LobbyResumeFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'resumeFlight'>
-);
+export type LobbyResumeFlightMutation = { __typename?: 'Mutation', resumeFlight?: string | null };
 
 export type SetsPickerQueryVariables = Exact<{
-  flightId?: Maybe<Scalars['ID']>;
+  flightId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type SetsPickerQuery = (
-  { __typename?: 'Query' }
-  & { flights: Array<(
-    { __typename?: 'Flight' }
-    & Pick<Flight, 'id' | 'name'>
-    & { simulators?: Maybe<Array<Maybe<(
-      { __typename?: 'Simulator' }
-      & Pick<Simulator, 'id' | 'templateId' | 'name'>
-      & { stationSet?: Maybe<(
-        { __typename?: 'StationSet' }
-        & Pick<StationSet, 'id' | 'name'>
-      )> }
-    )>>> }
-  )>, sets?: Maybe<Array<Maybe<(
-    { __typename?: 'Set' }
-    & Pick<Set, 'id' | 'name'>
-    & { clients: Array<(
-      { __typename?: 'SetClient' }
-      & Pick<SetClient, 'id' | 'station'>
-      & { client?: Maybe<(
-        { __typename?: 'Client' }
-        & Pick<Client, 'id'>
-      )>, simulator?: Maybe<(
-        { __typename?: 'Simulator' }
-        & Pick<Simulator, 'id' | 'name'>
-      )>, stationSet?: Maybe<(
-        { __typename?: 'StationSet' }
-        & Pick<StationSet, 'id' | 'name'>
-      )> }
-    )> }
-  )>>> }
-);
+export type SetsPickerQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, name?: string | null, simulators?: Array<{ __typename?: 'Simulator', id: string, templateId?: string | null, name?: string | null, stationSet?: { __typename?: 'StationSet', id: string, name: string } | null } | null> | null }>, sets?: Array<{ __typename?: 'Set', id: string, name: string, clients: Array<{ __typename?: 'SetClient', id?: string | null, station?: string | null, client?: { __typename?: 'Client', id: string } | null, simulator?: { __typename?: 'Simulator', id: string, name?: string | null } | null, stationSet?: { __typename?: 'StationSet', id: string, name: string } | null }> } | null> | null };
 
 export type TransmitFlightMutationVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
 }>;
 
 
-export type TransmitFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'assignSpaceEdventuresFlightRecord'>
-);
+export type TransmitFlightMutation = { __typename?: 'Mutation', assignSpaceEdventuresFlightRecord?: string | null };
 
 export type DmxConfigCreateMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxConfigCreateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxConfigCreate'>
-);
+export type DmxConfigCreateMutation = { __typename?: 'Mutation', dmxConfigCreate?: string | null };
 
 export type DmxConfigDuplicateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxConfigDuplicateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxConfigDuplicate'>
-);
+export type DmxConfigDuplicateMutation = { __typename?: 'Mutation', dmxConfigDuplicate?: string | null };
 
 export type DmxConfigRemoveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type DmxConfigRemoveMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxConfigRemove'>
-);
+export type DmxConfigRemoveMutation = { __typename?: 'Mutation', dmxConfigRemove?: string | null };
 
 export type DmxConfigSetActionStrengthMutationVariables = Exact<{
-  id: Scalars['ID'];
-  actionStrength: Scalars['Float'];
+  id: Scalars['ID']['input'];
+  actionStrength: Scalars['Float']['input'];
 }>;
 
 
-export type DmxConfigSetActionStrengthMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxConfigSetActionStrength'>
-);
+export type DmxConfigSetActionStrengthMutation = { __typename?: 'Mutation', dmxConfigSetActionStrength?: string | null };
 
 export type DmxConfigSetConfigMutationVariables = Exact<{
-  id: Scalars['ID'];
-  config: Scalars['JSON'];
+  id: Scalars['ID']['input'];
+  config: Scalars['JSON']['input'];
 }>;
 
 
-export type DmxConfigSetConfigMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxConfigSetConfig'>
-);
+export type DmxConfigSetConfigMutation = { __typename?: 'Mutation', dmxConfigSetConfig?: string | null };
 
 export type DmxConfigSetNameMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxConfigSetNameMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxConfigSetName'>
-);
+export type DmxConfigSetNameMutation = { __typename?: 'Mutation', dmxConfigSetName?: string | null };
 
 export type DmxConfigsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DmxConfigsSubscription = (
-  { __typename?: 'Subscription' }
-  & { dmxConfigs: Array<(
-    { __typename?: 'DMXConfig' }
-    & Pick<DmxConfig, 'id' | 'name' | 'config' | 'actionStrength'>
-  )> }
-);
+export type DmxConfigsSubscription = { __typename?: 'Subscription', dmxConfigs: Array<{ __typename?: 'DMXConfig', id: string, name: string, config: {[key: string]: any}, actionStrength: number }> };
 
 export type DmxDeviceCreateMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxDeviceCreateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxDeviceCreate'>
-);
+export type DmxDeviceCreateMutation = { __typename?: 'Mutation', dmxDeviceCreate?: string | null };
 
 export type DmxDeviceRemoveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type DmxDeviceRemoveMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxDeviceRemove'>
-);
+export type DmxDeviceRemoveMutation = { __typename?: 'Mutation', dmxDeviceRemove?: string | null };
 
 export type DmxDeviceSetChannelsMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   channels: Array<DmxChannelProperty> | DmxChannelProperty;
 }>;
 
 
-export type DmxDeviceSetChannelsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxDeviceSetChannels'>
-);
+export type DmxDeviceSetChannelsMutation = { __typename?: 'Mutation', dmxDeviceSetChannels?: string | null };
 
 export type DmxDeviceSetNameMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxDeviceSetNameMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxDeviceSetName'>
-);
+export type DmxDeviceSetNameMutation = { __typename?: 'Mutation', dmxDeviceSetName?: string | null };
 
 export type DmxDevicesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DmxDevicesSubscription = (
-  { __typename?: 'Subscription' }
-  & { dmxDevices: Array<(
-    { __typename?: 'DMXDevice' }
-    & Pick<DmxDevice, 'id' | 'name' | 'channels'>
-  )> }
-);
+export type DmxDevicesSubscription = { __typename?: 'Subscription', dmxDevices: Array<{ __typename?: 'DMXDevice', id: string, name: string, channels: Array<DmxChannelProperty> }> };
 
 export type DmxFixtureCreateMutationVariables = Exact<{
-  name: Scalars['String'];
-  dmxSetId: Scalars['ID'];
-  dmxDeviceId: Scalars['ID'];
+  name: Scalars['String']['input'];
+  dmxSetId: Scalars['ID']['input'];
+  dmxDeviceId: Scalars['ID']['input'];
 }>;
 
 
-export type DmxFixtureCreateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureCreate'>
-);
+export type DmxFixtureCreateMutation = { __typename?: 'Mutation', dmxFixtureCreate?: string | null };
 
 export type DmxFixtureRemoveMutationVariables = Exact<{
-  id: Scalars['ID'];
-  dmxSetId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  dmxSetId: Scalars['ID']['input'];
 }>;
 
 
-export type DmxFixtureRemoveMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureRemove'>
-);
+export type DmxFixtureRemoveMutation = { __typename?: 'Mutation', dmxFixtureRemove?: string | null };
 
 export type DmxFixtureSetChannelMutationVariables = Exact<{
-  id: Scalars['ID'];
-  channel: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  channel: Scalars['Int']['input'];
 }>;
 
 
-export type DmxFixtureSetChannelMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureSetChannel'>
-);
+export type DmxFixtureSetChannelMutation = { __typename?: 'Mutation', dmxFixtureSetChannel?: string | null };
 
 export type DmxFixtureSetDmxDeviceMutationVariables = Exact<{
-  id: Scalars['ID'];
-  deviceId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  deviceId: Scalars['ID']['input'];
 }>;
 
 
-export type DmxFixtureSetDmxDeviceMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureSetDMXDevice'>
-);
+export type DmxFixtureSetDmxDeviceMutation = { __typename?: 'Mutation', dmxFixtureSetDMXDevice?: string | null };
 
 export type DmxFixtureSetModeMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   mode: DmxFixtureMode;
 }>;
 
 
-export type DmxFixtureSetModeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureSetMode'>
-);
+export type DmxFixtureSetModeMutation = { __typename?: 'Mutation', dmxFixtureSetMode?: string | null };
 
 export type DmxFixtureSetNameMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxFixtureSetNameMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureSetName'>
-);
+export type DmxFixtureSetNameMutation = { __typename?: 'Mutation', dmxFixtureSetName?: string | null };
 
 export type DmxFixtureSetPassiveChannelsMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   passiveChannels: DmxPassiveChannelsInput;
 }>;
 
 
-export type DmxFixtureSetPassiveChannelsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureSetPassiveChannels'>
-);
+export type DmxFixtureSetPassiveChannelsMutation = { __typename?: 'Mutation', dmxFixtureSetPassiveChannels?: string | null };
 
 export type DmxFixtureSetTagsMutationVariables = Exact<{
-  id: Scalars['ID'];
-  newTags: Array<Scalars['String']> | Scalars['String'];
+  id: Scalars['ID']['input'];
+  newTags: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type DmxFixtureSetTagsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxFixtureSetTags'>
-);
+export type DmxFixtureSetTagsMutation = { __typename?: 'Mutation', dmxFixtureSetTags?: string | null };
 
 export type DmxFixturesSubscriptionVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
-  clientId?: Maybe<Scalars['ID']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type DmxFixturesSubscription = (
-  { __typename?: 'Subscription' }
-  & { dmxFixtures: Array<(
-    { __typename?: 'DMXFixture' }
-    & Pick<DmxFixture, 'id' | 'name' | 'channel' | 'mode' | 'tags'>
-    & { DMXDevice: (
-      { __typename?: 'DMXDevice' }
-      & Pick<DmxDevice, 'id' | 'name' | 'channels'>
-    ), passiveChannels: (
-      { __typename?: 'DMXPassiveChannels' }
-      & Pick<DmxPassiveChannels, 'amber' | 'white' | 'uv' | 'intensity' | 'strobe' | 'generic' | 'nothing' | 'color'>
-    ) }
-  )> }
-);
+export type DmxFixturesSubscription = { __typename?: 'Subscription', dmxFixtures: Array<{ __typename?: 'DMXFixture', id: string, name: string, channel: number, mode: DmxFixtureMode, tags: Array<string>, DMXDevice: { __typename?: 'DMXDevice', id: string, name: string, channels: Array<DmxChannelProperty> }, passiveChannels: { __typename?: 'DMXPassiveChannels', amber?: number | null, white?: number | null, uv?: number | null, intensity?: number | null, strobe?: number | null, generic?: number | null, nothing?: number | null, color?: string | null } }> };
 
 export type DmxFixtureTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DmxFixtureTagsQuery = (
-  { __typename?: 'Query' }
-  & { dmxFixtures: Array<(
-    { __typename?: 'DMXFixture' }
-    & Pick<DmxFixture, 'id' | 'tags'>
-  )> }
-);
+export type DmxFixtureTagsQuery = { __typename?: 'Query', dmxFixtures: Array<{ __typename?: 'DMXFixture', id: string, tags: Array<string> }> };
 
 export type DmxSetCreateMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxSetCreateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxSetCreate'>
-);
+export type DmxSetCreateMutation = { __typename?: 'Mutation', dmxSetCreate?: string | null };
 
 export type DmxSetDuplicateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxSetDuplicateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxSetDuplicate'>
-);
+export type DmxSetDuplicateMutation = { __typename?: 'Mutation', dmxSetDuplicate?: string | null };
 
 export type DmxSetRemoveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type DmxSetRemoveMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxSetRemove'>
-);
+export type DmxSetRemoveMutation = { __typename?: 'Mutation', dmxSetRemove?: string | null };
 
 export type DmxSetSetNameMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type DmxSetSetNameMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'dmxSetSetName'>
-);
+export type DmxSetSetNameMutation = { __typename?: 'Mutation', dmxSetSetName?: string | null };
 
 export type DmxSetsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DmxSetsSubscription = (
-  { __typename?: 'Subscription' }
-  & { dmxSets: Array<(
-    { __typename?: 'DMXSet' }
-    & Pick<DmxSet, 'id' | 'name'>
-    & { fixtures: Array<(
-      { __typename?: 'DMXFixture' }
-      & Pick<DmxFixture, 'id' | 'name' | 'channel' | 'mode' | 'tags'>
-      & { DMXDevice: (
-        { __typename?: 'DMXDevice' }
-        & Pick<DmxDevice, 'id' | 'name' | 'class' | 'channels'>
-      ) }
-    )> }
-  )> }
-);
+export type DmxSetsSubscription = { __typename?: 'Subscription', dmxSets: Array<{ __typename?: 'DMXSet', id: string, name: string, fixtures: Array<{ __typename?: 'DMXFixture', id: string, name: string, channel: number, mode: DmxFixtureMode, tags: Array<string>, DMXDevice: { __typename?: 'DMXDevice', id: string, name: string, class: string, channels: Array<DmxChannelProperty> } }> }> };
 
 export type EntityCreateTemplateMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type EntityCreateTemplateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetTemplate' | 'entitySetIdentity' | 'entitySetAppearance'>
-  & { entityCreate: (
-    { __typename?: 'Entity' }
-    & Pick<Entity, 'id'>
-  ) }
-);
+export type EntityCreateTemplateMutation = { __typename?: 'Mutation', entitySetTemplate?: string | null, entitySetIdentity?: string | null, entitySetAppearance?: string | null, entityCreate: { __typename?: 'Entity', id: string } };
 
 export type FlightSetupQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FlightSetupQuery = (
-  { __typename?: 'Query' }
-  & { simulators: Array<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id' | 'name' | 'spaceEdventuresId'>
-    & { stationSets?: Maybe<Array<Maybe<(
-      { __typename?: 'StationSet' }
-      & Pick<StationSet, 'id' | 'name'>
-      & { stations: Array<(
-        { __typename?: 'Station' }
-        & Pick<Station, 'name' | 'widgets'>
-        & { cards?: Maybe<Array<(
-          { __typename?: 'Card' }
-          & Pick<Card, 'name' | 'component'>
-        )>> }
-      )> }
-    )>>>, capabilities?: Maybe<(
-      { __typename?: 'SimulatorCapabilities' }
-      & Pick<SimulatorCapabilities, 'systems' | 'docking'>
-    )> }
-  )>, missions: Array<(
-    { __typename?: 'Mission' }
-    & Pick<Mission, 'id' | 'name' | 'description' | 'category'>
-    & { requirements?: Maybe<(
-      { __typename?: 'SimulatorCapabilities' }
-      & Pick<SimulatorCapabilities, 'cards' | 'systems' | 'spaceEdventures' | 'docking'>
-    )> }
-  )> }
-);
+export type FlightSetupQuery = { __typename?: 'Query', simulators: Array<{ __typename?: 'Simulator', id: string, name?: string | null, spaceEdventuresId?: string | null, stationSets?: Array<{ __typename?: 'StationSet', id: string, name: string, stations: Array<{ __typename?: 'Station', name: string, widgets?: Array<string | null> | null, cards?: Array<{ __typename?: 'Card', name: string, component: string }> | null }> } | null> | null, capabilities?: { __typename?: 'SimulatorCapabilities', systems: Array<string>, docking?: boolean | null } | null }>, missions: Array<{ __typename?: 'Mission', id: string, name?: string | null, description?: string | null, category?: string | null, requirements?: { __typename?: 'SimulatorCapabilities', cards: Array<string>, systems: Array<string>, spaceEdventures?: boolean | null, docking?: boolean | null } | null }> };
 
 export type FlightTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FlightTypesQuery = (
-  { __typename?: 'Query' }
-  & { thorium?: Maybe<(
-    { __typename?: 'Thorium' }
-    & { spaceEdventuresCenter?: Maybe<(
-      { __typename?: 'SpaceEdventuresCenter' }
-      & Pick<SpaceEdventuresCenter, 'id' | 'name'>
-      & { flightTypes?: Maybe<Array<Maybe<(
-        { __typename?: 'FlightType' }
-        & Pick<FlightType, 'id' | 'name' | 'classHours' | 'flightHours'>
-      )>>> }
-    )> }
-  )> }
-);
+export type FlightTypesQuery = { __typename?: 'Query', thorium?: { __typename?: 'Thorium', spaceEdventuresCenter?: { __typename?: 'SpaceEdventuresCenter', id?: string | null, name?: string | null, flightTypes?: Array<{ __typename?: 'FlightType', id?: string | null, name?: string | null, classHours?: number | null, flightHours?: number | null } | null> | null } | null } | null };
 
 export type StartFlightMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
   simulators: Array<SimulatorInput> | SimulatorInput;
-  flightType?: Maybe<Scalars['String']>;
+  flightType?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type StartFlightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'startFlight'>
-);
+export type StartFlightMutation = { __typename?: 'Mutation', startFlight?: string | null };
 
 export type CreateNewFlightSetMutationVariables = Exact<{
   flightSet: FlightSetInput;
 }>;
 
 
-export type CreateNewFlightSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createFlightSet'>
-);
+export type CreateNewFlightSetMutation = { __typename?: 'Mutation', createFlightSet?: string | null };
 
 export type DeleteFlightSetMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteFlightSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteFlightSet'>
-);
+export type DeleteFlightSetMutation = { __typename?: 'Mutation', deleteFlightSet?: string | null };
 
 export type GetAllFlightSetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllFlightSetsQuery = (
-  { __typename?: 'Query' }
-  & { getAllFlightSets: Array<Maybe<(
-    { __typename?: 'FlightSet' }
-    & Pick<FlightSet, 'id' | 'name' | 'backgroundImg' | 'imageMaxX' | 'imageMaxY' | 'pixelsPerSecond' | 'label' | 'probeLaunchRangeRadius' | 'addOnTraining' | 'pixelDistanceModifier' | 'probeSpeedModifier'>
-    & { startOptions: Array<(
-      { __typename?: 'NavigationStartOptions' }
-      & Pick<NavigationStartOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl' | 'secondsForStartup'>
-    )>, speedOptions: Array<(
-      { __typename?: 'NavigationSpeedOptions' }
-      & Pick<NavigationSpeedOptions, 'id' | 'name' | 'speedModifier' | 'riskModifier' | 'requiresMaxEngines' | 'imgUrl'>
-    )>, exitOptions: Array<(
-      { __typename?: 'NavigationExitOptions' }
-      & Pick<NavigationExitOptions, 'id' | 'name' | 'riskModifier' | 'imgUrl'>
-    )>, pointsOfInterest: Array<(
-      { __typename?: 'PointOfInterest' }
-      & Pick<PointOfInterest, 'id' | 'name' | 'isVisible' | 'isFogOfWar' | 'speedIndex' | 'riskIndex' | 'iconUrl' | 'fullImageUrl' | 'showName'>
-      & { location: (
-        { __typename?: 'XYLocation' }
-        & Pick<XyLocation, 'x' | 'y'>
-      ), type: (
-        { __typename?: 'PointOfInterestType' }
-        & Pick<PointOfInterestType, 'category' | 'imageUri'>
-      ), information: (
-        { __typename?: 'PointOfInterestInformation' }
-        & Pick<PointOfInterestInformation, 'basicInformation' | 'hasBasicInformation' | 'detailedInformation' | 'hasDetailedInformation' | 'secretInformation' | 'hasSecretInformation'>
-      ), transitOptions?: Maybe<Array<(
-        { __typename?: 'SecondaryStopTransitOption' }
-        & Pick<SecondaryStopTransitOption, 'name' | 'timeModifier' | 'riskModifier' | 'iconUrl'>
-      )>>, arrivalMacros?: Maybe<Array<(
-        { __typename?: 'MacroAction' }
-        & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay' | 'noCancelOnReset' | 'needsConfig'>
-      )>>, leaveMacros?: Maybe<Array<(
-        { __typename?: 'MacroAction' }
-        & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay' | 'noCancelOnReset' | 'needsConfig'>
-      )>>, transitMacros?: Maybe<Array<(
-        { __typename?: 'MacroAction' }
-        & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay' | 'noCancelOnReset' | 'needsConfig'>
-      )>> }
-    )>, defaultStartingLocation: (
-      { __typename?: 'BasicCoordinate' }
-      & Pick<BasicCoordinate, 'x' | 'y'>
-    ), borders: Array<(
-      { __typename?: 'MapBorder' }
-      & Pick<MapBorder, 'name' | 'id' | 'iconUrl' | 'riskIndex'>
-      & { location: (
-        { __typename?: 'MapBorderLocation' }
-        & Pick<MapBorderLocation, 'side'>
-      ) }
-    )> }
-  )>> }
-);
+export type GetAllFlightSetsQuery = { __typename?: 'Query', getAllFlightSets: Array<{ __typename?: 'FlightSet', id: string, name: string, backgroundImg: string, imageMaxX: number, imageMaxY: number, pixelsPerSecond: number, label?: string | null, probeLaunchRangeRadius: number, addOnTraining?: boolean | null, pixelDistanceModifier?: number | null, probeSpeedModifier?: number | null, startOptions: Array<{ __typename?: 'NavigationStartOptions', id: string, name: string, riskModifier: number, imgUrl: string, secondsForStartup: number }>, speedOptions: Array<{ __typename?: 'NavigationSpeedOptions', id: string, name: string, speedModifier: number, riskModifier: number, requiresMaxEngines: boolean, imgUrl: string }>, exitOptions: Array<{ __typename?: 'NavigationExitOptions', id: string, name: string, riskModifier: number, imgUrl: string }>, pointsOfInterest: Array<{ __typename?: 'PointOfInterest', id: string, name: string, isVisible: boolean, isFogOfWar: boolean, speedIndex: number, riskIndex: number, iconUrl: string, fullImageUrl: string, showName?: boolean | null, location: { __typename?: 'XYLocation', x: number, y: number }, type: { __typename?: 'PointOfInterestType', category: string, imageUri: string }, information: { __typename?: 'PointOfInterestInformation', basicInformation: string, hasBasicInformation: boolean, detailedInformation: string, hasDetailedInformation: boolean, secretInformation: string, hasSecretInformation: boolean }, transitOptions?: Array<{ __typename?: 'SecondaryStopTransitOption', name: string, timeModifier: number, riskModifier: number, iconUrl: string }> | null, arrivalMacros?: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null, noCancelOnReset?: boolean | null, needsConfig?: boolean | null }> | null, leaveMacros?: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null, noCancelOnReset?: boolean | null, needsConfig?: boolean | null }> | null, transitMacros?: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null, noCancelOnReset?: boolean | null, needsConfig?: boolean | null }> | null }>, defaultStartingLocation: { __typename?: 'BasicCoordinate', x: number, y: number }, borders: Array<{ __typename?: 'MapBorder', name: string, id: string, iconUrl: string, riskIndex: number, location: { __typename?: 'MapBorderLocation', side: string } }> } | null> };
 
 export type UpdateFlightSetMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   flightSet: FlightSetInput;
 }>;
 
 
-export type UpdateFlightSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateFlightSet'>
-);
+export type UpdateFlightSetMutation = { __typename?: 'Mutation', updateFlightSet?: string | null };
 
 export type HackingPresetCreateMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type HackingPresetCreateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createHackingPreset'>
-);
+export type HackingPresetCreateMutation = { __typename?: 'Mutation', createHackingPreset?: string | null };
 
 export type HackingPresetDeleteMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type HackingPresetDeleteMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteHackingPreset'>
-);
+export type HackingPresetDeleteMutation = { __typename?: 'Mutation', deleteHackingPreset?: string | null };
 
 export type HackingPresetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HackingPresetsQuery = (
-  { __typename?: 'Query' }
-  & { hackingPresets: Array<(
-    { __typename?: 'HackingPreset' }
-    & Pick<HackingPreset, 'id' | 'name' | 'logs' | 'longRange' | 'remoteControl' | 'fileViewer' | 'commandLines'>
-    & { longRangeMessages: Array<(
-      { __typename?: 'HackingLRM' }
-      & Pick<HackingLrm, 'id' | 'title' | 'message'>
-    )>, files: Array<(
-      { __typename?: 'ComputerCoreFile' }
-      & Pick<ComputerCoreFile, 'id' | 'name' | 'level' | 'corrupted' | 'restoring'>
-    )> }
-  )> }
-);
+export type HackingPresetsQuery = { __typename?: 'Query', hackingPresets: Array<{ __typename?: 'HackingPreset', id: string, name: string, logs: boolean, longRange: boolean, remoteControl: boolean, fileViewer: boolean, commandLines: Array<string>, longRangeMessages: Array<{ __typename?: 'HackingLRM', id: string, title: string, message: string }>, files: Array<{ __typename?: 'ComputerCoreFile', id?: string | null, name?: string | null, level?: number | null, corrupted?: boolean | null, restoring?: boolean | null }> }> };
 
 export type HackingPresetUpdateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  preset: Scalars['JSON'];
+  id: Scalars['ID']['input'];
+  preset: Scalars['JSON']['input'];
 }>;
 
 
-export type HackingPresetUpdateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateHackingPreset'>
-);
+export type HackingPresetUpdateMutation = { __typename?: 'Mutation', updateHackingPreset?: string | null };
 
 export type MacroDuplicateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type MacroDuplicateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'duplicateMacro'>
-);
+export type MacroDuplicateMutation = { __typename?: 'Mutation', duplicateMacro?: string | null };
 
 export type MacroDuplicateActionMutationVariables = Exact<{
-  id: Scalars['ID'];
-  actionId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  actionId: Scalars['ID']['input'];
 }>;
 
 
-export type MacroDuplicateActionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'duplicateMacroAction'>
-);
+export type MacroDuplicateActionMutation = { __typename?: 'Mutation', duplicateMacroAction?: string | null };
 
 export type TimelineAddItemMutationVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
   timelineItem: TimelineItemInput;
 }>;
 
 
-export type TimelineAddItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addTimelineItemToTimelineStep'>
-);
+export type TimelineAddItemMutation = { __typename?: 'Mutation', addTimelineItemToTimelineStep?: string | null };
 
 export type TimelineAddStepMutationVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type TimelineAddStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addTimelineStep'>
-);
+export type TimelineAddStepMutation = { __typename?: 'Mutation', addTimelineStep?: string | null };
 
 export type TimelineDuplicateItemMutationVariables = Exact<{
-  missionId: Scalars['ID'];
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
+  missionId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+  timelineItemId: Scalars['ID']['input'];
 }>;
 
 
-export type TimelineDuplicateItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'timelineDuplicateItem'>
-);
+export type TimelineDuplicateItemMutation = { __typename?: 'Mutation', timelineDuplicateItem?: string | null };
 
 export type TimelineDuplicateStepMutationVariables = Exact<{
-  missionId: Scalars['ID'];
-  timelineStepId: Scalars['ID'];
+  missionId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
 }>;
 
 
-export type TimelineDuplicateStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'duplicateTimelineStep'>
-);
+export type TimelineDuplicateStepMutation = { __typename?: 'Mutation', duplicateTimelineStep?: string | null };
 
 export type EditMissionMutationVariables = Exact<{
-  missionId: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
-  aux?: Maybe<Scalars['Boolean']>;
+  missionId: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  category?: InputMaybe<Scalars['String']['input']>;
+  aux?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type EditMissionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'editMission'>
-);
+export type EditMissionMutation = { __typename?: 'Mutation', editMission?: string | null };
 
 export type IntrospectionQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IntrospectionQueryQuery = (
-  { __typename?: 'Query' }
-  & { __schema: (
-    { __typename?: '__Schema' }
-    & { mutationType?: Maybe<(
-      { __typename?: '__Type' }
-      & Pick<__Type, 'name' | 'description'>
-      & { fields?: Maybe<Array<(
-        { __typename?: '__Field' }
-        & Pick<__Field, 'name' | 'description'>
-      )>> }
-    )> }
-  ) }
-);
+export type IntrospectionQueryQuery = { __typename?: 'Query', __schema: { __typename?: '__Schema', mutationType?: { __typename?: '__Type', name?: string | null, description?: string | null, fields?: Array<{ __typename?: '__Field', name: string, description?: string | null }> | null } | null } };
 
 export type MissionSubscriptionSubscriptionVariables = Exact<{
-  missionId: Scalars['ID'];
+  missionId: Scalars['ID']['input'];
 }>;
 
 
-export type MissionSubscriptionSubscription = (
-  { __typename?: 'Subscription' }
-  & { missionsUpdate: Array<(
-    { __typename?: 'Mission' }
-    & Pick<Mission, 'id' | 'name' | 'description' | 'category' | 'aux'>
-    & { extraRequirements?: Maybe<(
-      { __typename?: 'SimulatorCapabilities' }
-      & Pick<SimulatorCapabilities, 'systems' | 'cards'>
-    )>, requirements?: Maybe<(
-      { __typename?: 'SimulatorCapabilities' }
-      & Pick<SimulatorCapabilities, 'systems' | 'cards' | 'spaceEdventures' | 'docking'>
-    )>, timeline: Array<(
-      { __typename?: 'TimelineStep' }
-      & Pick<TimelineStep, 'id' | 'name' | 'description' | 'order'>
-      & { timelineItems: Array<(
-        { __typename?: 'TimelineItem' }
-        & Pick<TimelineItem, 'id' | 'name' | 'type' | 'event' | 'args' | 'delay' | 'needsConfig' | 'noCancelOnReset'>
-      )> }
-    )> }
-  )> }
-);
+export type MissionSubscriptionSubscription = { __typename?: 'Subscription', missionsUpdate: Array<{ __typename?: 'Mission', id: string, name?: string | null, description?: string | null, category?: string | null, aux?: boolean | null, extraRequirements?: { __typename?: 'SimulatorCapabilities', systems: Array<string>, cards: Array<string> } | null, requirements?: { __typename?: 'SimulatorCapabilities', systems: Array<string>, cards: Array<string>, spaceEdventures?: boolean | null, docking?: boolean | null } | null, timeline: Array<{ __typename?: 'TimelineStep', id: string, name: string, description?: string | null, order?: number | null, timelineItems: Array<{ __typename?: 'TimelineItem', id: string, name?: string | null, type?: string | null, event: string, args?: string | null, delay?: number | null, needsConfig?: boolean | null, noCancelOnReset?: boolean | null }> }> }> };
 
 export type RemoveMissionMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveMissionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeMission'>
-);
+export type RemoveMissionMutation = { __typename?: 'Mutation', removeMission?: string | null };
 
 export type TimelineRemoveItemMutationVariables = Exact<{
-  missionId: Scalars['ID'];
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
+  missionId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
+  timelineItemId: Scalars['ID']['input'];
 }>;
 
 
-export type TimelineRemoveItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTimelineStepItem'>
-);
+export type TimelineRemoveItemMutation = { __typename?: 'Mutation', removeTimelineStepItem?: string | null };
 
 export type TimelineRemoveStepMutationVariables = Exact<{
-  missionId: Scalars['ID'];
-  timelineStepId: Scalars['ID'];
+  missionId: Scalars['ID']['input'];
+  timelineStepId: Scalars['ID']['input'];
 }>;
 
 
-export type TimelineRemoveStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTimelineStep'>
-);
+export type TimelineRemoveStepMutation = { __typename?: 'Mutation', removeTimelineStep?: string | null };
 
 export type TimelineReorderItemMutationVariables = Exact<{
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
-  order: Scalars['Int'];
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+  timelineItemId: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
 }>;
 
 
-export type TimelineReorderItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reorderTimelineItem'>
-);
+export type TimelineReorderItemMutation = { __typename?: 'Mutation', reorderTimelineItem?: string | null };
 
 export type TimelineReorderStepMutationVariables = Exact<{
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  order: Scalars['Int'];
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
 }>;
 
 
-export type TimelineReorderStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reorderTimelineStep'>
-);
+export type TimelineReorderStepMutation = { __typename?: 'Mutation', reorderTimelineStep?: string | null };
 
 export type MissionSetRequirementsMutationVariables = Exact<{
-  missionId: Scalars['ID'];
+  missionId: Scalars['ID']['input'];
   requirements: RequirementInput;
 }>;
 
 
-export type MissionSetRequirementsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'missionSetExtraRequirements'>
-);
+export type MissionSetRequirementsMutation = { __typename?: 'Mutation', missionSetExtraRequirements?: string | null };
 
 export type TimelineUpdateItemMutationVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  timelineItemId: Scalars['ID'];
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+  timelineItemId: Scalars['ID']['input'];
   timelineItem: TimelineItemInput;
 }>;
 
 
-export type TimelineUpdateItemMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateTimelineStepItem'>
-);
+export type TimelineUpdateItemMutation = { __typename?: 'Mutation', updateTimelineStepItem?: string | null };
 
 export type TimelineUpdateStepMutationVariables = Exact<{
-  simulatorId?: Maybe<Scalars['ID']>;
-  missionId?: Maybe<Scalars['ID']>;
-  timelineStepId: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
+  simulatorId?: InputMaybe<Scalars['ID']['input']>;
+  missionId?: InputMaybe<Scalars['ID']['input']>;
+  timelineStepId: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type TimelineUpdateStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateTimelineStep'>
-);
+export type TimelineUpdateStepMutation = { __typename?: 'Mutation', updateTimelineStep?: string | null };
 
 export type AddClientMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   client: SetClientInput;
 }>;
 
 
-export type AddClientMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addClientToSet'>
-);
+export type AddClientMutation = { __typename?: 'Mutation', addClientToSet?: string | null };
 
 export type AddSetMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type AddSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createSet'>
-);
+export type AddSetMutation = { __typename?: 'Mutation', createSet?: string | null };
 
 export type RemoveClientFromSetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  client: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  client: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveClientFromSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeClientFromSet'>
-);
+export type RemoveClientFromSetMutation = { __typename?: 'Mutation', removeClientFromSet?: string | null };
 
 export type RemoveSetMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeSet'>
-);
+export type RemoveSetMutation = { __typename?: 'Mutation', removeSet?: string | null };
 
 export type RenameSetMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type RenameSetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'renameSet'>
-);
+export type RenameSetMutation = { __typename?: 'Mutation', renameSet?: string | null };
 
 export type SetKeyboardAndInterfaceQueryVariables = Exact<{
-  id?: Maybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type SetKeyboardAndInterfaceQuery = (
-  { __typename?: 'Query' }
-  & { simulators: Array<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'interfaces'>
-  )>, interfaces?: Maybe<Array<Maybe<(
-    { __typename?: 'Interface' }
-    & Pick<Interface, 'id' | 'name'>
-  )>>>, keyboard?: Maybe<Array<Maybe<(
-    { __typename?: 'Keyboard' }
-    & Pick<Keyboard, 'id' | 'name'>
-  )>>>, dmxSets: Array<(
-    { __typename?: 'DMXSet' }
-    & Pick<DmxSet, 'id' | 'name'>
-  )> }
-);
+export type SetKeyboardAndInterfaceQuery = { __typename?: 'Query', simulators: Array<{ __typename?: 'Simulator', interfaces?: Array<string | null> | null }>, interfaces?: Array<{ __typename?: 'Interface', id?: string | null, name?: string | null } | null> | null, keyboard?: Array<{ __typename?: 'Keyboard', id: string, name?: string | null } | null> | null, dmxSets: Array<{ __typename?: 'DMXSet', id: string, name: string }> };
 
 export type SetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SetsQuery = (
-  { __typename?: 'Query' }
-  & { simulators: Array<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id' | 'name' | 'layout'>
-    & { systems?: Maybe<Array<(
-      { __typename?: 'System' }
-      & Pick<System, 'id' | 'type'>
-    )>>, stationSets?: Maybe<Array<Maybe<(
-      { __typename?: 'StationSet' }
-      & Pick<StationSet, 'id' | 'name'>
-      & { stations: Array<(
-        { __typename?: 'Station' }
-        & Pick<Station, 'name'>
-      )> }
-    )>>> }
-  )>, sets?: Maybe<Array<Maybe<(
-    { __typename?: 'Set' }
-    & Pick<Set, 'id' | 'name'>
-    & { clients: Array<(
-      { __typename?: 'SetClient' }
-      & Pick<SetClient, 'id' | 'station' | 'secondary' | 'soundPlayer'>
-      & { client?: Maybe<(
-        { __typename?: 'Client' }
-        & Pick<Client, 'id'>
-      )>, simulator?: Maybe<(
-        { __typename?: 'Simulator' }
-        & Pick<Simulator, 'id' | 'name'>
-      )>, stationSet?: Maybe<(
-        { __typename?: 'StationSet' }
-        & Pick<StationSet, 'id' | 'name'>
-      )> }
-    )> }
-  )>>>, clients?: Maybe<Array<Maybe<(
-    { __typename?: 'Client' }
-    & Pick<Client, 'id' | 'cards' | 'mobile'>
-  )>>> }
-);
+export type SetsQuery = { __typename?: 'Query', simulators: Array<{ __typename?: 'Simulator', id: string, name?: string | null, layout?: string | null, systems?: Array<{ __typename?: 'System', id?: string | null, type?: string | null }> | null, stationSets?: Array<{ __typename?: 'StationSet', id: string, name: string, stations: Array<{ __typename?: 'Station', name: string }> } | null> | null }>, sets?: Array<{ __typename?: 'Set', id: string, name: string, clients: Array<{ __typename?: 'SetClient', id?: string | null, station?: string | null, secondary?: boolean | null, soundPlayer?: boolean | null, client?: { __typename?: 'Client', id: string } | null, simulator?: { __typename?: 'Simulator', id: string, name?: string | null } | null, stationSet?: { __typename?: 'StationSet', id: string, name: string } | null }> } | null> | null, clients?: Array<{ __typename?: 'Client', id: string, cards?: Array<string | null> | null, mobile?: boolean | null } | null> | null };
 
 export type UpdateSetClientMutationVariables = Exact<{
-  id: Scalars['ID'];
-  clientId: Scalars['ID'];
-  secondary?: Maybe<Scalars['Boolean']>;
-  soundPlayer?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID']['input'];
+  clientId: Scalars['ID']['input'];
+  secondary?: InputMaybe<Scalars['Boolean']['input']>;
+  soundPlayer?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
-export type UpdateSetClientMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateSetClient'>
-);
+export type UpdateSetClientMutation = { __typename?: 'Mutation', updateSetClient?: string | null };
 
 export type AddCardMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  cardName: Scalars['String'];
-  cardComponent: Scalars['String'];
-  cardIcon?: Maybe<Scalars['String']>;
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  cardName: Scalars['String']['input'];
+  cardComponent: Scalars['String']['input'];
+  cardIcon?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type AddCardMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addCardToStation'>
-);
+export type AddCardMutation = { __typename?: 'Mutation', addCardToStation?: string | null };
 
 export type AddStationMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type AddStationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addStationToStationSet'>
-);
+export type AddStationMutation = { __typename?: 'Mutation', addStationToStationSet?: string | null };
 
 export type StationSetDuplicateMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  name: Scalars['String'];
+  stationSetID: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type StationSetDuplicateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'duplicateStationSet'>
-);
+export type StationSetDuplicateMutation = { __typename?: 'Mutation', duplicateStationSet?: string | null };
 
 export type PanelsAndInterfacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PanelsAndInterfacesQuery = (
-  { __typename?: 'Query' }
-  & { softwarePanels?: Maybe<Array<Maybe<(
-    { __typename?: 'SoftwarePanel' }
-    & Pick<SoftwarePanel, 'id' | 'name'>
-  )>>>, interfaces?: Maybe<Array<Maybe<(
-    { __typename?: 'Interface' }
-    & Pick<Interface, 'id' | 'name'>
-  )>>> }
-);
+export type PanelsAndInterfacesQuery = { __typename?: 'Query', softwarePanels?: Array<{ __typename?: 'SoftwarePanel', id?: string | null, name?: string | null } | null> | null, interfaces?: Array<{ __typename?: 'Interface', id?: string | null, name?: string | null } | null> | null };
 
 export type RemoveCardMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stationName: Scalars['String'];
-  cardName: Scalars['String'];
+  id: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  cardName: Scalars['String']['input'];
 }>;
 
 
-export type RemoveCardMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeCardFromStation'>
-);
+export type RemoveCardMutation = { __typename?: 'Mutation', removeCardFromStation?: string | null };
 
 export type RemoveStationMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stationName: Scalars['String'];
+  id: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
 }>;
 
 
-export type RemoveStationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeStationFromStationSet'>
-);
+export type RemoveStationMutation = { __typename?: 'Mutation', removeStationFromStationSet?: string | null };
 
 export type RenameStationMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  newName: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  newName: Scalars['String']['input'];
 }>;
 
 
-export type RenameStationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'editStationInStationSet'>
-);
+export type RenameStationMutation = { __typename?: 'Mutation', editStationInStationSet?: string | null };
 
 export type ReorderStationWidgetsMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  widget: Scalars['String'];
-  order: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  widget: Scalars['String']['input'];
+  order: Scalars['Int']['input'];
 }>;
 
 
-export type ReorderStationWidgetsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reorderStationWidgets'>
-);
+export type ReorderStationWidgetsMutation = { __typename?: 'Mutation', reorderStationWidgets?: string | null };
 
 export type SetAmbianceMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  ambiance?: Maybe<Scalars['String']>;
+  stationSetID: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  ambiance?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type SetAmbianceMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationAmbiance'>
-);
+export type SetAmbianceMutation = { __typename?: 'Mutation', setStationAmbiance?: string | null };
 
 export type SetStationCrewCountMutationVariables = Exact<{
-  stationSetId: Scalars['ID'];
-  crewCount: Scalars['Int'];
+  stationSetId: Scalars['ID']['input'];
+  crewCount: Scalars['Int']['input'];
 }>;
 
 
-export type SetStationCrewCountMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationSetCrewCount'>
-);
+export type SetStationCrewCountMutation = { __typename?: 'Mutation', setStationSetCrewCount?: string | null };
 
 export type SetStationDescriptionMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  description: Scalars['String'];
+  stationSetID: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  description: Scalars['String']['input'];
 }>;
 
 
-export type SetStationDescriptionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationDescription'>
-);
+export type SetStationDescriptionMutation = { __typename?: 'Mutation', setStationDescription?: string | null };
 
 export type SetStationLayoutMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  layout: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  layout: Scalars['String']['input'];
 }>;
 
 
-export type SetStationLayoutMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationLayout'>
-);
+export type SetStationLayoutMutation = { __typename?: 'Mutation', setStationLayout?: string | null };
 
 export type StationSetTrainingMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  training: Scalars['String'];
+  stationSetID: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  training: Scalars['String']['input'];
 }>;
 
 
-export type StationSetTrainingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationTraining'>
-);
+export type StationSetTrainingMutation = { __typename?: 'Mutation', setStationTraining?: string | null };
 
 export type ToggleStationMessageGroupMutationVariables = Exact<{
-  stationSetId: Scalars['ID'];
-  station: Scalars['String'];
-  group: Scalars['String'];
-  state: Scalars['Boolean'];
+  stationSetId: Scalars['ID']['input'];
+  station: Scalars['String']['input'];
+  group: Scalars['String']['input'];
+  state: Scalars['Boolean']['input'];
 }>;
 
 
-export type ToggleStationMessageGroupMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'toggleStationMessageGroup'>
-);
+export type ToggleStationMessageGroupMutation = { __typename?: 'Mutation', toggleStationMessageGroup?: string | null };
 
 export type ToggleStationExecMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  exec: Scalars['Boolean'];
+  stationSetID: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  exec: Scalars['Boolean']['input'];
 }>;
 
 
-export type ToggleStationExecMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationExecutive'>
-);
+export type ToggleStationExecMutation = { __typename?: 'Mutation', setStationExecutive?: string | null };
 
 export type ToggleStationLoginMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  login: Scalars['Boolean'];
+  stationSetID: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  login: Scalars['Boolean']['input'];
 }>;
 
 
-export type ToggleStationLoginMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationLogin'>
-);
+export type ToggleStationLoginMutation = { __typename?: 'Mutation', setStationLogin?: string | null };
 
 export type ToggleStationWidgetMutationVariables = Exact<{
-  stationSetID: Scalars['ID'];
-  stationName: Scalars['String'];
-  widget: Scalars['String'];
-  state: Scalars['Boolean'];
+  stationSetID: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  widget: Scalars['String']['input'];
+  state: Scalars['Boolean']['input'];
 }>;
 
 
-export type ToggleStationWidgetMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'toggleStationWidgets'>
-);
+export type ToggleStationWidgetMutation = { __typename?: 'Mutation', toggleStationWidgets?: string | null };
 
 export type UpdateStationCardMutationVariables = Exact<{
-  stationSetId: Scalars['ID'];
-  stationName: Scalars['String'];
-  cardName: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  component?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
+  stationSetId: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  cardName: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  component?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type UpdateStationCardMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'editCardInStationSet'>
-);
+export type UpdateStationCardMutation = { __typename?: 'Mutation', editCardInStationSet?: string | null };
 
 export type SystemSetWingMutationVariables = Exact<{
-  systemId: Scalars['ID'];
-  wing: Scalars['String'];
+  systemId: Scalars['ID']['input'];
+  wing: Scalars['String']['input'];
 }>;
 
 
-export type SystemSetWingMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'systemSetWing'>
-);
+export type SystemSetWingMutation = { __typename?: 'Mutation', systemSetWing?: string | null };
 
 export type SensorsSetPingsMutationVariables = Exact<{
-  id: Scalars['ID'];
-  ping: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  ping: Scalars['Boolean']['input'];
 }>;
 
 
-export type SensorsSetPingsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'sensorsSetHasPing'>
-);
+export type SensorsSetPingsMutation = { __typename?: 'Mutation', sensorsSetHasPing?: string | null };
 
 export type ReactorSetWingsMutationVariables = Exact<{
-  id: Scalars['ID'];
-  hasWings: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  hasWings: Scalars['Boolean']['input'];
 }>;
 
 
-export type ReactorSetWingsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reactorSetHasWings'>
-);
+export type ReactorSetWingsMutation = { __typename?: 'Mutation', reactorSetHasWings?: string | null };
 
 export type TractorBeamSetCountMutationVariables = Exact<{
-  id: Scalars['ID'];
-  beams: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  beams: Scalars['Int']['input'];
 }>;
 
 
-export type TractorBeamSetCountMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTractorBeamCount'>
-);
+export type TractorBeamSetCountMutation = { __typename?: 'Mutation', setTractorBeamCount?: string | null };
 
 export type StealthSetSensorSonarMutationVariables = Exact<{
-  id: Scalars['ID'];
-  sonar: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  sonar: Scalars['Boolean']['input'];
 }>;
 
 
-export type StealthSetSensorSonarMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'stealthSensorsSonar'>
-);
+export type StealthSetSensorSonarMutation = { __typename?: 'Mutation', stealthSensorsSonar?: string | null };
 
 export type RemoveSimulatorMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveSimulatorMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeSimulator'>
-);
+export type RemoveSimulatorMutation = { __typename?: 'Mutation', removeSimulator?: string | null };
 
 export type SimulatorsConfigSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SimulatorsConfigSubscription = (
-  { __typename?: 'Subscription' }
-  & { simulatorsUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'Simulator' }
-    & Pick<Simulator, 'id' | 'name' | 'alertlevel' | 'layout' | 'caps' | 'exocomps' | 'panels' | 'missionConfigs' | 'commandLines' | 'triggers' | 'interfaces' | 'midiSets' | 'stepDamage' | 'verifyStep' | 'hasPrinter' | 'hasLegs' | 'bridgeOfficerMessaging' | 'spaceEdventuresId' | 'soundEffects'>
-    & { requiredDamageSteps?: Maybe<Array<Maybe<(
-      { __typename?: 'DamageStep' }
-      & Pick<DamageStep, 'id' | 'name'>
-      & { args?: Maybe<(
-        { __typename?: 'DamageStepArgs' }
-        & Pick<DamageStepArgs, 'end' | 'cleanup' | 'name' | 'orders' | 'room' | 'preamble' | 'type' | 'message' | 'code' | 'inventory' | 'destination' | 'equipment' | 'query' | 'reactivate'>
-      )> }
-    )>>>, optionalDamageSteps?: Maybe<Array<Maybe<(
-      { __typename?: 'DamageStep' }
-      & Pick<DamageStep, 'id' | 'name'>
-      & { args?: Maybe<(
-        { __typename?: 'DamageStepArgs' }
-        & Pick<DamageStepArgs, 'end' | 'cleanup' | 'name' | 'orders' | 'room' | 'preamble' | 'type' | 'message' | 'code' | 'inventory' | 'destination' | 'equipment' | 'query' | 'reactivate'>
-      )> }
-    )>>>, damageTasks?: Maybe<Array<Maybe<(
-      { __typename?: 'DamageTask' }
-      & Pick<DamageTask, 'id' | 'required'>
-      & { taskTemplate?: Maybe<(
-        { __typename?: 'TaskTemplate' }
-        & Pick<TaskTemplate, 'id' | 'name' | 'definition' | 'reportTypes'>
-      )>, nextSteps?: Maybe<Array<Maybe<(
-        { __typename?: 'TaskTemplate' }
-        & Pick<TaskTemplate, 'id' | 'name' | 'definition'>
-      )>>> }
-    )>>>, assets?: Maybe<(
-      { __typename?: 'SimulatorAssets' }
-      & Pick<SimulatorAssets, 'mesh' | 'texture' | 'side' | 'top' | 'logo' | 'bridge'>
-    )>, systems?: Maybe<Array<(
-      { __typename?: 'System' }
-      & Pick<System, 'id' | 'type' | 'name' | 'displayName' | 'upgradeName'>
-      & { upgradeMacros?: Maybe<Array<Maybe<(
-        { __typename?: 'TimelineItem' }
-        & Pick<TimelineItem, 'id' | 'event' | 'args' | 'delay'>
-      )>>>, requiredDamageSteps?: Maybe<Array<Maybe<(
-        { __typename?: 'DamageStep' }
-        & Pick<DamageStep, 'id' | 'name'>
-        & { args?: Maybe<(
-          { __typename?: 'DamageStepArgs' }
-          & Pick<DamageStepArgs, 'end' | 'cleanup' | 'name' | 'orders' | 'room' | 'preamble' | 'type' | 'message' | 'code' | 'inventory' | 'destination' | 'equipment' | 'query' | 'reactivate'>
-        )> }
-      )>>>, optionalDamageSteps?: Maybe<Array<Maybe<(
-        { __typename?: 'DamageStep' }
-        & Pick<DamageStep, 'id' | 'name'>
-        & { args?: Maybe<(
-          { __typename?: 'DamageStepArgs' }
-          & Pick<DamageStepArgs, 'end' | 'cleanup' | 'name' | 'orders' | 'room' | 'preamble' | 'type' | 'message' | 'code' | 'inventory' | 'destination' | 'equipment' | 'query' | 'reactivate'>
-        )> }
-      )>>>, damageTasks?: Maybe<Array<Maybe<(
-        { __typename?: 'DamageTask' }
-        & Pick<DamageTask, 'id' | 'required'>
-        & { taskTemplate?: Maybe<(
-          { __typename?: 'TaskTemplate' }
-          & Pick<TaskTemplate, 'id' | 'name' | 'definition' | 'reportTypes'>
-        )>, nextSteps?: Maybe<Array<Maybe<(
-          { __typename?: 'TaskTemplate' }
-          & Pick<TaskTemplate, 'id' | 'name' | 'definition'>
-        )>>> }
-      )>>> }
-    )>>, stationSets?: Maybe<Array<Maybe<(
-      { __typename?: 'StationSet' }
-      & Pick<StationSet, 'id' | 'name' | 'crewCount'>
-      & { stations: Array<(
-        { __typename?: 'Station' }
-        & Pick<Station, 'name' | 'description' | 'tags' | 'training' | 'ambiance' | 'login' | 'executive' | 'messageGroups' | 'layout' | 'widgets'>
-        & { cards?: Maybe<Array<(
-          { __typename?: 'Card' }
-          & Pick<Card, 'name' | 'component'>
-        )>> }
-      )> }
-    )>>> }
-  )>>> }
-);
+export type SimulatorsConfigSubscription = { __typename?: 'Subscription', simulatorsUpdate?: Array<{ __typename?: 'Simulator', id: string, name?: string | null, alertlevel?: string | null, layout?: string | null, caps?: boolean | null, exocomps?: number | null, panels?: Array<string | null> | null, missionConfigs?: {[key: string]: any} | null, commandLines?: Array<string | null> | null, triggers?: Array<string | null> | null, interfaces?: Array<string | null> | null, midiSets?: Array<string | null> | null, stepDamage?: boolean | null, verifyStep?: boolean | null, hasPrinter?: boolean | null, hasLegs?: boolean | null, bridgeOfficerMessaging?: boolean | null, spaceEdventuresId?: string | null, soundEffects?: {[key: string]: any} | null, requiredDamageSteps?: Array<{ __typename?: 'DamageStep', id?: string | null, name?: string | null, args?: { __typename?: 'DamageStepArgs', end?: boolean | null, cleanup?: boolean | null, name?: string | null, orders?: string | null, room?: string | null, preamble?: string | null, type?: string | null, message?: string | null, code?: string | null, inventory?: string | null, destination?: string | null, equipment?: string | null, query?: string | null, reactivate?: boolean | null } | null } | null> | null, optionalDamageSteps?: Array<{ __typename?: 'DamageStep', id?: string | null, name?: string | null, args?: { __typename?: 'DamageStepArgs', end?: boolean | null, cleanup?: boolean | null, name?: string | null, orders?: string | null, room?: string | null, preamble?: string | null, type?: string | null, message?: string | null, code?: string | null, inventory?: string | null, destination?: string | null, equipment?: string | null, query?: string | null, reactivate?: boolean | null } | null } | null> | null, damageTasks?: Array<{ __typename?: 'DamageTask', id?: string | null, required?: boolean | null, taskTemplate?: { __typename?: 'TaskTemplate', id: string, name: string, definition: string, reportTypes?: Array<string> | null } | null, nextSteps?: Array<{ __typename?: 'TaskTemplate', id: string, name: string, definition: string } | null> | null } | null> | null, assets?: { __typename?: 'SimulatorAssets', mesh?: string | null, texture?: string | null, side?: string | null, top?: string | null, logo?: string | null, bridge?: string | null } | null, systems?: Array<{ __typename?: 'System', id?: string | null, type?: string | null, name?: string | null, displayName?: string | null, upgradeName?: string | null, upgradeMacros?: Array<{ __typename?: 'TimelineItem', id: string, event: string, args?: string | null, delay?: number | null } | null> | null, requiredDamageSteps?: Array<{ __typename?: 'DamageStep', id?: string | null, name?: string | null, args?: { __typename?: 'DamageStepArgs', end?: boolean | null, cleanup?: boolean | null, name?: string | null, orders?: string | null, room?: string | null, preamble?: string | null, type?: string | null, message?: string | null, code?: string | null, inventory?: string | null, destination?: string | null, equipment?: string | null, query?: string | null, reactivate?: boolean | null } | null } | null> | null, optionalDamageSteps?: Array<{ __typename?: 'DamageStep', id?: string | null, name?: string | null, args?: { __typename?: 'DamageStepArgs', end?: boolean | null, cleanup?: boolean | null, name?: string | null, orders?: string | null, room?: string | null, preamble?: string | null, type?: string | null, message?: string | null, code?: string | null, inventory?: string | null, destination?: string | null, equipment?: string | null, query?: string | null, reactivate?: boolean | null } | null } | null> | null, damageTasks?: Array<{ __typename?: 'DamageTask', id?: string | null, required?: boolean | null, taskTemplate?: { __typename?: 'TaskTemplate', id: string, name: string, definition: string, reportTypes?: Array<string> | null } | null, nextSteps?: Array<{ __typename?: 'TaskTemplate', id: string, name: string, definition: string } | null> | null } | null> | null }> | null, stationSets?: Array<{ __typename?: 'StationSet', id: string, name: string, crewCount?: number | null, stations: Array<{ __typename?: 'Station', name: string, description?: string | null, tags?: Array<string> | null, training?: string | null, ambiance?: string | null, login?: boolean | null, executive?: boolean | null, messageGroups?: Array<string | null> | null, layout?: string | null, widgets?: Array<string | null> | null, cards?: Array<{ __typename?: 'Card', name: string, component: string }> | null }> } | null> | null } | null> | null };
 
 export type StationSetConfigSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StationSetConfigSubscription = (
-  { __typename?: 'Subscription' }
-  & { stationSetUpdate?: Maybe<Array<Maybe<(
-    { __typename?: 'StationSet' }
-    & Pick<StationSet, 'id' | 'name' | 'crewCount'>
-    & { simulator?: Maybe<(
-      { __typename?: 'Simulator' }
-      & Pick<Simulator, 'id'>
-    )>, stations: Array<(
-      { __typename?: 'Station' }
-      & Pick<Station, 'name' | 'description' | 'tags' | 'training' | 'ambiance' | 'login' | 'messageGroups' | 'executive' | 'widgets' | 'layout'>
-      & { cards?: Maybe<Array<(
-        { __typename?: 'Card' }
-        & Pick<Card, 'name' | 'component'>
-      )>> }
-    )> }
-  )>>> }
-);
+export type StationSetConfigSubscription = { __typename?: 'Subscription', stationSetUpdate?: Array<{ __typename?: 'StationSet', id: string, name: string, crewCount?: number | null, simulator?: { __typename?: 'Simulator', id: string } | null, stations: Array<{ __typename?: 'Station', name: string, description?: string | null, tags?: Array<string> | null, training?: string | null, ambiance?: string | null, login?: boolean | null, messageGroups?: Array<string | null> | null, executive?: boolean | null, widgets?: Array<string | null> | null, layout?: string | null, cards?: Array<{ __typename?: 'Card', name: string, component: string }> | null }> } | null> | null };
 
 export type StationSetTagsMutationVariables = Exact<{
-  stationSetId: Scalars['ID'];
-  stationName: Scalars['String'];
-  tags: Array<Scalars['String']> | Scalars['String'];
+  stationSetId: Scalars['ID']['input'];
+  stationName: Scalars['String']['input'];
+  tags: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type StationSetTagsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setStationTags'>
-);
+export type StationSetTagsMutation = { __typename?: 'Mutation', setStationTags?: string | null };
 
 export type AddTaskTemplateMutationVariables = Exact<{
-  definition: Scalars['String'];
+  definition: Scalars['String']['input'];
 }>;
 
 
-export type AddTaskTemplateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addTaskTemplate'>
-);
+export type AddTaskTemplateMutation = { __typename?: 'Mutation', addTaskTemplate?: string | null };
 
 export type ImportTemplatesMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ImportTemplatesMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'importTaskTemplates'>
-);
+export type ImportTemplatesMutation = { __typename?: 'Mutation', importTaskTemplates?: string | null };
 
 export type RemoveTaskTemplateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveTaskTemplateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeTaskTemplate'>
-);
+export type RemoveTaskTemplateMutation = { __typename?: 'Mutation', removeTaskTemplate?: string | null };
 
 export type RenameTaskTemplateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type RenameTaskTemplateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'renameTaskTemplate'>
-);
+export type RenameTaskTemplateMutation = { __typename?: 'Mutation', renameTaskTemplate?: string | null };
 
 export type SetTaskMacroMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   macros: Array<ActionInput> | ActionInput;
 }>;
 
 
-export type SetTaskMacroMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTaskTemplateMacros'>
-);
+export type SetTaskMacroMutation = { __typename?: 'Mutation', setTaskTemplateMacros?: string | null };
 
 export type SetTaskPreMacroMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   macros: Array<ActionInput> | ActionInput;
 }>;
 
 
-export type SetTaskPreMacroMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTaskTemplatePreMacros'>
-);
+export type SetTaskPreMacroMutation = { __typename?: 'Mutation', setTaskTemplatePreMacros?: string | null };
 
 export type SetTaskTemplateReportTypesMutationVariables = Exact<{
-  id: Scalars['ID'];
-  reportTypes: Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>;
+  id: Scalars['ID']['input'];
+  reportTypes: Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type SetTaskTemplateReportTypesMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTaskTemplateReportTypes'>
-);
+export type SetTaskTemplateReportTypesMutation = { __typename?: 'Mutation', setTaskTemplateReportTypes?: string | null };
 
 export type SetTaskTemplateValuesMutationVariables = Exact<{
-  id: Scalars['ID'];
-  values: Scalars['JSON'];
+  id: Scalars['ID']['input'];
+  values: Scalars['JSON']['input'];
 }>;
 
 
-export type SetTaskTemplateValuesMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setTaskTemplateValues'>
-);
+export type SetTaskTemplateValuesMutation = { __typename?: 'Mutation', setTaskTemplateValues?: string | null };
 
 export type TaskDefinitionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TaskDefinitionsQuery = (
-  { __typename?: 'Query' }
-  & { taskDefinitions: Array<(
-    { __typename?: 'TaskDefinition' }
-    & Pick<TaskDefinition, 'id' | 'class' | 'name' | 'valuesInput' | 'valuesValue' | 'active'>
-    & { stations?: Maybe<Array<Maybe<(
-      { __typename?: 'Station' }
-      & Pick<Station, 'name'>
-      & { cards?: Maybe<Array<(
-        { __typename?: 'Card' }
-        & Pick<Card, 'name' | 'component'>
-      )>> }
-    )>>> }
-  )>, thorium?: Maybe<(
-    { __typename?: 'Thorium' }
-    & Pick<Thorium, 'addedTaskTemplates'>
-  )> }
-);
+export type TaskDefinitionsQuery = { __typename?: 'Query', taskDefinitions: Array<{ __typename?: 'TaskDefinition', id: string, class: string, name: string, valuesInput: {[key: string]: any}, valuesValue: {[key: string]: any}, active: boolean, stations?: Array<{ __typename?: 'Station', name: string, cards?: Array<{ __typename?: 'Card', name: string, component: string }> | null } | null> | null }>, thorium?: { __typename?: 'Thorium', addedTaskTemplates?: boolean | null } | null };
 
 export type TaskFlowAddMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type TaskFlowAddMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowAdd'>
-);
+export type TaskFlowAddMutation = { __typename?: 'Mutation', taskFlowAdd?: string | null };
 
 export type TaskFlowAddStepMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type TaskFlowAddStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowAddStep'>
-);
+export type TaskFlowAddStepMutation = { __typename?: 'Mutation', taskFlowAddStep?: string | null };
 
 export type TaskFlowRemoveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type TaskFlowRemoveMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowRemove'>
-);
+export type TaskFlowRemoveMutation = { __typename?: 'Mutation', taskFlowRemove?: string | null };
 
 export type TaskFlowRemoveStepMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
 }>;
 
 
-export type TaskFlowRemoveStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowRemoveStep'>
-);
+export type TaskFlowRemoveStepMutation = { __typename?: 'Mutation', taskFlowRemoveStep?: string | null };
 
 export type TaskFlowRenameMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type TaskFlowRenameMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowRename'>
-);
+export type TaskFlowRenameMutation = { __typename?: 'Mutation', taskFlowRename?: string | null };
 
 export type TaskFlowRenameStepMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type TaskFlowRenameStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowRenameStep'>
-);
+export type TaskFlowRenameStepMutation = { __typename?: 'Mutation', taskFlowRenameStep?: string | null };
 
 export type TaskFlowReorderStepMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  order: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
 }>;
 
 
-export type TaskFlowReorderStepMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowReorderStep'>
-);
+export type TaskFlowReorderStepMutation = { __typename?: 'Mutation', taskFlowReorderStep?: string | null };
 
 export type TaskFlowSetCategoryMutationVariables = Exact<{
-  id: Scalars['ID'];
-  category: Scalars['String'];
+  id: Scalars['ID']['input'];
+  category: Scalars['String']['input'];
 }>;
 
 
-export type TaskFlowSetCategoryMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowSetCategory'>
-);
+export type TaskFlowSetCategoryMutation = { __typename?: 'Mutation', taskFlowSetCategory?: string | null };
 
 export type TaskFlowStepAddTaskMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
   task: TaskInput;
 }>;
 
 
-export type TaskFlowStepAddTaskMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowStepAddTask'>
-);
+export type TaskFlowStepAddTaskMutation = { __typename?: 'Mutation', taskFlowStepAddTask?: string | null };
 
 export type TaskFlowStepEditTaskMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  taskId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  taskId: Scalars['ID']['input'];
   task: TaskInput;
 }>;
 
 
-export type TaskFlowStepEditTaskMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowStepEditTask'>
-);
+export type TaskFlowStepEditTaskMutation = { __typename?: 'Mutation', taskFlowStepEditTask?: string | null };
 
 export type TaskFlowStepRemoveTaskMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  taskId: Scalars['ID'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  taskId: Scalars['ID']['input'];
 }>;
 
 
-export type TaskFlowStepRemoveTaskMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowStepRemoveTask'>
-);
+export type TaskFlowStepRemoveTaskMutation = { __typename?: 'Mutation', taskFlowStepRemoveTask?: string | null };
 
 export type TaskFlowStepCompleteAllMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  completeAll: Scalars['Boolean'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  completeAll: Scalars['Boolean']['input'];
 }>;
 
 
-export type TaskFlowStepCompleteAllMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowStepSetCompleteAll'>
-);
+export type TaskFlowStepCompleteAllMutation = { __typename?: 'Mutation', taskFlowStepSetCompleteAll?: string | null };
 
 export type TaskFlowStepDelayMutationVariables = Exact<{
-  id: Scalars['ID'];
-  stepId: Scalars['ID'];
-  delay: Scalars['Int'];
+  id: Scalars['ID']['input'];
+  stepId: Scalars['ID']['input'];
+  delay: Scalars['Int']['input'];
 }>;
 
 
-export type TaskFlowStepDelayMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'taskFlowStepSetDelay'>
-);
+export type TaskFlowStepDelayMutation = { __typename?: 'Mutation', taskFlowStepSetDelay?: string | null };
 
 export type TaskFlowsConfigSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TaskFlowsConfigSubscription = (
-  { __typename?: 'Subscription' }
-  & { taskFlows: Array<(
-    { __typename?: 'TaskFlow' }
-    & Pick<TaskFlow, 'id' | 'name' | 'category'>
-    & { steps: Array<(
-      { __typename?: 'TaskFlowStep' }
-      & Pick<TaskFlowStep, 'id' | 'name' | 'delay' | 'completeAll'>
-      & { tasks: Array<(
-        { __typename?: 'Task' }
-        & Pick<Task, 'id' | 'station' | 'stationTags' | 'definition' | 'values' | 'private'>
-        & { macros?: Maybe<Array<(
-          { __typename?: 'MacroAction' }
-          & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay'>
-        )>>, preMacros: Array<(
-          { __typename?: 'MacroAction' }
-          & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay'>
-        )> }
-      )> }
-    )> }
-  )> }
-);
+export type TaskFlowsConfigSubscription = { __typename?: 'Subscription', taskFlows: Array<{ __typename?: 'TaskFlow', id: string, name: string, category: string, steps: Array<{ __typename?: 'TaskFlowStep', id: string, name: string, delay: number, completeAll: boolean, tasks: Array<{ __typename?: 'Task', id: string, station?: string | null, stationTags?: Array<string> | null, definition: string, values?: {[key: string]: any} | null, private?: boolean | null, macros?: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null }> | null, preMacros: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null }> }> }> }> };
 
 export type TaskTemplatesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TaskTemplatesSubscription = (
-  { __typename?: 'Subscription' }
-  & { taskTemplatesUpdate: Array<(
-    { __typename?: 'TaskTemplate' }
-    & Pick<TaskTemplate, 'id' | 'name' | 'definition' | 'values' | 'reportTypes'>
-    & { macros?: Maybe<Array<(
-      { __typename?: 'MacroAction' }
-      & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay'>
-    )>>, preMacros?: Maybe<Array<(
-      { __typename?: 'MacroAction' }
-      & Pick<MacroAction, 'id' | 'event' | 'args' | 'delay'>
-    )>> }
-  )> }
-);
+export type TaskTemplatesSubscription = { __typename?: 'Subscription', taskTemplatesUpdate: Array<{ __typename?: 'TaskTemplate', id: string, name: string, definition: string, values?: {[key: string]: any} | null, reportTypes?: Array<string> | null, macros?: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null }> | null, preMacros?: Array<{ __typename?: 'MacroAction', id: string, event: string, args: string, delay?: number | null }> | null }> };
 
 export type EntityRemoveEngineMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   type: EntityEngineEnum;
 }>;
 
 
-export type EntityRemoveEngineMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entityRemoveEngine'>
-);
+export type EntityRemoveEngineMutation = { __typename?: 'Mutation', entityRemoveEngine?: string | null };
 
 export type EntityRemoveThrustersMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type EntityRemoveThrustersMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entityRemoveThrusters'>
-);
+export type EntityRemoveThrustersMutation = { __typename?: 'Mutation', entityRemoveThrusters?: string | null };
 
 export type EntitySetEngineMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   type: EntityEngineEnum;
-  maxSpeed?: Maybe<Scalars['Float']>;
-  currentSpeed?: Maybe<Scalars['Float']>;
+  maxSpeed?: InputMaybe<Scalars['Float']['input']>;
+  currentSpeed?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type EntitySetEngineMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetEngine'>
-);
+export type EntitySetEngineMutation = { __typename?: 'Mutation', entitySetEngine?: string | null };
 
 export type EntitySetThrustersMutationVariables = Exact<{
-  id: Scalars['ID'];
-  rotationSpeed?: Maybe<Scalars['Float']>;
-  movementSpeed?: Maybe<Scalars['Float']>;
-  direction?: Maybe<CoordinatesInput>;
-  rotationDelta?: Maybe<CoordinatesInput>;
+  id: Scalars['ID']['input'];
+  rotationSpeed?: InputMaybe<Scalars['Float']['input']>;
+  movementSpeed?: InputMaybe<Scalars['Float']['input']>;
+  direction?: InputMaybe<CoordinatesInput>;
+  rotationDelta?: InputMaybe<CoordinatesInput>;
 }>;
 
 
-export type EntitySetThrustersMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetThrusters'>
-);
+export type EntitySetThrustersMutation = { __typename?: 'Mutation', entitySetThrusters?: string | null };
 
 export type EntitiesSetPositionMutationVariables = Exact<{
   entities: Array<EntitiesLocationInput> | EntitiesLocationInput;
 }>;
 
 
-export type EntitiesSetPositionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitiesSetPosition'>
-);
+export type EntitiesSetPositionMutation = { __typename?: 'Mutation', entitiesSetPosition?: string | null };
 
 export type EntityCreateMutationVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
   position: EntityCoordinatesInput;
-  name: Scalars['String'];
-  stageParentId: Scalars['ID'];
-  color?: Maybe<Scalars['String']>;
+  name: Scalars['String']['input'];
+  stageParentId: Scalars['ID']['input'];
+  color?: InputMaybe<Scalars['String']['input']>;
   meshType: MeshTypeEnum;
-  modelAsset?: Maybe<Scalars['String']>;
-  materialMapAsset?: Maybe<Scalars['String']>;
-  ringMapAsset?: Maybe<Scalars['String']>;
-  cloudMapAsset?: Maybe<Scalars['String']>;
-  emissiveColor?: Maybe<Scalars['String']>;
-  emissiveIntensity?: Maybe<Scalars['Float']>;
-  glowMode?: Maybe<GlowModeEnum>;
-  glowColor?: Maybe<Scalars['String']>;
-  lightIntensity?: Maybe<Scalars['Float']>;
-  lightDecay?: Maybe<Scalars['Float']>;
-  lightColor?: Maybe<Scalars['String']>;
+  modelAsset?: InputMaybe<Scalars['String']['input']>;
+  materialMapAsset?: InputMaybe<Scalars['String']['input']>;
+  ringMapAsset?: InputMaybe<Scalars['String']['input']>;
+  cloudMapAsset?: InputMaybe<Scalars['String']['input']>;
+  emissiveColor?: InputMaybe<Scalars['String']['input']>;
+  emissiveIntensity?: InputMaybe<Scalars['Float']['input']>;
+  glowMode?: InputMaybe<GlowModeEnum>;
+  glowColor?: InputMaybe<Scalars['String']['input']>;
+  lightIntensity?: InputMaybe<Scalars['Float']['input']>;
+  lightDecay?: InputMaybe<Scalars['Float']['input']>;
+  lightColor?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type EntityCreateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetStageChild' | 'entitySetLocation' | 'entitySetIdentity' | 'entitySetAppearance' | 'entitySetGlow' | 'entitySetLight'>
-  & { entityCreate: (
-    { __typename?: 'Entity' }
-    & Pick<Entity, 'id'>
-  ) }
-);
+export type EntityCreateMutation = { __typename?: 'Mutation', entitySetStageChild?: string | null, entitySetLocation?: string | null, entitySetIdentity?: string | null, entitySetAppearance?: string | null, entitySetGlow?: string | null, entitySetLight?: string | null, entityCreate: { __typename?: 'Entity', id: string } };
 
-export type EntityDataFragment = (
-  { __typename?: 'Entity' }
-  & Pick<Entity, 'id' | 'interval'>
-  & { identity?: Maybe<(
-    { __typename?: 'IdentityComponent' }
-    & Pick<IdentityComponent, 'name'>
-  )>, stage?: Maybe<(
-    { __typename?: 'StageComponent' }
-    & Pick<StageComponent, 'scaleLabel' | 'scaleLabelShort' | 'skyboxKey' | 'childrenAsSprites'>
-  )>, stageChild?: Maybe<(
-    { __typename?: 'StageChildComponent' }
-    & Pick<StageChildComponent, 'parentId'>
-    & { parent?: Maybe<(
-      { __typename?: 'Entity' }
-      & Pick<Entity, 'id'>
-      & { identity?: Maybe<(
-        { __typename?: 'IdentityComponent' }
-        & Pick<IdentityComponent, 'name'>
-      )> }
-    )> }
-  )>, appearance?: Maybe<(
-    { __typename?: 'AppearanceComponent' }
-    & Pick<AppearanceComponent, 'color' | 'meshType' | 'modelAsset' | 'materialMapAsset' | 'ringMapAsset' | 'cloudMapAsset' | 'emissiveColor' | 'emissiveIntensity' | 'scale'>
-  )>, light?: Maybe<(
-    { __typename?: 'LightComponent' }
-    & Pick<LightComponent, 'intensity' | 'decay' | 'color'>
-  )>, glow?: Maybe<(
-    { __typename?: 'GlowComponent' }
-    & Pick<GlowComponent, 'glowMode' | 'color'>
-  )>, location?: Maybe<(
-    { __typename?: 'LocationComponent' }
-    & Pick<LocationComponent, 'inert'>
-    & { position: (
-      { __typename?: 'EntityCoordinates' }
-      & Pick<EntityCoordinates, 'x' | 'y' | 'z'>
-    ), rotation: (
-      { __typename?: 'Quaternion' }
-      & Pick<Quaternion, 'x' | 'y' | 'z' | 'w'>
-    ) }
-  )>, enginesWarp?: Maybe<(
-    { __typename?: 'EngineComponent' }
-    & Pick<EngineComponent, 'maxSpeed' | 'currentSpeed'>
-  )>, enginesImpulse?: Maybe<(
-    { __typename?: 'EngineComponent' }
-    & Pick<EngineComponent, 'maxSpeed' | 'currentSpeed'>
-  )>, thrusters?: Maybe<(
-    { __typename?: 'ThrustersComponent' }
-    & Pick<ThrustersComponent, 'rotationSpeed' | 'movementSpeed'>
-  )> }
-);
+export type EntityDataFragment = { __typename?: 'Entity', id: string, interval?: number | null, identity?: { __typename?: 'IdentityComponent', name?: string | null } | null, stage?: { __typename?: 'StageComponent', scaleLabel?: string | null, scaleLabelShort?: string | null, skyboxKey?: string | null, childrenAsSprites?: boolean | null } | null, stageChild?: { __typename?: 'StageChildComponent', parentId: string, parent?: { __typename?: 'Entity', id: string, identity?: { __typename?: 'IdentityComponent', name?: string | null } | null } | null } | null, appearance?: { __typename?: 'AppearanceComponent', color?: string | null, meshType?: MeshTypeEnum | null, modelAsset?: string | null, materialMapAsset?: string | null, ringMapAsset?: string | null, cloudMapAsset?: string | null, emissiveColor?: string | null, emissiveIntensity?: number | null, scale?: number | null } | null, light?: { __typename?: 'LightComponent', intensity?: number | null, decay?: number | null, color?: string | null } | null, glow?: { __typename?: 'GlowComponent', glowMode?: GlowModeEnum | null, color?: string | null } | null, location?: { __typename?: 'LocationComponent', inert: boolean, position: { __typename?: 'EntityCoordinates', x: number, y: number, z: number }, rotation: { __typename?: 'Quaternion', x: number, y: number, z: number, w: number } } | null, enginesWarp?: { __typename?: 'EngineComponent', maxSpeed?: number | null, currentSpeed?: number | null } | null, enginesImpulse?: { __typename?: 'EngineComponent', maxSpeed?: number | null, currentSpeed?: number | null } | null, thrusters?: { __typename?: 'ThrustersComponent', rotationSpeed?: number | null, movementSpeed?: number | null } | null };
 
 export type EntitiesQueryVariables = Exact<{
-  flightId: Scalars['ID'];
+  flightId: Scalars['ID']['input'];
 }>;
 
 
-export type EntitiesQuery = (
-  { __typename?: 'Query' }
-  & { entities: Array<Maybe<(
-    { __typename?: 'Entity' }
-    & EntityDataFragment
-  )>> }
-);
+export type EntitiesQuery = { __typename?: 'Query', entities: Array<{ __typename?: 'Entity', id: string, interval?: number | null, identity?: { __typename?: 'IdentityComponent', name?: string | null } | null, stage?: { __typename?: 'StageComponent', scaleLabel?: string | null, scaleLabelShort?: string | null, skyboxKey?: string | null, childrenAsSprites?: boolean | null } | null, stageChild?: { __typename?: 'StageChildComponent', parentId: string, parent?: { __typename?: 'Entity', id: string, identity?: { __typename?: 'IdentityComponent', name?: string | null } | null } | null } | null, appearance?: { __typename?: 'AppearanceComponent', color?: string | null, meshType?: MeshTypeEnum | null, modelAsset?: string | null, materialMapAsset?: string | null, ringMapAsset?: string | null, cloudMapAsset?: string | null, emissiveColor?: string | null, emissiveIntensity?: number | null, scale?: number | null } | null, light?: { __typename?: 'LightComponent', intensity?: number | null, decay?: number | null, color?: string | null } | null, glow?: { __typename?: 'GlowComponent', glowMode?: GlowModeEnum | null, color?: string | null } | null, location?: { __typename?: 'LocationComponent', inert: boolean, position: { __typename?: 'EntityCoordinates', x: number, y: number, z: number }, rotation: { __typename?: 'Quaternion', x: number, y: number, z: number, w: number } } | null, enginesWarp?: { __typename?: 'EngineComponent', maxSpeed?: number | null, currentSpeed?: number | null } | null, enginesImpulse?: { __typename?: 'EngineComponent', maxSpeed?: number | null, currentSpeed?: number | null } | null, thrusters?: { __typename?: 'ThrustersComponent', rotationSpeed?: number | null, movementSpeed?: number | null } | null } | null> };
 
 export type EntityRemoveMutationVariables = Exact<{
-  id: Array<Scalars['ID']> | Scalars['ID'];
+  id: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
 }>;
 
 
-export type EntityRemoveMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entityRemove'>
-);
+export type EntityRemoveMutation = { __typename?: 'Mutation', entityRemove?: string | null };
 
 export type EntityRemoveGlowMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type EntityRemoveGlowMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entityRemoveGlow'>
-);
+export type EntityRemoveGlowMutation = { __typename?: 'Mutation', entityRemoveGlow?: string | null };
 
 export type EntityRemoveLightMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type EntityRemoveLightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entityRemoveLight'>
-);
+export type EntityRemoveLightMutation = { __typename?: 'Mutation', entityRemoveLight?: string | null };
 
 export type EntityRemoveStageMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
-export type EntityRemoveStageMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entityRemoveStage'>
-);
+export type EntityRemoveStageMutation = { __typename?: 'Mutation', entityRemoveStage?: string | null };
 
 export type EntitySetAppearanceMutationVariables = Exact<{
-  id: Scalars['ID'];
-  color?: Maybe<Scalars['String']>;
-  meshType?: Maybe<MeshTypeEnum>;
-  modelAsset?: Maybe<Scalars['String']>;
-  materialMapAsset?: Maybe<Scalars['String']>;
-  cloudMapAsset?: Maybe<Scalars['String']>;
-  ringMapAsset?: Maybe<Scalars['String']>;
-  emissiveColor?: Maybe<Scalars['String']>;
-  emissiveIntensity?: Maybe<Scalars['Float']>;
-  scale?: Maybe<Scalars['Float']>;
+  id: Scalars['ID']['input'];
+  color?: InputMaybe<Scalars['String']['input']>;
+  meshType?: InputMaybe<MeshTypeEnum>;
+  modelAsset?: InputMaybe<Scalars['String']['input']>;
+  materialMapAsset?: InputMaybe<Scalars['String']['input']>;
+  cloudMapAsset?: InputMaybe<Scalars['String']['input']>;
+  ringMapAsset?: InputMaybe<Scalars['String']['input']>;
+  emissiveColor?: InputMaybe<Scalars['String']['input']>;
+  emissiveIntensity?: InputMaybe<Scalars['Float']['input']>;
+  scale?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type EntitySetAppearanceMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetAppearance'>
-);
+export type EntitySetAppearanceMutation = { __typename?: 'Mutation', entitySetAppearance?: string | null };
 
 export type EntitySetGlowMutationVariables = Exact<{
-  id: Scalars['ID'];
-  glowMode?: Maybe<GlowModeEnum>;
-  color?: Maybe<Scalars['String']>;
+  id: Scalars['ID']['input'];
+  glowMode?: InputMaybe<GlowModeEnum>;
+  color?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type EntitySetGlowMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetGlow'>
-);
+export type EntitySetGlowMutation = { __typename?: 'Mutation', entitySetGlow?: string | null };
 
 export type EntitySetIdentityMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
-export type EntitySetIdentityMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetIdentity'>
-);
+export type EntitySetIdentityMutation = { __typename?: 'Mutation', entitySetIdentity?: string | null };
 
 export type EntitySetLightMutationVariables = Exact<{
-  id: Scalars['ID'];
-  color?: Maybe<Scalars['String']>;
-  intensity?: Maybe<Scalars['Float']>;
-  decay?: Maybe<Scalars['Float']>;
+  id: Scalars['ID']['input'];
+  color?: InputMaybe<Scalars['String']['input']>;
+  intensity?: InputMaybe<Scalars['Float']['input']>;
+  decay?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type EntitySetLightMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetLight'>
-);
+export type EntitySetLightMutation = { __typename?: 'Mutation', entitySetLight?: string | null };
 
 export type EntitySetLocationMutationVariables = Exact<{
-  id: Scalars['ID'];
-  position?: Maybe<EntityCoordinatesInput>;
-  velocity?: Maybe<EntityCoordinatesInput>;
-  acceleration?: Maybe<EntityCoordinatesInput>;
-  rotation?: Maybe<QuaternionInput>;
-  rotationVelocity?: Maybe<EntityCoordinatesInput>;
-  rotationAcceleration?: Maybe<EntityCoordinatesInput>;
+  id: Scalars['ID']['input'];
+  position?: InputMaybe<EntityCoordinatesInput>;
+  velocity?: InputMaybe<EntityCoordinatesInput>;
+  acceleration?: InputMaybe<EntityCoordinatesInput>;
+  rotation?: InputMaybe<QuaternionInput>;
+  rotationVelocity?: InputMaybe<EntityCoordinatesInput>;
+  rotationAcceleration?: InputMaybe<EntityCoordinatesInput>;
 }>;
 
 
-export type EntitySetLocationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetLocation'>
-);
+export type EntitySetLocationMutation = { __typename?: 'Mutation', entitySetLocation?: string | null };
 
 export type EntitySetRotationVelocityMagnitudeMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   rotationVelocity: CoordinatesInput;
 }>;
 
 
-export type EntitySetRotationVelocityMagnitudeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetRotationVelocityMagnitude'>
-);
+export type EntitySetRotationVelocityMagnitudeMutation = { __typename?: 'Mutation', entitySetRotationVelocityMagnitude?: string | null };
 
 export type EntitySetStageMutationVariables = Exact<{
-  id: Scalars['ID'];
-  scaleLabel?: Maybe<Scalars['String']>;
-  scaleLabelShort?: Maybe<Scalars['String']>;
-  skyboxKey?: Maybe<Scalars['String']>;
+  id: Scalars['ID']['input'];
+  scaleLabel?: InputMaybe<Scalars['String']['input']>;
+  scaleLabelShort?: InputMaybe<Scalars['String']['input']>;
+  skyboxKey?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type EntitySetStageMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetStage'>
-);
+export type EntitySetStageMutation = { __typename?: 'Mutation', entitySetStage?: string | null };
 
 export type EntitySetTemplateMutationVariables = Exact<{
-  id?: Maybe<Scalars['ID']>;
-  category: Scalars['String'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+  category: Scalars['String']['input'];
 }>;
 
 
-export type EntitySetTemplateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'entitySetTemplate'>
-);
+export type EntitySetTemplateMutation = { __typename?: 'Mutation', entitySetTemplate?: string | null };
 
 export type SoundPickerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SoundPickerQuery = (
-  { __typename?: 'Query' }
-  & { assetFolders?: Maybe<Array<Maybe<(
-    { __typename?: 'AssetFolder' }
-    & Pick<AssetFolder, 'id' | 'name' | 'fullPath' | 'folderPath'>
-    & { objects: Array<(
-      { __typename?: 'AssetObject' }
-      & Pick<AssetObject, 'id' | 'name' | 'fullPath'>
-    )> }
-  )>>> }
-);
+export type SoundPickerQuery = { __typename?: 'Query', assetFolders?: Array<{ __typename?: 'AssetFolder', id: string, name: string, fullPath: string, folderPath: string, objects: Array<{ __typename?: 'AssetObject', id: string, name: string, fullPath: string }> } | null> | null };
 
 
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
       }
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": [
-      {
-        "kind": "INTERFACE",
-        "name": "HeatInterface",
-        "possibleTypes": []
-      },
-      {
-        "kind": "UNION",
-        "name": "Location",
-        "possibleTypes": [
-          {
-            "name": "Deck"
-          },
-          {
-            "name": "Room"
-          }
-        ]
-      },
-      {
-        "kind": "INTERFACE",
-        "name": "SystemInterface",
-        "possibleTypes": [
-          {
-            "name": "AdvancedNavigationAndAstrometrics"
-          },
-          {
-            "name": "CoolantTank"
-          },
-          {
-            "name": "Countermeasures"
-          },
-          {
-            "name": "Crm"
-          },
-          {
-            "name": "Engine"
-          },
-          {
-            "name": "HullPlating"
-          },
-          {
-            "name": "InternalComm"
-          },
-          {
-            "name": "JumpDrive"
-          },
-          {
-            "name": "LRCommunications"
-          },
-          {
-            "name": "Navigation"
-          },
-          {
-            "name": "Phaser"
-          },
-          {
-            "name": "Probes"
-          },
-          {
-            "name": "Railgun"
-          },
-          {
-            "name": "Reactor"
-          },
-          {
-            "name": "Sensors"
-          },
-          {
-            "name": "Shield"
-          },
-          {
-            "name": "ShortRangeComm"
-          },
-          {
-            "name": "Sickbay"
-          },
-          {
-            "name": "SignalJammer"
-          },
-          {
-            "name": "StealthField"
-          },
-          {
-            "name": "SubspaceField"
-          },
-          {
-            "name": "System"
-          },
-          {
-            "name": "Targeting"
-          },
-          {
-            "name": "Thruster"
-          },
-          {
-            "name": "Thx"
-          },
-          {
-            "name": "Torpedo"
-          },
-          {
-            "name": "TractorBeam"
-          },
-          {
-            "name": "Transporter"
-          },
-          {
-            "name": "Transwarp"
-          }
-        ]
-      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {
+    "HeatInterface": [],
+    "Location": [
+      "Deck",
+      "Room"
+    ],
+    "SystemInterface": [
+      "AdvancedNavigationAndAstrometrics",
+      "CoolantTank",
+      "Countermeasures",
+      "Crm",
+      "Engine",
+      "HullPlating",
+      "InternalComm",
+      "JumpDrive",
+      "LRCommunications",
+      "Navigation",
+      "Phaser",
+      "Probes",
+      "Railgun",
+      "Reactor",
+      "Sensors",
+      "Shield",
+      "ShortRangeComm",
+      "Sickbay",
+      "SignalJammer",
+      "StealthField",
+      "SubspaceField",
+      "System",
+      "Targeting",
+      "Thruster",
+      "Thx",
+      "Torpedo",
+      "TractorBeam",
+      "Transporter",
+      "Transwarp"
     ]
   }
 };

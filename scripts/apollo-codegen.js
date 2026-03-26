@@ -9,8 +9,7 @@ function _interopDefault(ex) {
 const graphql = require("graphql");
 const visitorPluginCommon = require("@graphql-codegen/visitor-plugin-common");
 const autoBind = _interopDefault(require("auto-bind"));
-const pascalCase = require("pascal-case");
-const camelCase = require("camel-case");
+const {pascalCase, camelCase} = require("change-case");
 const path = require("path");
 
 class ReactApolloVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
@@ -119,13 +118,13 @@ class ReactApolloVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
       this._externalImportPrefix +
       this.convertName(
         operationName +
-          pascalCase.pascalCase(operationType) +
+          pascalCase(operationType) +
           this._parsedConfig.operationResultSuffix,
       );
     const variablesVarName =
       this._externalImportPrefix +
       this.convertName(
-        operationName + pascalCase.pascalCase(operationType) + "Variables",
+        operationName + pascalCase(operationType) + "Variables",
       );
     const typeArgs = `<${typeVariableName}, ${variablesVarName}>`;
     if (operationType === "mutation") {
@@ -169,13 +168,13 @@ class ReactApolloVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
   ${operationResultType},
   ${operationVariablesTypes},
   ${propsTypeName}<TChildProps, TDataName>>) {
-    return ApolloReactHoc.with${pascalCase.pascalCase(
+    return ApolloReactHoc.with${pascalCase(
       node.operation,
     )}<TProps, ${operationResultType}, ${operationVariablesTypes}, ${propsTypeName}<TChildProps, TDataName>>(${this.getDocumentNodeVariable(
       node,
       documentVariableName,
     )}, {
-      alias: '${camelCase.camelCase(operationName)}',
+      alias: '${camelCase(operationName)}',
       ...operationOptions
     });
 };`;
@@ -244,7 +243,7 @@ class ReactApolloVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution`;
     const mutationExample = `
- * const [${camelCase.camelCase(
+ * const [${camelCase(
    operationName,
  )}, { data, loading, error }] = use${operationName}({
  *   variables: {${variableString}
@@ -314,7 +313,7 @@ class ReactApolloVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
       return "";
     }
     if (!this.config.dedupeOperationSuffix) {
-      return pascalCase.pascalCase(operationType);
+      return pascalCase(operationType);
     }
     if (
       name.includes("Query") ||
@@ -323,7 +322,7 @@ class ReactApolloVisitor extends visitorPluginCommon.ClientSideBaseVisitor {
     ) {
       return "";
     }
-    return pascalCase.pascalCase(operationType);
+    return pascalCase(operationType);
   }
   _buildResultType(
     node,

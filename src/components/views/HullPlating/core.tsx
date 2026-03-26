@@ -1,17 +1,18 @@
 import React from "react";
-import {HullPlating, Simulator} from "generated/graphql";
+import { HullPlating, Simulator } from "generated/graphql";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Container} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container } from "helpers/reactstrap";
 
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
-import {HullPlatingModeConstants} from "./constants";
+import { HullPlatingModeConstants } from "./constants";
 
 interface HullPlatingProps {
   children: React.ReactNode;
   simulator: Simulator;
-  data?: {loading?: any; hullPlatings?: HullPlating[]};
+  data?: {loading?: any;hullPlatings?: HullPlating[];};
   client: any;
 }
 
@@ -57,7 +58,7 @@ export const HULL_PLATING_QUERY = gql`
   }
 `;
 
-const HullPlatingComp: React.FC<HullPlatingProps> = props => {
+const HullPlatingComp: React.FC<HullPlatingProps> = (props) => {
   if (!props.data || props.data.loading) {
     return <div>No Values </div>;
   }
@@ -76,11 +77,11 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
       `;
       const variables = {
         id: hullPlating.id,
-        mode: mode,
+        mode: mode
       };
       props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
@@ -93,11 +94,11 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
       `;
       const variables = {
         id: hullPlating.id,
-        engaged: !hullPlating.engaged,
+        engaged: !hullPlating.engaged
       };
       props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
@@ -110,11 +111,11 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
     `;
     const variables = {
       id: hullPlating.id,
-      pulse: true,
+      pulse: true
     };
     props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
@@ -126,51 +127,51 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
     `;
     const variables = {
       id: hullPlating.id,
-      pulse: false,
+      pulse: false
     };
     props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   return (
     <Container fluid className="flex-column card-hullPlating">
       <SubscriptionHelper
         subscribe={() =>
-          (props as any).data.subscribeToMore({
-            document: HULL_PLATING_SUB,
-            variables: {simulatorId: props.simulator.id},
-            updateQuery: (previousResult: any, {subscriptionData}: any) => {
-              return Object.assign({}, previousResult, {
-                hullPlatings: subscriptionData.data.hullPlatingUpdate,
-              });
-            },
-          })
-        }
-      />
+        (props as any).data.subscribeToMore({
+          document: HULL_PLATING_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult: any, { subscriptionData }: any) => {
+            return Object.assign({}, previousResult, {
+              hullPlatings: subscriptionData.data.hullPlatingUpdate
+            });
+          }
+        })
+        } />
+      
       <div className="engaged-checkbox">
         <label>Hull plating engaged:</label>
         <input
           id="hull-plating-engaged"
           checked={hullPlating.engaged ? hullPlating.engaged : false}
           type="checkbox"
-          onChange={val => {
+          onChange={(val) => {
             handleEngagedSwitch();
-          }}
-        ></input>
+          }}>
+        </input>
       </div>
       <div className="mode-picker">
         <select
-          onChange={event => {
+          onChange={(event) => {
             event.target.value && handleTypeSwitch(event.target.value);
           }}
           value={
-            hullPlating.mode
-              ? hullPlating.mode
-              : HullPlatingModeConstants[0].value
-          }
-        >
-          {HullPlatingModeConstants.map(each => {
+          hullPlating.mode ?
+          hullPlating.mode :
+          HullPlatingModeConstants[0].value
+          }>
+          
+          {HullPlatingModeConstants.map((each) => {
             return <option value={each.value}>{each.name}</option>;
           })}
         </select>
@@ -183,13 +184,13 @@ const HullPlatingComp: React.FC<HullPlatingProps> = props => {
           Deactivate Pulse
         </button>
       </div>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default graphql(HULL_PLATING_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: (ownProps as any).simulator.id},
-  }),
+    variables: { simulatorId: (ownProps as any).simulator.id }
+  })
 })(withApollo(HullPlatingComp as any));

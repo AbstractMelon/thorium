@@ -1,6 +1,7 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
+import { withApollo } from "@apollo/client/react/hoc";
 
-import {withApollo} from "react-apollo";
+
 import CardSwitcher from "./CardSwitcher";
 import Widgets from "./Widgets";
 import CardHolder from "../cardRenderer";
@@ -16,10 +17,10 @@ class LayoutCorners extends Component {
     window.addEventListener(
       "touchstart",
       function onFirstTouch() {
-        self.setState({touch: true});
+        self.setState({ touch: true });
         window.removeEventListener("touchstart", onFirstTouch);
       },
-      false,
+      false
     );
   }
   render() {
@@ -29,10 +30,10 @@ class LayoutCorners extends Component {
       cardName,
       changeCard,
       clientObj,
-      flight,
+      flight
     } = this.props;
-    const {hypercard} = clientObj;
-    const {touch} = this.state;
+    const { hypercard } = clientObj;
+    const { touch } = this.state;
     let alertClass = `alertColor${simulator.alertlevel || 5}`;
     return (
       <Fragment>
@@ -60,34 +61,34 @@ class LayoutCorners extends Component {
             <h2 className="station-name">{station.name}</h2>
             <h2 className="login-name">{clientObj.loginName}</h2>
           </div>
-          {!hypercard && (
-            <CardSwitcher
-              className={alertClass}
-              clientObj={this.props.clientObj}
-              cards={station.cards}
-              currentCard={cardName}
-              changeCard={changeCard}
-              {...this.props}
-            />
-          )}
-          {!hypercard && (
-            <Settings
-              client={this.props.client}
-              clientObj={this.props.clientObj}
-              station={this.props.station}
-              className={alertClass}
-            />
-          )}
+          {!hypercard &&
+          <CardSwitcher
+            className={alertClass}
+            clientObj={this.props.clientObj}
+            cards={station.cards}
+            currentCard={cardName}
+            changeCard={changeCard}
+            {...this.props} />
+
+          }
+          {!hypercard &&
+          <Settings
+            client={this.props.client}
+            clientObj={this.props.clientObj}
+            station={this.props.station}
+            className={alertClass} />
+
+          }
           <Widgets
             clientObj={this.props.clientObj}
             simulator={simulator}
             station={station}
             flight={flight}
-            touch={touch}
-          />
+            touch={touch} />
+          
         </div>
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 

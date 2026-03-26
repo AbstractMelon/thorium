@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import SpecializedDocking from "./specializedDocking";
@@ -53,32 +54,32 @@ class SpecializedSpecializedDockingData extends Component {
     return (
       <Query
         query={SPECIALIZED_DOCKING_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {docking} = data;
+          const { docking } = data;
           if (!docking[0]) return <div>No Specialized Docking Ports</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SPECIALIZED_DOCKING_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      docking: subscriptionData.data.dockingUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SPECIALIZED_DOCKING_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    docking: subscriptionData.data.dockingUpdate
+                  });
+                }
+              })
+              }>
+              
               <SpecializedDocking {...this.props} docking={docking} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default SpecializedSpecializedDockingData;

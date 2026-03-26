@@ -1,54 +1,55 @@
-import React, {Fragment} from "react";
-import {Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { Fragment } from "react";
+import { Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 
-const RunningCheck = ({flight}) =>
-  flight && !flight.running ? (
-    <Fragment>
+const RunningCheck = ({ flight }) =>
+flight && !flight.running ?
+<Fragment>
       <Mutation
-        mutation={gql`
+    mutation={gql`
           mutation ResumeFlight($flightId: ID!) {
             resumeFlight(flightId: $flightId)
           }
         `}
-        variables={{flightId: flight.id}}
-      >
-        {action => (
-          <Button
-            className="pause-flight"
-            color="success"
-            size="sm"
-            onClick={action}
-          >
+    variables={{ flightId: flight.id }}>
+    
+        {(action) =>
+    <Button
+      className="pause-flight"
+      color="success"
+      size="sm"
+      onClick={action}>
+      
             Resume Flight
           </Button>
-        )}
+    }
       </Mutation>
-      <strong className="text-warning" style={{marginLeft: "8px"}}>
+      <strong className="text-warning" style={{ marginLeft: "8px" }}>
         Flight is paused
       </strong>
-    </Fragment>
-  ) : (
-    <Mutation
-      mutation={gql`
+    </Fragment> :
+
+<Mutation
+  mutation={gql`
         mutation PauseFlight($flightId: ID!) {
           pauseFlight(flightId: $flightId)
         }
       `}
-      variables={{flightId: flight.id}}
-    >
-      {action => (
-        <Button
-          className="pause-flight"
-          color="warning"
-          size="sm"
-          onClick={action}
-        >
+  variables={{ flightId: flight.id }}>
+  
+      {(action) =>
+  <Button
+    className="pause-flight"
+    color="warning"
+    size="sm"
+    onClick={action}>
+    
           Pause Flight
         </Button>
-      )}
-    </Mutation>
-  );
+  }
+    </Mutation>;
+
 
 export default RunningCheck;

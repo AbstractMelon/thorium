@@ -1,7 +1,8 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
-import shieldStyle, {shieldColor} from "../../ShieldControl/shieldStyle";
+import { graphql } from "@apollo/client/react/hoc";
+
+import shieldStyle, { shieldColor } from "../../ShieldControl/shieldStyle";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import StealthAnimation from "../../StealthField/stealthAnimation";
 
@@ -30,46 +31,46 @@ export const STATUS_STEALTH_SHIELD_SUB = gql`
 class Stealth extends Component {
   render() {
     const stealth =
-      this.props.data.loading || !this.props.data.stealthField
-        ? {}
-        : this.props.data.stealthField[0];
+    this.props.data.loading || !this.props.data.stealthField ?
+    {} :
+    this.props.data.stealthField[0];
     const shields =
-      this.props.data.loading || !this.props.data.shields
-        ? []
-        : this.props.data.shields;
-    const {assets} = this.props.simulator;
+    this.props.data.loading || !this.props.data.shields ?
+    [] :
+    this.props.data.shields;
+    const { assets } = this.props.simulator;
     return (
       <Fragment>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_STEALTH_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  stealthField: subscriptionData.data.stealthFieldUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_STEALTH_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                stealthField: subscriptionData.data.stealthFieldUpdate
+              });
+            }
+          })
+          } />
+        
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_STEALTH_SHIELD_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  shields: subscriptionData.data.shieldsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_STEALTH_SHIELD_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                shields: subscriptionData.data.shieldsUpdate
+              });
+            }
+          })
+          } />
+        
 
         <div
           className="shieldBubble"
@@ -77,27 +78,27 @@ class Stealth extends Component {
             transform: "rotate(270deg)",
             boxShadow: shields.length > 1 ? shieldStyle(shields) : null,
             filter:
-              shields.length === 1
-                ? `drop-shadow(${shieldColor(shields[0])} 0px 0px 30px)`
-                : null,
-          }}
-        >
-          <div className="stealth" style={{transform: "rotate(360deg)"}}>
+            shields.length === 1 ?
+            `drop-shadow(${shieldColor(shields[0])} 0px 0px 30px)` :
+            null
+          }}>
+          
+          <div className="stealth" style={{ transform: "rotate(360deg)" }}>
             <img
               alt="ship"
               className="status-ship"
               src={`/assets${assets.top}`}
-              draggable="false"
-            />
+              draggable="false" />
+            
             <StealthAnimation
               status
               {...stealth}
-              src={`/assets${assets.top}`}
-            />
+              src={`/assets${assets.top}`} />
+            
           </div>
         </div>
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 
@@ -120,8 +121,8 @@ export const STATUS_STEALTH_QUERY = gql`
 `;
 
 export default graphql(STATUS_STEALTH_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(Stealth);

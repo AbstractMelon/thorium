@@ -1,8 +1,9 @@
-import React, {Component} from "react";
-import {Container, Row, Col} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Container, Row, Col } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {InputField} from "../../generic/core";
-import {graphql, withApollo} from "react-apollo";
+import { InputField } from "../../generic/core";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import "./style.scss";
@@ -34,11 +35,11 @@ class PhaserChargingCore extends Component {
     `;
     const variables = {
       id: phasers.id,
-      arc: value / 90,
+      arc: value / 90
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   changePhaser(beamId, value) {
@@ -51,11 +52,11 @@ class PhaserChargingCore extends Component {
     const variables = {
       id: phasers.id,
       beamId,
-      charge: value / 100,
+      charge: value / 100
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   render() {
@@ -66,26 +67,26 @@ class PhaserChargingCore extends Component {
       <Container fluid className="phasers-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: PHASERS_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  phasers: subscriptionData.data.phasersUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: PHASERS_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                phasers: subscriptionData.data.phasersUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={4}>Arc:</Col>
           <Col sm={8}>
             <InputField
               prompt="What would you like to change the arc to?"
-              onClick={this.changeArc.bind(this)}
-            >
+              onClick={this.changeArc.bind(this)}>
+              
               {Math.round(phasers.arc * 90)}˚
             </InputField>
           </Col>
@@ -98,16 +99,16 @@ class PhaserChargingCore extends Component {
                 <InputField
                   prompt="What would you like to change the charge to?"
                   onClick={this.changePhaser.bind(this, b.id)}
-                  alert={b.state === "firing"}
-                >
+                  alert={b.state === "firing"}>
+                  
                   {Math.round(b.charge * 100)}%
                 </InputField>
               </Col>
-            </Row>
-          );
+            </Row>);
+
         })}
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -128,10 +129,10 @@ export const PHASERS_CORE_QUERY = gql`
 `;
 
 export default graphql(PHASERS_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(PhaserChargingCore));

@@ -1,7 +1,8 @@
 import React from "react";
 import GenericSystemConfig from "./Generic";
 import gql from "graphql-tag.macro";
-import {Query} from "react-apollo";
+import { Query } from "@apollo/client/react/components";
+
 import TorpedoInventory from "components/views/TorpedoLoading/inventory";
 
 const TORPEDO_QUERY = gql`
@@ -21,23 +22,23 @@ const TORPEDO_QUERY = gql`
   }
 `;
 
-const Torpedo = props => {
-  const {id} = props;
+const Torpedo = (props) => {
+  const { id } = props;
   return (
     <GenericSystemConfig {...props}>
-      <Query query={TORPEDO_QUERY} variables={{id}}>
-        {({data, loading}) => {
+      <Query query={TORPEDO_QUERY} variables={{ id }}>
+        {({ data, loading }) => {
           if (loading) return null;
-          const {torpedo} = data;
+          const { torpedo } = data;
           return (
             <TorpedoInventory
               {...torpedo}
-              refetchQueries={[{query: TORPEDO_QUERY, variables: {id}}]}
-            />
-          );
+              refetchQueries={[{ query: TORPEDO_QUERY, variables: { id } }]} />);
+
+
         }}
       </Query>
-    </GenericSystemConfig>
-  );
+    </GenericSystemConfig>);
+
 };
 export default Torpedo;

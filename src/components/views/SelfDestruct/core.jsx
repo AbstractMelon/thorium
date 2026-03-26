@@ -1,17 +1,18 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {Container} from "helpers/reactstrap";
-import {withApollo} from "react-apollo";
-import {InputField} from "../../generic/core";
-import {Duration} from "luxon";
+import { Container } from "helpers/reactstrap";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { InputField } from "../../generic/core";
+import { Duration } from "luxon";
 import "./style.scss";
-import {useQuery} from "@apollo/client";
-import {useSubscribeToMore} from "helpers/hooks/useQueryAndSubscribe";
+import { useQuery } from "@apollo/client";
+import { useSubscribeToMore } from "helpers/hooks/useQueryAndSubscribe";
 
 function padDigits(number, digits) {
   return (
-    Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number
-  );
+    Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number);
+
 }
 
 export const SELF_DESTRUCT_SUB = gql`
@@ -44,11 +45,11 @@ function checkNum(num) {
   if (!num && num !== 0 && num !== "0") return false;
   return true;
 }
-const SelfDestructCore = ({simulator, client}) => {
-  const activate = time => {
+const SelfDestructCore = ({ simulator, client }) => {
+  const activate = (time) => {
     time = time.toString();
     if (!time && time !== "0") return;
-    const [first, second, third] = time.split(":").map(t => parseInt(t, 10));
+    const [first, second, third] = time.split(":").map((t) => parseInt(t, 10));
     let [hours, minutes, seconds] = [0, 0, 0];
     if (checkNum(first) && !checkNum(second) && !checkNum(third)) {
       seconds = first;
@@ -65,7 +66,7 @@ const SelfDestructCore = ({simulator, client}) => {
     const duration = Duration.fromObject({
       hours,
       minutes,
-      seconds,
+      seconds
     }).shiftTo("milliseconds").milliseconds;
     if (!duration && duration !== 0) return;
     const mutation = gql`
@@ -75,14 +76,14 @@ const SelfDestructCore = ({simulator, client}) => {
     `;
     const variables = {
       id: simulator.id,
-      time: duration,
+      time: duration
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const setCode = code => {
+  const setCode = (code) => {
     const mutation = gql`
       mutation SetSelfDestructCode($id: ID!, $code: String) {
         setSelfDestructCode(simulatorId: $id, code: $code)
@@ -90,14 +91,14 @@ const SelfDestructCore = ({simulator, client}) => {
     `;
     const variables = {
       id: simulator.id,
-      code: String(code) || "",
+      code: String(code) || ""
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const setAuto = evt => {
+  const setAuto = (evt) => {
     const mutation = gql`
       mutation SetSelfDestructAuto($id: ID!, $auto: Boolean) {
         setSelfDestructAuto(simulatorId: $id, auto: $auto)
@@ -105,40 +106,40 @@ const SelfDestructCore = ({simulator, client}) => {
     `;
     const variables = {
       id: simulator.id,
-      auto: evt.target.checked,
+      auto: evt.target.checked
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
-  const {loading, data, subscribeToMore} = useQuery(SELF_DESTRUCT_QUERY, {
-    variables: {simulatorId: simulator.id},
+  const { loading, data, subscribeToMore } = useQuery(SELF_DESTRUCT_QUERY, {
+    variables: { simulatorId: simulator.id }
   });
   const config = React.useMemo(
     () => ({
-      variables: {simulatorId: simulator.id},
-      updateQuery: (previousResult, {subscriptionData}) => ({
+      variables: { simulatorId: simulator.id },
+      updateQuery: (previousResult, { subscriptionData }) => ({
         ...previousResult,
-        simulators: subscriptionData.data.simulatorsUpdate,
-      }),
+        simulators: subscriptionData.data.simulatorsUpdate
+      })
     }),
-    [simulator.id],
+    [simulator.id]
   );
   useSubscribeToMore(subscribeToMore, SELF_DESTRUCT_SUB, config);
   if (loading || !data) return null;
-  const {simulators} = data;
+  const { simulators } = data;
 
-  const {ship} = simulators[0];
+  const { ship } = simulators[0];
 
-  const {selfDestructTime, selfDestructCode, selfDestructAuto} = ship;
+  const { selfDestructTime, selfDestructCode, selfDestructAuto } = ship;
 
   const duration = Duration.fromObject({
     hours: 0,
     minutes: 0,
     seconds: 0,
-    milliseconds: selfDestructTime,
+    milliseconds: selfDestructTime
   }).normalize();
   return (
     <Container className="self-destruct">
@@ -148,30 +149,30 @@ const SelfDestructCore = ({simulator, client}) => {
           <input
             type="checkbox"
             checked={selfDestructAuto}
-            onChange={setAuto}
-          />
+            onChange={setAuto} />
+          
         </label>
       </div>
       <div>
-        <span style={{float: ""}}>Code: </span>
+        <span style={{ float: "" }}>Code: </span>
         <InputField
           prompt="What is the new self-destruct code?"
-          style={{width: "calc(100% - 40px)", display: "inline-block"}}
-          onClick={setCode}
-        >
+          style={{ width: "calc(100% - 40px)", display: "inline-block" }}
+          onClick={setCode}>
+          
           {selfDestructCode}
         </InputField>
       </div>
       <InputField
         prompt='What is the time in "hh:mm:ss" format?'
         alert={selfDestructTime && selfDestructTime > 0}
-        onClick={activate}
-      >{`${padDigits(duration.hours, 2)}:${padDigits(
-        duration.minutes,
-        2,
-      )}:${padDigits(duration.seconds, 2)}`}</InputField>
-    </Container>
-  );
+        onClick={activate}>
+        {`${padDigits(duration.hours, 2)}:${padDigits(
+          duration.minutes,
+          2
+        )}:${padDigits(duration.seconds, 2)}`}</InputField>
+    </Container>);
+
 };
 
 export default withApollo(SelfDestructCore);

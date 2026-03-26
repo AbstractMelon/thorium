@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   Button,
   Container,
@@ -7,11 +7,12 @@ import {
   ListGroup,
   ListGroupItem,
   Label,
-  Input,
-} from "helpers/reactstrap";
+  Input } from
+"helpers/reactstrap";
 import uuid from "uuid";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import "./style.scss";
 import ComponentLibrary from "./componentLibrary";
 import Measure from "react-measure";
@@ -86,47 +87,47 @@ class App extends Component {
     edit: true,
     libraryShown: false,
     draggingComponent: null,
-    componentLocation: {x: 0, y: 0},
+    componentLocation: { x: 0, y: 0 },
     components: [],
     connections: [],
     cables: [],
     connectingFrom: null,
-    connectingLocation: {x: 0, y: 0},
+    connectingLocation: { x: 0, y: 0 }
   };
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.data.loading && this.props.data.softwarePanels) {
       if (this.state.selectedPanel) {
         const panel = this.props.data.softwarePanels.find(
-          s => s.id === this.state.selectedPanel,
+          (s) => s.id === this.state.selectedPanel
         );
         const oldPanel = prevProps.data.softwarePanels.find(
-          s => s.id === this.state.selectedPanel,
+          (s) => s.id === this.state.selectedPanel
         );
         if (
-          !oldPanel ||
-          (panel && JSON.stringify(panel) !== JSON.stringify(oldPanel))
-        ) {
+        !oldPanel ||
+        panel && JSON.stringify(panel) !== JSON.stringify(oldPanel))
+        {
           this.setState(
             {
               components: panel.components,
               connections: panel.connections,
-              cables: panel.cables,
+              cables: panel.cables
             },
-            () => this.reconcileComponents(),
+            () => this.reconcileComponents()
           );
         }
       }
     }
   }
-  importPanel = evt => {
+  importPanel = (evt) => {
     if (evt.target.files[0]) {
       const data = new FormData();
       Array.from(evt.target.files).forEach((f, index) =>
-        data.append(`files[${index}]`, f),
+      data.append(`files[${index}]`, f)
       );
       fetch(`/importSoftwarePanel`, {
         method: "POST",
-        body: data,
+        body: data
       }).then(() => {
         window.location.reload();
       });
@@ -134,37 +135,37 @@ class App extends Component {
   };
   reconcileComponents = () => {
     const topCompNames = ["Light", "PlasmaChannel"];
-    const {components, connections, cables} = this.state;
+    const { components, connections, cables } = this.state;
     const calcedComps = {};
-    const calcLevel = comp => {
+    const calcLevel = (comp) => {
       try {
         if (calcedComps[comp.id] || calcedComps[comp.id] === 0) {
           return calcedComps[comp.id];
         } // Get the down-stream levels
-        const levels = connections
-          .filter(c => c.to === comp.id)
-          .map(c => c.from)
-          // Get the cables too.
-          .concat(
-            comp.component === "CableOutput"
-              ? cables
-                  .filter(c => c.components.indexOf(comp.id) > -1)
-                  .map(c => c.components.find(d => d !== comp.id))
-              : [],
-          )
-          .map(c => components.find(d => d.id === c))
-          .map(c =>
-            calcedComps[comp.id] || calcedComps[comp.id] === 0
-              ? calcedComps[comp.id]
-              : calcLevel(c),
-          )
-          .filter(c => (Array.isArray(c) ? c.length > 0 : c || c === 0))
-          .concat(
-            topCompNames.indexOf(comp.component) > -1 ? [0] : [comp.level],
-          )
-          .sort(function (a, b) {
-            return b - a;
-          });
+        const levels = connections.
+        filter((c) => c.to === comp.id).
+        map((c) => c.from)
+        // Get the cables too.
+        .concat(
+          comp.component === "CableOutput" ?
+          cables.
+          filter((c) => c.components.indexOf(comp.id) > -1).
+          map((c) => c.components.find((d) => d !== comp.id)) :
+          []
+        ).
+        map((c) => components.find((d) => d.id === c)).
+        map((c) =>
+        calcedComps[comp.id] || calcedComps[comp.id] === 0 ?
+        calcedComps[comp.id] :
+        calcLevel(c)
+        ).
+        filter((c) => Array.isArray(c) ? c.length > 0 : c || c === 0).
+        concat(
+          topCompNames.indexOf(comp.component) > -1 ? [0] : [comp.level]
+        ).
+        sort(function (a, b) {
+          return b - a;
+        });
         if (levels.length !== 1) {
           levels.pop();
         }
@@ -178,18 +179,18 @@ class App extends Component {
     };
 
     const topComponents = components.filter(
-      c => topCompNames.indexOf(c.component) > -1,
+      (c) => topCompNames.indexOf(c.component) > -1
     );
     const componentLevels = topComponents.reduce((prev, next) => {
-      return Object.assign({}, prev, {[next.id]: calcLevel(next)});
+      return Object.assign({}, prev, { [next.id]: calcLevel(next) });
     }, {});
     this.setState({
-      components: components.map(c => {
+      components: components.map((c) => {
         if (componentLevels[c.id] || componentLevels[c.id] === 0) {
-          return Object.assign({}, c, {level: componentLevels[c.id]});
+          return Object.assign({}, c, { level: componentLevels[c.id] });
         }
         return c;
-      }),
+      })
     });
   };
   applyUpdate = (data, noupdate) => {
@@ -214,7 +215,7 @@ class App extends Component {
       `;
       const variables = {
         id: this.state.selectedPanel,
-        components: data.components.map(c => ({
+        components: data.components.map((c) => ({
           id: c.id,
           component: c.component,
           level: c.level,
@@ -222,22 +223,22 @@ class App extends Component {
           scale: c.scale,
           color: c.color,
           x: c.x,
-          y: c.y,
+          y: c.y
         })),
-        cables: data.cables.map(c => ({
+        cables: data.cables.map((c) => ({
           id: c.id,
           color: c.color,
-          components: c.components,
+          components: c.components
         })),
-        connections: data.connections.map(c => ({
+        connections: data.connections.map((c) => ({
           id: c.id,
           to: c.to,
-          from: c.from,
-        })),
+          from: c.from
+        }))
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
@@ -247,64 +248,64 @@ class App extends Component {
       draggingComponent: component,
       componentLocation: {
         x: evt.clientX - this.state.dimensions.left - 12,
-        y: evt.clientY - this.state.dimensions.top - 30,
-      },
+        y: evt.clientY - this.state.dimensions.top - 30
+      }
     });
     document.addEventListener("pointermove", this.mouseMove);
     document.addEventListener("pointerup", this.mouseUp);
   };
-  mouseMove = evt => {
+  mouseMove = (evt) => {
     this.setState({
       componentLocation: {
         x: Math.round(evt.clientX - this.state.dimensions.left - 12),
-        y: Math.round(evt.clientY - this.state.dimensions.top - 30),
-      },
+        y: Math.round(evt.clientY - this.state.dimensions.top - 30)
+      }
     });
   };
   mouseUp = () => {
     document.removeEventListener("pointermove", this.mouseMove);
     document.removeEventListener("pointerup", this.mouseUp);
-    const {components, componentLocation: loc, draggingComponent} = this.state;
+    const { components, componentLocation: loc, draggingComponent } = this.state;
     this.setState({
-      draggingComponent: null,
+      draggingComponent: null
     });
     if (
-      loc.x < 0 ||
-      loc.y < 0 ||
-      loc.x > this.state.dimensions.width ||
-      loc.y > this.state.dimensions.height
-    )
-      return;
+    loc.x < 0 ||
+    loc.y < 0 ||
+    loc.x > this.state.dimensions.width ||
+    loc.y > this.state.dimensions.height)
+
+    return;
     const comp = {
       id: uuid.v4(),
       component: draggingComponent,
       x: loc.x / this.state.dimensions.width,
-      y: loc.y / this.state.dimensions.height,
+      y: loc.y / this.state.dimensions.height
     };
     this.setState(
       {
-        components: components.concat(comp),
+        components: components.concat(comp)
       },
       () => {
         this.applyUpdate(this.state);
-      },
+      }
     );
   };
-  selectLine = id => {
-    this.setState({selectedLine: id});
+  selectLine = (id) => {
+    this.setState({ selectedLine: id });
   };
   delete = () => {
     if (this.state.selectedLine) {
       this.setState(
-        prevState => ({
+        (prevState) => ({
           connections: prevState.connections.filter(
-            c => c.id !== prevState.selectedLine,
+            (c) => c.id !== prevState.selectedLine
           ),
-          selectedLine: null,
+          selectedLine: null
         }),
         () => {
           this.applyUpdate(this.state);
-        },
+        }
       );
     }
   };
@@ -316,9 +317,9 @@ class App extends Component {
       }
     `;
     const variables = {
-      name,
+      name
     };
-    this.props.client.mutate({mutation, variables});
+    this.props.client.mutate({ mutation, variables });
   };
   removePanel = () => {
     if (window.confirm("Are you sure you want to remove this panel?")) {
@@ -328,15 +329,15 @@ class App extends Component {
         }
       `;
       const variables = {
-        panel: this.state.selectedPanel,
+        panel: this.state.selectedPanel
       };
       this.setState(
         {
-          selectedPanel: null,
+          selectedPanel: null
         },
         () => {
-          this.props.client.mutate({mutation, variables});
-        },
+          this.props.client.mutate({ mutation, variables });
+        }
       );
     }
   };
@@ -345,7 +346,7 @@ class App extends Component {
     if (name) {
       const variables = {
         id: this.state.selectedPanel,
-        name,
+        name
       };
       const mutation = gql`
         mutation UpdateSoftwarePanel($id: ID!, $name: String) {
@@ -354,13 +355,13 @@ class App extends Component {
       `;
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
-  selectPanel = id => {
+  selectPanel = (id) => {
     if (!this.props.data.loading && this.props.data.softwarePanels && id) {
-      const panel = this.props.data.softwarePanels.find(s => s.id === id);
+      const panel = this.props.data.softwarePanels.find((s) => s.id === id);
       if (panel) {
         this.setState(
           {
@@ -368,9 +369,9 @@ class App extends Component {
             connections: panel.connections,
             cables: panel.cables,
             selectedComponent: null,
-            selectedPanel: id,
+            selectedPanel: id
           },
-          () => this.reconcileComponents(),
+          () => this.reconcileComponents()
         );
       }
     }
@@ -387,162 +388,162 @@ class App extends Component {
       draggingComponent,
       componentLocation,
       selectedPanel,
-      selectedComponent,
+      selectedComponent
     } = this.state;
     const {
-      data: {loading, softwarePanels},
+      data: { loading, softwarePanels }
     } = this.props;
     if (loading || !softwarePanels) return null;
     return (
       <Container fluid className="software-panels">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SUB,
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  softwarePanels: subscriptionData.data.softwarePanelsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: SUB,
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                softwarePanels: subscriptionData.data.softwarePanelsUpdate
+              });
+            }
+          })
+          } />
+        
         <h4>Software Panel Config </h4>
         <Row>
           <Col sm={3}>
-            {selectedPanel && (
-              <div>
-                {edit && (
-                  <Button
-                    size="sm"
-                    onClick={() => this.setState({libraryShown: true})}
-                  >
+            {selectedPanel &&
+            <div>
+                {edit &&
+              <Button
+                size="sm"
+                onClick={() => this.setState({ libraryShown: true })}>
+                
                     Show
                   </Button>
-                )}
-                <Button size="sm" onClick={() => this.setState({edit: !edit})}>
+              }
+                <Button size="sm" onClick={() => this.setState({ edit: !edit })}>
                   {edit ? "Play" : "Edit"}
                 </Button>
-                {selectedLine && (
-                  <Button size="sm" onClick={this.delete}>
+                {selectedLine &&
+              <Button size="sm" onClick={this.delete}>
                     Delete
                   </Button>
-                )}
+              }
                 <label>
                   <input
-                    type="checkbox"
-                    checked={this.state.snap}
-                    onChange={e => this.setState({snap: e.target.checked})}
-                  />{" "}
+                  type="checkbox"
+                  checked={this.state.snap}
+                  onChange={(e) => this.setState({ snap: e.target.checked })} />
+                {" "}
                   Snap To Grid
                 </label>
               </div>
-            )}
+            }
             <div
               style={{
                 maxHeight: "60vh",
-                overflowY: "scroll",
-              }}
-            >
+                overflowY: "scroll"
+              }}>
+              
               <ListGroup>
-                {softwarePanels.map(s => (
-                  <ListGroupItem
-                    key={s.id}
-                    active={selectedPanel === s.id}
-                    tag="button"
-                    action
-                    onClick={() => this.selectPanel(s.id)}
-                  >
+                {softwarePanels.map((s) =>
+                <ListGroupItem
+                  key={s.id}
+                  active={selectedPanel === s.id}
+                  tag="button"
+                  action
+                  onClick={() => this.selectPanel(s.id)}>
+                  
                     {s.name}
                   </ListGroupItem>
-                ))}
+                )}
               </ListGroup>
             </div>
             <Button color="success" block onClick={this.createPanel}>
               Create Panel
             </Button>
-            {this.state.selectedPanel && (
-              <Button color="info" block onClick={this.renamePanel}>
+            {this.state.selectedPanel &&
+            <Button color="info" block onClick={this.renamePanel}>
                 Rename Panel
               </Button>
-            )}
-            {this.state.selectedPanel && (
-              <Button color="danger" block onClick={this.removePanel}>
+            }
+            {this.state.selectedPanel &&
+            <Button color="danger" block onClick={this.removePanel}>
                 Remove Panel
               </Button>
-            )}
-            {this.state.selectedPanel && (
-              <Button
-                tag="a"
-                color="warning"
-                block
-                href={`/exportSoftwarePanel/${this.state.selectedPanel}`}
-              >
+            }
+            {this.state.selectedPanel &&
+            <Button
+              tag="a"
+              color="warning"
+              block
+              href={`/exportSoftwarePanel/${this.state.selectedPanel}`}>
+              
                 Export Panel
               </Button>
-            )}
+            }
             <Label className="btn-block">
               <div className="btn btn-sm btn-info btn-block">Import Panel</div>
               <Input hidden type="file" onChange={this.importPanel} />
             </Label>
           </Col>
           <Col sm={9}>
-            {selectedPanel && (
-              <Measure
-                bounds
-                onResize={contentRect => {
-                  this.setState({dimensions: contentRect.bounds});
-                }}
-              >
-                {({measureRef}) => (
-                  <div className="componentCanvas" ref={measureRef}>
-                    <div style={{paddingTop: `${(9 / 16) * 100}%`}} />
-                    {this.state.dimensions && (
-                      <Canvas
-                        edit={this.state.edit}
-                        selectedLine={selectedLine}
-                        applyUpdate={this.applyUpdate}
-                        components={components}
-                        connections={connections}
-                        cables={cables}
-                        draggingComponent={draggingComponent}
-                        componentLocation={componentLocation}
-                        selectLine={this.selectLine}
-                        selectComponent={id =>
-                          this.setState({selectedComponent: id})
-                        }
-                        selectedComponent={selectedComponent}
-                        {...this.state.dimensions}
-                        snap={this.state.snap}
-                      />
-                    )}
+            {selectedPanel &&
+            <Measure
+              bounds
+              onResize={(contentRect) => {
+                this.setState({ dimensions: contentRect.bounds });
+              }}>
+              
+                {({ measureRef }) =>
+              <div className="componentCanvas" ref={measureRef}>
+                    <div style={{ paddingTop: `${9 / 16 * 100}%` }} />
+                    {this.state.dimensions &&
+                <Canvas
+                  edit={this.state.edit}
+                  selectedLine={selectedLine}
+                  applyUpdate={this.applyUpdate}
+                  components={components}
+                  connections={connections}
+                  cables={cables}
+                  draggingComponent={draggingComponent}
+                  componentLocation={componentLocation}
+                  selectLine={this.selectLine}
+                  selectComponent={(id) =>
+                  this.setState({ selectedComponent: id })
+                  }
+                  selectedComponent={selectedComponent}
+                  {...this.state.dimensions}
+                  snap={this.state.snap} />
+
+                }
                   </div>
-                )}
+              }
               </Measure>
-            )}
+            }
           </Col>
         </Row>
         <Row>
           <Col sm={12}>
-            {selectedComponent && (
-              <Config
-                key={selectedComponent}
-                applyUpdate={this.applyUpdate}
-                selectedComponent={selectedComponent}
-                components={components}
-                connections={connections}
-                cables={cables}
-              />
-            )}
+            {selectedComponent &&
+            <Config
+              key={selectedComponent}
+              applyUpdate={this.applyUpdate}
+              selectedComponent={selectedComponent}
+              components={components}
+              connections={connections}
+              cables={cables} />
+
+            }
           </Col>
         </Row>
         <ComponentLibrary
           mouseDown={this.mouseDown}
           shown={libraryShown}
-          hide={() => this.setState({libraryShown: false})}
-        />
-      </Container>
-    );
+          hide={() => this.setState({ libraryShown: false })} />
+        
+      </Container>);
+
   }
 }
 

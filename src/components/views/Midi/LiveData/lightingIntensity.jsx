@@ -1,7 +1,8 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {useMutation} from "react-apollo";
-import {useLightingControlSubscription} from "generated/graphql";
+import { useMutation } from "@apollo/client";
+
+import { useLightingControlSubscription } from "generated/graphql";
 
 const UPDATE_LIGHTING = gql`
   mutation UpdateLighting($id: ID!, $intensity: Float!) {
@@ -9,13 +10,13 @@ const UPDATE_LIGHTING = gql`
   }
 `;
 
-const LightingIntensity = ({simulatorId, value, setValue}) => {
+const LightingIntensity = ({ simulatorId, value, setValue }) => {
   const valueSet = React.useRef(false);
-  const {data} = useLightingControlSubscription({variables: {simulatorId}});
+  const { data } = useLightingControlSubscription({ variables: { simulatorId } });
   const intensity = data?.simulators?.[0].lighting.intensity;
 
   const [updateLighting] = useMutation(UPDATE_LIGHTING, {
-    variables: {id: simulatorId, intensity: value},
+    variables: { id: simulatorId, intensity: value }
   });
 
   // Update the parent component

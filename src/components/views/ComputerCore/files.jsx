@@ -1,6 +1,7 @@
-import React, {Component, Fragment} from "react";
-import {Row, Col, Table, Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { Component, Fragment } from "react";
+import { Row, Col, Table, Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 
 function randomString(length, chars) {
@@ -14,14 +15,14 @@ class FileName extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: props.restoring
-        ? "Restoring..."
-        : !props.corrupted
-        ? props.name
-        : randomString(
-            10,
-            "0123456789abcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_+-={}[]:\";'<>?,./|\\",
-          ),
+      name: props.restoring ?
+      "Restoring..." :
+      !props.corrupted ?
+      props.name :
+      randomString(
+        10,
+        "0123456789abcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_+-={}[]:\";'<>?,./|\\"
+      )
     };
   }
   componentDidMount() {
@@ -37,27 +38,27 @@ class FileName extends Component {
       this.setState({
         name: randomString(
           10,
-          "0123456789abcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_+-={}[]:\";'<>?,./|\\",
-        ),
+          "0123456789abcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_+-={}[]:\";'<>?,./|\\"
+        )
       });
     }
     setTimeout(this.loop, Math.random() * 2000 + 500);
   };
   componentDidUpdate(prevProps) {
     if (
-      this.props.corrupted === prevProps.corrupted &&
-      this.props.restoring === prevProps.restoring
-    )
-      return;
+    this.props.corrupted === prevProps.corrupted &&
+    this.props.restoring === prevProps.restoring)
+
+    return;
     this.setState({
-      name: this.props.restoring
-        ? "Restoring..."
-        : !this.props.corrupted
-        ? this.props.name
-        : randomString(
-            10,
-            "0123456789abcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_+-={}[]:\";'<>?,./|\\",
-          ),
+      name: this.props.restoring ?
+      "Restoring..." :
+      !this.props.corrupted ?
+      this.props.name :
+      randomString(
+        10,
+        "0123456789abcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_+-={}[]:\";'<>?,./|\\"
+      )
     });
   }
   render() {
@@ -67,8 +68,8 @@ class FileName extends Component {
 class Files extends Component {
   state = {};
   render() {
-    const {selectedFile} = this.state;
-    const {files, selectedLevel, id} = this.props;
+    const { selectedFile } = this.state;
+    const { files, selectedLevel, id } = this.props;
     return (
       <Fragment>
         <Row>
@@ -81,20 +82,20 @@ class Files extends Component {
                 </tr>
               </thead>
               <tbody>
-                {files
-                  .filter(u => u.level === selectedLevel)
-                  .map(u => (
-                    <tr
-                      key={u.id}
-                      className={selectedFile === u.id ? "selected" : ""}
-                      onClick={() => this.setState({selectedFile: u.id})}
-                    >
+                {files.
+                filter((u) => u.level === selectedLevel).
+                map((u) =>
+                <tr
+                  key={u.id}
+                  className={selectedFile === u.id ? "selected" : ""}
+                  onClick={() => this.setState({ selectedFile: u.id })}>
+                  
                       <td>
                         <FileName {...u} />
                       </td>
                       <td>Level {u.level}</td>
                     </tr>
-                  ))}
+                )}
               </tbody>
             </Table>
           </Col>
@@ -104,39 +105,39 @@ class Files extends Component {
             mutation RestoreFile($id: ID!, $fileId: ID, $level: Int) {
               restoreComputerCoreFile(id: $id, fileId: $fileId, level: $level)
             }
-          `}
-        >
-          {action => (
-            <Row className="restore-buttons">
+          `}>
+          
+          {(action) =>
+          <Row className="restore-buttons">
               <Col sm={5}>
                 <Button
-                  color="success"
-                  block
-                  disabled={!selectedFile}
-                  onClick={() =>
-                    action({variables: {id, fileId: selectedFile}})
-                  }
-                >
+                color="success"
+                block
+                disabled={!selectedFile}
+                onClick={() =>
+                action({ variables: { id, fileId: selectedFile } })
+                }>
+                
                   Restore File
                 </Button>
               </Col>
-              <Col sm={{size: 5, offset: 2}}>
+              <Col sm={{ size: 5, offset: 2 }}>
                 <Button
-                  color="warning"
-                  block
-                  disabled={!selectedLevel}
-                  onClick={() =>
-                    action({variables: {id, level: selectedLevel}})
-                  }
-                >
+                color="warning"
+                block
+                disabled={!selectedLevel}
+                onClick={() =>
+                action({ variables: { id, level: selectedLevel } })
+                }>
+                
                   Restore All Level {selectedLevel} Files
                 </Button>
               </Col>
             </Row>
-          )}
+          }
         </Mutation>
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 

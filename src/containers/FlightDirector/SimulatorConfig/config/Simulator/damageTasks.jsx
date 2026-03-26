@@ -1,23 +1,24 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   Container,
   Row,
   Col,
   ListGroup,
-  ListGroupItem,
-} from "helpers/reactstrap";
+  ListGroupItem } from
+"helpers/reactstrap";
 import {
   Link,
   Route,
   useParams,
   useNavigate,
   Routes,
-  Outlet,
-} from "react-router-dom";
+  Outlet } from
+"react-router-dom";
 import DefinitionList from "../../../TaskTemplates/definitionList";
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {Query, Mutation} from "react-apollo";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 
 const fragment = gql`
   fragment TaskTemplateConfigData on TaskTemplate {
@@ -104,68 +105,68 @@ const SYSTEM_UPDATE = gql`
   }
 `;
 
-const TemplateList = ({taskTemplates, type, id, damageTasks}) => {
-  const {selectedDef, selectedTemplate} = useParams();
+const TemplateList = ({ taskTemplates, type, id, damageTasks }) => {
+  const { selectedDef, selectedTemplate } = useParams();
   const navigate = useNavigate();
   return (
     <>
       <Col sm={4}>
         <h3>Templates</h3>
-        <ListGroup style={{flex: 1, overflowY: "auto", maxHeight: "80vh"}}>
-          {taskTemplates
-            .filter(t => t.definition === selectedDef)
-            .map(t => (
-              <ListGroupItem
-                key={t.id}
-                onClick={() => navigate(t.id)}
-                active={t.id === selectedTemplate}
-              >
+        <ListGroup style={{ flex: 1, overflowY: "auto", maxHeight: "80vh" }}>
+          {taskTemplates.
+          filter((t) => t.definition === selectedDef).
+          map((t) =>
+          <ListGroupItem
+            key={t.id}
+            onClick={() => navigate(t.id)}
+            active={t.id === selectedTemplate}>
+            
                 {t.name}
                 <Mutation
-                  mutation={type === "simulator" ? SIMULATOR_ADD : SYSTEM_ADD}
-                  variables={{
-                    id,
-                    task: {id: t.id, required: false, nextSteps: []},
-                  }}
-                  refetchQueries={["Simulators", "System"]}
-                >
-                  {add => (
-                    <Mutation
-                      mutation={
-                        type === "simulator" ? SIMULATOR_REMOVE : SYSTEM_REMOVE
-                      }
-                      variables={{id, taskId: t.id}}
-                      refetchQueries={["Simulators", "System"]}
-                    >
-                      {remove => (
-                        <input
-                          type="checkbox"
-                          checked={damageTasks.find(d => d.id === t.id)}
-                          onChange={e => (e.target.checked ? add() : remove())}
-                        />
-                      )}
+              mutation={type === "simulator" ? SIMULATOR_ADD : SYSTEM_ADD}
+              variables={{
+                id,
+                task: { id: t.id, required: false, nextSteps: [] }
+              }}
+              refetchQueries={["Simulators", "System"]}>
+              
+                  {(add) =>
+              <Mutation
+                mutation={
+                type === "simulator" ? SIMULATOR_REMOVE : SYSTEM_REMOVE
+                }
+                variables={{ id, taskId: t.id }}
+                refetchQueries={["Simulators", "System"]}>
+                
+                      {(remove) =>
+                <input
+                  type="checkbox"
+                  checked={damageTasks.find((d) => d.id === t.id)}
+                  onChange={(e) => e.target.checked ? add() : remove()} />
+
+                }
                     </Mutation>
-                  )}
+              }
                 </Mutation>
               </ListGroupItem>
-            ))}
+          )}
         </ListGroup>
       </Col>
       <Outlet />
-    </>
-  );
+    </>);
+
 };
 
-const TaskConfig = ({type, id, damageTasks}) => {
-  const {selectedTemplate} = useParams();
+const TaskConfig = ({ type, id, damageTasks }) => {
+  const { selectedTemplate } = useParams();
   return (
     <Col sm={4}>
       <Mutation
         mutation={type === "simulator" ? SIMULATOR_UPDATE : SYSTEM_UPDATE}
-        refetchQueries={["Simulators", "System"]}
-      >
-        {action => {
-          const task = damageTasks.find(d => d.id === selectedTemplate);
+        refetchQueries={["Simulators", "System"]}>
+        
+        {(action) => {
+          const task = damageTasks.find((d) => d.id === selectedTemplate);
           if (!task) return null;
           return (
             <div>
@@ -174,50 +175,50 @@ const TaskConfig = ({type, id, damageTasks}) => {
                 <input
                   type="checkbox"
                   checked={task.required || false}
-                  onChange={e =>
-                    action({
-                      variables: {
-                        id,
-                        taskId: selectedTemplate,
-                        required: e.target.checked,
-                      },
-                    })
-                  }
-                />{" "}
+                  onChange={(e) =>
+                  action({
+                    variables: {
+                      id,
+                      taskId: selectedTemplate,
+                      required: e.target.checked
+                    }
+                  })
+                  } />
+                {" "}
                 Required
               </label>
-            </div>
-          );
+            </div>);
+
         }}
       </Mutation>
-    </Col>
-  );
+    </Col>);
+
 };
 
-const DefList = ({taskTemplates, damageTasks}) => {
+const DefList = ({ taskTemplates, damageTasks }) => {
   return (
     <>
       <Col sm={4}>
         <DefinitionList
-          taskTemplates={taskTemplates.map(t => ({
+          taskTemplates={taskTemplates.map((t) => ({
             ...t,
-            assigned: !!damageTasks.find(d => d.id === t.id),
-          }))}
-        />
+            assigned: !!damageTasks.find((d) => d.id === t.id)
+          }))} />
+        
       </Col>
       <Outlet />
-    </>
-  );
+    </>);
+
 };
 class DamageTasks extends Component {
   state = {};
   render() {
-    const {id, damageTasks, type = "simulator"} = this.props;
+    const { id, damageTasks, type = "simulator" } = this.props;
     return (
       <Query query={QUERY}>
-        {({loading, data, subscribeToMore}) => {
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {taskTemplates} = data;
+          const { taskTemplates } = data;
           return (
             <Container>
               <small>
@@ -228,57 +229,57 @@ class DamageTasks extends Component {
               <Row>
                 <SubscriptionHelper
                   subscribe={() =>
-                    subscribeToMore({
-                      document: SUB,
-                      updateQuery: (previousResult, {subscriptionData}) => {
-                        return Object.assign({}, previousResult, {
-                          taskTemplates:
-                            subscriptionData.data.taskTemplatesUpdate,
-                        });
-                      },
-                    })
-                  }
-                />
+                  subscribeToMore({
+                    document: SUB,
+                    updateQuery: (previousResult, { subscriptionData }) => {
+                      return Object.assign({}, previousResult, {
+                        taskTemplates:
+                        subscriptionData.data.taskTemplatesUpdate
+                      });
+                    }
+                  })
+                  } />
+                
                 <Routes>
                   <Route
                     path="/"
                     element={
-                      <DefList
-                        taskTemplates={taskTemplates}
-                        damageTasks={damageTasks}
-                      />
-                    }
-                  >
+                    <DefList
+                      taskTemplates={taskTemplates}
+                      damageTasks={damageTasks} />
+
+                    }>
+                    
                     <Route
                       path=":selectedDef"
                       element={
-                        <TemplateList
-                          taskTemplates={taskTemplates}
-                          type={type}
-                          id={id}
-                          damageTasks={damageTasks}
-                        />
-                      }
-                    >
+                      <TemplateList
+                        taskTemplates={taskTemplates}
+                        type={type}
+                        id={id}
+                        damageTasks={damageTasks} />
+
+                      }>
+                      
                       <Route
                         path=":selectedTemplate"
                         element={
-                          <TaskConfig
-                            type={type}
-                            id={id}
-                            damageTasks={damageTasks}
-                          />
-                        }
-                      />
+                        <TaskConfig
+                          type={type}
+                          id={id}
+                          damageTasks={damageTasks} />
+
+                        } />
+                      
                     </Route>
                   </Route>
                 </Routes>
               </Row>
-            </Container>
-          );
+            </Container>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default DamageTasks;

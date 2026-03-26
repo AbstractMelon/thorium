@@ -1,18 +1,19 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import keycode from "keycode";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 import SoundPlayer from "../../client/soundPlayer";
 
 import "./style.scss";
-import {ClientLighting} from "components/client/lighting";
+import { ClientLighting } from "components/client/lighting";
 
 class Keyboard extends Component {
   constructor(props) {
     super(props);
-    this.keydown = e => {
+    this.keydown = (e) => {
       e.preventDefault();
-      const {keyCode, code, shiftKey, metaKey, altKey, ctrlKey} = e;
+      const { keyCode, code, shiftKey, metaKey, altKey, ctrlKey } = e;
       const key = keycode(keyCode);
       const meta = [];
       if (shiftKey) meta.push("shift");
@@ -41,11 +42,11 @@ class Keyboard extends Component {
         id: props.keyboard,
         key: key || "",
         keyCode: code,
-        meta,
+        meta
       };
       props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     };
   }
@@ -56,22 +57,22 @@ class Keyboard extends Component {
     document.removeEventListener("keydown", this.keydown, true);
   }
   render() {
-    const {clientObj} = this.props;
+    const { clientObj } = this.props;
     return (
       <div className="keyboard-holder">
         Keyboard
-        {clientObj.soundPlayer && (
-          <div>
+        {clientObj.soundPlayer &&
+        <div>
             <p>Sound Player</p>
             <SoundPlayer {...this.props} invisible />
           </div>
-        )}
+        }
         <ClientLighting
           simulator={this.props.simulator}
-          clientId={this.props.clientObj.id}
-        />
-      </div>
-    );
+          clientId={this.props.clientObj.id} />
+        
+      </div>);
+
   }
 }
 

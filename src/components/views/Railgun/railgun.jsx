@@ -1,10 +1,11 @@
-import React, {Component} from "react";
-import {withApollo} from "react-apollo";
+import React, { Component } from "react";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
 
-import {Container, Row, Col} from "helpers/reactstrap";
+import { Container, Row, Col } from "helpers/reactstrap";
 import SensorGrid from "../Sensors/GridDom/grid";
-import {throttle} from "helpers/debounce";
+import { throttle } from "helpers/debounce";
 import RailgunLoader from "./loader";
 import Tour from "helpers/tourHelper";
 
@@ -21,36 +22,36 @@ class Railgun extends Component {
     this.triggerFire = throttle(this.triggerFire, 300);
   }
   static trainingSteps = [
-    {
-      selector: ".nothing",
-      content:
-        "The railgun is a point-defense weapon designed to destroy incoming projectiles. You can use it to defend your ship from attackers.",
-    },
-    {
-      selector: ".sensors-holder",
-      content:
-        "This basic sensors grid shows the location of any incoming projectiles relative to this ship, shown at the center of the grid.",
-    },
-    {
-      selector: ".sensors-holder",
-      content:
-        "To fire the railgun, click with your mouse on the sensor grid. A red dot will indicate where the railgun bolt will hit. You must fire very close to an incoming projectile for the bolt to hit its target.",
-    },
-    {
-      selector: ".sensors-holder",
-      content:
-        "Once an incoming projectile has been destroyed, you will see it explode and disappear.",
-    },
-    {
-      selector: ".railgun-controls",
-      content:
-        "Here you can see the number of bolts loaded. Make sure you don't run out of railgun bolts!",
-    },
-  ];
-  state = {ammo: 25};
+  {
+    selector: ".nothing",
+    content:
+    "The railgun is a point-defense weapon designed to destroy incoming projectiles. You can use it to defend your ship from attackers."
+  },
+  {
+    selector: ".sensors-holder",
+    content:
+    "This basic sensors grid shows the location of any incoming projectiles relative to this ship, shown at the center of the grid."
+  },
+  {
+    selector: ".sensors-holder",
+    content:
+    "To fire the railgun, click with your mouse on the sensor grid. A red dot will indicate where the railgun bolt will hit. You must fire very close to an incoming projectile for the bolt to hit its target."
+  },
+  {
+    selector: ".sensors-holder",
+    content:
+    "Once an incoming projectile has been destroyed, you will see it explode and disappear."
+  },
+  {
+    selector: ".railgun-controls",
+    content:
+    "Here you can see the number of bolts loaded. Make sure you don't run out of railgun bolts!"
+  }];
+
+  state = { ammo: 25 };
   locations = {};
   triggerFire = () => {
-    const {id, simulator, ammo} = this.props;
+    const { id, simulator, ammo } = this.props;
     if (!ammo) return;
     const mutation = gql`
       mutation FireRailgun($id: ID!, $simulatorId: ID!, $contactId: ID) {
@@ -60,18 +61,18 @@ class Railgun extends Component {
     const variables = {
       id,
       simulatorId: simulator.id,
-      contactId: this.currentContact,
+      contactId: this.currentContact
     };
-    this.props.client.mutate({mutation, variables});
+    this.props.client.mutate({ mutation, variables });
     clearTimeout(this.mouseTimeout);
-    this.setState(state => ({
-      mouse: this.mouse,
+    this.setState((state) => ({
+      mouse: this.mouse
     }));
     this.mouseTimeout = setTimeout(() => {
-      this.setState({mouse: null});
+      this.setState({ mouse: null });
     }, 300);
   };
-  mouseDown = e => {
+  mouseDown = (e) => {
     this.mouseMove(e);
     this.loop();
     document.addEventListener("mouseup", this.mouseUp);
@@ -83,26 +84,26 @@ class Railgun extends Component {
     document.removeEventListener("mouseup", this.mouseUp);
     document.removeEventListener("mousemove", this.mouseMove);
   };
-  mouseMove = e => {
+  mouseMove = (e) => {
     const locations = this.locations;
-    const {left, top, width} =
-      this.sensorGridRef.current.getBoundingClientRect();
+    const { left, top, width } =
+    this.sensorGridRef.current.getBoundingClientRect();
     const location = {
-      x: ((e.clientX - left - width / 2) / width) * 2,
-      y: ((e.clientY - top - width / 2) / width) * 2,
+      x: (e.clientX - left - width / 2) / width * 2,
+      y: (e.clientY - top - width / 2) / width * 2
     };
-    const distances = Object.values(locations)
-      .filter(
-        l =>
-          !l.destroyed &&
-          distance(l.position.x, l.position.y + 0.05, location.x, location.y) <=
-            0.1,
-      )
-      .map(l => l.id);
+    const distances = Object.values(locations).
+    filter(
+      (l) =>
+      !l.destroyed &&
+      distance(l.position.x, l.position.y + 0.05, location.x, location.y) <=
+      0.1
+    ).
+    map((l) => l.id);
     this.currentContact = distances[0];
     this.mouse = {
       x: e.clientX - left,
-      y: e.clientY - top,
+      y: e.clientY - top
     };
   };
   loop = () => {
@@ -111,14 +112,14 @@ class Railgun extends Component {
   };
   sensorGridRef = React.createRef();
   render() {
-    const {mouse} = this.state;
-    const {contacts, simulator, damage, power} = this.props;
-    const hasLoader = simulator.stations.find(s =>
-      s.cards.find(c => c.component === "RailgunLoading"),
+    const { mouse } = this.state;
+    const { contacts, simulator, damage, power } = this.props;
+    const hasLoader = simulator.stations.find((s) =>
+    s.cards.find((c) => c.component === "RailgunLoading")
     );
     const damaged =
-      (power && power.powerLevels && power.power < power.powerLevels[0]) ||
-      (damage && damage.damaged);
+    power && power.powerLevels && power.power < power.powerLevels[0] ||
+    damage && damage.damaged;
 
     return (
       <Container fluid className="card-railgun">
@@ -128,38 +129,38 @@ class Railgun extends Component {
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+              justifyContent: "center"
+            }}>
+            
             <div
               ref={this.sensorGridRef}
-              style={{width: "100%", aspectRatio: "1", position: "relative"}}
-            >
-              {mouse && (
-                <div
-                  className="pointer"
-                  style={{
-                    transform: `translate(${mouse.x}px, ${mouse.y}px)`,
-                  }}
-                />
-              )}
+              style={{ width: "100%", aspectRatio: "1", position: "relative" }}>
+              
+              {mouse &&
+              <div
+                className="pointer"
+                style={{
+                  transform: `translate(${mouse.x}px, ${mouse.y}px)`
+                }} />
+
+              }
               <SensorGrid
-                renderLines={() => (
-                  <svg
-                    viewBox="0 0 8 8"
-                    style={{width: "30px", position: "absolute"}}
-                  >
+                renderLines={() =>
+                <svg
+                  viewBox="0 0 8 8"
+                  style={{ width: "30px", position: "absolute" }}>
+                  
                     <path
-                      d="M7.68,3.84c-2.119,0 -3.84,-1.721 -3.84,-3.84c0,2.119 -1.721,3.84 -3.84,3.84c2.119,0 3.84,1.721 3.84,3.84c0,-2.119 1.721,-3.84 3.84,-3.84Z"
-                      fill="#ebebeb"
-                    />
+                    d="M7.68,3.84c-2.119,0 -3.84,-1.721 -3.84,-3.84c0,2.119 -1.721,3.84 -3.84,3.84c2.119,0 3.84,1.721 3.84,3.84c0,-2.119 1.721,-3.84 3.84,-3.84Z"
+                    fill="#ebebeb" />
+                  
                   </svg>
-                )}
+                }
                 contacts={contacts}
                 gridMouseDown={damaged ? () => {} : this.mouseDown}
                 // Don't set state - we don't need a re-render
-                locationChange={locations => (this.locations = locations)}
-              />
+                locationChange={(locations) => this.locations = locations} />
+              
             </div>
           </Col>
           <Col sm={6}>
@@ -168,12 +169,12 @@ class Railgun extends Component {
         </Row>
         <Tour
           steps={Railgun.trainingSteps.concat(
-            !hasLoader ? RailgunLoader.trainingSteps : [],
+            !hasLoader ? RailgunLoader.trainingSteps : []
           )}
-          client={this.props.clientObj}
-        />
-      </Container>
-    );
+          client={this.props.clientObj} />
+        
+      </Container>);
+
   }
 }
 export default withApollo(Railgun);

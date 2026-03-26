@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import gql from "graphql-tag.macro";
 import SineWaves from "../../generic/SineWaves";
-import {graphql, withApollo} from "react-apollo";
-import {Container, Row, Col, Button} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Button } from "helpers/reactstrap";
 import tinycolor from "tinycolor2";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
@@ -51,7 +52,7 @@ class CommShortRange extends Component {
       frequency: 1,
       amplitude: 1,
       mouseY: 0,
-      which: null,
+      which: null
     };
     this.subscription = null;
   }
@@ -76,37 +77,37 @@ class CommShortRange extends Component {
 
       // An array of wave options
       waves: [
-        {
-          timeModifier: 1, // This is multiplied againse `speed`
-          lineWidth: 9, // Stroke width
-          amplitude: 90, // How tall is the wave
-          wavelength: 80, // How long is the wave
-          segmentLength: 20, // How smooth should the line be
-          strokeStyle: "rgba(255, 255, 255, 0.5)", // Stroke color and opacity
-          type: "sine", // Wave type
-        },
-        {
-          timeModifier: 1,
-          lineWidth: 6,
-          amplitude: 60,
-          wavelength: 100,
-          strokeStyle: "rgba(255, 255, 255, 0.3)",
-        },
-        {
-          timeModifier: 1.5,
-          lineWidth: 6,
-          amplitude: 30,
-          wavelength: 30,
-          strokeStyle: "rgba(255, 255, 255, 0.3)",
-        },
-        {
-          timeModifier: 1,
-          lineWidth: 3,
-          amplitude: 90,
-          wavelength: 50,
-          strokeStyle: "rgba(255, 255, 255, 0.3)",
-        },
-      ],
+      {
+        timeModifier: 1, // This is multiplied againse `speed`
+        lineWidth: 9, // Stroke width
+        amplitude: 90, // How tall is the wave
+        wavelength: 80, // How long is the wave
+        segmentLength: 20, // How smooth should the line be
+        strokeStyle: "rgba(255, 255, 255, 0.5)", // Stroke color and opacity
+        type: "sine" // Wave type
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 6,
+        amplitude: 60,
+        wavelength: 100,
+        strokeStyle: "rgba(255, 255, 255, 0.3)"
+      },
+      {
+        timeModifier: 1.5,
+        lineWidth: 6,
+        amplitude: 30,
+        wavelength: 30,
+        strokeStyle: "rgba(255, 255, 255, 0.3)"
+      },
+      {
+        timeModifier: 1,
+        lineWidth: 3,
+        amplitude: 90,
+        wavelength: 50,
+        strokeStyle: "rgba(255, 255, 255, 0.3)"
+      }],
+
       resizeEvent: function () {
         // Here is an example on how to create a gradient stroke
         var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0);
@@ -114,8 +115,8 @@ class CommShortRange extends Component {
         gradient.addColorStop(
           0.5,
           `rgba(${Math.round(Math.random() * 255)}, ${Math.round(
-            Math.random() * 255,
-          )}, ${Math.round(Math.random() * 255)}, 0.5)`,
+            Math.random() * 255
+          )}, ${Math.round(Math.random() * 255)}, 0.5)`
         );
         gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
@@ -124,7 +125,7 @@ class CommShortRange extends Component {
         while (++index < length) {
           this.waves[index].strokeStyle = gradient;
         }
-      },
+      }
     });
   };
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -134,23 +135,23 @@ class CommShortRange extends Component {
           setTimeout(this.initWaves, 500);
         }
         const ShortRange = nextProps.data.shortRangeComm[0];
-        let comms = ShortRange.arrows.map(a => {
-          const signal = ShortRange.signals.find(s => s.id === a.signal) || {};
+        let comms = ShortRange.arrows.map((a) => {
+          const signal = ShortRange.signals.find((s) => s.id === a.signal) || {};
           return {
             id: a.id,
             connected: a.connected,
             frequency: a.frequency,
             name: signal.name,
             color: signal.color,
-            image: signal.image,
+            image: signal.image
           };
         });
         if (ShortRange.state === "hailing") {
           // Add the hailing frequency
           const signal = ShortRange.signals.find(
-            s =>
-              s.range.upper > ShortRange.frequency &&
-              s.range.lower < ShortRange.frequency,
+            (s) =>
+            s.range.upper > ShortRange.frequency &&
+            s.range.lower < ShortRange.frequency
           );
           comms.push({
             id: "hailing-frequency",
@@ -159,7 +160,7 @@ class CommShortRange extends Component {
             frequency: ShortRange.frequency,
             name: signal.name,
             color: signal.color,
-            image: signal.image,
+            image: signal.image
           });
         }
         this.changeGradient(comms);
@@ -177,11 +178,11 @@ class CommShortRange extends Component {
     `;
     const ShortRange = this.props.data.shortRangeComm[0];
     const variables = {
-      id: ShortRange.id,
+      id: ShortRange.id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   cancelCall = () => {
@@ -192,11 +193,11 @@ class CommShortRange extends Component {
     `;
     const ShortRange = this.props.data.shortRangeComm[0];
     const variables = {
-      id: ShortRange.id,
+      id: ShortRange.id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   hangUp = () => {
@@ -208,11 +209,11 @@ class CommShortRange extends Component {
     const ShortRange = this.props.data.shortRangeComm[0];
     const variables = {
       id: ShortRange.id,
-      arrowId: ShortRange.arrows[0].id,
+      arrowId: ShortRange.arrows[0].id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   answerCall = () => {
@@ -224,28 +225,28 @@ class CommShortRange extends Component {
     const ShortRange = this.props.data.shortRangeComm[0];
     const variables = {
       id: ShortRange.id,
-      arrowId: ShortRange.arrows[0].id,
+      arrowId: ShortRange.arrows[0].id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  changeGradient = comms => {
+  changeGradient = (comms) => {
     if (!this.waves) return;
     let gradient = this.waves.ctx.createLinearGradient(
       0,
       0,
       this.waves.width,
-      0,
+      0
     );
     gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
     comms.forEach((comm, index, arr) => {
       gradient.addColorStop(
         (index + 1) / (arr.length + 1),
-        tinycolor(comm.color)
-          .setAlpha(comm.connected ? 1 : 0.3)
-          .toRgbString(),
+        tinycolor(comm.color).
+        setAlpha(comm.connected ? 1 : 0.3).
+        toRgbString()
       );
     });
     gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
@@ -260,55 +261,55 @@ class CommShortRange extends Component {
     if (this.props.data.loading || !this.props.data.shortRangeComm) return null;
     const ShortRange = this.props.data.shortRangeComm[0];
     const status =
-      ShortRange.state === "hailing"
-        ? "Calling..."
-        : ShortRange.arrows.length === 0
-        ? "No Calls"
-        : ShortRange.arrows.find(a => a.connected)
-        ? "Call Answered"
-        : "Incoming Call";
+    ShortRange.state === "hailing" ?
+    "Calling..." :
+    ShortRange.arrows.length === 0 ?
+    "No Calls" :
+    ShortRange.arrows.find((a) => a.connected) ?
+    "Call Answered" :
+    "Incoming Call";
     if (!ShortRange) return <p>No short range comm</p>;
     return (
       <Container className="shortRangeComm">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: JR_COMM_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  shortRangeComm: subscriptionData.data.shortRangeCommUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: JR_COMM_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                shortRangeComm: subscriptionData.data.shortRangeCommUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
-          <Col sm={{size: 6, offset: 3}}>
+          <Col sm={{ size: 6, offset: 3 }}>
             <h1>Status: {status}</h1>
           </Col>
         </Row>
         <Row>
-          <Col sm={{size: 6, offset: 3}}>
-            {ShortRange.state === "hailing" ? (
-              <Button block size="lg" color="danger" onClick={this.cancelCall}>
+          <Col sm={{ size: 6, offset: 3 }}>
+            {ShortRange.state === "hailing" ?
+            <Button block size="lg" color="danger" onClick={this.cancelCall}>
                 Cancel Call
-              </Button>
-            ) : ShortRange.arrows.length === 0 ? (
-              <Button block size="lg" color="primary" onClick={this.newCall}>
+              </Button> :
+            ShortRange.arrows.length === 0 ?
+            <Button block size="lg" color="primary" onClick={this.newCall}>
                 Call
-              </Button>
-            ) : ShortRange.arrows.find(a => a.connected) ? (
-              <Button block size="lg" color="danger" onClick={this.hangUp}>
+              </Button> :
+            ShortRange.arrows.find((a) => a.connected) ?
+            <Button block size="lg" color="danger" onClick={this.hangUp}>
                 Hang Up
-              </Button>
-            ) : (
-              <Button block size="lg" color="info" onClick={this.answerCall}>
+              </Button> :
+
+            <Button block size="lg" color="info" onClick={this.answerCall}>
                 Answer
               </Button>
-            )}
+            }
           </Col>
         </Row>
         <Row>
@@ -317,13 +318,13 @@ class CommShortRange extends Component {
               id="comm-waves"
               style={{
                 width: "100%",
-                height: "25vh",
-              }}
-            />
+                height: "25vh"
+              }} />
+            
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -365,10 +366,10 @@ export const JR_COMM_QUERY = gql`
 `;
 
 export default graphql(JR_COMM_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(CommShortRange));

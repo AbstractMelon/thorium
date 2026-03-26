@@ -1,13 +1,14 @@
 import React from "react";
 import GenericSystemConfig from "./Generic";
 import gql from "graphql-tag.macro";
-import {Query, Mutation} from "react-apollo";
-import {Input, FormGroup, Label, Row, Col, Button} from "helpers/reactstrap";
-import {FaBan} from "react-icons/fa";
+import { Query, Mutation } from "@apollo/client/react/components";
+
+import { Input, FormGroup, Label, Row, Col, Button } from "helpers/reactstrap";
+import { FaBan } from "react-icons/fa";
 import {
   useReactorSetWingsMutation,
-  useReactorSetWingPowerMutation,
-} from "generated/graphql";
+  useReactorSetWingPowerMutation } from
+"generated/graphql";
 
 const REACTOR_QUERY = gql`
   query Reactor($id: ID!) {
@@ -30,45 +31,45 @@ const REACTOR_QUERY = gql`
 `;
 
 const colors = [
-  {label: "Blue", value: "primary"},
-  {label: "Purple", value: "cloak"},
-  {label: "Gray", value: "default"},
-  {label: "Light Blue", value: "info"},
-  {label: "Yellow", value: "warning"},
-  {label: "Red", value: "danger"},
-  {label: "Green", value: "success"},
-];
-const Reactor = props => {
-  const {id} = props;
+{ label: "Blue", value: "primary" },
+{ label: "Purple", value: "cloak" },
+{ label: "Gray", value: "default" },
+{ label: "Light Blue", value: "info" },
+{ label: "Yellow", value: "warning" },
+{ label: "Red", value: "danger" },
+{ label: "Green", value: "success" }];
+
+const Reactor = (props) => {
+  const { id } = props;
   const [setWings] = useReactorSetWingsMutation();
   const [setWingPower] = useReactorSetWingPowerMutation();
-  const updateEfficiencies = (action, reactor, i, key) => evt => {
+  const updateEfficiencies = (action, reactor, i, key) => (evt) => {
     action({
       variables: {
         id: reactor.id,
-        efficiencies: reactor.efficiencies.map(({__typename, ...e}, ind) =>
-          ind === i
-            ? {
-                ...e,
-                [key]: isNaN(parseFloat(evt.target.value))
-                  ? !evt.target.value
-                    ? null
-                    : evt.target.value
-                  : parseFloat(evt.target.value),
-              }
-            : e,
-        ),
-      },
+        efficiencies: reactor.efficiencies.map(({ __typename, ...e }, ind) =>
+        ind === i ?
+        {
+          ...e,
+          [key]: isNaN(parseFloat(evt.target.value)) ?
+          !evt.target.value ?
+          null :
+          evt.target.value :
+          parseFloat(evt.target.value)
+        } :
+        e
+        )
+      }
     });
   };
   const removeEfficiency = (action, reactor, i) => () => {
     action({
       variables: {
         id: reactor.id,
-        efficiencies: reactor.efficiencies
-          .filter((_, ind) => ind !== i)
-          .map(({__typename, ...e}) => e),
-      },
+        efficiencies: reactor.efficiencies.
+        filter((_, ind) => ind !== i).
+        map(({ __typename, ...e }) => e)
+      }
     });
   };
   const addEfficiency = (action, reactor) => () => {
@@ -76,21 +77,21 @@ const Reactor = props => {
       variables: {
         id: reactor.id,
         efficiencies: (
-          reactor.efficiencies?.map(({__typename, ...e}) => e) || []
-        ).concat({
+        reactor.efficiencies?.map(({ __typename, ...e }) => e) || []).
+        concat({
           label: "Efficiency",
           color: "default",
-          efficiency: 0.5,
-        }),
-      },
+          efficiency: 0.5
+        })
+      }
     });
   };
   return (
     <GenericSystemConfig {...props}>
-      <Query query={REACTOR_QUERY} variables={{id}}>
-        {({data, loading}) => {
+      <Query query={REACTOR_QUERY} variables={{ id }}>
+        {({ data, loading }) => {
           if (loading) return null;
-          const {reactor} = data;
+          const { reactor } = data;
           return (
             <div>
               <FormGroup>
@@ -101,125 +102,125 @@ const Reactor = props => {
                       reactorChangeModel(id: $id, model: $model)
                     }
                   `}
-                  refetchQueries={[{query: REACTOR_QUERY, variables: {id}}]}
-                >
-                  {action => (
-                    <Input
-                      type="select"
-                      value={reactor.model}
-                      onChange={e =>
-                        action({variables: {id, model: e.target.value}})
-                      }
-                    >
+                  refetchQueries={[{ query: REACTOR_QUERY, variables: { id } }]}>
+                  
+                  {(action) =>
+                  <Input
+                    type="select"
+                    value={reactor.model}
+                    onChange={(e) =>
+                    action({ variables: { id, model: e.target.value } })
+                    }>
+                    
                       <option value="reactor">Reactor</option>
                       <option value="battery">Battery</option>
                     </Input>
-                  )}
+                  }
                 </Mutation>
               </FormGroup>
-              {reactor.model === "reactor" ? (
-                <FormGroup>
+              {reactor.model === "reactor" ?
+              <FormGroup>
                   <Label>
                     Reactor Output
                     <Mutation
-                      mutation={gql`
+                    mutation={gql`
                         mutation UpdateReactorOutput($id: ID!, $output: Int!) {
                           reactorChangeOutput(id: $id, output: $output)
                         }
                       `}
-                      refetchQueries={[{query: REACTOR_QUERY, variables: {id}}]}
-                    >
-                      {action => (
-                        <Input
-                          type="number"
-                          defaultValue={reactor.powerOutput}
-                          onChange={evt =>
-                            action({
-                              variables: {
-                                id,
-                                output: parseInt(evt.target.value, 10),
-                              },
-                            })
-                          }
-                        />
-                      )}
+                    refetchQueries={[{ query: REACTOR_QUERY, variables: { id } }]}>
+                    
+                      {(action) =>
+                    <Input
+                      type="number"
+                      defaultValue={reactor.powerOutput}
+                      onChange={(evt) =>
+                      action({
+                        variables: {
+                          id,
+                          output: parseInt(evt.target.value, 10)
+                        }
+                      })
+                      } />
+
+                    }
                     </Mutation>
                   </Label>
-                  <Label style={{marginLeft: "30px"}}>
+                  <Label style={{ marginLeft: "30px" }}>
                     <Mutation
-                      mutation={gql`
+                    mutation={gql`
                         mutation RequireBalance($id: ID!, $balance: Boolean!) {
                           reactorRequireBalance(id: $id, balance: $balance)
                         }
                       `}
-                      refetchQueries={[{query: REACTOR_QUERY, variables: {id}}]}
-                    >
-                      {action => (
-                        <Input
-                          type="checkbox"
-                          defaultChecked={reactor.requireBalance}
-                          onChange={evt =>
-                            action({
-                              variables: {id, balance: evt.target.checked},
-                            })
-                          }
-                        />
-                      )}
+                    refetchQueries={[{ query: REACTOR_QUERY, variables: { id } }]}>
+                    
+                      {(action) =>
+                    <Input
+                      type="checkbox"
+                      defaultChecked={reactor.requireBalance}
+                      onChange={(evt) =>
+                      action({
+                        variables: { id, balance: evt.target.checked }
+                      })
+                      } />
+
+                    }
                     </Mutation>
                     Warn crew of Unbalanced Power
                   </Label>
-                  <div style={{marginBottom: "20px"}}>
+                  <div style={{ marginBottom: "20px" }}>
                     <div>
-                      <Label style={{marginLeft: "30px"}}>
+                      <Label style={{ marginLeft: "30px" }}>
                         <Input
-                          type="checkbox"
-                          defaultChecked={reactor.hasWings}
-                          onChange={evt =>
-                            setWings({
-                              variables: {id, hasWings: evt.target.checked},
-                            })
-                          }
-                        />{" "}
+                        type="checkbox"
+                        defaultChecked={reactor.hasWings}
+                        onChange={(evt) =>
+                        setWings({
+                          variables: { id, hasWings: evt.target.checked }
+                        })
+                        } />
+                      {" "}
                         Split power distribution into left and right wing
                       </Label>
                     </div>
                     <Label>
                       Left Wing Default Power
                       <Input
-                        type="text"
-                        defaultValue={reactor.leftWingPower}
-                        onChange={e => {
-                          if (isNaN(parseInt(e.target.value, 10))) return;
-                          setWingPower({
-                            variables: {
-                              id,
-                              wing: "left",
-                              power: parseInt(e.target.value, 10),
-                            },
-                          });
-                        }}
-                      />
+                      type="text"
+                      defaultValue={reactor.leftWingPower}
+                      onChange={(e) => {
+                        if (isNaN(parseInt(e.target.value, 10))) return;
+                        setWingPower({
+                          variables: {
+                            id,
+                            wing: "left",
+                            power: parseInt(e.target.value, 10)
+                          }
+                        });
+                      }} />
+                    
                     </Label>
                     <Label>
                       Right Wing Default Power
                       <Input
-                        type="text"
-                        defaultValue={reactor.rightWingPower}
-                        onChange={e => {
-                          if (isNaN(parseInt(e.target.value, 10))) return;
-                          setWingPower({
-                            variables: {
-                              id,
-                              wing: "right",
-                              power: parseInt(e.target.value, 10),
-                            },
-                          });
-                        }}
-                      />
+                      type="text"
+                      defaultValue={reactor.rightWingPower}
+                      onChange={(e) => {
+                        if (isNaN(parseInt(e.target.value, 10))) return;
+                        setWingPower({
+                          variables: {
+                            id,
+                            wing: "right",
+                            power: parseInt(e.target.value, 10)
+                          }
+                        });
+                      }} />
+                    
                     </Label>
                   </div>
                   <Mutation
-                    mutation={gql`
+                  mutation={gql`
                       mutation UpdateEfficiencies(
                         $id: ID!
                         $efficiencies: [ReactorEfficiencyInput]!
@@ -230,10 +231,10 @@ const Reactor = props => {
                         )
                       }
                     `}
-                    refetchQueries={[{query: REACTOR_QUERY, variables: {id}}]}
-                  >
-                    {action => (
-                      <div>
+                  refetchQueries={[{ query: REACTOR_QUERY, variables: { id } }]}>
+                  
+                    {(action) =>
+                  <div>
                         <Label>Efficiencies</Label>
                         <Row>
                           <Col sm="4">Name</Col>
@@ -242,106 +243,106 @@ const Reactor = props => {
                             Efficiency (0 - 1), Blank for external power
                           </Col>
                         </Row>
-                        {reactor.efficiencies?.map((e, i) => (
-                          <Row key={`${reactor.id}-${i}-${e.label}-${e.color}`}>
+                        {reactor.efficiencies?.map((e, i) =>
+                    <Row key={`${reactor.id}-${i}-${e.label}-${e.color}`}>
                             <Col sm={4}>
                               <Input
-                                type="text"
-                                defaultValue={e.label}
-                                onBlur={updateEfficiencies(
-                                  action,
-                                  reactor,
-                                  i,
-                                  "label",
-                                )}
-                              />
+                          type="text"
+                          defaultValue={e.label}
+                          onBlur={updateEfficiencies(
+                            action,
+                            reactor,
+                            i,
+                            "label"
+                          )} />
+                        
                             </Col>
                             <Col sm={3}>
                               <Input
-                                type="select"
-                                defaultValue={e.color}
-                                onChange={updateEfficiencies(
-                                  action,
-                                  reactor,
-                                  i,
-                                  "color",
-                                )}
-                              >
-                                {colors.map(c => (
-                                  <option key={c.value} value={c.value}>
+                          type="select"
+                          defaultValue={e.color}
+                          onChange={updateEfficiencies(
+                            action,
+                            reactor,
+                            i,
+                            "color"
+                          )}>
+                          
+                                {colors.map((c) =>
+                          <option key={c.value} value={c.value}>
                                     {c.label}
                                   </option>
-                                ))}
+                          )}
                               </Input>
                             </Col>
                             <Col sm={4}>
                               <Input
-                                type="number"
-                                defaultValue={e.efficiency}
-                                onBlur={updateEfficiencies(
-                                  action,
-                                  reactor,
-                                  i,
-                                  "efficiency",
-                                )}
-                              />
+                          type="number"
+                          defaultValue={e.efficiency}
+                          onBlur={updateEfficiencies(
+                            action,
+                            reactor,
+                            i,
+                            "efficiency"
+                          )} />
+                        
                             </Col>
                             <Col sm={1}>
                               <FaBan
-                                className="text-danger"
-                                style={{cursor: "pointer"}}
-                                onClick={removeEfficiency(action, reactor, i)}
-                              />
+                          className="text-danger"
+                          style={{ cursor: "pointer" }}
+                          onClick={removeEfficiency(action, reactor, i)} />
+                        
                             </Col>
                           </Row>
-                        ))}
+                    )}
                         <Button
-                          color="success"
-                          onClick={addEfficiency(action, reactor)}
-                        >
+                      color="success"
+                      onClick={addEfficiency(action, reactor)}>
+                      
                           Add Efficiency
                         </Button>
                       </div>
-                    )}
+                  }
                   </Mutation>
-                </FormGroup>
-              ) : (
-                <FormGroup>
+                </FormGroup> :
+
+              <FormGroup>
                   <Label>
                     Battery Charge Rate
                     <small>{` Numbers < 1 are slow, > 1 are fast, < 0 are reverse`}</small>
                     <Mutation
-                      mutation={gql`
+                    mutation={gql`
                         mutation BatteryChargeRate($id: ID!, $rate: Float!) {
                           reactorBatteryChargeRate(id: $id, rate: $rate)
                         }
                       `}
-                      refetchQueries={[{query: REACTOR_QUERY, variables: {id}}]}
-                    >
-                      {action => (
-                        <Input
-                          type="number"
-                          defaultValue={reactor.batteryChargeRate * 1000}
-                          onChange={evt =>
-                            action({
-                              variables: {
-                                id,
-                                rate:
-                                  (parseFloat(evt.target.value) || 0) / 1000,
-                              },
-                            })
-                          }
-                        />
-                      )}
+                    refetchQueries={[{ query: REACTOR_QUERY, variables: { id } }]}>
+                    
+                      {(action) =>
+                    <Input
+                      type="number"
+                      defaultValue={reactor.batteryChargeRate * 1000}
+                      onChange={(evt) =>
+                      action({
+                        variables: {
+                          id,
+                          rate:
+                          (parseFloat(evt.target.value) || 0) / 1000
+                        }
+                      })
+                      } />
+
+                    }
                     </Mutation>
                   </Label>
                 </FormGroup>
-              )}
-            </div>
-          );
+              }
+            </div>);
+
         }}
       </Query>
-    </GenericSystemConfig>
-  );
+    </GenericSystemConfig>);
+
 };
 export default Reactor;

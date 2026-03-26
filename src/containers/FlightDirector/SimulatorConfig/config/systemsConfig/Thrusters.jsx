@@ -1,7 +1,8 @@
 import React from "react";
-import {Input, Row, Col} from "helpers/reactstrap";
+import { Input, Row, Col } from "helpers/reactstrap";
 import GenericSystemConfig from "./Generic";
-import {Query, Mutation} from "react-apollo";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 
 const THRUSTER_QUERY = gql`
@@ -14,12 +15,12 @@ const THRUSTER_QUERY = gql`
   }
 `;
 
-const Thrusters = props => {
-  const {id} = props;
+const Thrusters = (props) => {
+  const { id } = props;
   return (
     <GenericSystemConfig {...props}>
-      <Query query={THRUSTER_QUERY} variables={{id}}>
-        {({data, loading}) => {
+      <Query query={THRUSTER_QUERY} variables={{ id }}>
+        {({ data, loading }) => {
           if (loading) return null;
           const thruster = data.thruster;
           return (
@@ -32,19 +33,19 @@ const Thrusters = props => {
                       setThrusterRotationSpeed(id: $id, speed: $speed)
                     }
                   `}
-                  refetchQueries={[{query: THRUSTER_QUERY, variables: {id}}]}
-                >
-                  {action => (
-                    <Input
-                      type="select"
-                      style={{height: "18px"}}
-                      value={thruster.rotationSpeed}
-                      onChange={e => {
-                        action({
-                          variables: {id, speed: parseFloat(e.target.value)},
-                        });
-                      }}
-                    >
+                  refetchQueries={[{ query: THRUSTER_QUERY, variables: { id } }]}>
+                  
+                  {(action) =>
+                  <Input
+                    type="select"
+                    style={{ height: "18px" }}
+                    value={thruster.rotationSpeed}
+                    onChange={(e) => {
+                      action({
+                        variables: { id, speed: parseFloat(e.target.value) }
+                      });
+                    }}>
+                    
                       <option value={0}>0</option>
                       <option value={0.2}>0.2</option>
                       <option value={0.5}>0.5</option>
@@ -59,7 +60,7 @@ const Thrusters = props => {
                       <option value={9}>9</option>
                       <option value={10}>10 - Fast</option>
                     </Input>
-                  )}
+                  }
                 </Mutation>
               </Col>
               <Col sm={6}>
@@ -70,19 +71,19 @@ const Thrusters = props => {
                       setThrusterMovementSpeed(id: $id, speed: $speed)
                     }
                   `}
-                  refetchQueries={[{query: THRUSTER_QUERY, variables: {id}}]}
-                >
-                  {action => (
-                    <Input
-                      type="select"
-                      style={{height: "18px"}}
-                      value={thruster.movementSpeed}
-                      onChange={e => {
-                        action({
-                          variables: {id, speed: parseFloat(e.target.value)},
-                        });
-                      }}
-                    >
+                  refetchQueries={[{ query: THRUSTER_QUERY, variables: { id } }]}>
+                  
+                  {(action) =>
+                  <Input
+                    type="select"
+                    style={{ height: "18px" }}
+                    value={thruster.movementSpeed}
+                    onChange={(e) => {
+                      action({
+                        variables: { id, speed: parseFloat(e.target.value) }
+                      });
+                    }}>
+                    
                       <option value={0}>0</option>
                       <option value={0.2}>0.2</option>
                       <option value={0.5}>0.5</option>
@@ -97,15 +98,15 @@ const Thrusters = props => {
                       <option value={9}>9</option>
                       <option value={10}>10 - Fast</option>
                     </Input>
-                  )}
+                  }
                 </Mutation>
               </Col>
-            </Row>
-          );
+            </Row>);
+
         }}
       </Query>
-    </GenericSystemConfig>
-  );
+    </GenericSystemConfig>);
+
 };
 
 export default Thrusters;

@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Label} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import Dots from "./dots";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 export const STATUS_DILITHIUM_SUB = gql`
@@ -20,52 +21,52 @@ export const STATUS_DILITHIUM_SUB = gql`
 
 class DilithiumStress extends Component {
   // This calculation came from client/src/components/views/DilithiumStress/dilithiumStress.js
-  calcStressLevel = reactor => {
-    const {alphaTarget, betaTarget} = reactor;
-    const {alphaLevel, betaLevel} = reactor;
+  calcStressLevel = (reactor) => {
+    const { alphaTarget, betaTarget } = reactor;
+    const { alphaLevel, betaLevel } = reactor;
     const alphaDif = Math.abs(alphaTarget - alphaLevel);
     const betaDif = Math.abs(betaTarget - betaLevel);
     const stressLevel = alphaDif + betaDif > 100 ? 100 : alphaDif + betaDif;
     return stressLevel;
   };
 
-  getDilithiumStressCard = stations => {
+  getDilithiumStressCard = (stations) => {
     if (!stations) return null;
-    return stations
-      .map(s => s.cards.find(card => card.component === "DilithiumStress"))
-      .filter(Boolean)[0];
+    return stations.
+    map((s) => s.cards.find((card) => card.component === "DilithiumStress")).
+    filter(Boolean)[0];
   };
 
   render() {
     if (this.props.data.loading || !this.props.data.reactors) return null;
     const dilithiumStressCard = this.getDilithiumStressCard(
-      this.props.simulator.stations,
+      this.props.simulator.stations
     );
     if (!dilithiumStressCard) return null;
     const reactor =
-      this.props.data.reactors &&
-      this.props.data.reactors.find(r => r.model === "reactor");
+    this.props.data.reactors &&
+    this.props.data.reactors.find((r) => r.model === "reactor");
     if (!reactor) return null;
     const stressLevel = this.calcStressLevel(reactor) / 100;
     return (
       <div>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_DILITHIUM_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  reactors: subscriptionData.data.reactorUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_DILITHIUM_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                reactors: subscriptionData.data.reactorUpdate
+              });
+            }
+          })
+          } />
+        
         <Label>{dilithiumStressCard.name}</Label>
         <Dots level={stressLevel} color="rgb(255,60,40)" />
-      </div>
-    );
+      </div>);
+
   }
 }
 export const STATUS_DILITHIUM_QUERY = gql`
@@ -83,8 +84,8 @@ export const STATUS_DILITHIUM_QUERY = gql`
 `;
 
 export default graphql(STATUS_DILITHIUM_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(DilithiumStress);

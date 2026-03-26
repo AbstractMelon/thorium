@@ -1,8 +1,10 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import gql from "graphql-tag.macro";
-import {Mutation, graphql, withApollo} from "react-apollo";
-import {Container, Row, Col, Input} from "helpers/reactstrap";
-import {InputField, OutputField} from "../../generic/core";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Input } from "helpers/reactstrap";
+import { InputField, OutputField } from "../../generic/core";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import {
@@ -11,8 +13,8 @@ import {
   FaArrowCircleUp,
   FaArrowLeft,
   FaArrowDown,
-  FaArrowRight,
-} from "react-icons/fa";
+  FaArrowRight } from
+"react-icons/fa";
 
 export const ROTATION_CHANGE_CORE_SUB = gql`
   subscription RotationChanged($simulatorId: ID) {
@@ -67,17 +69,17 @@ class ThrusterCore extends Component {
       {
         yaw: thrusters.rotationRequired.yaw,
         pitch: thrusters.rotationRequired.pitch,
-        roll: thrusters.rotationRequired.roll,
-      },
+        roll: thrusters.rotationRequired.roll
+      }
     );
     rotation[which] = value;
     const variables = {
       id: thrusters.id,
-      rotation,
+      rotation
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
@@ -88,17 +90,17 @@ class ThrusterCore extends Component {
       <Container className="thrustersCore" fluid>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: ROTATION_CHANGE_CORE_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  thrusters: [subscriptionData.data.rotationChange],
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: ROTATION_CHANGE_CORE_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                thrusters: [subscriptionData.data.rotationChange]
+              });
+            }
+          })
+          } />
+        
         {/*<label><input type="checkbox" onClick={this.toggleManualThrusters} /> Manual Thrusters</label>*/}
         <Row>
           <Col sm={4}>Yaw</Col>
@@ -119,113 +121,113 @@ class ThrusterCore extends Component {
               {Math.floor(thrusters.rotation && thrusters.rotation.roll)}
             </OutputField>
           </Col>
-          {thrusters && thrusters.rotationRequired && (
-            <Fragment>
+          {thrusters && thrusters.rotationRequired &&
+          <Fragment>
               <Col sm={4}>
                 <InputField
-                  alert={
-                    Math.round(thrusters.rotation && thrusters.rotation.yaw) !==
-                    Math.round(thrusters.rotationRequired.yaw)
-                  }
-                  prompt="What is the required yaw?"
-                  onClick={value => {
-                    this.setRequiredRotation(
-                      "yaw",
-                      Math.min(359, Math.max(0, value)),
-                    );
-                  }}
-                >
+                alert={
+                Math.round(thrusters.rotation && thrusters.rotation.yaw) !==
+                Math.round(thrusters.rotationRequired.yaw)
+                }
+                prompt="What is the required yaw?"
+                onClick={(value) => {
+                  this.setRequiredRotation(
+                    "yaw",
+                    Math.min(359, Math.max(0, value))
+                  );
+                }}>
+                
                   {Math.round(thrusters.rotationRequired.yaw)}
                 </InputField>
               </Col>
               <Col sm={4}>
                 <InputField
-                  alert={
-                    Math.round(thrusters.rotation.pitch) !==
-                    Math.round(thrusters.rotationRequired.pitch)
-                  }
-                  prompt="What is the required pitch?"
-                  onClick={value => {
-                    this.setRequiredRotation(
-                      "pitch",
-                      Math.min(359, Math.max(0, value)),
-                    );
-                  }}
-                >
+                alert={
+                Math.round(thrusters.rotation.pitch) !==
+                Math.round(thrusters.rotationRequired.pitch)
+                }
+                prompt="What is the required pitch?"
+                onClick={(value) => {
+                  this.setRequiredRotation(
+                    "pitch",
+                    Math.min(359, Math.max(0, value))
+                  );
+                }}>
+                
                   {Math.round(thrusters.rotationRequired.pitch)}
                 </InputField>
               </Col>
               <Col sm={4}>
                 <InputField
-                  alert={
-                    Math.round(thrusters.rotation.roll) !==
-                    Math.round(thrusters.rotationRequired.roll)
-                  }
-                  prompt="What is the required roll?"
-                  onClick={value => {
-                    this.setRequiredRotation(
-                      "roll",
-                      Math.min(359, Math.max(0, value)),
-                    );
-                  }}
-                >
+                alert={
+                Math.round(thrusters.rotation.roll) !==
+                Math.round(thrusters.rotationRequired.roll)
+                }
+                prompt="What is the required roll?"
+                onClick={(value) => {
+                  this.setRequiredRotation(
+                    "roll",
+                    Math.min(359, Math.max(0, value))
+                  );
+                }}>
+                
                   {Math.round(thrusters.rotationRequired.roll)}
                 </InputField>
               </Col>
             </Fragment>
-          )}
-          {thrusters.direction && (
-            <Fragment>
+          }
+          {thrusters.direction &&
+          <Fragment>
               <ThrusterArrow
-                icon={FaArrowCircleDown}
-                value={
-                  thrusters.direction.z < 0
-                    ? Math.abs(thrusters.direction.z)
-                    : 0
-                }
-              />
+              icon={FaArrowCircleDown}
+              value={
+              thrusters.direction.z < 0 ?
+              Math.abs(thrusters.direction.z) :
+              0
+              } />
+            
               <ThrusterArrow
-                icon={FaArrowUp}
-                value={
-                  thrusters.direction.y > 0
-                    ? Math.abs(thrusters.direction.y)
-                    : 0
-                }
-              />
+              icon={FaArrowUp}
+              value={
+              thrusters.direction.y > 0 ?
+              Math.abs(thrusters.direction.y) :
+              0
+              } />
+            
               <ThrusterArrow
-                icon={FaArrowCircleUp}
-                value={
-                  thrusters.direction.z > 0
-                    ? Math.abs(thrusters.direction.z)
-                    : 0
-                }
-              />
+              icon={FaArrowCircleUp}
+              value={
+              thrusters.direction.z > 0 ?
+              Math.abs(thrusters.direction.z) :
+              0
+              } />
+            
               <ThrusterArrow
-                icon={FaArrowLeft}
-                value={
-                  thrusters.direction.x < 0
-                    ? Math.abs(thrusters.direction.x)
-                    : 0
-                }
-              />
+              icon={FaArrowLeft}
+              value={
+              thrusters.direction.x < 0 ?
+              Math.abs(thrusters.direction.x) :
+              0
+              } />
+            
               <ThrusterArrow
-                icon={FaArrowDown}
-                value={
-                  thrusters.direction.y < 0
-                    ? Math.abs(thrusters.direction.y)
-                    : 0
-                }
-              />
+              icon={FaArrowDown}
+              value={
+              thrusters.direction.y < 0 ?
+              Math.abs(thrusters.direction.y) :
+              0
+              } />
+            
               <ThrusterArrow
-                icon={FaArrowRight}
-                value={
-                  thrusters.direction.x > 0
-                    ? Math.abs(thrusters.direction.x)
-                    : 0
-                }
-              />
+              icon={FaArrowRight}
+              value={
+              thrusters.direction.x > 0 ?
+              Math.abs(thrusters.direction.x) :
+              0
+              } />
+            
             </Fragment>
-          )}
+          }
         </Row>
         <Row>
           <Col sm={6}>
@@ -235,22 +237,22 @@ class ThrusterCore extends Component {
                 mutation UpdateThrusterRotation($id: ID!, $speed: Float!) {
                   setThrusterRotationSpeed(id: $id, speed: $speed)
                 }
-              `}
-            >
-              {action => (
-                <Input
-                  type="select"
-                  style={{height: "18px"}}
-                  value={thrusters.rotationSpeed}
-                  onChange={e => {
-                    action({
-                      variables: {
-                        id: thrusters.id,
-                        speed: parseFloat(e.target.value),
-                      },
-                    });
-                  }}
-                >
+              `}>
+              
+              {(action) =>
+              <Input
+                type="select"
+                style={{ height: "18px" }}
+                value={thrusters.rotationSpeed}
+                onChange={(e) => {
+                  action({
+                    variables: {
+                      id: thrusters.id,
+                      speed: parseFloat(e.target.value)
+                    }
+                  });
+                }}>
+                
                   <option value={0}>0</option>
                   <option value={0.2}>0.2</option>
                   <option value={0.5}>0.5</option>
@@ -265,7 +267,7 @@ class ThrusterCore extends Component {
                   <option value={9}>9</option>
                   <option value={10}>10 - Fast</option>
                 </Input>
-              )}
+              }
             </Mutation>
           </Col>
           <Col sm={6}>
@@ -275,22 +277,22 @@ class ThrusterCore extends Component {
                 mutation UpdateThrusterMovement($id: ID!, $speed: Float!) {
                   setThrusterMovementSpeed(id: $id, speed: $speed)
                 }
-              `}
-            >
-              {action => (
-                <Input
-                  type="select"
-                  style={{height: "18px"}}
-                  value={thrusters.movementSpeed}
-                  onChange={e => {
-                    action({
-                      variables: {
-                        id: thrusters.id,
-                        speed: parseFloat(e.target.value),
-                      },
-                    });
-                  }}
-                >
+              `}>
+              
+              {(action) =>
+              <Input
+                type="select"
+                style={{ height: "18px" }}
+                value={thrusters.movementSpeed}
+                onChange={(e) => {
+                  action({
+                    variables: {
+                      id: thrusters.id,
+                      speed: parseFloat(e.target.value)
+                    }
+                  });
+                }}>
+                
                   <option value={0}>0</option>
                   <option value={0.2}>0.2</option>
                   <option value={0.5}>0.5</option>
@@ -305,16 +307,16 @@ class ThrusterCore extends Component {
                   <option value={9}>9</option>
                   <option value={10}>10 - Fast</option>
                 </Input>
-              )}
+              }
             </Mutation>
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
-const ThrusterArrow = ({icon: Icon, value}) => {
+const ThrusterArrow = ({ icon: Icon, value }) => {
   return (
     <Col sm={4} className="thruster-symbol">
       <Icon
@@ -322,12 +324,12 @@ const ThrusterArrow = ({icon: Icon, value}) => {
         style={{
           margin: "2px",
           color: `rgb(${Math.round(value * 255)},${Math.round(
-            value * 255,
-          )},${Math.round(value * 255)})`,
-        }}
-      />
-    </Col>
-  );
+            value * 255
+          )},${Math.round(value * 255)})`
+        }} />
+      
+    </Col>);
+
 };
 
 export const THRUSTER_CORE_QUERY = gql`
@@ -370,8 +372,8 @@ export const THRUSTER_CORE_QUERY = gql`
 `;
 
 export default graphql(THRUSTER_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(ThrusterCore));

@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Button, Row, Col, Input} from "helpers/reactstrap";
-import {graphql, withApollo} from "react-apollo";
+import { Button, Row, Col, Input } from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import Target from "./targeting";
 import Scan from "./transporterScan";
 import DamageOverlay from "../helpers/DamageOverlay";
@@ -42,50 +43,50 @@ export const TRANSPORTER_SUB = gql`
   }
 `;
 
-const TargetSelect = props => {
+const TargetSelect = (props) => {
   return (
     <Row>
-      <Col sm={{size: 6, push: 3}} className="target-destination">
-        <div className="target-input" style={{height: "60px"}} />
+      <Col sm={{ size: 6, push: 3 }} className="target-destination">
+        <div className="target-input" style={{ height: "60px" }} />
         <h3>Enter Transport Target:</h3>
         <Input
           defaultValue={props.target}
           onBlur={props.updateTarget}
           placeholder="Enter Target..."
-          size="lg"
-        />
-        <div className="destination-input" style={{height: "60px"}} />
+          size="lg" />
+        
+        <div className="destination-input" style={{ height: "60px" }} />
         <h3>Transport to:</h3>
         <Input
           defaultValue={props.destination}
           onBlur={props.updateDestination}
           placeholder="Enter Location..."
-          size="lg"
-        />
-        <div style={{height: "30px"}} />
-        <Col sm={{size: 6, push: 3}}>
+          size="lg" />
+        
+        <div style={{ height: "30px" }} />
+        <Col sm={{ size: 6, push: 3 }}>
           <Button block color={"primary"} onClick={props.beginScan}>
             Begin Scan
           </Button>
         </Col>
       </Col>
-    </Row>
-  );
+    </Row>);
+
 };
-const Scanning = props => {
+const Scanning = (props) => {
   return (
     <Row>
-      <Col sm={{size: 6, offset: 3}}>
+      <Col sm={{ size: 6, offset: 3 }}>
         <Scan />
-        <h3 style={{textAlign: "center", width: "100%"}}>Scanning...</h3>
-        <Col sm={{size: 6, offset: 3}}>
+        <h3 style={{ textAlign: "center", width: "100%" }}>Scanning...</h3>
+        <Col sm={{ size: 6, offset: 3 }}>
           <Button block color={"primary"} size="lg" onClick={props.cancelScan}>
             Cancel Scan
           </Button>
         </Col>
       </Col>
-    </Row>
-  );
+    </Row>);
+
 };
 
 class Transporters extends Component {
@@ -98,8 +99,8 @@ class Transporters extends Component {
       `,
       variables: {
         transporter: transporter.id,
-        target: e.target.value,
-      },
+        target: e.target.value
+      }
     });
   }
   updateDestination(transporter, e) {
@@ -117,8 +118,8 @@ class Transporters extends Component {
       `,
       variables: {
         transporter: transporter.id,
-        destination: e.target.value,
-      },
+        destination: e.target.value
+      }
     });
   }
   setCharge(transporter, charge) {
@@ -130,8 +131,8 @@ class Transporters extends Component {
       `,
       variables: {
         transporter: transporter.id,
-        charge,
-      },
+        charge
+      }
     });
   }
   beginScan(transporter) {
@@ -142,8 +143,8 @@ class Transporters extends Component {
         }
       `,
       variables: {
-        transporter: transporter.id,
-      },
+        transporter: transporter.id
+      }
     });
   }
   cancelScan(transporter) {
@@ -154,8 +155,8 @@ class Transporters extends Component {
         }
       `,
       variables: {
-        transporter: transporter.id,
-      },
+        transporter: transporter.id
+      }
     });
   }
   cancelTransport(transporter) {
@@ -166,8 +167,8 @@ class Transporters extends Component {
         }
       `,
       variables: {
-        transporter: transporter.id,
-      },
+        transporter: transporter.id
+      }
     });
   }
   completeTransport(transporter, target) {
@@ -180,8 +181,8 @@ class Transporters extends Component {
       `,
       variables: {
         transporter: transporter.id,
-        target: target.id,
-      },
+        target: target.id
+      }
     });
   }
   render() {
@@ -192,82 +193,82 @@ class Transporters extends Component {
       <div className="transporter-control">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: TRANSPORTER_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  transporters: previousResult.transporters.map(transporter => {
-                    if (
-                      transporter.id ===
-                      subscriptionData.data.transporterUpdate.id
-                    ) {
-                      return subscriptionData.data.transporterUpdate;
-                    }
-                    return transporter;
-                  }),
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: TRANSPORTER_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                transporters: previousResult.transporters.map((transporter) => {
+                  if (
+                  transporter.id ===
+                  subscriptionData.data.transporterUpdate.id)
+                  {
+                    return subscriptionData.data.transporterUpdate;
+                  }
+                  return transporter;
+                })
+              });
+            }
+          })
+          } />
+        
         <DamageOverlay system={transporter} message="Transporters Offline" />
-        {transporter.state === "Inactive" && (
-          <TargetSelect
-            beginScan={this.beginScan.bind(this, transporter)}
-            updateTarget={this.updateTarget.bind(this, transporter)}
-            updateDestination={this.updateDestination.bind(this, transporter)}
-            target={transporter.requestedTarget}
-            destination={transporter.destination}
-          />
-        )}
-        {transporter.state === "Scanning" && (
-          <Scanning cancelScan={this.cancelScan.bind(this, transporter)} />
-        )}
+        {transporter.state === "Inactive" &&
+        <TargetSelect
+          beginScan={this.beginScan.bind(this, transporter)}
+          updateTarget={this.updateTarget.bind(this, transporter)}
+          updateDestination={this.updateDestination.bind(this, transporter)}
+          target={transporter.requestedTarget}
+          destination={transporter.destination} />
+
+        }
+        {transporter.state === "Scanning" &&
+        <Scanning cancelScan={this.cancelScan.bind(this, transporter)} />
+        }
         {(transporter.state === "Targeting" ||
-          transporter.state === "Charging") && (
-          <Target
-            charging={transporter.state === "Charging"}
-            completeTransport={this.completeTransport.bind(this, transporter)}
-            cancelTransport={this.cancelTransport.bind(this, transporter)}
-            setCharge={this.setCharge.bind(this, transporter)}
-            chargeSpeed={transporter.chargeSpeed}
-            targets={transporter.targets}
-          />
-        )}
+        transporter.state === "Charging") &&
+        <Target
+          charging={transporter.state === "Charging"}
+          completeTransport={this.completeTransport.bind(this, transporter)}
+          cancelTransport={this.cancelTransport.bind(this, transporter)}
+          setCharge={this.setCharge.bind(this, transporter)}
+          chargeSpeed={transporter.chargeSpeed}
+          targets={transporter.targets} />
+
+        }
         <Tour steps={trainingSteps} client={this.props.clientObj} />
-      </div>
-    );
+      </div>);
+
   }
 }
 
 const trainingSteps = [
-  {
-    selector: ".nothing",
-    content:
-      "Transporters move objects from one place to another by converting the atoms in the object to energy and reassembling the object on the other side.",
-  },
-  {
-    selector: ".target-destination",
-    content:
-      "Input the name of the object you want to transport, as well as your target's final destination for transporting. Type something into these boxes, such as 'Apple' for the target and 'Outer Space' for the destination. Click the 'Begin Scan' button before proceeding.",
-  },
-  {
-    selector: ".transporterScan",
-    content:
-      "The computer has to find the target and approve the destination before you can proceed. Wait for your scan to complete.",
-  },
-  {
-    selector: ".targetBox",
-    content:
-      "Drag your target sights over the object you are trying to transport until the “Transport Possible” message appears.",
-  },
-  {
-    selector: ".chargeBox",
-    content:
-      "Once you have locked onto your target, slowly drag the yellow bars upward from the bottom of this box by hovering over the yellow bars and moving your cursor upward. This will maintain the connection with the target until the transporters have fully engaged. If you reach the top, your target will successfully transport to the destination.",
-  },
-];
+{
+  selector: ".nothing",
+  content:
+  "Transporters move objects from one place to another by converting the atoms in the object to energy and reassembling the object on the other side."
+},
+{
+  selector: ".target-destination",
+  content:
+  "Input the name of the object you want to transport, as well as your target's final destination for transporting. Type something into these boxes, such as 'Apple' for the target and 'Outer Space' for the destination. Click the 'Begin Scan' button before proceeding."
+},
+{
+  selector: ".transporterScan",
+  content:
+  "The computer has to find the target and approve the destination before you can proceed. Wait for your scan to complete."
+},
+{
+  selector: ".targetBox",
+  content:
+  "Drag your target sights over the object you are trying to transport until the “Transport Possible” message appears."
+},
+{
+  selector: ".chargeBox",
+  content:
+  "Once you have locked onto your target, slowly drag the yellow bars upward from the bottom of this box by hovering over the yellow bars and moving your cursor upward. This will maintain the connection with the target until the transporters have fully engaged. If you reach the top, your target will successfully transport to the destination."
+}];
+
 
 export const TRANSPORTERS_QUERY = gql`
   query GetTransporters($simulatorId: ID) {
@@ -301,8 +302,8 @@ export const TRANSPORTERS_QUERY = gql`
   }
 `;
 export default graphql(TRANSPORTERS_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(Transporters));

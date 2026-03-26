@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Label} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 export const STATUS_TARGETING_SUB = gql`
   subscription TargetUpdate($simulatorId: ID) {
@@ -22,26 +23,26 @@ class Targeted extends Component {
     if (this.props.data.loading || !this.props.data.targeting) return null;
     const targeting = this.props.data.targeting && this.props.data.targeting[0];
     if (!targeting) return null;
-    const target = targeting.contacts.find(t => t.targeted);
+    const target = targeting.contacts.find((t) => t.targeted);
     return (
       <div>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_TARGETING_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  targeting: subscriptionData.data.targetingUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_TARGETING_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                targeting: subscriptionData.data.targetingUpdate
+              });
+            }
+          })
+          } />
+        
         <Label>Current Target</Label>
         <div className="status-field">{target ? target.name : "No Target"}</div>
-      </div>
-    );
+      </div>);
+
   }
 }
 export const STATUS_TARGETING_QUERY = gql`
@@ -59,8 +60,8 @@ export const STATUS_TARGETING_QUERY = gql`
 `;
 
 export default graphql(STATUS_TARGETING_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(Targeted);

@@ -1,6 +1,7 @@
-import React, {useState} from "react";
-import {Query, Mutation} from "react-apollo";
-import {ListGroup, ListGroupItem} from "helpers/reactstrap";
+import React, { useState } from "react";
+import { Query, Mutation } from "@apollo/client/react/components";
+
+import { ListGroup, ListGroupItem } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
@@ -47,46 +48,46 @@ export const SPECIALIZED_DOCKING_CORE_SUB = gql`
   ${fragment}
 `;
 
-const SpecializedDockingCore = ({docking}) => {
+const SpecializedDockingCore = ({ docking }) => {
   const [selectedPort, setSelectedPort] = useState(null);
 
   const port =
-    docking.length > 1 ? docking.find(d => d.id === selectedPort) : docking[0];
+  docking.length > 1 ? docking.find((d) => d.id === selectedPort) : docking[0];
 
   const togglePort = (action, which) => () => {
     const update = {
       id: port.id,
-      [which]: !port[which],
+      [which]: !port[which]
     };
-    action({variables: {port: update}});
+    action({ variables: { port: update } });
   };
   return (
     <div className="specializedDocking-core">
-      {docking.length > 1 && (
-        <div className="port-list">
+      {docking.length > 1 &&
+      <div className="port-list">
           <ListGroup>
-            {docking.map(d => (
-              <ListGroupItem
-                key={d.id}
-                active={selectedPort === d.id}
-                onClick={() => setSelectedPort(d.id)}
-              >
+            {docking.map((d) =>
+          <ListGroupItem
+            key={d.id}
+            active={selectedPort === d.id}
+            onClick={() => setSelectedPort(d.id)}>
+            
                 {d.name}
               </ListGroupItem>
-            ))}
+          )}
           </ListGroup>
         </div>
-      )}
-      {port && (
-        <Mutation
-          mutation={gql`
+      }
+      {port &&
+      <Mutation
+        mutation={gql`
             mutation UpdateShuttleBay($port: DockingPortInput!) {
               updateDockingPort(port: $port)
             }
-          `}
-        >
-          {action => (
-            <div className="port-config">
+          `}>
+        
+          {(action) =>
+        <div className="port-config">
               <p>
                 <strong>Name:</strong> {port.name}
               </p>
@@ -96,78 +97,78 @@ const SpecializedDockingCore = ({docking}) => {
               <p>
                 <strong>Present:</strong>{" "}
                 <input
-                  type="checkbox"
-                  checked={port.docked}
-                  onChange={togglePort(action, "docked")}
-                />
+              type="checkbox"
+              checked={port.docked}
+              onChange={togglePort(action, "docked")} />
+            
               </p>
               <p>
                 <strong>Clamps:</strong>{" "}
                 <input
-                  type="checkbox"
-                  checked={port.clamps}
-                  onChange={togglePort(action, "clamps")}
-                />
+              type="checkbox"
+              checked={port.clamps}
+              onChange={togglePort(action, "clamps")} />
+            
               </p>
               <p>
                 <strong>Ramps:</strong>{" "}
                 <input
-                  type="checkbox"
-                  checked={port.compress}
-                  onChange={togglePort(action, "compress")}
-                />
+              type="checkbox"
+              checked={port.compress}
+              onChange={togglePort(action, "compress")} />
+            
               </p>
               <p>
                 <strong>Doors:</strong>{" "}
                 <input
-                  type="checkbox"
-                  checked={port.doors}
-                  onChange={togglePort(action, "doors")}
-                />
+              type="checkbox"
+              checked={port.doors}
+              onChange={togglePort(action, "doors")} />
+            
               </p>
               <p>
                 <strong>Inventory:</strong>{" "}
               </p>
-              {port.inventory.map(i => (
-                <p key={i.id}>
+              {port.inventory.map((i) =>
+          <p key={i.id}>
                   {i.count}: {i.name}
                 </p>
-              ))}
-            </div>
           )}
+            </div>
+        }
         </Mutation>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
-const SpecializedSpecializedDockingCoreData = props => (
-  <Query
-    query={SPECIALIZED_DOCKING_CORE_QUERY}
-    variables={{simulatorId: props.simulator.id}}
-  >
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {docking} = data;
-      if (!docking[0]) return <div>No Specialized Ports</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: SPECIALIZED_DOCKING_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  docking: subscriptionData.data.dockingUpdate,
-                });
-              },
-            })
+const SpecializedSpecializedDockingCoreData = (props) =>
+<Query
+  query={SPECIALIZED_DOCKING_CORE_QUERY}
+  variables={{ simulatorId: props.simulator.id }}>
+  
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { docking } = data;
+    if (!docking[0]) return <div>No Specialized Ports</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: SPECIALIZED_DOCKING_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              docking: subscriptionData.data.dockingUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <SpecializedDockingCore {...props} docking={docking} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default SpecializedSpecializedDockingCoreData;

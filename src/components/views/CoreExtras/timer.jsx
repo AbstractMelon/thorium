@@ -1,10 +1,11 @@
-import React, {Component} from "react";
-import {Button} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
-import {Duration} from "luxon";
-import {publish} from "helpers/pubsub";
-import {playSound} from "components/generic/SoundPlayer";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { Duration } from "luxon";
+import { publish } from "helpers/pubsub";
+import { playSound } from "components/generic/SoundPlayer";
 
 export const TIMESYNC_SUB = gql`
   subscription SyncTime($simulatorId: ID!) {
@@ -18,31 +19,31 @@ class Timer extends Component {
   state = {
     timer: "00:00:00",
     sync:
-      (window.localStorage.getItem("thorium_syncTime") || "false") === "true",
+    (window.localStorage.getItem("thorium_syncTime") || "false") === "true"
   };
   componentDidMount() {
-    this.subscription = this.props.client
-      .subscribe({
-        query: TIMESYNC_SUB,
-        variables: {
-          simulatorId: this.props.simulator.id,
-        },
-      })
-      .subscribe({
-        next: ({data: {syncTime}}) => {
-          this.state.sync &&
-            this.setState(
-              {timer: syncTime.time, stopped: !syncTime.active},
-              () => {
-                clearTimeout(this.timer);
-                this.updateTimer();
-              },
-            );
-        },
-        error(err) {
-          console.error("err", err);
-        },
-      });
+    this.subscription = this.props.client.
+    subscribe({
+      query: TIMESYNC_SUB,
+      variables: {
+        simulatorId: this.props.simulator.id
+      }
+    }).
+    subscribe({
+      next: ({ data: { syncTime } }) => {
+        this.state.sync &&
+        this.setState(
+          { timer: syncTime.time, stopped: !syncTime.active },
+          () => {
+            clearTimeout(this.timer);
+            this.updateTimer();
+          }
+        );
+      },
+      error(err) {
+        console.error("err", err);
+      }
+    });
   }
   componentWillUnmount() {
     this.subscription && this.subscription.unsubscribe();
@@ -50,46 +51,46 @@ class Timer extends Component {
   }
   updateTimer = () => {
     if (!this.state.stopped && this.state.timer === "00:00:00") {
-      this.setState({stopped: true});
+      this.setState({ stopped: true });
       this.props.doFlash();
       if (this.props.soundOn) {
-        playSound({url: require("./timer.ogg")});
+        playSound({ url: require("./timer.ogg") });
         setTimeout(() => {
-          playSound({url: require("./timer.ogg")});
+          playSound({ url: require("./timer.ogg") });
         }, 200);
         setTimeout(() => {
-          playSound({url: require("./timer.ogg")});
+          playSound({ url: require("./timer.ogg") });
         }, 400);
       }
     }
     if (
-      this.state.stopped ||
-      this.state.timer === "00:00:00" ||
-      this.state.timer === "0:0:0"
-    ) {
+    this.state.stopped ||
+    this.state.timer === "00:00:00" ||
+    this.state.timer === "0:0:0")
+    {
       return;
     }
     const [hours, minutes, seconds] = this.state.timer.split(":");
     if (
-      isNaN(parseInt(hours)) ||
-      isNaN(parseInt(seconds)) ||
-      isNaN(parseInt(minutes))
-    ) {
+    isNaN(parseInt(hours)) ||
+    isNaN(parseInt(seconds)) ||
+    isNaN(parseInt(minutes)))
+    {
       this.setState({
-        timer: "00:00:00",
+        timer: "00:00:00"
       });
       return;
     }
     const dur = Duration.fromObject({
       hours: parseInt(hours),
       minutes: parseInt(minutes),
-      seconds: parseInt(seconds),
-    })
-      .minus(1000)
-      .normalize()
-      .toFormat("hh:mm:ss");
+      seconds: parseInt(seconds)
+    }).
+    minus(1000).
+    normalize().
+    toFormat("hh:mm:ss");
     this.setState({
-      timer: dur,
+      timer: dur
     });
     this.timer = setTimeout(this.updateTimer, 1000);
   };
@@ -109,37 +110,37 @@ class Timer extends Component {
       }
     `;
     this.state.sync &&
-      this.props.client.mutate({
-        mutation,
-        variables: {
-          time: `${hours}:${minutes}:${seconds}`,
-          active: true,
-          simulatorId: this.props.simulator.id,
-        },
-      });
+    this.props.client.mutate({
+      mutation,
+      variables: {
+        time: `${hours}:${minutes}:${seconds}`,
+        active: true,
+        simulatorId: this.props.simulator.id
+      }
+    });
     this.setState(
-      {timer: `${hours}:${minutes}:${seconds}`, stopped: false},
+      { timer: `${hours}:${minutes}:${seconds}`, stopped: false },
       () => {
         this.updateTimer();
-      },
+      }
     );
   };
   toggleTimer = () => {
-    const {stopped} = this.state;
+    const { stopped } = this.state;
     if (stopped) {
       this.setState(
         {
-          stopped: false,
+          stopped: false
         },
         () => {
           this.updateTimer();
-        },
+        }
       );
     } else {
       clearTimeout(this.timer);
       this.timer = null;
       this.setState({
-        stopped: true,
+        stopped: true
       });
     }
     const mutation = gql`
@@ -148,44 +149,44 @@ class Timer extends Component {
       }
     `;
     this.state.sync &&
-      this.props.client.mutate({
-        mutation,
-        variables: {
-          time: this.state.timer,
-          active: stopped,
-          simulatorId: this.props.simulator.id,
-        },
-      });
+    this.props.client.mutate({
+      mutation,
+      variables: {
+        time: this.state.timer,
+        active: stopped,
+        simulatorId: this.props.simulator.id
+      }
+    });
   };
   sendToSensors = () => {
     const [hours, minutes, seconds] = this.state.timer.split(":");
     const dur = Duration.fromObject({
       hours: parseInt(hours),
       minutes: parseInt(minutes),
-      seconds: parseInt(seconds),
+      seconds: parseInt(seconds)
     }).normalize();
 
     const parts = [];
     if (dur.hours > 0)
-      parts.push(`${dur.hours} hour${dur.hours === 1 ? "" : "s"}`);
+    parts.push(`${dur.hours} hour${dur.hours === 1 ? "" : "s"}`);
     if (dur.minutes > 0)
-      parts.push(`${dur.minutes} minute${dur.minutes === 1 ? "" : "s"}`);
+    parts.push(`${dur.minutes} minute${dur.minutes === 1 ? "" : "s"}`);
     parts.push(`${dur.seconds} second${dur.seconds === 1 ? "" : "s"}`);
 
     const data = `At current speed this vessel will reach its destination in ${parts.join(
-      ", ",
+      ", "
     )}.`;
 
     publish("sensorData", data);
   };
   render() {
-    const {timer, stopped, sync} = this.state;
+    const { timer, stopped, sync } = this.state;
 
     return (
       <div
         className="core-timer"
-        style={{display: "flex", alignItems: "center", gap: "4px"}}
-      >
+        style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+        
         <div
           style={{
             color: "black",
@@ -195,44 +196,44 @@ class Timer extends Component {
             height: "16px",
             whiteSpace: "pre",
             textAlign: "center",
-            cursor: "pointer",
+            cursor: "pointer"
           }}
-          onClick={this.setTimer}
-        >
+          onClick={this.setTimer}>
+          
           {timer}
         </div>
 
         <Button
           color={stopped ? "primary" : "danger"}
           size="sm"
-          style={{height: "16px", lineHeight: "12px"}}
-          onClick={this.toggleTimer}
-        >
+          style={{ height: "16px", lineHeight: "12px" }}
+          onClick={this.toggleTimer}>
+          
           {stopped ? "Start" : "Stop"}
         </Button>
 
         <Button
           color="success"
           size="sm"
-          style={{height: "16px", lineHeight: "12px"}}
-          onClick={this.sendToSensors}
-        >
+          style={{ height: "16px", lineHeight: "12px" }}
+          onClick={this.sendToSensors}>
+          
           Send to Sensors
         </Button>
 
-        <label className="checkbox-inline" style={{margin: 0}}>
+        <label className="checkbox-inline" style={{ margin: 0 }}>
           <input
             type="checkbox"
             checked={sync}
-            onChange={e => {
-              this.setState({sync: e.target.checked});
+            onChange={(e) => {
+              this.setState({ sync: e.target.checked });
               window.localStorage.setItem("thorium_syncTime", e.target.checked);
-            }}
-          />
+            }} />
+          
           <span>Sync Cores</span>
         </label>
-      </div>
-    );
+      </div>);
+
   }
 }
 

@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from "react";
+import React, { Fragment, Component } from "react";
 import {
   Container,
   Row,
@@ -6,31 +6,32 @@ import {
   Label,
   FormGroup,
   Input,
-  Button,
-} from "helpers/reactstrap";
+  Button } from
+"helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {TypingField} from "../../generic/core";
-import {graphql, withApollo} from "react-apollo";
+import { TypingField } from "../../generic/core";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {parse} from "papaparse";
+import { parse } from "papaparse";
 import escapeRegex from "escape-string-regexp";
 
 import "./style.scss";
 const damagePositions = [
-  "Computer Specialist",
-  "Custodian",
-  "Quality Assurance",
-  "Electrician",
-  "Explosive Expert",
-  "Fire Control",
-  "General Engineer",
-  "Hazardous Waste Expert",
-  "Maintenance Officer",
-  "Mechanic",
-  "Plumber",
-  "Structural Engineer",
-  "Welder",
-];
+"Computer Specialist",
+"Custodian",
+"Quality Assurance",
+"Electrician",
+"Explosive Expert",
+"Fire Control",
+"General Engineer",
+"Hazardous Waste Expert",
+"Maintenance Officer",
+"Mechanic",
+"Plumber",
+"Structural Engineer",
+"Welder"];
+
 
 export const CREW_SUB = gql`
   subscription CrewUpdate($simulatorId: ID) {
@@ -50,20 +51,20 @@ export const CREW_SUB = gql`
 const fields = ["firstName", "lastName", "gender", "age", "rank", "position"];
 class CrewCore extends Component {
   state = {};
-  _importCrew = evt => {
+  _importCrew = (evt) => {
     const simulatorId = this.props.simulator.id;
     const [file] = evt.target.files;
     parse(file, {
       header: true,
-      complete: results => {
-        const {data, meta, errors} = results;
+      complete: (results) => {
+        const { data, meta, errors } = results;
         if (JSON.stringify(meta.fields) !== JSON.stringify(fields)) {
           alert(
-            `Header row mismatch. Make sure you have the correct headers in the correct order.`,
+            `Header row mismatch. Make sure you have the correct headers in the correct order.`
           );
           return;
         }
-        errors.forEach(err => {
+        errors.forEach((err) => {
           console.error(err);
         });
         this.props.client.mutate({
@@ -74,32 +75,32 @@ class CrewCore extends Component {
           `,
           variables: {
             simulatorId,
-            crew: data.filter(c => c && c.firstName),
-          },
+            crew: data.filter((c) => c && c.firstName)
+          }
         });
-      },
+      }
     });
   };
   _exportCrewCSV = () => {
     const {
-      data: {crew},
+      data: { crew }
     } = this.props;
     const a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
     const doc = [];
     doc.push(
-      ["firstName", "lastName", "gender", "age", "rank", "position"].join(","),
+      ["firstName", "lastName", "gender", "age", "rank", "position"].join(",")
     );
-    crew.forEach(c =>
-      doc.push(
-        [c.firstName, c.lastName, c.gender, c.age, c.rank, c.position].join(
-          ",",
-        ),
-      ),
+    crew.forEach((c) =>
+    doc.push(
+      [c.firstName, c.lastName, c.gender, c.age, c.rank, c.position].join(
+        ","
+      )
+    )
     );
 
-    const blob = new Blob([doc.join("\n")], {type: "octet/stream"});
+    const blob = new Blob([doc.join("\n")], { type: "octet/stream" });
     const url = window.URL.createObjectURL(blob);
     a.href = url;
     a.download = "crewExport.csv";
@@ -108,7 +109,7 @@ class CrewCore extends Component {
   };
   updateCrew = (which, value, id = this.state.selectedCrew) => {
     const variables = {
-      crew: {id, [which]: value},
+      crew: { id, [which]: value }
     };
     const mutation = gql`
       mutation UpdateCrew($crew: CrewInput) {
@@ -117,7 +118,7 @@ class CrewCore extends Component {
     `;
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   removeCrew = () => {
@@ -129,10 +130,10 @@ class CrewCore extends Component {
     `;
     this.props.client.mutate({
       mutation,
-      variables: {id},
+      variables: { id }
     });
     this.setState({
-      selectedCrew: null,
+      selectedCrew: null
     });
   };
   removeAll = () => {
@@ -143,19 +144,19 @@ class CrewCore extends Component {
     `;
     this.props.client.mutate({
       mutation,
-      variables: {simulatorId: this.props.simulator.id},
+      variables: { simulatorId: this.props.simulator.id }
     });
     this.setState({
-      selectedCrew: null,
+      selectedCrew: null
     });
   };
   killRandom = () => {
     const {
-      data: {crew},
+      data: { crew }
     } = this.props;
-    const livingCrew = crew.filter(c => !c.killed);
+    const livingCrew = crew.filter((c) => !c.killed);
     const crewMember =
-      livingCrew[Math.floor(Math.random() * livingCrew.length)];
+    livingCrew[Math.floor(Math.random() * livingCrew.length)];
     this.updateCrew("killed", true, crewMember.id);
   };
   newRandom = (type, position) => {
@@ -175,54 +176,54 @@ class CrewCore extends Component {
     const variables = {
       simulatorId: this.props.simulator.id,
       type,
-      position,
+      position
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   search = () => {
     const {
-      data: {crew},
+      data: { crew }
     } = this.props;
-    const {search} = this.state;
+    const { search } = this.state;
     const regex = new RegExp(escapeRegex(search || ""), "gi");
     return crew.filter(
-      c =>
-        regex.test(c.firstName) ||
-        regex.test(c.lastName) ||
-        regex.test(c.position) ||
-        regex.test(c.rank),
+      (c) =>
+      regex.test(c.firstName) ||
+      regex.test(c.lastName) ||
+      regex.test(c.position) ||
+      regex.test(c.rank)
     );
   };
   render() {
     const {
-      data: {loading, crew},
+      data: { loading, crew }
     } = this.props;
-    const {selectedCrew, editing, search} = this.state;
+    const { selectedCrew, editing, search } = this.state;
     if (loading || !crew) return null;
-    const selectedCrewMember = crew.find(c => c.id === selectedCrew);
+    const selectedCrewMember = crew.find((c) => c.id === selectedCrew);
     return (
       <Container className="crew-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: CREW_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  crew: subscriptionData.data.crewUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: CREW_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                crew: subscriptionData.data.crewUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={3}>
-            <Row style={{height: "20px", overflow: "hidden"}}>
+            <Row style={{ height: "20px", overflow: "hidden" }}>
               <Col sm={6}>
                 <label className="crew-import">
                   <div className="btn btn-sm btn-info btn-block ">Import</div>
@@ -231,8 +232,8 @@ class CrewCore extends Component {
                     accept="text/csv"
                     hidden
                     value={""}
-                    onChange={this._importCrew}
-                  />
+                    onChange={this._importCrew} />
+                  
                 </label>
               </Col>
               <Col sm={6}>
@@ -241,8 +242,8 @@ class CrewCore extends Component {
                   block
                   color="primary"
                   onClick={this._exportCrewCSV}
-                  class="crew-export"
-                >
+                  class="crew-export">
+                  
                   Export
                 </Button>
               </Col>
@@ -251,39 +252,39 @@ class CrewCore extends Component {
               input
               controlled
               placeholder="Search..."
-              style={{height: "32px"}}
+              style={{ height: "32px" }}
               value={search}
-              onChange={e => this.setState({search: e.target.value})}
-            />
+              onChange={(e) => this.setState({ search: e.target.value })} />
+            
             <div className="crew-list">
-              {this.search()
-                .concat()
-                .sort((a, b) => {
-                  if (a.lastName > b.lastName) return 1;
-                  if (a.lastName < b.lastName) return -1;
-                  return 0;
-                })
-                .map(c => (
-                  <p
-                    key={c.id}
-                    className={`${c.killed ? "killed" : ""}  ${
-                      !c.killed && damagePositions.indexOf(c.position) > -1
-                        ? "text-success"
-                        : ""
-                    } ${
-                      !c.killed && /security/gi.test(c.position)
-                        ? "text-warning"
-                        : ""
-                    } ${
-                      !c.killed && /medical/gi.test(c.position)
-                        ? "text-info"
-                        : ""
-                    } ${selectedCrew === c.id ? "selected" : ""}`}
-                    onClick={() => this.setState({selectedCrew: c.id})}
-                  >
+              {this.search().
+              concat().
+              sort((a, b) => {
+                if (a.lastName > b.lastName) return 1;
+                if (a.lastName < b.lastName) return -1;
+                return 0;
+              }).
+              map((c) =>
+              <p
+                key={c.id}
+                className={`${c.killed ? "killed" : ""}  ${
+                !c.killed && damagePositions.indexOf(c.position) > -1 ?
+                "text-success" :
+                ""} ${
+
+                !c.killed && /security/gi.test(c.position) ?
+                "text-warning" :
+                ""} ${
+
+                !c.killed && /medical/gi.test(c.position) ?
+                "text-info" :
+                ""} ${
+                selectedCrew === c.id ? "selected" : ""}`}
+                onClick={() => this.setState({ selectedCrew: c.id })}>
+                
                     {c.firstName} {c.lastName}
                   </p>
-                ))}
+              )}
             </div>
             Total Crew: {this.props.data.crew.length}
             <Button block color="danger" size="sm" onClick={this.removeAll}>
@@ -291,94 +292,94 @@ class CrewCore extends Component {
             </Button>
           </Col>
           <Col sm={3}>
-            {selectedCrewMember && (
-              <div>
+            {selectedCrewMember &&
+            <div>
                 <Row>
                   <Col sm={6}>
-                    {editing && (
-                      <Button
-                        size="sm"
-                        block
-                        color="primary"
-                        onClick={() => this.setState({editing: false})}
-                      >
+                    {editing &&
+                  <Button
+                    size="sm"
+                    block
+                    color="primary"
+                    onClick={() => this.setState({ editing: false })}>
+                    
                         Finish
                       </Button>
-                    )}
-                    {!editing && (
-                      <Button
-                        size="sm"
-                        block
-                        color="success"
-                        onClick={() => this.setState({editing: true})}
-                      >
+                  }
+                    {!editing &&
+                  <Button
+                    size="sm"
+                    block
+                    color="success"
+                    onClick={() => this.setState({ editing: true })}>
+                    
                         Edit
                       </Button>
-                    )}
+                  }
                   </Col>
                   <Col sm={6}>
                     <Button
-                      size="sm"
-                      block
-                      color="danger"
-                      onClick={this.removeCrew}
-                    >
+                    size="sm"
+                    block
+                    color="danger"
+                    onClick={this.removeCrew}>
+                    
                       Remove
                     </Button>
                   </Col>
                 </Row>
-                {!selectedCrewMember.killed && (
-                  <Button
-                    size="sm"
-                    block
-                    color="danger"
-                    onClick={() => this.updateCrew("killed", true)}
-                  >
+                {!selectedCrewMember.killed &&
+              <Button
+                size="sm"
+                block
+                color="danger"
+                onClick={() => this.updateCrew("killed", true)}>
+                
                     Kill
                   </Button>
-                )}
-                {selectedCrewMember.killed && (
-                  <Button
-                    size="sm"
-                    block
-                    color="info"
-                    onClick={() => this.updateCrew("killed", false)}
-                  >
+              }
+                {selectedCrewMember.killed &&
+              <Button
+                size="sm"
+                block
+                color="info"
+                onClick={() => this.updateCrew("killed", false)}>
+                
                     Revive
                   </Button>
-                )}
+              }
               </div>
-            )}
+            }
             <Button
               size="sm"
               block
               color="danger"
-              onClick={() => this.killRandom()}
-            >
+              onClick={() => this.killRandom()}>
+              
               Kill Random
             </Button>
             <Button
               size="sm"
               block
               color="secondary"
-              onClick={() => this.newRandom()}
-            >
+              onClick={() => this.newRandom()}>
+              
               New Random Crew
             </Button>
             <Button
               size="sm"
               block
               color="warning"
-              onClick={() => this.newRandom("security")}
-            >
+              onClick={() => this.newRandom("security")}>
+              
               New Security Crew
             </Button>
             <Button
               size="sm"
               block
               color="info"
-              onClick={() => this.newRandom("medical")}
-            >
+              onClick={() => this.newRandom("medical")}>
+              
               New Medical Crew
             </Button>
             <Input
@@ -386,8 +387,8 @@ class CrewCore extends Component {
               type="select"
               value="select"
               color="warning"
-              onChange={evt => this.newRandom(null, evt.target.value)}
-            >
+              onChange={(evt) => this.newRandom(null, evt.target.value)}>
+              
               <option value="select" disabled>
                 New Damage Crew
               </option>
@@ -406,38 +407,38 @@ class CrewCore extends Component {
               <option>Welder</option>
             </Input>
           </Col>
-          {selectedCrewMember && (
-            <Fragment key={selectedCrew}>
+          {selectedCrewMember &&
+          <Fragment key={selectedCrew}>
               <Col sm={3}>
                 <FormGroup>
                   <Label>First Name</Label>
                   <Input
-                    readOnly={!editing}
-                    size="sm"
-                    type="text"
-                    defaultValue={selectedCrewMember.firstName}
-                    onChange={e => this.updateCrew("firstName", e.target.value)}
-                  />
+                  readOnly={!editing}
+                  size="sm"
+                  type="text"
+                  defaultValue={selectedCrewMember.firstName}
+                  onChange={(e) => this.updateCrew("firstName", e.target.value)} />
+                
                 </FormGroup>
                 <FormGroup>
                   <Label>Last Name</Label>
                   <Input
-                    readOnly={!editing}
-                    size="sm"
-                    type="text"
-                    defaultValue={selectedCrewMember.lastName}
-                    onChange={e => this.updateCrew("lastName", e.target.value)}
-                  />
+                  readOnly={!editing}
+                  size="sm"
+                  type="text"
+                  defaultValue={selectedCrewMember.lastName}
+                  onChange={(e) => this.updateCrew("lastName", e.target.value)} />
+                
                 </FormGroup>
                 <FormGroup>
                   <Label>Age</Label>
                   <Input
-                    readOnly={!editing}
-                    size="sm"
-                    type="text"
-                    defaultValue={selectedCrewMember.age}
-                    onChange={e => this.updateCrew("age", e.target.value)}
-                  />
+                  readOnly={!editing}
+                  size="sm"
+                  type="text"
+                  defaultValue={selectedCrewMember.age}
+                  onChange={(e) => this.updateCrew("age", e.target.value)} />
+                
                 </FormGroup>
               </Col>
 
@@ -445,32 +446,32 @@ class CrewCore extends Component {
                 <FormGroup>
                   <Label>Position</Label>
                   <Input
-                    readOnly={!editing}
-                    size="sm"
-                    type="text"
-                    defaultValue={selectedCrewMember.position}
-                    onChange={e => this.updateCrew("position", e.target.value)}
-                  />
+                  readOnly={!editing}
+                  size="sm"
+                  type="text"
+                  defaultValue={selectedCrewMember.position}
+                  onChange={(e) => this.updateCrew("position", e.target.value)} />
+                
                 </FormGroup>
                 <FormGroup>
                   <Label>Rank</Label>
                   <Input
-                    readOnly={!editing}
-                    size="sm"
-                    type="text"
-                    defaultValue={selectedCrewMember.rank}
-                    onChange={e => this.updateCrew("rank", e.target.value)}
-                  />
+                  readOnly={!editing}
+                  size="sm"
+                  type="text"
+                  defaultValue={selectedCrewMember.rank}
+                  onChange={(e) => this.updateCrew("rank", e.target.value)} />
+                
                 </FormGroup>
                 <FormGroup>
                   <Label>Gender</Label>
                   <Input
-                    disabled={!editing}
-                    size="sm"
-                    type="select"
-                    defaultValue={selectedCrewMember.gender || "nothing"}
-                    onChange={e => this.updateCrew("gender", e.target.value)}
-                  >
+                  disabled={!editing}
+                  size="sm"
+                  type="select"
+                  defaultValue={selectedCrewMember.gender || "nothing"}
+                  onChange={(e) => this.updateCrew("gender", e.target.value)}>
+                  
                     <option value={"nothing"} disabled>
                       Select a gender
                     </option>
@@ -481,10 +482,10 @@ class CrewCore extends Component {
                 </FormGroup>
               </Col>
             </Fragment>
-          )}
+          }
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -503,10 +504,10 @@ export const CREW_QUERY = gql`
   }
 `;
 export default graphql(CREW_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(CrewCore));

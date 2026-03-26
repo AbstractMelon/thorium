@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Stars from "./stars";
@@ -38,53 +39,53 @@ class TemplateData extends Component {
   state = {};
   render() {
     return (
-      <Query query={QUERY} variables={{simulatorId: this.props.simulator.id}}>
-        {({loading, data, subscribeToMore}) => {
+      <Query query={QUERY} variables={{ simulatorId: this.props.simulator.id }}>
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {engines} = data;
+          const { engines } = data;
           if (!engines) return null;
-          const {velocity, activating} = engines.reduce(
+          const { velocity, activating } = engines.reduce(
             (prev, next, i) => {
               const baseSpeed = next.speed / next.speeds.length;
               if (next.on === true) {
                 return {
                   velocity: i === 0 ? baseSpeed * 2.5 : baseSpeed * 40,
-                  activating: next.previousSpeed === -1,
+                  activating: next.previousSpeed === -1
                 };
               }
               return prev;
             },
-            {velocity: 0, activating: false},
+            { velocity: 0, activating: false }
           );
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return {
-                      ...previousResult,
-                      engines: previousResult.engines.map(e => {
-                        if (e.id === subscriptionData.data.engineUpdate.id)
-                          return subscriptionData.data.engineUpdate;
-                        return e;
-                      }),
-                    };
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return {
+                    ...previousResult,
+                    engines: previousResult.engines.map((e) => {
+                      if (e.id === subscriptionData.data.engineUpdate.id)
+                      return subscriptionData.data.engineUpdate;
+                      return e;
+                    })
+                  };
+                }
+              })
+              }>
+              
               <Stars
                 {...this.props}
                 velocity={velocity}
-                activating={activating}
-              />
-            </SubscriptionHelper>
-          );
+                activating={activating} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default TemplateData;

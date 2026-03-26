@@ -1,4 +1,13 @@
-import {IntrospectionFragmentMatcher} from "react-apollo";
+class IntrospectionFragmentMatcher {
+  constructor(options = {}) {
+    this.introspectionQueryResultData =
+      options.introspectionQueryResultData || {__schema: {types: []}};
+  }
+
+  match() {
+    return true;
+  }
+}
 
 const FragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: {

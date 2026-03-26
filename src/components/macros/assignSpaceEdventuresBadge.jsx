@@ -1,9 +1,10 @@
 import React from "react";
-import {Query} from "react-apollo";
-import gql from "graphql-tag.macro";
-import {FormGroup, Label, Input} from "helpers/reactstrap";
+import { Query } from "@apollo/client/react/components";
 
-export default ({updateArgs, args, stations, clients}) => {
+import gql from "graphql-tag.macro";
+import { FormGroup, Label, Input } from "helpers/reactstrap";
+
+export default ({ updateArgs, args, stations, clients }) => {
   return (
     <Query
       fetchPolicy="cache-first"
@@ -18,76 +19,76 @@ export default ({updateArgs, args, stations, clients}) => {
             }
           }
         }
-      `}
-    >
-      {({loading, data, error}) => (
-        <FormGroup className="macro-template">
+      `}>
+      
+      {({ loading, data, error }) =>
+      <FormGroup className="macro-template">
           <Label>
             Space EdVentures Badge
             <div>
-              {!data && !data.thorium ? (
-                "Loading"
-              ) : error ? (
-                "Error loading badges."
-              ) : data &&
-                data.thorium &&
-                data.thorium.spaceEdventuresCenter &&
-                data.thorium.spaceEdventuresCenter.badges ? (
-                <Input
-                  type="select"
-                  value={args ? args.badgeId : "select"}
-                  onChange={evt => updateArgs("badgeId", evt.target.value)}
-                >
+              {!data && !data.thorium ?
+            "Loading" :
+            error ?
+            "Error loading badges." :
+            data &&
+            data.thorium &&
+            data.thorium.spaceEdventuresCenter &&
+            data.thorium.spaceEdventuresCenter.badges ?
+            <Input
+              type="select"
+              value={args ? args.badgeId : "select"}
+              onChange={(evt) => updateArgs("badgeId", evt.target.value)}>
+              
                   <option value="select">Select a Badge</option>
-                  {data.thorium.spaceEdventuresCenter.badges.map(m => (
-                    <option key={m.id} value={m.id}>
+                  {data.thorium.spaceEdventuresCenter.badges.map((m) =>
+              <option key={m.id} value={m.id}>
                       {m.name}
                     </option>
-                  ))}
-                </Input>
-              ) : loading ? (
-                <p>Loading...</p>
-              ) : (
-                <p>
+              )}
+                </Input> :
+            loading ?
+            <p>Loading...</p> :
+
+            <p>
                   Not connected to a SpaceEdVentures.com Center. Cannot get
                   badges.
                 </p>
-              )}
+            }
             </div>
           </Label>
           <div>
             <Label>Station</Label>
 
             <Input
-              type="select"
-              value={args.station || ""}
-              onChange={e => updateArgs("station", e.target.value)}
-            >
+            type="select"
+            value={args.station || ""}
+            onChange={(e) => updateArgs("station", e.target.value)}>
+            
               <option value="" disabled>
                 Select a Station
               </option>
-              {stations && stations.length > 0 && (
-                <optgroup label="Stations">
-                  {stations.map(c => (
-                    <option value={c.name} key={c.name}>
+              {stations && stations.length > 0 &&
+            <optgroup label="Stations">
+                  {stations.map((c) =>
+              <option value={c.name} key={c.name}>
                       {c.name}
                     </option>
-                  ))}
-                </optgroup>
               )}
-              {clients && clients.length > 0 && (
-                <optgroup label="Clients">
-                  {clients.map(c => (
-                    <option value={c.id} key={c.id}>
+                </optgroup>
+            }
+              {clients && clients.length > 0 &&
+            <optgroup label="Clients">
+                  {clients.map((c) =>
+              <option value={c.id} key={c.id}>
                       {c.id}
                     </option>
-                  ))}
-                </optgroup>
               )}
+                </optgroup>
+            }
             </Input>
           </div>
         </FormGroup>
-      )}
-    </Query>
-  );
+      }
+    </Query>);
+
 };

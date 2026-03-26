@@ -1,10 +1,11 @@
 import React from "react";
 import gql from "graphql-tag.macro";
-import {Container, Row, Col, Button} from "helpers/reactstrap";
-import {withApollo} from "react-apollo";
+import { Container, Row, Col, Button } from "helpers/reactstrap";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import "./style.scss";
-import {useQuery} from "@apollo/client";
-import {useSubscribeToMore} from "helpers/hooks/useQueryAndSubscribe";
+import { useQuery } from "@apollo/client";
+import { useSubscribeToMore } from "helpers/hooks/useQueryAndSubscribe";
 
 export const DOCKING_CORE_SUB = gql`
   subscription SimulatorSub($simulatorId: ID) {
@@ -41,34 +42,34 @@ export const DOCKING_CORE_QUERY = gql`
   }
 `;
 
-const DockingCore = ({simulator, client}) => {
-  const {loading, data, subscribeToMore} = useQuery(DOCKING_CORE_QUERY, {
-    variables: {simulatorId: simulator.id},
+const DockingCore = ({ simulator, client }) => {
+  const { loading, data, subscribeToMore } = useQuery(DOCKING_CORE_QUERY, {
+    variables: { simulatorId: simulator.id }
   });
   const config = React.useMemo(
     () => ({
-      variables: {simulatorId: simulator.id},
-      updateQuery: (previousResult, {subscriptionData}) => ({
+      variables: { simulatorId: simulator.id },
+      updateQuery: (previousResult, { subscriptionData }) => ({
         ...previousResult,
-        simulators: subscriptionData.data.simulatorsUpdate,
-      }),
+        simulators: subscriptionData.data.simulatorsUpdate
+      })
     }),
-    [simulator.id],
+    [simulator.id]
   );
   useSubscribeToMore(subscribeToMore, DOCKING_CORE_SUB, config);
   if (loading || !data) return null;
-  const {simulators} = data;
-  const {ship} = simulators[0];
+  const { simulators } = data;
+  const { ship } = simulators[0];
 
-  const toggle = which => {
+  const toggle = (which) => {
     const variables = {
       simulatorId: simulator.id,
       which: which,
-      state: !ship[which],
+      state: !ship[which]
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   let colSize;
@@ -84,8 +85,8 @@ const DockingCore = ({simulator, client}) => {
           <Button
             onClick={() => toggle("clamps")}
             size="sm"
-            color={ship.clamps ? "danger" : "success"}
-          >
+            color={ship.clamps ? "danger" : "success"}>
+            
             Clamps
           </Button>
         </Col>
@@ -93,8 +94,8 @@ const DockingCore = ({simulator, client}) => {
           <Button
             onClick={() => toggle("ramps")}
             size="sm"
-            color={ship.ramps ? "danger" : "success"}
-          >
+            color={ship.ramps ? "danger" : "success"}>
+            
             Ramps
           </Button>
         </Col>
@@ -102,29 +103,29 @@ const DockingCore = ({simulator, client}) => {
           <Button
             onClick={() => toggle("airlock")}
             size="sm"
-            color={ship.airlock ? "danger" : "success"}
-          >
+            color={ship.airlock ? "danger" : "success"}>
+            
             Doors
           </Button>
         </Col>
-        {simulators[0].hasLegs && (
-          <Col sm={colSize}>
+        {simulators[0].hasLegs &&
+        <Col sm={colSize}>
             <Button
-              onClick={() => toggle("legs")}
-              size="sm"
-              color={ship.legs ? "danger" : "success"}
-            >
+            onClick={() => toggle("legs")}
+            size="sm"
+            color={ship.legs ? "danger" : "success"}>
+            
               Legs
             </Button>
           </Col>
-        )}
+        }
       </Row>
       <small>
         Red means attached and docked; Green means detached and ready for space
         travel
       </small>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default withApollo(DockingCore);

@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import InterfacesControl from "./interfaces";
@@ -57,41 +58,41 @@ class InterfacesData extends Component {
   render() {
     return (
       <Query query={QUERY}>
-        {({loading, data, subscribeToMore}) => {
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {interfaces} = data;
+          const { interfaces } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      interfaces: subscriptionData.data.interfaceUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    interfaces: subscriptionData.data.interfaceUpdate
+                  });
+                }
+              })
+              }>
+              
               <Query query={DEVICE_QUERY}>
-                {({loading, data}) => {
+                {({ loading, data }) => {
                   if (loading || !data) return null;
-                  const {interfaceDevices} = data;
+                  const { interfaceDevices } = data;
 
                   return (
                     <InterfacesControl
                       {...this.props}
-                      interfaces={interfaces.filter(i => !i.simulatorId)}
-                      interfaceDevices={interfaceDevices}
-                    />
-                  );
+                      interfaces={interfaces.filter((i) => !i.simulatorId)}
+                      interfaceDevices={interfaceDevices} />);
+
+
                 }}
               </Query>
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

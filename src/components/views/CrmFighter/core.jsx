@@ -1,8 +1,9 @@
 import React from "react";
-import {Query, Mutation} from "react-apollo";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {OutputField} from "../../generic/core";
+import { OutputField } from "../../generic/core";
 
 import "./style.scss";
 
@@ -29,7 +30,7 @@ export const CRM_FIGHTER_CORE_SUB = gql`
   }
   ${fragment}
 `;
-const CrmCore = props => {
+const CrmCore = (props) => {
   return (
     <div className="crm-core">
       <Mutation
@@ -40,46 +41,46 @@ const CrmCore = props => {
         `}
         variables={{
           id: props.id,
-          state: !props.activated,
-        }}
-      >
-        {action => (
-          <OutputField alert={props.activated} onDoubleClick={action}>
+          state: !props.activated
+        }}>
+        
+        {(action) =>
+        <OutputField alert={props.activated} onDoubleClick={action}>
             {props.activated ? "Activated" : "Deactivated"}
           </OutputField>
-        )}
+        }
       </Mutation>
-    </div>
-  );
+    </div>);
+
 };
 
-const CrmData = props => (
-  <Query
-    query={CRM_FIGHTER_CORE_QUERY}
-    variables={{simulatorId: props.simulator.id}}
-  >
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {crm} = data;
-      if (!crm) return <div>No CRM System</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: CRM_FIGHTER_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  crm: subscriptionData.data.crmUpdate,
-                });
-              },
-            })
+const CrmData = (props) =>
+<Query
+  query={CRM_FIGHTER_CORE_QUERY}
+  variables={{ simulatorId: props.simulator.id }}>
+  
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { crm } = data;
+    if (!crm) return <div>No CRM System</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: CRM_FIGHTER_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              crm: subscriptionData.data.crmUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <CrmCore {...props} {...crm} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default CrmData;

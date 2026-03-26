@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
-import {InputField, OutputField} from "../../generic/core";
-import {Input, Button} from "helpers/reactstrap";
+import { withApollo } from "@apollo/client/react/hoc";
+
+import { InputField, OutputField } from "../../generic/core";
+import { Input, Button } from "helpers/reactstrap";
 import LayoutList from "../../layouts/list";
 import debounce from "helpers/debounce";
-import {useQuery, useMutation} from "@apollo/client";
-import {useSubscribeToMore} from "helpers/hooks/useQueryAndSubscribe";
+import { useQuery, useMutation } from "@apollo/client";
+import { useSubscribeToMore } from "helpers/hooks/useQueryAndSubscribe";
 
 const layouts = LayoutList;
 
@@ -62,11 +63,11 @@ const updateRadiation = debounce((radiation, simulator, client) => {
   `;
   const variables = {
     simulatorId: simulator.id,
-    radiation,
+    radiation
   };
   client.mutate({
     mutation,
-    variables,
+    variables
   });
 }, 500);
 const updateHelium = debounce((helium, simulator, client) => {
@@ -77,15 +78,15 @@ const updateHelium = debounce((helium, simulator, client) => {
   `;
   const variables = {
     simulatorId: simulator.id,
-    helium,
+    helium
   };
   client.mutate({
     mutation,
-    variables,
+    variables
   });
 }, 500);
-const ShipCore = ({simulator, client}) => {
-  const renameSimulator = name => {
+const ShipCore = ({ simulator, client }) => {
+  const renameSimulator = (name) => {
     if (name) {
       const mutation = gql`
         mutation ChangeSimulatorName($id: ID!, $name: String!) {
@@ -94,15 +95,15 @@ const ShipCore = ({simulator, client}) => {
       `;
       const variables = {
         id: simulator.id,
-        name,
+        name
       };
       client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
-  const changeSimulatorLayout = layout => {
+  const changeSimulatorLayout = (layout) => {
     if (layout) {
       const mutation = gql`
         mutation ChangeSimulatorLayout($id: ID!, $layout: String!) {
@@ -111,15 +112,15 @@ const ShipCore = ({simulator, client}) => {
       `;
       const variables = {
         id: simulator.id,
-        layout,
+        layout
       };
       client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
-  const updateBridgeCrew = crew => {
+  const updateBridgeCrew = (crew) => {
     const mutation = gql`
       mutation SetBridgeCrew($simulatorId: ID!, $crew: Int!) {
         changeSimulatorBridgeCrew(simulatorId: $simulatorId, crew: $crew)
@@ -127,14 +128,14 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      crew: parseInt(crew, 10),
+      crew: parseInt(crew, 10)
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const updateExtraPeople = crew => {
+  const updateExtraPeople = (crew) => {
     const mutation = gql`
       mutation SetBridgeCrew($simulatorId: ID!, $crew: Int!) {
         changeSimulatorExtraPeople(simulatorId: $simulatorId, crew: $crew)
@@ -142,11 +143,11 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      crew: parseInt(crew, 10),
+      crew: parseInt(crew, 10)
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
@@ -157,14 +158,14 @@ const ShipCore = ({simulator, client}) => {
       }
     `;
     const variables = {
-      simulatorId: simulator.id,
+      simulatorId: simulator.id
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const setStepDamage = e => {
+  const setStepDamage = (e) => {
     const mutation = gql`
       mutation SetStepDamage($simulatorId: ID!, $stepDamage: Boolean!) {
         setStepDamage(simulatorId: $simulatorId, stepDamage: $stepDamage)
@@ -172,14 +173,14 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      stepDamage: e.target.checked,
+      stepDamage: e.target.checked
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const setStepValidation = e => {
+  const setStepValidation = (e) => {
     const mutation = gql`
       mutation SetStepVerify($simulatorId: ID!, $verifyStep: Boolean!) {
         setVerifyDamage(simulatorId: $simulatorId, verifyStep: $verifyStep)
@@ -187,14 +188,14 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      verifyStep: e.target.checked,
+      verifyStep: e.target.checked
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const setBridgeOfficerMessaging = e => {
+  const setBridgeOfficerMessaging = (e) => {
     const mutation = gql`
       mutation SetBridgeOfficerMessaging($id: ID!, $messaging: Boolean!) {
         setBridgeMessaging(id: $id, messaging: $messaging)
@@ -202,14 +203,14 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       id: simulator.id,
-      messaging: e.target.checked,
+      messaging: e.target.checked
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const setTriggersPaused = e => {
+  const setTriggersPaused = (e) => {
     const mutation = gql`
       mutation SetTriggersPaused($simulatorId: ID!, $paused: Boolean!) {
         setSimulatorTriggersPaused(simulatorId: $simulatorId, paused: $paused)
@@ -217,14 +218,14 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      paused: e.target.checked,
+      paused: e.target.checked
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const updateShowHelium = e => {
+  const updateShowHelium = (e) => {
     const mutation = gql`
       mutation SetShowHelium($simulatorId: ID!, $showHelium: Boolean!) {
         setSimulatorShowHelium(
@@ -235,14 +236,14 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      showHelium: e.target.checked,
+      showHelium: e.target.checked
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
-  const updateHeliumRate = heliumRate => {
+  const updateHeliumRate = (heliumRate) => {
     const mutation = gql`
       mutation SetShowHelium($simulatorId: ID!, $heliumRate: Float!) {
         setSimulatorHeliumRate(
@@ -253,11 +254,11 @@ const ShipCore = ({simulator, client}) => {
     `;
     const variables = {
       simulatorId: simulator.id,
-      heliumRate: heliumRate / 100,
+      heliumRate: heliumRate / 100
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
@@ -267,29 +268,29 @@ const ShipCore = ({simulator, client}) => {
     }
   `);
 
-  const {loading, data, subscribeToMore} = useQuery(SHIP_CORE_QUERY, {
-    variables: {simulatorId: simulator.id},
+  const { loading, data, subscribeToMore } = useQuery(SHIP_CORE_QUERY, {
+    variables: { simulatorId: simulator.id }
   });
   const shipConfig = React.useMemo(
     () => ({
-      variables: {simulatorId: simulator.id},
-      updateQuery: (previousResult, {subscriptionData}) => ({
+      variables: { simulatorId: simulator.id },
+      updateQuery: (previousResult, { subscriptionData }) => ({
         ...previousResult,
-        simulators: subscriptionData.data.simulatorsUpdate,
-      }),
+        simulators: subscriptionData.data.simulatorsUpdate
+      })
     }),
-    [simulator.id],
+    [simulator.id]
   );
   useSubscribeToMore(subscribeToMore, SHIP_CORE_SUB, shipConfig);
   const popConfig = React.useMemo(
     () => ({
-      variables: {simulatorId: simulator.id},
-      updateQuery: (previousResult, {subscriptionData}) => ({
+      variables: { simulatorId: simulator.id },
+      updateQuery: (previousResult, { subscriptionData }) => ({
         ...previousResult,
-        crewCount: subscriptionData.data.crewCountUpdate,
-      }),
+        crewCount: subscriptionData.data.crewCountUpdate
+      })
     }),
-    [simulator.id],
+    [simulator.id]
   );
   useSubscribeToMore(subscribeToMore, POP_SUB, popConfig);
   const [heliumValue, setHeliumValue] = useState(null);
@@ -305,19 +306,19 @@ const ShipCore = ({simulator, client}) => {
     bridgeOfficerMessaging,
     triggersPaused,
     ship,
-    flipped,
+    flipped
   } = data.simulators[0];
-  const {crewCount} = data;
-  const {bridgeCrew, extraPeople, radiation, helium, showHelium, heliumRate} =
-    ship;
+  const { crewCount } = data;
+  const { bridgeCrew, extraPeople, radiation, helium, showHelium, heliumRate } =
+  ship;
 
   return (
     <div className="core-ship">
       <p>Simulator Name: </p>
       <InputField
         prompt={"What would you like to change the simulator name to?"}
-        onClick={renameSimulator}
-      >
+        onClick={renameSimulator}>
+        
         {name}
       </InputField>
       <p>Layout: </p>
@@ -325,13 +326,13 @@ const ShipCore = ({simulator, client}) => {
         bsSize="sm"
         type="select"
         value={layout}
-        onChange={evt => changeSimulatorLayout(evt.target.value)}
-      >
-        {layouts.map(l => (
-          <option key={`layout-${l}`} value={l}>
+        onChange={(evt) => changeSimulatorLayout(evt.target.value)}>
+        
+        {layouts.map((l) =>
+        <option key={`layout-${l}`} value={l}>
             {l}
           </option>
-        ))}
+        )}
       </Input>
       <div>
         <label>
@@ -339,12 +340,12 @@ const ShipCore = ({simulator, client}) => {
             style={{
               marginLeft: "10px",
               marginRight: "10px",
-              position: "relative",
+              position: "relative"
             }}
             type="checkbox"
             checked={stepDamage}
-            onChange={setStepDamage}
-          />
+            onChange={setStepDamage} />
+          
           Step Damage Reports
         </label>
       </div>
@@ -354,12 +355,12 @@ const ShipCore = ({simulator, client}) => {
             style={{
               marginLeft: "10px",
               marginRight: "10px",
-              position: "relative",
+              position: "relative"
             }}
             type="checkbox"
             checked={verifyStep}
-            onChange={setStepValidation}
-          />
+            onChange={setStepValidation} />
+          
           Verify Damage Steps
         </label>
       </div>
@@ -369,12 +370,12 @@ const ShipCore = ({simulator, client}) => {
             style={{
               marginLeft: "10px",
               marginRight: "10px",
-              position: "relative",
+              position: "relative"
             }}
             type="checkbox"
             checked={triggersPaused}
-            onChange={setTriggersPaused}
-          />
+            onChange={setTriggersPaused} />
+          
           Triggers Paused
         </label>
       </div>
@@ -384,12 +385,12 @@ const ShipCore = ({simulator, client}) => {
             style={{
               marginLeft: "10px",
               marginRight: "10px",
-              position: "relative",
+              position: "relative"
             }}
             type="checkbox"
             checked={bridgeOfficerMessaging}
-            onChange={setBridgeOfficerMessaging}
-          />
+            onChange={setBridgeOfficerMessaging} />
+          
           Bridge Officer Messaging
         </label>
       </div>
@@ -399,43 +400,43 @@ const ShipCore = ({simulator, client}) => {
             style={{
               marginLeft: "10px",
               marginRight: "10px",
-              position: "relative",
+              position: "relative"
             }}
             type="checkbox"
             checked={flipped}
             onChange={() =>
-              flipSimulator({
-                variables: {simulatorId: simulator.id, flip: !flipped},
-              })
-            }
-          />
+            flipSimulator({
+              variables: { simulatorId: simulator.id, flip: !flipped }
+            })
+            } />
+          
           Flip Screens Horizontally
         </label>
       </div>
-      <div style={{display: "flex"}}>
-        <div style={{flex: 1}}>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
           <p>Bridge Crew: </p>
           <InputField
             prompt={"What would you like to change the bridge crew to?"}
-            onClick={updateBridgeCrew}
-          >
+            onClick={updateBridgeCrew}>
+            
             {bridgeCrew}
           </InputField>
         </div>
-        <div style={{flex: 1}}>
+        <div style={{ flex: 1 }}>
           <p>Extra People: </p>
           <InputField
             prompt={"What would you like to change the extra people count to?"}
-            onClick={updateExtraPeople}
-          >
+            onClick={updateExtraPeople}>
+            
             {extraPeople}
           </InputField>
         </div>
-        <div style={{flex: 1}}>
+        <div style={{ flex: 1 }}>
           <p>Roster Crew: </p>
           <OutputField>{crewCount}</OutputField>
         </div>
-        <div style={{flex: 1}}>
+        <div style={{ flex: 1 }}>
           <p>Total Crew: </p>
           <OutputField>{crewCount + bridgeCrew + extraPeople}</OutputField>
         </div>
@@ -448,64 +449,64 @@ const ShipCore = ({simulator, client}) => {
         min={0}
         max={1}
         step={0.01}
-        onChange={evt =>
-          updateRadiation(parseFloat(evt.target.value), simulator, client)
-        }
-      />
+        onChange={(evt) =>
+        updateRadiation(parseFloat(evt.target.value), simulator, client)
+        } />
+      
       <div>
         <label>
           <input
             type="checkbox"
             checked={showHelium}
-            onChange={updateShowHelium}
-          />{" "}
+            onChange={updateShowHelium} />
+          {" "}
           Show Helium
         </label>
-        {showHelium ? (
-          <>
+        {showHelium ?
+        <>
             <p>Helium: </p>
             <input
-              type="range"
-              value={typeof heliumValue === "number" ? heliumValue : helium}
-              min={0}
-              max={1}
-              step={0.001}
-              onPointerDown={() => {
-                document.addEventListener(
-                  "pointerup",
-                  () => {
-                    setHeliumValue(null);
-                  },
-                  {once: true},
-                );
-              }}
-              onChange={evt => {
-                updateHelium(parseFloat(evt.target.value), simulator, client);
-                setHeliumValue(parseFloat(evt.target.value));
-              }}
-            />
+            type="range"
+            value={typeof heliumValue === "number" ? heliumValue : helium}
+            min={0}
+            max={1}
+            step={0.001}
+            onPointerDown={() => {
+              document.addEventListener(
+                "pointerup",
+                () => {
+                  setHeliumValue(null);
+                },
+                { once: true }
+              );
+            }}
+            onChange={(evt) => {
+              updateHelium(parseFloat(evt.target.value), simulator, client);
+              setHeliumValue(parseFloat(evt.target.value));
+            }} />
+          
             <p>Helium Rate:</p>
             <InputField
-              prompt={
-                "What would you like to change the helium rate to? Helium will change by this percent every minute."
-              }
-              onClick={updateHeliumRate}
-            >
+            prompt={
+            "What would you like to change the helium rate to? Helium will change by this percent every minute."
+            }
+            onClick={updateHeliumRate}>
+            
               {heliumRate * 100}
             </InputField>
-          </>
-        ) : null}
+          </> :
+        null}
       </div>
       <Button
         size="sm"
         color="warning"
         disabled={training}
-        onClick={startTraining}
-      >
+        onClick={startTraining}>
+        
         Start Training
       </Button>
-    </div>
-  );
+    </div>);
+
 };
 
 export default withApollo(ShipCore);

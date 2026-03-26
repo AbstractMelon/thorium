@@ -1,91 +1,92 @@
-import React, {Fragment, Component} from "react";
-import {Row, Col, Button} from "helpers/reactstrap";
-import {InputField} from "../../generic/core";
+import React, { Fragment, Component } from "react";
+import { Row, Col, Button } from "helpers/reactstrap";
+import { InputField } from "../../generic/core";
 import gql from "graphql-tag.macro";
-import {Mutation} from "react-apollo";
-import FileExplorer from "../TacticalMap/fileExplorer";
-import {FaBan} from "react-icons/fa";
+import { Mutation } from "@apollo/client/react/components";
 
-const TargetCount = ({targetingId, id, contactCount, updateClass}) => (
-  <Mutation
-    mutation={gql`
+import FileExplorer from "../TacticalMap/fileExplorer";
+import { FaBan } from "react-icons/fa";
+
+const TargetCount = ({ targetingId, id, contactCount, updateClass }) =>
+<Mutation
+  mutation={gql`
       mutation SetTargetClassCount($id: ID!, $classId: ID!, $count: Int!) {
         setTargetClassCount(id: $id, classId: $classId, count: $count)
       }
-    `}
-  >
-    {action => (
-      <Row>
+    `}>
+  
+    {(action) =>
+  <Row>
         <Col sm={3}>
           <Button
-            onClick={() =>
-              updateClass
-                ? updateClass(id, "count", contactCount - 1)
-                : action({
-                    variables: {
-                      id: targetingId,
-                      classId: id,
-                      count: contactCount - 1,
-                    },
-                  })
-            }
-            size="sm"
-            color="secondary"
-          >
+        onClick={() =>
+        updateClass ?
+        updateClass(id, "count", contactCount - 1) :
+        action({
+          variables: {
+            id: targetingId,
+            classId: id,
+            count: contactCount - 1
+          }
+        })
+        }
+        size="sm"
+        color="secondary">
+        
             -
           </Button>
         </Col>
         <Col sm={6}>
           <InputField
-            style={{
-              lineHeight: "16px",
-              height: "16px",
-              width: "100%",
-            }}
-            prompt={"How many targets?"}
-            onClick={count =>
-              updateClass
-                ? updateClass(id, "count", parseInt(count, 10))
-                : action({
-                    variables: {
-                      id: targetingId,
-                      classId: id,
-                      count: parseInt(count, 10),
-                    },
-                  })
-            }
-          >
+        style={{
+          lineHeight: "16px",
+          height: "16px",
+          width: "100%"
+        }}
+        prompt={"How many targets?"}
+        onClick={(count) =>
+        updateClass ?
+        updateClass(id, "count", parseInt(count, 10)) :
+        action({
+          variables: {
+            id: targetingId,
+            classId: id,
+            count: parseInt(count, 10)
+          }
+        })
+        }>
+        
             {contactCount}
           </InputField>
         </Col>
         <Col sm={3}>
           <Button
-            onClick={() =>
-              updateClass
-                ? updateClass(id, "count", contactCount + 1)
-                : action({
-                    variables: {
-                      id: targetingId,
-                      classId: id,
-                      count: contactCount + 1,
-                    },
-                  })
-            }
-            size="sm"
-            color="secondary"
-          >
+        onClick={() =>
+        updateClass ?
+        updateClass(id, "count", contactCount + 1) :
+        action({
+          variables: {
+            id: targetingId,
+            classId: id,
+            count: contactCount + 1
+          }
+        })
+        }
+        size="sm"
+        color="secondary">
+        
             +
           </Button>
         </Col>
       </Row>
-    )}
-  </Mutation>
-);
+  }
+  </Mutation>;
+
 
 class TargetingContact extends Component {
   state = {};
   render() {
-    const {iconEdit, pictureEdit} = this.state;
+    const { iconEdit, pictureEdit } = this.state;
     const {
       id,
       icon,
@@ -98,159 +99,159 @@ class TargetingContact extends Component {
       count,
       contactClass,
       removeClass,
-      updateClass,
+      updateClass
     } = this.props;
     const contactCount =
-      typeof count === "undefined"
-        ? contacts.filter(c => c.class === id && !c.destroyed).length
-        : count;
+    typeof count === "undefined" ?
+    contacts.filter((c) => c.class === id && !c.destroyed).length :
+    count;
     return (
       <Mutation
         mutation={gql`
           mutation UpdateTargetClass($id: ID!, $classInput: TargetClassInput!) {
             updateTargetClass(id: $id, classInput: $classInput)
           }
-        `}
-      >
-        {action => (
-          <Fragment>
-            {(iconEdit || pictureEdit) && (
-              <div className="icon-picker">
+        `}>
+        
+        {(action) =>
+        <Fragment>
+            {(iconEdit || pictureEdit) &&
+          <div className="icon-picker">
                 <FileExplorer
-                  simple
-                  directory={
-                    iconEdit
-                      ? "/Sensor Contacts/Icons"
-                      : "/Sensor Contacts/Pictures"
+              simple
+              directory={
+              iconEdit ?
+              "/Sensor Contacts/Icons" :
+              "/Sensor Contacts/Pictures"
+              }
+              selectedFiles={[iconEdit ? icon : picture]}
+              onClick={(e, container) => {
+                this.setState({ iconEdit: false, pictureEdit: false });
+                updateClass ?
+                updateClass(
+                  id,
+                  iconEdit ? "icon" : "picture",
+                  container.fullPath
+                ) :
+                action({
+                  variables: {
+                    id: targetingId,
+                    classInput: {
+                      id,
+                      [iconEdit ? "icon" : "picture"]:
+                      container.fullPath
+                    }
                   }
-                  selectedFiles={[iconEdit ? icon : picture]}
-                  onClick={(e, container) => {
-                    this.setState({iconEdit: false, pictureEdit: false});
-                    updateClass
-                      ? updateClass(
-                          id,
-                          iconEdit ? "icon" : "picture",
-                          container.fullPath,
-                        )
-                      : action({
-                          variables: {
-                            id: targetingId,
-                            classInput: {
-                              id,
-                              [iconEdit ? "icon" : "picture"]:
-                                container.fullPath,
-                            },
-                          },
-                        });
-                  }}
-                />
+                });
+              }} />
+            
               </div>
-            )}
+          }
             <Row>
               <Col sm={4}>
                 <TargetCount
-                  targetingId={targetingId}
-                  id={id}
-                  contactCount={contactCount}
-                  updateClass={updateClass}
-                />
+                targetingId={targetingId}
+                id={id}
+                contactCount={contactCount}
+                updateClass={updateClass} />
+              
               </Col>
               <Col sm={1}>
                 <img
-                  alt="pic"
-                  className="contact-image"
-                  src={`/assets${icon}`}
-                  role="presentation"
-                  onClick={() => this.setState({iconEdit: true})}
-                />
+                alt="pic"
+                className="contact-image"
+                src={`/assets${icon}`}
+                role="presentation"
+                onClick={() => this.setState({ iconEdit: true })} />
+              
               </Col>
               <Col sm={1}>
                 <img
-                  alt="pic"
-                  className="contact-image"
-                  src={`/assets${picture}`}
-                  role="presentation"
-                  onClick={() => this.setState({pictureEdit: true})}
-                />
+                alt="pic"
+                className="contact-image"
+                src={`/assets${picture}`}
+                role="presentation"
+                onClick={() => this.setState({ pictureEdit: true })} />
+              
               </Col>
               <Col sm={3}>
                 <InputField
-                  style={{
-                    lineHeight: "16px",
-                    height: "16px",
-                    width: "100%",
-                  }}
-                  prompt={"New target label?"}
-                  alert={contactClass === id}
-                  onClick={value =>
-                    updateClass
-                      ? updateClass(id, "name", value)
-                      : action({
-                          variables: {
-                            id: targetingId,
-                            classInput: {id, name: value},
-                          },
-                        })
+                style={{
+                  lineHeight: "16px",
+                  height: "16px",
+                  width: "100%"
+                }}
+                prompt={"New target label?"}
+                alert={contactClass === id}
+                onClick={(value) =>
+                updateClass ?
+                updateClass(id, "name", value) :
+                action({
+                  variables: {
+                    id: targetingId,
+                    classInput: { id, name: value }
                   }
-                >
+                })
+                }>
+                
                   {name}
                 </InputField>
               </Col>
               <Col sm={1}>
                 <input
-                  type="checkbox"
-                  checked={moving}
-                  onChange={e =>
-                    updateClass
-                      ? updateClass(id, "moving", e.target.checked)
-                      : action({
-                          variables: {
-                            id: targetingId,
-                            classInput: {id, moving: e.target.checked},
-                          },
-                        })
+                type="checkbox"
+                checked={moving}
+                onChange={(e) =>
+                updateClass ?
+                updateClass(id, "moving", e.target.checked) :
+                action({
+                  variables: {
+                    id: targetingId,
+                    classInput: { id, moving: e.target.checked }
                   }
-                />
+                })
+                } />
+              
               </Col>
               <Col sm={1}>
                 <input
-                  type="checkbox"
-                  checked={!moving || clickToTarget}
-                  disabled={!moving}
-                  onChange={e =>
-                    updateClass
-                      ? updateClass(id, "clickToTarget", e.target.checked)
-                      : action({
-                          variables: {
-                            id: targetingId,
-                            classInput: {id, clickToTarget: e.target.checked},
-                          },
-                        })
+                type="checkbox"
+                checked={!moving || clickToTarget}
+                disabled={!moving}
+                onChange={(e) =>
+                updateClass ?
+                updateClass(id, "clickToTarget", e.target.checked) :
+                action({
+                  variables: {
+                    id: targetingId,
+                    classInput: { id, clickToTarget: e.target.checked }
                   }
-                />
+                })
+                } />
+              
               </Col>
               <Col sm={1}>
                 <Mutation
-                  mutation={gql`
+                mutation={gql`
                     mutation RemoveTargetClass($id: ID!, $classId: ID!) {
                       removeTargetClass(id: $id, classId: $classId)
                     }
                   `}
-                  variables={{id: targetingId, classId: id}}
-                >
-                  {action => (
-                    <FaBan
-                      className="text-danger"
-                      onClick={removeClass ? () => removeClass(id) : action}
-                    />
-                  )}
+                variables={{ id: targetingId, classId: id }}>
+                
+                  {(action) =>
+                <FaBan
+                  className="text-danger"
+                  onClick={removeClass ? () => removeClass(id) : action} />
+
+                }
                 </Mutation>
               </Col>
             </Row>
           </Fragment>
-        )}
-      </Mutation>
-    );
+        }
+      </Mutation>);
+
   }
 }
 

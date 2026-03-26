@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import ProbeScience from "./probeScience";
@@ -56,7 +57,7 @@ const fragments = {
         charge
       }
     }
-  `,
+  `
 };
 export const PROBES_SCIENCE_SUB = gql`
   subscription ProbesUpdate($simulatorId: ID!) {
@@ -97,51 +98,51 @@ class ParticleDetectorData extends Component {
     return (
       <Query
         query={PROBES_SCIENCE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {sensorContacts, sensors, probes} = data;
+          const { sensorContacts, sensors, probes } = data;
           if (!sensors[0]) return <div>No Sensors</div>;
           if (!probes[0]) return <div>No Probes</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: PROBES_SCIENCE_CONTACT_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      sensorContacts: subscriptionData.data.sensorContactUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: PROBES_SCIENCE_CONTACT_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    sensorContacts: subscriptionData.data.sensorContactUpdate
+                  });
+                }
+              })
+              }>
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: PROBES_SCIENCE_SUB,
-                    variables: {simulatorId: this.props.simulator.id},
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        probes: subscriptionData.data.probesUpdate,
-                      });
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: PROBES_SCIENCE_SUB,
+                  variables: { simulatorId: this.props.simulator.id },
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    return Object.assign({}, previousResult, {
+                      probes: subscriptionData.data.probesUpdate
+                    });
+                  }
+                })
+                } />
+              
               <ProbeScience
                 {...this.props}
                 sensors={sensors[0]}
                 probes={probes[0]}
-                contacts={sensorContacts}
-              />
-            </SubscriptionHelper>
-          );
+                contacts={sensorContacts} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default ParticleDetectorData;

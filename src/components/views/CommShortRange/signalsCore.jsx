@@ -1,10 +1,11 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import tinycolor from "tinycolor2";
-import {CompactPicker} from "react-color";
-import {Button} from "helpers/reactstrap";
+import { CompactPicker } from "react-color";
+import { Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import FileExplorer from "../TacticalMap/fileExplorer";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import uuid from "uuid";
@@ -56,7 +57,7 @@ const SHORTRANGE_SUB = gql`
 
 export class SignalPicker extends Component {
   state = {
-    signals: this.props.shortRangeComm ? this.props.shortRangeComm.signals : [],
+    signals: this.props.shortRangeComm ? this.props.shortRangeComm.signals : []
   };
   componentDidUpdate(prevProps) {
     if (this.props.shortRangeComm) {
@@ -64,60 +65,60 @@ export class SignalPicker extends Component {
       const prevComm = prevProps.shortRangeComm;
       if (!comm) return;
       if (
-        !prevComm ||
-        JSON.stringify(comm.signals) !== JSON.stringify(prevComm.signals) ||
-        (this.state.signals.length === 0 &&
-          comm.signals.length > this.state.signals.length)
-      ) {
+      !prevComm ||
+      JSON.stringify(comm.signals) !== JSON.stringify(prevComm.signals) ||
+      this.state.signals.length === 0 &&
+      comm.signals.length > this.state.signals.length)
+      {
         this.setState({
-          signals: comm.signals,
+          signals: comm.signals
         });
       }
     }
   }
   resize = (id, which) => {
     this.setState({
-      resize: {id, which},
+      resize: { id, which }
     });
     document.addEventListener("mousemove", this.mousemove);
     document.addEventListener("mouseup", this.mouseup);
   };
-  mousemove = e => {
+  mousemove = (e) => {
     const {
-      resize: {id, which},
-      signals,
+      resize: { id, which },
+      signals
     } = this.state;
-    const {top, height} = ReactDOM.findDOMNode(this)
-      .querySelector("#signalHolder")
-      .getBoundingClientRect();
+    const { top, height } = ReactDOM.findDOMNode(this).
+    querySelector("#signalHolder").
+    getBoundingClientRect();
     const level = Math.min(1, Math.max(0, (e.clientY - top) / height));
     this.setState({
-      signals: signals.map(s => {
+      signals: signals.map((s) => {
         if (s.id === id) {
           return Object.assign({}, s, {
-            range: Object.assign({}, s.range, {[which]: level}),
+            range: Object.assign({}, s.range, { [which]: level })
           });
         }
         return s;
-      }),
+      })
     });
   };
   mouseup = () => {
     this.setState(
       {
-        resize: null,
+        resize: null
       },
-      this.saveSignals,
+      this.saveSignals
     );
     document.removeEventListener("mousemove", this.mousemove);
     document.removeEventListener("mouseup", this.mouseup);
   };
-  removeSignal = id => {
+  removeSignal = (id) => {
     this.setState(
       {
-        signals: this.state.signals.filter(s => s.id !== id),
+        signals: this.state.signals.filter((s) => s.id !== id)
       },
-      this.saveSignals,
+      this.saveSignals
     );
   };
   addSignal = () => {
@@ -129,26 +130,26 @@ export class SignalPicker extends Component {
         signals: this.state.signals.concat({
           id: uuid.v4(),
           name,
-          range: {lower: random, upper: random + 0.1},
-          color: "rebeccapurple",
-        }),
+          range: { lower: random, upper: random + 0.1 },
+          color: "rebeccapurple"
+        })
       },
-      this.saveSignals,
+      this.saveSignals
     );
   };
-  renameSignal = id => {
+  renameSignal = (id) => {
     const name = prompt("What is the name of the signal?");
     if (!name) return;
     this.setState(
       {
-        signals: this.state.signals.map(s => {
+        signals: this.state.signals.map((s) => {
           if (s.id === id) {
-            return Object.assign({}, s, {name});
+            return Object.assign({}, s, { name });
           }
           return s;
-        }),
+        })
       },
-      this.saveSignals,
+      this.saveSignals
     );
   };
   saveSignals = () => {
@@ -157,123 +158,123 @@ export class SignalPicker extends Component {
   updateColor = (id, color) => {
     this.setState(
       {
-        signals: this.state.signals.map(s => {
+        signals: this.state.signals.map((s) => {
           if (s.id === id) {
-            return Object.assign({}, s, {color});
+            return Object.assign({}, s, { color });
           }
           return s;
-        }),
+        })
       },
-      this.saveSignals,
+      this.saveSignals
     );
   };
   updateImage = (id, image) => {
     this.setState(
       {
-        signals: this.state.signals.map(s => {
+        signals: this.state.signals.map((s) => {
           if (s.id === id) {
-            return Object.assign({}, s, {image});
+            return Object.assign({}, s, { image });
           }
           return s;
-        }),
+        })
       },
-      this.saveSignals,
+      this.saveSignals
     );
   };
   render() {
-    const {signals, selectedSignal} = this.state;
+    const { signals, selectedSignal } = this.state;
     return (
       <div className="core-shortRangeSignals">
-        {selectedSignal && (
-          <div className="color-picker">
+        {selectedSignal &&
+        <div className="color-picker">
             <Button
-              color="warning"
-              size="sm"
-              onClick={() => this.setState({selectedSignal: false})}
-            >
+            color="warning"
+            size="sm"
+            onClick={() => this.setState({ selectedSignal: false })}>
+            
               Close
             </Button>
             <div>
               <CompactPicker
-                color={signals.find(s => s.id === selectedSignal).color}
-                onChangeComplete={color =>
-                  this.updateColor(
-                    selectedSignal,
-                    `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`,
-                  )
-                }
-              />
+              color={signals.find((s) => s.id === selectedSignal).color}
+              onChangeComplete={(color) =>
+              this.updateColor(
+                selectedSignal,
+                `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`
+              )
+              } />
+            
             </div>
             <FileExplorer
-              simple
-              directory="/Comm Images"
-              selectedFiles={[signals.find(s => s.id === selectedSignal).image]}
-              onClick={(evt, container) =>
-                this.updateImage(selectedSignal, container.fullPath)
-              }
-            />
+            simple
+            directory="/Comm Images"
+            selectedFiles={[signals.find((s) => s.id === selectedSignal).image]}
+            onClick={(evt, container) =>
+            this.updateImage(selectedSignal, container.fullPath)
+            } />
+          
           </div>
-        )}
+        }
         <div
           id="signalHolder"
           onMouseDown={() => {
             this.setState({
-              selectedSignal: null,
+              selectedSignal: null
             });
-          }}
-        >
-          {signals.map(s => (
-            <div
-              key={s.id}
-              className="signal"
-              style={{
-                backgroundColor: transparentColor(s.color),
-                width: "100%",
-                height: `${(s.range.upper - s.range.lower) * 100}%`,
-                top: `${s.range.lower * 100}%`,
-              }}
-            >
+          }}>
+          
+          {signals.map((s) =>
+          <div
+            key={s.id}
+            className="signal"
+            style={{
+              backgroundColor: transparentColor(s.color),
+              width: "100%",
+              height: `${(s.range.upper - s.range.lower) * 100}%`,
+              top: `${s.range.lower * 100}%`
+            }}>
+            
               <div
-                onMouseDown={() => this.resize(s.id, "lower")}
-                className="handle handle-top"
-              />
+              onMouseDown={() => this.resize(s.id, "lower")}
+              className="handle handle-top" />
+            
               <label
-                className="signal-label"
-                onDoubleClick={() => this.renameSignal(s.id)}
-              >
+              className="signal-label"
+              onDoubleClick={() => this.renameSignal(s.id)}>
+              
                 <Button
-                  color="warning"
-                  size="sm"
-                  onClick={() =>
-                    this.setState({
-                      selectedSignal: s.id,
-                    })
-                  }
-                >
+                color="warning"
+                size="sm"
+                onClick={() =>
+                this.setState({
+                  selectedSignal: s.id
+                })
+                }>
+                
                   Color
                 </Button>
                 <span>{s.name}</span>
                 <i
-                  className="fa fa-ban text-danger hover"
-                  onClick={() => this.removeSignal(s.id)}
-                />
+                className="fa fa-ban text-danger hover"
+                onClick={() => this.removeSignal(s.id)} />
+              
               </label>
               <div
-                onMouseDown={() => this.resize(s.id, "upper")}
-                className="handle handle-bottom"
-              />
+              onMouseDown={() => this.resize(s.id, "upper")}
+              className="handle handle-bottom" />
+            
             </div>
-          ))}
+          )}
         </div>
         <Button color="success" size="sm" onClick={this.addSignal}>
           Add Signal
         </Button>
-      </div>
-    );
+      </div>);
+
   }
 }
 class SignalsCore extends Component {
-  saveSignals = signals => {
+  saveSignals = (signals) => {
     const mutation = gql`
       mutation UpdateSignals($id: ID!, $signals: [CommSignalInput]!) {
         commUpdateSignals(id: $id, signals: $signals)
@@ -282,47 +283,47 @@ class SignalsCore extends Component {
     const variables = {
       id: this.props.data.shortRangeComm[0].id,
       signals: signals.map(
-        ({id, name, range: {upper, lower}, color, image}) => ({
+        ({ id, name, range: { upper, lower }, color, image }) => ({
           id,
           name,
-          range: {upper, lower},
+          range: { upper, lower },
           color,
-          image,
-        }),
-      ),
+          image
+        })
+      )
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
     return (
       <SubscriptionHelper
         subscribe={() =>
-          this.props.data.subscribeToMore({
-            document: SHORTRANGE_SUB,
-            variables: {
-              simulatorId: this.props.simulator.id,
-            },
-            updateQuery: (previousResult, {subscriptionData}) => {
-              return Object.assign({}, previousResult, {
-                shortRangeComm: subscriptionData.data.shortRangeCommUpdate,
-              });
-            },
-          })
-        }
-      >
+        this.props.data.subscribeToMore({
+          document: SHORTRANGE_SUB,
+          variables: {
+            simulatorId: this.props.simulator.id
+          },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              shortRangeComm: subscriptionData.data.shortRangeCommUpdate
+            });
+          }
+        })
+        }>
+        
         {!this.props.data.loading &&
-          this.props.data.shortRangeComm &&
-          this.props.data.shortRangeComm[0] && (
-            <SignalPicker
-              shortRangeComm={this.props.data.shortRangeComm[0]}
-              saveSignals={this.saveSignals}
-            />
-          )}
-      </SubscriptionHelper>
-    );
+        this.props.data.shortRangeComm &&
+        this.props.data.shortRangeComm[0] &&
+        <SignalPicker
+          shortRangeComm={this.props.data.shortRangeComm[0]}
+          saveSignals={this.saveSignals} />
+
+        }
+      </SubscriptionHelper>);
+
   }
 }
 
@@ -365,10 +366,10 @@ const SHORTRANGE_QUERY = gql`
 `;
 
 export default graphql(SHORTRANGE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(SignalsCore));

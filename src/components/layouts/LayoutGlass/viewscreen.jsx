@@ -1,14 +1,15 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Views from "components/views";
 import CardFrame from "./frame";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import "./layout.scss";
 
 class LayoutGlass extends Component {
   state = {};
   render() {
-    let {simulator, station, lite} = this.props;
-    const {name: stationName} = station;
+    let { simulator, station, lite } = this.props;
+    const { name: stationName } = station;
     let alertClass = `alertColor${simulator.alertlevel || 5}`;
     return (
       <div className={`layout-glass glass-viewscreen ${alertClass}`}>
@@ -18,8 +19,8 @@ class LayoutGlass extends Component {
           <h2 className="station-name">{stationName}</h2>
         </div>
         <CardFrame simulator={simulator} viewscreen lite={lite} />
-      </div>
-    );
+      </div>);
+
   }
 }
 

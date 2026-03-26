@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Core from "./CoreComponents";
@@ -106,73 +107,73 @@ const CLIENT_SUB = gql`
 class CoreData extends Component {
   state = {};
   render() {
-    const {flightId, navigate} = this.props;
+    const { flightId, navigate } = this.props;
     return (
-      <Query query={QUERY} variables={{id: flightId}}>
-        {({loading, data = {}, subscribeToMore}) => {
-          const {flights, clients} = data;
+      <Query query={QUERY} variables={{ id: flightId }}>
+        {({ loading, data = {}, subscribeToMore }) => {
+          const { flights, clients } = data;
           if (loading || !flights) return null;
           if (
-            !flights ||
-            (flights.map(f => f.id).indexOf(flightId) === -1 &&
-              flightId !== "c")
-          ) {
+          !flights ||
+          flights.map((f) => f.id).indexOf(flightId) === -1 &&
+          flightId !== "c")
+          {
             navigate("/");
             return null;
           }
-          const flight = flightId ? flights.find(f => f.id === flightId) : {};
+          const flight = flightId ? flights.find((f) => f.id === flightId) : {};
           const simulators = flight && flight.id ? flight.simulators : [];
 
           return (
             <SubscriptionHelper
               subscribe={() =>
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                variables: { id: flightId },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    flights: subscriptionData.data.flightsUpdate
+                  });
+                }
+              })
+              }>
+              
+              <SubscriptionHelper
+                subscribe={() =>
                 subscribeToMore({
-                  document: SUBSCRIPTION,
-                  variables: {id: flightId},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      flights: subscriptionData.data.flightsUpdate,
-                    });
-                  },
+                  document: CACHE_INVALID_SUB,
+                  variables: { flight: flightId },
+                  updateQuery: (previousResult) => {
+                    window.location.reload();
+                    return previousResult;
+                  }
                 })
-              }
-            >
+                } />
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: CACHE_INVALID_SUB,
-                    variables: {flight: flightId},
-                    updateQuery: previousResult => {
-                      window.location.reload();
-                      return previousResult;
-                    },
-                  })
-                }
-              />
-              <SubscriptionHelper
-                subscribe={() =>
-                  subscribeToMore({
-                    document: CLIENT_SUB,
-                    variables: {flightId},
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        clients: subscriptionData.data.clientChanged,
-                      });
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: CLIENT_SUB,
+                  variables: { flightId },
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    return Object.assign({}, previousResult, {
+                      clients: subscriptionData.data.clientChanged
+                    });
+                  }
+                })
+                } />
+              
               <Core
                 {...this.props}
                 flight={flight}
                 simulators={simulators}
-                clients={clients}
-              />
-            </SubscriptionHelper>
-          );
+                clients={clients} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default CoreData;

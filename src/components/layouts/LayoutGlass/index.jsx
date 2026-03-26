@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import CardFrame from "./frame";
 import Widgets from "../LayoutOdyssey/widgets";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import CardSwitcher from "../LayoutCorners/CardSwitcher";
 import CardHolder from "../cardRenderer";
 import "./layout.scss";
@@ -13,10 +14,10 @@ class LayoutGlass extends Component {
     window.addEventListener(
       "touchstart",
       function onFirstTouch() {
-        self.setState({touch: true});
+        self.setState({ touch: true });
         window.removeEventListener("touchstart", onFirstTouch);
       },
-      false,
+      false
     );
   }
   render() {
@@ -27,11 +28,11 @@ class LayoutGlass extends Component {
       changeCard,
       clientObj,
       flight,
-      lite,
+      lite
     } = this.props;
-    const {hypercard} = clientObj;
-    const {name: stationName} = station;
-    const {touch} = this.state;
+    const { hypercard } = clientObj;
+    const { name: stationName } = station;
+    const { touch } = this.state;
     let alertClass = `alertColor${simulator.alertlevel || 5}`;
     return (
       <div className={`layout-glass ${alertClass}`}>
@@ -42,26 +43,26 @@ class LayoutGlass extends Component {
           <h2 className="station-name">{stationName}</h2>
           <h2 className="login-name">{clientObj.loginName}</h2>
         </div>
-        {!hypercard && (
-          <CardSwitcher
-            className={alertClass}
-            clientObj={this.props.clientObj}
-            cards={station.cards}
-            currentCard={cardName}
-            changeCard={changeCard}
-            {...this.props}
-          />
-        )}
+        {!hypercard &&
+        <CardSwitcher
+          className={alertClass}
+          clientObj={this.props.clientObj}
+          cards={station.cards}
+          currentCard={cardName}
+          changeCard={changeCard}
+          {...this.props} />
+
+        }
         <CardFrame simulator={simulator} lite={lite} />
         <Widgets
           clientObj={clientObj}
           simulator={simulator}
           station={station}
           flight={flight}
-          touch={touch}
-        />
-      </div>
-    );
+          touch={touch} />
+        
+      </div>);
+
   }
 }
 

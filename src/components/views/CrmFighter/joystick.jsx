@@ -1,8 +1,9 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import distance from "helpers/distance";
-import {throttle} from "helpers/debounce";
+import { throttle } from "helpers/debounce";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 
 function useDraggable(callback, upCallback = () => {}) {
   function mouseup() {
@@ -29,9 +30,9 @@ function useDraggable(callback, upCallback = () => {}) {
   }, []);
   return mousedown;
 }
-const Joystick = ({client, id, clientId}) => {
+const Joystick = ({ client, id, clientId }) => {
   const radius = 200;
-  const [position, setPosition] = useState({x: 0, y: 0});
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const updateAcceleration = throttle(function updateAcceleration(x, y) {
     const mutation = gql`
       mutation UpdateAcceleration(
@@ -49,55 +50,55 @@ const Joystick = ({client, id, clientId}) => {
     const variables = {
       id,
       clientId,
-      acceleration: {x, y, z: 0},
+      acceleration: { x, y, z: 0 }
     };
-    client.mutate({mutation, variables});
+    client.mutate({ mutation, variables });
   }, 1000 / 10);
   const [returning, setReturning] = useState(false);
   const parentRef = useRef();
   const mousedown = useDraggable(
-    e => {
+    (e) => {
       if (!parentRef.current) return;
       const {
-        touches: [{clientX: touchClientX, clientY: touchClientY}] = [{}],
+        touches: [{ clientX: touchClientX, clientY: touchClientY }] = [{}],
         clientX = touchClientX,
-        clientY = touchClientY,
+        clientY = touchClientY
       } = e;
       const {
         left,
         top,
         width,
-        height,
+        height
       } = parentRef.current.getBoundingClientRect();
       let x = clientX - left - width / 2;
       let y = clientY - top - height / 2;
-      if (distance(undefined, {x, y}) > radius / 2) {
+      if (distance(undefined, { x, y }) > radius / 2) {
         const theta = Math.abs(Math.atan(y / x));
         if (x > 0) {
-          x = (Math.cos(theta) * radius) / 2;
+          x = Math.cos(theta) * radius / 2;
         } else {
-          x = (Math.cos(theta) * -1 * radius) / 2;
+          x = Math.cos(theta) * -1 * radius / 2;
         }
         if (y > 0) {
-          y = (Math.sin(theta) * radius) / 2;
+          y = Math.sin(theta) * radius / 2;
         } else {
-          y = (Math.sin(theta) * -1 * radius) / 2;
+          y = Math.sin(theta) * -1 * radius / 2;
         }
       }
       setPosition({
         x,
-        y,
+        y
       });
       updateAcceleration(x / radius / 10, y / radius / 10);
     },
     () => {
       setReturning(true);
       updateAcceleration(0, 0);
-    },
+    }
   );
   useEffect(() => {
     if (returning === true) {
-      setPosition({x: 0, y: 0});
+      setPosition({ x: 0, y: 0 });
     }
   }, [returning]);
   return (
@@ -109,11 +110,11 @@ const Joystick = ({client, id, clientId}) => {
           onMouseDown={mousedown}
           onTouchStart={mousedown}
           style={{
-            transform: `translate(${position.x}px, ${position.y}px)`,
-          }}
-        />
+            transform: `translate(${position.x}px, ${position.y}px)`
+          }} />
+        
       </div>
-    </div>
-  );
+    </div>);
+
 };
 export default withApollo(Joystick);

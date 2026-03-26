@@ -1,19 +1,20 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import uuid from "uuid";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 
 import withSound from "../../generic/SoundPlayer";
 class SoundsTester extends Component {
-  state = {currentSounds: []};
-  playSound = asset => {
+  state = { currentSounds: [] };
+  playSound = (asset) => {
     this.setState({
-      currentSounds: this.state.currentSounds.concat({id: uuid.v4(), asset}),
+      currentSounds: this.state.currentSounds.concat({ id: uuid.v4(), asset })
     });
   };
   render() {
     if (this.props.data.loading || !this.props.data.assetFolders) return null;
-    const {assetFolders} = this.props.data;
+    const { assetFolders } = this.props.data;
     const sounds = assetFolders[0].objects;
     return (
       <div>
@@ -24,22 +25,22 @@ class SoundsTester extends Component {
             flexWrap: "wrap",
             flexDirection: "column",
             height: "70vh",
-            overflowX: "auto",
-          }}
-        >
-          {sounds.map(s => (
-            <li
-              key={s.id}
-              onClick={() => {
-                this.props.playSound({url: `/assets${s.fullPath}`});
-              }}
-            >
+            overflowX: "auto"
+          }}>
+          
+          {sounds.map((s) =>
+          <li
+            key={s.id}
+            onClick={() => {
+              this.props.playSound({ url: `/assets${s.fullPath}` });
+            }}>
+            
               {s.name}
             </li>
-          ))}
+          )}
         </ul>
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -60,7 +61,7 @@ const SOUNDS_QUERY = gql`
 export default graphql(SOUNDS_QUERY, {
   options: () => ({
     variables: {
-      names: ["Sounds"],
-    },
-  }),
+      names: ["Sounds"]
+    }
+  })
 })(withApollo(withSound(SoundsTester)));

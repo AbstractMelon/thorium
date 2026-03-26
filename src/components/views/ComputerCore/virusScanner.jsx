@@ -1,45 +1,46 @@
-import React, {Component} from "react";
-import {Button} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { Component } from "react";
+import { Button } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {randomFromList} from "../../../helpers/randomFromList";
+import { randomFromList } from "../../../helpers/randomFromList";
 
 class VirusScanner extends Component {
   state = {};
   timeouts = [];
   scan = () => {
     this.timeouts = [];
-    const {files, terminals, virii} = this.props;
-    this.setState({scanning: true});
+    const { files, terminals, virii } = this.props;
+    this.setState({ scanning: true });
     const scanItems = files.concat(terminals);
     scanItems.forEach((t, i) => {
       this.timeouts.push(
-        setTimeout(() => this.setState({currentScan: t.name}), i * 50),
+        setTimeout(() => this.setState({ currentScan: t.name }), i * 50)
       );
     });
     this.timeouts.push(
       setTimeout(() => {
         const virus = randomFromList(virii);
-        this.setState({scanning: null, virus});
-      }, (scanItems.length + 1) * 50),
+        this.setState({ scanning: null, virus });
+      }, (scanItems.length + 1) * 50)
     );
   };
   cancel = () => {
-    this.timeouts.forEach(t => clearTimeout(t));
+    this.timeouts.forEach((t) => clearTimeout(t));
     this.timeouts = [];
-    this.setState({scanning: false});
+    this.setState({ scanning: false });
   };
-  removeVirus = action => {
+  removeVirus = (action) => {
     action();
     this.setState({
       scanning: false,
       currentScan: false,
-      virus: false,
+      virus: false
     });
   };
   render() {
-    const {id} = this.props;
-    const {scanning, currentScan, virus} = this.state;
+    const { id } = this.props;
+    const { scanning, currentScan, virus } = this.state;
     if (virus) {
       return (
         <div>
@@ -50,20 +51,20 @@ class VirusScanner extends Component {
                 deleteComputerCoreVirus(id: $id, virusId: $virusId)
               }
             `}
-            variables={{id, virusId: virus.id}}
-          >
-            {action => (
-              <Button
-                block
-                color="danger"
-                onClick={() => this.removeVirus(action)}
-              >
+            variables={{ id, virusId: virus.id }}>
+            
+            {(action) =>
+            <Button
+              block
+              color="danger"
+              onClick={() => this.removeVirus(action)}>
+              
                 Remove Virus
               </Button>
-            )}
+            }
           </Mutation>
-        </div>
-      );
+        </div>);
+
     }
     if (scanning) {
       return (
@@ -73,19 +74,19 @@ class VirusScanner extends Component {
           <Button block color="warning" onClick={this.cancel}>
             Cancel
           </Button>
-        </div>
-      );
+        </div>);
+
     }
     return (
       <Button
         block
         color="warning"
         className="virus-scanner"
-        onClick={this.scan}
-      >
+        onClick={this.scan}>
+        
         Scan for Viruses
-      </Button>
-    );
+      </Button>);
+
   }
 }
 

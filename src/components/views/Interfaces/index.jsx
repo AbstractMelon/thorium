@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
 
-import {Query} from "react-apollo";
+
 import gql from "graphql-tag";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Interfaces from "./interfaces";
@@ -41,35 +42,35 @@ class InterfaceData extends Component {
   state = {};
   render() {
     return (
-      <Query query={QUERY} variables={{simulatorId: this.props.simulator.id}}>
-        {({loading, data, subscribeToMore}) => {
+      <Query query={QUERY} variables={{ simulatorId: this.props.simulator.id }}>
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {interfaces} = data;
-          const iFace = interfaces.find(i => i.id === this.props.interfaceId);
+          const { interfaces } = data;
+          const iFace = interfaces.find((i) => i.id === this.props.interfaceId);
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: SUBSCRIPTION,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      interfaces: subscriptionData.data.interfaceUpdate,
-                    });
-                  },
-                })
+              subscribeToMore({
+                document: SUBSCRIPTION,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    interfaces: subscriptionData.data.interfaceUpdate
+                  });
+                }
+              })
+              }>
+              
+              {iFace ?
+              <Interfaces {...this.props} iFace={iFace} /> :
+
+              "Invalid Interface ID"
               }
-            >
-              {iFace ? (
-                <Interfaces {...this.props} iFace={iFace} />
-              ) : (
-                "Invalid Interface ID"
-              )}
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

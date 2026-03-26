@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import JumpDrive from "./jumpDrive";
@@ -66,32 +67,32 @@ class JumpDriveData extends Component {
     return (
       <Query
         query={JUMP_DRIVE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {jumpDrive} = data;
+          const { jumpDrive } = data;
           if (!jumpDrive[0]) return <div>No Jump Drive</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: JUMP_DRIVE_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      jumpDrive: subscriptionData.data.jumpDriveUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: JUMP_DRIVE_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    jumpDrive: subscriptionData.data.jumpDriveUpdate
+                  });
+                }
+              })
+              }>
+              
               <JumpDrive {...this.props} {...jumpDrive[0]} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default JumpDriveData;

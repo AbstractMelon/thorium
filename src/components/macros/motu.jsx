@@ -1,7 +1,8 @@
 import React from "react";
-import {FormGroup, Label, Input} from "helpers/reactstrap";
+import { FormGroup, Label, Input } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {useQuery} from "react-apollo";
+import { useQuery } from "@apollo/client";
+
 
 const MOTU_CHANNELS = gql`
   query MotuQuery {
@@ -20,10 +21,10 @@ const MOTU_CHANNELS = gql`
     }
   }
 `;
-const MotuUpdateChannel = ({updateArgs, args}) => {
-  const {loading, data} = useQuery(MOTU_CHANNELS);
+const MotuUpdateChannel = ({ updateArgs, args }) => {
+  const { loading, data } = useQuery(MOTU_CHANNELS);
   if (loading || !data) return <p>Loading...</p>;
-  const motu = data.motus.find(m => m.id === args.id);
+  const motu = data.motus.find((m) => m.id === args.id);
   return (
     <FormGroup className="macro-template">
       <div>
@@ -32,16 +33,16 @@ const MotuUpdateChannel = ({updateArgs, args}) => {
           <div>
             <select
               value={args.id || "nothing"}
-              onChange={e => updateArgs("id", e.target.value)}
-            >
+              onChange={(e) => updateArgs("id", e.target.value)}>
+              
               <option value="nothing" disabled>
                 Choose a MOTU Device
               </option>
-              {data.motus.map(m => (
-                <option key={m.id} value={m.id}>
+              {data.motus.map((m) =>
+              <option key={m.id} value={m.id}>
                   {m.id}
                 </option>
-              ))}
+              )}
             </select>
           </div>
         </Label>
@@ -52,20 +53,20 @@ const MotuUpdateChannel = ({updateArgs, args}) => {
           <div>
             <select
               value={args.channelId || "nothing"}
-              onChange={e => updateArgs("channelId", e.target.value)}
-            >
+              onChange={(e) => updateArgs("channelId", e.target.value)}>
+              
               <option value="nothing" disabled>
                 Choose a Channel
               </option>
               <optgroup label="Inputs">
-                {motu?.inputs.map(({id, name}) => (
-                  <option value={id}>{name}</option>
-                ))}
+                {motu?.inputs.map(({ id, name }) =>
+                <option value={id}>{name}</option>
+                )}
               </optgroup>
               <optgroup label="Outputs">
-                {motu?.outputs.map(({id, name}) => (
-                  <option value={id}>{name}</option>
-                ))}
+                {motu?.outputs.map(({ id, name }) =>
+                <option value={id}>{name}</option>
+                )}
               </optgroup>
             </select>
           </div>
@@ -80,13 +81,13 @@ const MotuUpdateChannel = ({updateArgs, args}) => {
             max="4"
             step="0.1"
             value={args.channel?.fader}
-            onChange={e =>
-              updateArgs("channel", {
-                ...args.channel,
-                fader: parseFloat(e.target.value),
-              })
-            }
-          ></Input>
+            onChange={(e) =>
+            updateArgs("channel", {
+              ...args.channel,
+              fader: parseFloat(e.target.value)
+            })
+            }>
+          </Input>
         </Label>
       </div>
       <div>
@@ -101,22 +102,22 @@ const MotuUpdateChannel = ({updateArgs, args}) => {
           <Input
             type="checkbox"
             checked={args.channel?.mute}
-            onChange={e =>
-              updateArgs("channel", {
-                ...args.channel,
-                mute: e.target.checked ? 1 : 0,
-              })
-            }
-          ></Input>
+            onChange={(e) =>
+            updateArgs("channel", {
+              ...args.channel,
+              mute: e.target.checked ? 1 : 0
+            })
+            }>
+          </Input>
         </Label>
       </div>
-    </FormGroup>
-  );
+    </FormGroup>);
+
 };
-export const MotuSetSendMute = ({updateArgs, args}) => {
-  const {loading, data} = useQuery(MOTU_CHANNELS);
+export const MotuSetSendMute = ({ updateArgs, args }) => {
+  const { loading, data } = useQuery(MOTU_CHANNELS);
   if (loading || !data) return <p>Loading...</p>;
-  const motu = data.motus.find(m => m.id === args.id);
+  const motu = data.motus.find((m) => m.id === args.id);
 
   return (
     <FormGroup className="macro-template">
@@ -126,16 +127,16 @@ export const MotuSetSendMute = ({updateArgs, args}) => {
           <div>
             <select
               value={args.id || "nothing"}
-              onChange={e => updateArgs("id", e.target.value)}
-            >
+              onChange={(e) => updateArgs("id", e.target.value)}>
+              
               <option value="nothing" disabled>
                 Choose a MOTU Device
               </option>
-              {data.motus.map(m => (
-                <option key={m.id} value={m.id}>
+              {data.motus.map((m) =>
+              <option key={m.id} value={m.id}>
                   {m.id}
                 </option>
-              ))}
+              )}
             </select>
           </div>
         </Label>
@@ -146,14 +147,14 @@ export const MotuSetSendMute = ({updateArgs, args}) => {
           <div>
             <select
               value={args.inputId || "nothing"}
-              onChange={e => updateArgs("inputId", e.target.value)}
-            >
+              onChange={(e) => updateArgs("inputId", e.target.value)}>
+              
               <option value="nothing" disabled>
                 Choose an Input Channel
               </option>
-              {motu?.inputs.map(({id, name}) => (
-                <option value={id}>{name}</option>
-              ))}
+              {motu?.inputs.map(({ id, name }) =>
+              <option value={id}>{name}</option>
+              )}
             </select>
           </div>
         </Label>
@@ -164,14 +165,14 @@ export const MotuSetSendMute = ({updateArgs, args}) => {
           <div>
             <select
               value={args.outputId || "nothing"}
-              onChange={e => updateArgs("outputId", e.target.value)}
-            >
+              onChange={(e) => updateArgs("outputId", e.target.value)}>
+              
               <option value="nothing" disabled>
                 Choose an Output Channel
               </option>
-              {motu?.outputs.map(({id, name}) => (
-                <option value={id}>{name}</option>
-              ))}
+              {motu?.outputs.map(({ id, name }) =>
+              <option value={id}>{name}</option>
+              )}
             </select>
           </div>
         </Label>
@@ -182,12 +183,12 @@ export const MotuSetSendMute = ({updateArgs, args}) => {
           <Input
             type="checkbox"
             checked={args.channel?.mute}
-            onChange={e => updateArgs("mute", e.target.checked)}
-          ></Input>
+            onChange={(e) => updateArgs("mute", e.target.checked)}>
+          </Input>
         </Label>
       </div>
-    </FormGroup>
-  );
+    </FormGroup>);
+
 };
 
 export const motuUpdateChannel = MotuUpdateChannel;

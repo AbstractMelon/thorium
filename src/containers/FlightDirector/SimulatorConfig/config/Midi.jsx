@@ -5,30 +5,31 @@ import {
   Row,
   Col,
   ListGroup,
-  ListGroupItem,
-} from "helpers/reactstrap";
-import {Query, Mutation} from "react-apollo";
+  ListGroupItem } from
+"helpers/reactstrap";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import EventName from "containers/FlightDirector/MissionConfig/EventName";
 import * as Macros from "components/macros";
-import {useQuery, useMutation} from "@apollo/client";
-import {FaBan} from "react-icons/fa";
+import { useQuery, useMutation } from "@apollo/client";
+import { FaBan } from "react-icons/fa";
 
 function reducer(state, action) {
   if (action.type === "setMidiSet") {
-    return {selectedMidiSet: action.id};
+    return { selectedMidiSet: action.id };
   }
   if (action.type === "setStationSet") {
-    return {...state, selectedStationSet: action.id, selectedAction: null};
+    return { ...state, selectedStationSet: action.id, selectedAction: null };
   }
   if (action.type === "setAction") {
-    return {...state, selectedAction: action.id};
+    return { ...state, selectedAction: action.id };
   }
   return state;
 }
 
-function parseMidiSet({controls}) {
-  return controls.reduce((acc, {config}) => {
-    const {macros = [], upMacros = []} = config;
+function parseMidiSet({ controls }) {
+  return controls.reduce((acc, { config }) => {
+    const { macros = [], upMacros = [] } = config;
     return acc.concat(macros).concat(upMacros);
   }, []);
 }
@@ -68,30 +69,30 @@ const REMOVE_MIDI_SET = gql`
   }
 `;
 
-const App = ({selectedSimulator: simulator}) => {
+const App = ({ selectedSimulator: simulator }) => {
   const [addMidiSet] = useMutation(ADD_MIDI_SET);
   const [removeMidiSet] = useMutation(REMOVE_MIDI_SET);
 
-  const {loading, data} = useQuery(QUERY);
+  const { loading, data } = useQuery(QUERY);
 
-  const {missionConfigs} = simulator;
+  const { missionConfigs } = simulator;
   const [state, dispatch] = React.useReducer(reducer, {});
-  const {selectedMidiSet, selectedStationSet, selectedAction} = state;
+  const { selectedMidiSet, selectedStationSet, selectedAction } = state;
   if (loading || !data) return null;
-  const {midiSets} = data;
+  const { midiSets } = data;
 
-  const midiSet = midiSets.find(s => s.id === selectedMidiSet) || {};
+  const midiSet = midiSets.find((s) => s.id === selectedMidiSet) || {};
   const stationSet =
-    simulator.stationSets.find(s => s.id === selectedStationSet) || {};
+  simulator.stationSets.find((s) => s.id === selectedStationSet) || {};
   const actions = midiSet.id ? parseMidiSet(midiSet) : [];
 
-  const action = actions.find(a => a.id === selectedAction) || {};
+  const action = actions.find((a) => a.id === selectedAction) || {};
 
   const config =
-    (missionConfigs[selectedMidiSet] &&
-      missionConfigs[selectedMidiSet][selectedStationSet] &&
-      missionConfigs[selectedMidiSet][selectedStationSet][selectedAction]) ||
-    {};
+  missionConfigs[selectedMidiSet] &&
+  missionConfigs[selectedMidiSet][selectedStationSet] &&
+  missionConfigs[selectedMidiSet][selectedStationSet][selectedAction] ||
+  {};
 
   return (
     <Container fluid>
@@ -99,104 +100,104 @@ const App = ({selectedSimulator: simulator}) => {
         <Col sm={2}>
           Midi Sets
           <ListGroup>
-            {(simulator.midiSets || []).map(s => {
-              const midiSetObj = midiSets.find(c => c.id === s);
+            {(simulator.midiSets || []).map((s) => {
+              const midiSetObj = midiSets.find((c) => c.id === s);
               if (!midiSetObj) return null;
               return (
                 <ListGroupItem
                   key={s}
                   active={midiSet.id === s}
-                  onClick={() => dispatch({type: "setMidiSet", id: s})}
-                >
+                  onClick={() => dispatch({ type: "setMidiSet", id: s })}>
+                  
                   {" "}
                   <FaBan
                     className="text-danger"
                     onClick={() =>
-                      removeMidiSet({
-                        variables: {simulatorId: simulator.id, midiSet: s},
-                      })
-                    }
-                  />{" "}
+                    removeMidiSet({
+                      variables: { simulatorId: simulator.id, midiSet: s }
+                    })
+                    } />
+                  {" "}
                   {midiSetObj.name}{" "}
-                </ListGroupItem>
-              );
+                </ListGroupItem>);
+
             })}
           </ListGroup>
           <select
             className="btn btn-primary btn-block"
             value={"nothing"}
-            onChange={e =>
-              addMidiSet({
-                variables: {simulatorId: simulator.id, midiSet: e.target.value},
-              })
-            }
-          >
+            onChange={(e) =>
+            addMidiSet({
+              variables: { simulatorId: simulator.id, midiSet: e.target.value }
+            })
+            }>
+            
             <option value="nothing">Add a Midi Set to the simulator</option>
-            {midiSets
-              .filter(s => !(simulator.midiSets || []).find(c => c === s.id))
-              .map(s => (
-                <option key={s.id} value={s.id}>
+            {midiSets.
+            filter((s) => !(simulator.midiSets || []).find((c) => c === s.id)).
+            map((s) =>
+            <option key={s.id} value={s.id}>
                   {s.name}
                 </option>
-              ))}
+            )}
           </select>
         </Col>
-        {midiSet.id && (
-          <Col sm={2}>
+        {midiSet.id &&
+        <Col sm={2}>
             Station Sets
             <ListGroup>
-              {simulator.stationSets.map(m => (
-                <ListGroupItem
-                  key={m.id}
-                  active={stationSet.id === m.id}
-                  onClick={() => dispatch({type: "setStationSet", id: m.id})}
-                >
+              {simulator.stationSets.map((m) =>
+            <ListGroupItem
+              key={m.id}
+              active={stationSet.id === m.id}
+              onClick={() => dispatch({ type: "setStationSet", id: m.id })}>
+              
                   {m.name}
                 </ListGroupItem>
-              ))}
+            )}
             </ListGroup>
           </Col>
-        )}
-        {stationSet.id && (
-          <Col sm={3}>
+        }
+        {stationSet.id &&
+        <Col sm={3}>
             Actions
             <ListGroup>
-              {actions.map(m => (
-                <ListGroupItem
-                  key={`${m.id}-${m.stepId}`}
-                  active={action.id === m.id}
-                  onClick={() => dispatch({type: "setAction", id: m.id})}
-                >
+              {actions.map((m) =>
+            <ListGroupItem
+              key={`${m.id}-${m.stepId}`}
+              active={action.id === m.id}
+              onClick={() => dispatch({ type: "setAction", id: m.id })}>
+              
                   <EventName id={m.event} label={m.event} />
                 </ListGroupItem>
-              ))}
+            )}
             </ListGroup>
           </Col>
-        )}
-        {action.id && (
-          <Col sm={5}>
+        }
+        {action.id &&
+        <Col sm={5}>
             Action
             <Query
-              query={gql`
+            query={gql`
                 query Clients {
                   clients {
                     id
                     label
                   }
                 }
-              `}
-            >
-              {({data, client}) => {
-                const EventMacro =
-                  Macros[action.event] ||
-                  (() => {
-                    return null;
-                  });
-                const args = action.args || {};
-                return (
-                  EventMacro && (
-                    <Mutation
-                      mutation={gql`
+              `}>
+            
+              {({ data, client }) => {
+              const EventMacro =
+              Macros[action.event] || (
+              () => {
+                return null;
+              });
+              const args = action.args || {};
+              return (
+                EventMacro &&
+                <Mutation
+                  mutation={gql`
                         mutation setSimulatorConfig(
                           $simulatorId: ID!
                           $missionId: ID!
@@ -213,39 +214,39 @@ const App = ({selectedSimulator: simulator}) => {
                           )
                         }
                       `}
-                      refetchQueries={["Simulators"]}
-                    >
-                      {action => (
-                        <EventMacro
-                          key={selectedAction}
-                          simulatorId={simulator.id}
-                          stations={stationSet.stations}
-                          clients={data && data.clients}
-                          updateArgs={(key, value) => {
-                            action({
-                              variables: {
-                                simulatorId: simulator.id,
-                                missionId: midiSet.id,
-                                stationSetId: stationSet.id,
-                                actionId: selectedAction,
-                                args: {...config, [key]: value},
-                              },
-                            });
-                          }}
-                          args={{...args, ...config}}
-                          client={client}
-                        />
-                      )}
-                    </Mutation>
-                  )
-                );
-              }}
+                  refetchQueries={["Simulators"]}>
+                  
+                      {(action) =>
+                  <EventMacro
+                    key={selectedAction}
+                    simulatorId={simulator.id}
+                    stations={stationSet.stations}
+                    clients={data && data.clients}
+                    updateArgs={(key, value) => {
+                      action({
+                        variables: {
+                          simulatorId: simulator.id,
+                          missionId: midiSet.id,
+                          stationSetId: stationSet.id,
+                          actionId: selectedAction,
+                          args: { ...config, [key]: value }
+                        }
+                      });
+                    }}
+                    args={{ ...args, ...config }}
+                    client={client} />
+
+                  }
+                    </Mutation>);
+
+
+            }}
             </Query>
           </Col>
-        )}
+        }
       </Row>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default App;

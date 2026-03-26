@@ -1,7 +1,8 @@
-import React, {Component, Fragment} from "react";
-import {Mutation} from "react-apollo";
+import React, { Component, Fragment } from "react";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {ListGroup, ListGroupItem, Button} from "helpers/reactstrap";
+import { ListGroup, ListGroupItem, Button } from "helpers/reactstrap";
 
 function status(stat) {
   switch (stat) {
@@ -32,23 +33,23 @@ function statusColor(stat) {
 class Terminals extends Component {
   state = {};
   render() {
-    const {selectedTerminal} = this.state;
-    const {terminals, id} = this.props;
+    const { selectedTerminal } = this.state;
+    const { terminals, id } = this.props;
     return (
       <Fragment>
         <h4>Terminal Listing</h4>
         <ListGroup className="terminal-list">
-          {terminals.map(t => (
-            <ListGroupItem
-              key={`terminal-${t.id}`}
-              className={`${statusColor(t.status)} ${
-                selectedTerminal === t.id ? "selected" : ""
-              }`}
-              onClick={() => this.setState({selectedTerminal: t.id})}
-            >
+          {terminals.map((t) =>
+          <ListGroupItem
+            key={`terminal-${t.id}`}
+            className={`${statusColor(t.status)} ${
+            selectedTerminal === t.id ? "selected" : ""}`
+            }
+            onClick={() => this.setState({ selectedTerminal: t.id })}>
+            
               {t.name} - {status(t.status)}
             </ListGroupItem>
-          ))}
+          )}
         </ListGroup>
         <Mutation
           mutation={gql`
@@ -56,24 +57,24 @@ class Terminals extends Component {
               restartComputerCoreTerminal(id: $id, terminalId: $terminalId)
             }
           `}
-          variables={{id, terminalId: selectedTerminal}}
-        >
-          {action => (
-            <Button
-              color="danger"
-              className="restart-terminal"
-              disabled={!selectedTerminal}
-              onClick={() => {
-                action();
-                this.setState({selectedTerminal: null});
-              }}
-            >
+          variables={{ id, terminalId: selectedTerminal }}>
+          
+          {(action) =>
+          <Button
+            color="danger"
+            className="restart-terminal"
+            disabled={!selectedTerminal}
+            onClick={() => {
+              action();
+              this.setState({ selectedTerminal: null });
+            }}>
+            
               Restart Terminal
             </Button>
-          )}
+          }
         </Mutation>
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 

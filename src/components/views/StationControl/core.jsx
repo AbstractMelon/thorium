@@ -1,7 +1,9 @@
 import React from "react";
-import {Table} from "helpers/reactstrap";
+import { Table } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {Query, useMutation} from "react-apollo";
+import { useMutation } from "@apollo/client";
+import { Query } from "@apollo/client/react/components";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 const fragment = gql`
@@ -34,7 +36,7 @@ export const CARDS_CORE_SUB = gql`
   ${fragment}
 `;
 
-const CardsCore = ({simulator, cards}) => {
+const CardsCore = ({ simulator, cards }) => {
   const [toggleHidden] = useMutation(gql`
     mutation ToggleSimulatorCardHidden(
       $simulatorId: ID!
@@ -57,64 +59,64 @@ const CardsCore = ({simulator, cards}) => {
         </tr>
       </thead>
       <tbody>
-        {cards.map(c => (
-          <tr key={`${c.station}-${c.name}`}>
+        {cards.map((c) =>
+        <tr key={`${c.station}-${c.name}`}>
             <td>{c.name}</td>
             <td>
               <input
-                type="checkbox"
-                checked={c.hidden}
-                onChange={e =>
-                  toggleHidden({
-                    variables: {
-                      simulatorId: simulator.id,
-                      cardName: c.name,
-                      toggle: e.target.checked,
-                    },
-                  })
+              type="checkbox"
+              checked={c.hidden}
+              onChange={(e) =>
+              toggleHidden({
+                variables: {
+                  simulatorId: simulator.id,
+                  cardName: c.name,
+                  toggle: e.target.checked
                 }
-              />
+              })
+              } />
+            
             </td>
           </tr>
-        ))}
+        )}
       </tbody>
-    </Table>
-  );
+    </Table>);
+
 };
 
-const CardsData = props => {
+const CardsData = (props) => {
   return (
     <Query
       query={CARDS_CORE_QUERY}
-      variables={{simulatorId: props.simulator.id}}
-    >
-      {({loading, data, error, subscribeToMore}) => {
+      variables={{ simulatorId: props.simulator.id }}>
+      
+      {({ loading, data, error, subscribeToMore }) => {
         if (loading || !data) return null;
-        const {simulators} = data;
-        const simulator = simulators.find(s => s.id === props.simulator.id);
+        const { simulators } = data;
+        const simulator = simulators.find((s) => s.id === props.simulator.id);
         const cards = simulator.stations.reduce(
-          (acc, s) => acc.concat(s.cards.map(c => ({...c, station: s.name}))),
-          [],
+          (acc, s) => acc.concat(s.cards.map((c) => ({ ...c, station: s.name }))),
+          []
         );
         return (
           <SubscriptionHelper
             subscribe={() =>
-              subscribeToMore({
-                document: CARDS_CORE_SUB,
-                variables: {simulatorId: props.simulator.id},
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    simulators: subscriptionData.data.simulatorsUpdate,
-                  });
-                },
-              })
-            }
-          >
+            subscribeToMore({
+              document: CARDS_CORE_SUB,
+              variables: { simulatorId: props.simulator.id },
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  simulators: subscriptionData.data.simulatorsUpdate
+                });
+              }
+            })
+            }>
+            
             <CardsCore {...props} cards={cards} />
-          </SubscriptionHelper>
-        );
+          </SubscriptionHelper>);
+
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 export default CardsData;

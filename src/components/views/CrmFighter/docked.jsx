@@ -1,6 +1,7 @@
-import React, {useState, useEffect, useRef} from "react";
-import {Button, Col, Row, Container} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Col, Row, Container } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 
 function useInterval(callback, delay) {
@@ -30,11 +31,11 @@ const Docked = ({
   shield,
   hull,
   torpedoCount,
-  hypercard,
+  hypercard
 }) => {
   const [delay, setDelay] = useState(10);
   useInterval(() => {
-    setDelay(delay => Math.max(0, delay - 1));
+    setDelay((delay) => Math.max(0, delay - 1));
   }, 1000);
   return (
     <Container className="card-crm-docked">
@@ -53,19 +54,19 @@ const Docked = ({
               `}
               variables={{
                 id,
-                clientId,
-              }}
-            >
-              {action => (
-                <Button
-                  className="restock-button"
-                  color="warning"
-                  disabled={torpedoCount === 6}
-                  onClick={action}
-                >
+                clientId
+              }}>
+              
+              {(action) =>
+              <Button
+                className="restock-button"
+                color="warning"
+                disabled={torpedoCount === 6}
+                onClick={action}>
+                
                   Restock Torpedos
                 </Button>
-              )}
+              }
             </Mutation>
           </div>
         </Col>
@@ -74,38 +75,38 @@ const Docked = ({
             className="docked-fighter-image"
             src={`/assets${fighterImage}`}
             draggable="false"
-            alt="Fighter"
-          />
+            alt="Fighter" />
+          
         </Col>
       </Row>
       <Row className="buttons-area">
-        {hypercard && (
-          <Col sm={{size: 6}}>
+        {hypercard &&
+        <Col sm={{ size: 6 }}>
             <Mutation
-              mutation={gql`
+            mutation={gql`
                 mutation Hypercard($clientId: ID!) {
                   setClientHypercard(clientId: $clientId, component: null)
                 }
               `}
-              variables={{clientId}}
-            >
-              {action => (
-                <Button
-                  block
-                  size="lg"
-                  color="danger"
-                  onClick={action}
-                  className="station-control"
-                >
+            variables={{ clientId }}>
+            
+              {(action) =>
+            <Button
+              block
+              size="lg"
+              color="danger"
+              onClick={action}
+              className="station-control">
+              
                   Return Normal Station Control
                 </Button>
-              )}
+            }
             </Mutation>
           </Col>
-        )}
+        }
       </Row>
       <Row>
-        <Col sm={{size: 6}}>
+        <Col sm={{ size: 6 }}>
           <Mutation
             mutation={gql`
               mutation Undock($id: ID!, $clientId: ID!) {
@@ -114,26 +115,26 @@ const Docked = ({
             `}
             variables={{
               id,
-              clientId,
-            }}
-          >
-            {action => (
-              <Button
-                block
-                size="lg"
-                color="success"
-                className="launch-button"
-                disabled={delay > 0}
-                onClick={action}
-              >
+              clientId
+            }}>
+            
+            {(action) =>
+            <Button
+              block
+              size="lg"
+              color="success"
+              className="launch-button"
+              disabled={delay > 0}
+              onClick={action}>
+              
                 Launch Fighter {delay > 0 ? `(${delay})` : null}
               </Button>
-            )}
+            }
           </Mutation>
         </Col>
       </Row>
-    </Container>
-  );
+    </Container>);
+
 };
 
 export default Docked;

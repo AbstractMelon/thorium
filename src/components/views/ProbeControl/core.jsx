@@ -1,11 +1,13 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Container, Button} from "helpers/reactstrap";
-import {OutputField, InputField, TypingField} from "../../generic/core";
-import {graphql, withApollo, Mutation} from "react-apollo";
+import { Container, Button } from "helpers/reactstrap";
+import { OutputField, InputField, TypingField } from "../../generic/core";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {capitalCase} from "change-case";
-import {getProbeConfig} from "../ProbeScience/probeScience";
+import { capitalCase } from "change-case";
+import { getProbeConfig } from "../ProbeScience/probeScience";
 import "./style.scss";
 import ScanPresets from "../Sensors/ScanPresets";
 
@@ -58,18 +60,18 @@ export const PROBES_CORE_SUB = gql`
 class ProbeControl extends Component {
   subscription = null;
   state = {
-    selectedProbe: null,
+    selectedProbe: null
   };
   destroyProbe = () => {
     const probes = this.props.data.probes[0];
-    const {selectedProbe} = this.state;
-    const probeObj = probes.probes.find(p => p.id === selectedProbe);
+    const { selectedProbe } = this.state;
+    const probeObj = probes.probes.find((p) => p.id === selectedProbe);
     if (
-      window.confirm(
-        `Are you sure you want to destroy this probe: ${probeObj.name}`,
-      )
-    ) {
-      this.setState({selectedProbe: null});
+    window.confirm(
+      `Are you sure you want to destroy this probe: ${probeObj.name}`
+    ))
+    {
+      this.setState({ selectedProbe: null });
       const mutation = gql`
         mutation DestroyProbe($id: ID!, $probeId: ID!) {
           destroyProbe(id: $id, probeId: $probeId)
@@ -78,11 +80,11 @@ class ProbeControl extends Component {
       if (probeObj) {
         const variables = {
           id: this.props.data.probes[0].id,
-          probeId: probeObj.id,
+          probeId: probeObj.id
         };
         this.props.client.mutate({
           mutation,
-          variables,
+          variables
         });
       }
     }
@@ -90,33 +92,33 @@ class ProbeControl extends Component {
   destroyAllProbes = () => {
     if (this.props.data.loading || !this.props.data.probes) return null;
     const probes = this.props.data.probes[0];
-    const isAllProbes = probes.probes.filter(p => p.launched).length === 0;
+    const isAllProbes = probes.probes.filter((p) => p.launched).length === 0;
     if (
-      window.confirm(
-        `Are you sure you want to destroy ${
-          isAllProbes ? "ALL" : "all launched"
-        } probes?`,
-      )
-    ) {
-      this.setState({selectedProbe: null});
+    window.confirm(
+      `Are you sure you want to destroy ${
+      isAllProbes ? "ALL" : "all launched"} probes?`
+
+    ))
+    {
+      this.setState({ selectedProbe: null });
       const mutation = gql`
         mutation DestroyAllProbe($id: ID!) {
           destroyAllProbes(id: $id)
         }
       `;
       const variables = {
-        id: this.props.data.probes[0].id,
+        id: this.props.data.probes[0].id
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
   launchProbe = () => {
     const probes = this.props.data.probes[0];
-    const {selectedProbe} = this.state;
-    const probeObj = probes.probes.find(p => p.id === selectedProbe);
+    const { selectedProbe } = this.state;
+    const probeObj = probes.probes.find((p) => p.id === selectedProbe);
 
     const mutation = gql`
       mutation LaunchProbe($id: ID!, $probeId: ID!) {
@@ -126,11 +128,11 @@ class ProbeControl extends Component {
     if (probeObj) {
       const variables = {
         id: this.props.data.probes[0].id,
-        probeId: probeObj.id,
+        probeId: probeObj.id
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     }
   };
@@ -138,7 +140,7 @@ class ProbeControl extends Component {
     const variables = {
       id: this.props.data.probes[0].id,
       probeId: this.state.selectedProbe,
-      response: this.state.responseString,
+      response: this.state.responseString
     };
     const mutation = gql`
       mutation ProbeQueryResponse($id: ID!, $probeId: ID!, $response: String) {
@@ -147,22 +149,22 @@ class ProbeControl extends Component {
     `;
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   renderEquipment = () => {
     if (this.props.data.loading || !this.props.data.probes) return null;
     const probes = this.props.data.probes[0];
-    const {selectedProbe} = this.state;
-    const probe = probes.probes.find(p => p.id === selectedProbe);
+    const { selectedProbe } = this.state;
+    const probe = probes.probes.find((p) => p.id === selectedProbe);
     if (!probe) return null;
-    return probe.equipment.map(e => (
-      <p key={e.id}>
+    return probe.equipment.map((e) =>
+    <p key={e.id}>
         ({e.count}) {e.name}
       </p>
-    ));
+    );
   };
-  renderScience = probe => {
+  renderScience = (probe) => {
     const probes = this.props.data.probes[0];
     const config = getProbeConfig(probes, probe);
     return (
@@ -180,121 +182,121 @@ class ProbeControl extends Component {
         <p>{config && config.description}</p>
         <p>
           <strong>History:</strong>{" "}
-          {probe.history.map(({date, text}) => (
-            <p>{`${new Date(date).toLocaleTimeString()}: ${text}`}</p>
-          ))}
+          {probe.history.map(({ date, text }) =>
+          <p>{`${new Date(date).toLocaleTimeString()}: ${text}`}</p>
+          )}
         </p>
-      </div>
-    );
+      </div>);
+
   };
   render() {
     if (this.props.data.loading || !this.props.data.probes) return null;
     const probes = this.props.data.probes[0];
-    const {selectedProbe} = this.state;
+    const { selectedProbe } = this.state;
     if (!probes) return <p>No Probe Launcher</p>;
-    const probe = probes.probes.find(p => p.id === selectedProbe);
+    const probe = probes.probes.find((p) => p.id === selectedProbe);
     return (
       <Container fluid className="probe-control-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: PROBES_CORE_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  probes: subscriptionData.data.probesUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: PROBES_CORE_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                probes: subscriptionData.data.probesUpdate
+              });
+            }
+          })
+          } />
+        
         <div className="flex-row flex-max">
           <div className="probe-left">
             <div className="scroll probelist">
-              {probes.probes.map(p => (
-                <p
-                  key={p.id}
-                  className={`probe ${p.querying ? "querying" : ""}
+              {probes.probes.map((p) =>
+              <p
+                key={p.id}
+                className={`probe ${p.querying ? "querying" : ""}
               ${p.id === selectedProbe ? "selected" : ""} ${
-                    !p.launched ? "text-danger" : ""
-                  }`}
-                  onClick={() => this.setState({selectedProbe: p.id})}
-                >
+                !p.launched ? "text-danger" : ""}`
+                }
+                onClick={() => this.setState({ selectedProbe: p.id })}>
+                
                   {p.name}
                   {!p.launched && " - Loaded"}
                 </p>
-              ))}
+              )}
             </div>
             <Button
               size="sm"
               color={
-                probes.probes.filter(p => p.launched).length > 0
-                  ? "warning"
-                  : "danger"
+              probes.probes.filter((p) => p.launched).length > 0 ?
+              "warning" :
+              "danger"
               }
-              onClick={this.destroyAllProbes}
-            >
-              {probes.probes.filter(p => p.launched).length > 0
-                ? "Destroy Launched Probes"
-                : "Destroy All Probes"}
+              onClick={this.destroyAllProbes}>
+              
+              {probes.probes.filter((p) => p.launched).length > 0 ?
+              "Destroy Launched Probes" :
+              "Destroy All Probes"}
             </Button>
           </div>
           <>
             <div className="probeEquipment">
-              {probe && (
-                <>
+              {probe &&
+              <>
                   <p>
                     <strong>{capitalCase(probe.type)}</strong>
                   </p>
                   {this.renderEquipment()}
                   {probe.type === "science" && this.renderScience(probe)}
                 </>
-              )}
+              }
             </div>
             <div className="probeQuery">
-              {probe && (
-                <>
+              {probe &&
+              <>
                   <OutputField
-                    style={{flex: 1, whiteSpace: "pre-wrap"}}
-                    alert={probe.querying}
-                  >
+                  style={{ flex: 1, whiteSpace: "pre-wrap" }}
+                  alert={probe.querying}>
+                  
                     {probe.query}
                   </OutputField>
                   <TypingField
-                    style={{flex: 3, textAlign: "left"}}
-                    controlled
-                    value={this.state.responseString}
-                    onChange={evt =>
-                      this.setState({responseString: evt.target.value})
-                    }
-                  />
+                  style={{ flex: 3, textAlign: "left" }}
+                  controlled
+                  value={this.state.responseString}
+                  onChange={(evt) =>
+                  this.setState({ responseString: evt.target.value })
+                  } />
+                
                   <div>
                     <Button size="sm" onClick={this.response}>
                       Send Response
                     </Button>
                     <ScanPresets
-                      onChange={e => this.setState({responseString: e})}
-                    />
-                    {probe.launched ? (
-                      <Button
-                        size="sm"
-                        color="danger"
-                        onClick={this.destroyProbe}
-                      >
+                    onChange={(e) => this.setState({ responseString: e })} />
+                  
+                    {probe.launched ?
+                  <Button
+                    size="sm"
+                    color="danger"
+                    onClick={this.destroyProbe}>
+                    
                         Destroy
-                      </Button>
-                    ) : (
-                      <Button
-                        size="sm"
-                        color="warning"
-                        onClick={this.launchProbe}
-                      >
+                      </Button> :
+
+                  <Button
+                    size="sm"
+                    color="warning"
+                    onClick={this.launchProbe}>
+                    
                         Launch
                       </Button>
-                    )}
+                  }
                   </div>
                 </>
-              )}
+              }
             </div>
           </>
         </div>
@@ -306,9 +308,9 @@ class ProbeControl extends Component {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              justifyContent: "space-between",
-            }}
-          >
+              justifyContent: "space-between"
+            }}>
+            
             <Mutation
               mutation={gql`
                 mutation SetProbeCount($id: ID!, $type: ID!, $count: Int!) {
@@ -317,34 +319,34 @@ class ProbeControl extends Component {
                     probeType: {id: $type, count: $count}
                   )
                 }
-              `}
-            >
-              {action =>
-                probes.types.map(t => (
-                  <div key={t.id}>
+              `}>
+              
+              {(action) =>
+              probes.types.map((t) =>
+              <div key={t.id}>
                     {t.name}{" "}
                     <InputField
-                      prompt={`What do you want to set the ${t.name} probe count to?`}
-                      onClick={count =>
-                        action({
-                          variables: {
-                            id: probes.id,
-                            type: t.id,
-                            count: parseInt(count, 10),
-                          },
-                        })
-                      }
-                    >
+                  prompt={`What do you want to set the ${t.name} probe count to?`}
+                  onClick={(count) =>
+                  action({
+                    variables: {
+                      id: probes.id,
+                      type: t.id,
+                      count: parseInt(count, 10)
+                    }
+                  })
+                  }>
+                  
                       {t.count}
                     </InputField>
                   </div>
-                ))
+              )
               }
             </Mutation>
           </div>
         </div>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -358,8 +360,8 @@ export const PROBES_CORE_QUERY = gql`
 `;
 
 export default graphql(PROBES_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(ProbeControl));

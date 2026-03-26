@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import BridgeMap from "./bridgeMap";
@@ -39,31 +40,31 @@ class BridgeMapData extends Component {
     return (
       <Query
         query={BRIDGE_MAP_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {clients} = data;
+          const { clients } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: BRIDGE_MAP_SUBSCRIPTION,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      clients: subscriptionData.data.clientChanged,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: BRIDGE_MAP_SUBSCRIPTION,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    clients: subscriptionData.data.clientChanged
+                  });
+                }
+              })
+              }>
+              
               <BridgeMap {...this.props} clients={clients} />
-            </SubscriptionHelper>
-          );
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default BridgeMapData;

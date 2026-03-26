@@ -9,13 +9,14 @@ import {
   ListGroupItem,
   Label,
   Input,
-  Button,
-} from "helpers/reactstrap";
-import {Link} from "react-router-dom";
-import {Query, Mutation} from "react-apollo";
+  Button } from
+"helpers/reactstrap";
+import { Link } from "react-router-dom";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Rings} from "../helpers/loaders";
-import {DateTime} from "luxon";
+import { Rings } from "../helpers/loaders";
+import { DateTime } from "luxon";
 
 const QUERY = gql`
   query SideNav {
@@ -26,70 +27,70 @@ const QUERY = gql`
   }
 `;
 
-const SimulatorPicker = ({triggerAlert}) => {
-  const importSimulator = evt => {
+const SimulatorPicker = ({ triggerAlert }) => {
+  const importSimulator = (evt) => {
     if (evt.target.files[0]) {
       const data = new FormData();
       Array.from(evt.target.files).forEach((f, index) =>
-        data.append(`files[${index}]`, f),
+      data.append(`files[${index}]`, f)
       );
       fetch(`/importSimulator`, {
         method: "POST",
-        body: data,
+        body: data
       }).then(() => {
         window.location.reload();
       });
     }
   };
-  const createSimulator = action => {
+  const createSimulator = (action) => {
     return () => {
       const name = prompt("What class of simulator is this? eg. Jump Carrier");
       if (name) {
-        action({variables: {name}, refetchQueries: [{query: QUERY}]});
+        action({ variables: { name }, refetchQueries: [{ query: QUERY }] });
       }
     };
   };
   return (
     <Query query={QUERY} fetchPolicy="cache-and-network">
-      {({data, loading}) =>
-        loading || !data ? (
-          <Rings color="#08f" width={100} height={100} />
-        ) : (
-          <Container>
+      {({ data, loading }) =>
+      loading || !data ?
+      <Rings color="#08f" width={100} height={100} /> :
+
+      <Container>
             <Row>
               <Col sm="4">
                 <h2>Simulators</h2>
 
-                <ListGroup style={{overflowY: "auto", maxHeight: "80vh"}}>
-                  {data.simulators.map(s => (
-                    <ListGroupItem
-                      key={s.id}
-                      tag={Link}
-                      to={`/config/simulator/${s.id}`}
-                    >
+                <ListGroup style={{ overflowY: "auto", maxHeight: "80vh" }}>
+                  {data.simulators.map((s) =>
+              <ListGroupItem
+                key={s.id}
+                tag={Link}
+                to={`/config/simulator/${s.id}`}>
+                
                       {s.name}
                     </ListGroupItem>
-                  ))}
+              )}
                 </ListGroup>
 
                 <Label>
                   <Mutation
-                    mutation={gql`
+                mutation={gql`
                       mutation AddSimulator($name: String!) {
                         createSimulator(name: $name, template: true)
                       }
-                    `}
-                  >
-                    {action => (
-                      <Button
-                        size="sm"
-                        block
-                        color="success"
-                        onClick={createSimulator(action)}
-                      >
+                    `}>
+                
+                    {(action) =>
+                <Button
+                  size="sm"
+                  block
+                  color="success"
+                  onClick={createSimulator(action)}>
+                  
                         Create Simulator
                       </Button>
-                    )}
+                }
                   </Mutation>
                 </Label>
                 <Label>
@@ -99,10 +100,10 @@ const SimulatorPicker = ({triggerAlert}) => {
                   <Input hidden type="file" onChange={importSimulator} />
                 </Label>
               </Col>
-              <Col sm={{size: 7, offset: 1}}>
+              <Col sm={{ size: 7, offset: 1 }}>
                 <h2>Simulator Library</h2>
                 <Query
-                  query={gql`
+              query={gql`
                     query Externals {
                       externals {
                         simulators {
@@ -114,91 +115,91 @@ const SimulatorPicker = ({triggerAlert}) => {
                         }
                       }
                     }
-                  `}
-                >
-                  {({loading, data: externalsData}) => {
-                    if (loading || !externalsData)
-                      return <Rings color="#08f" width={100} height={100} />;
-                    const {externals} = externalsData;
-                    return (
-                      <div
-                        style={{
-                          height: "100%",
-                          display: "flex",
-                          maxHeight: "80vh",
-                          overflowY: "auto",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
+                  `}>
+              
+                  {({ loading, data: externalsData }) => {
+                if (loading || !externalsData)
+                return <Rings color="#08f" width={100} height={100} />;
+                const { externals } = externalsData;
+                return (
+                  <div
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      maxHeight: "80vh",
+                      overflowY: "auto",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}>
+                    
                         {externals &&
-                        externals.simulators.filter(
-                          s =>
-                            !data.simulators.find(sim => s.title === sim.name),
-                        ).length > 0 ? (
-                          externals.simulators
-                            .filter(
-                              s =>
-                                !data.simulators.find(
-                                  sim => s.title === sim.name,
-                                ),
-                            )
-                            .map(s => (
-                              <Card key={s.title} style={{width: "100%"}}>
+                    externals.simulators.filter(
+                      (s) =>
+                      !data.simulators.find((sim) => s.title === sim.name)
+                    ).length > 0 ?
+                    externals.simulators.
+                    filter(
+                      (s) =>
+                      !data.simulators.find(
+                        (sim) => s.title === sim.name
+                      )
+                    ).
+                    map((s) =>
+                    <Card key={s.title} style={{ width: "100%" }}>
                                 <CardBody>
                                   <Mutation
-                                    mutation={gql`
+                          mutation={gql`
                                       mutation ImportSimulator($url: String!) {
                                         importSimulatorFromUrl(url: $url)
                                       }
                                     `}
-                                    variables={{url: s.url}}
-                                  >
-                                    {(action, {loading}) =>
-                                      !loading && (
-                                        <Button
-                                          style={{float: "right"}}
-                                          color="success"
-                                          onClick={() => {
-                                            triggerAlert({
-                                              color: "info",
-                                              title: "Downloading simulator...",
-                                              body:
-                                                "This simulator is downloading in the background. Don't turn off Thorium Server. You can monitor download progress on your Thorium Server window.",
-                                            });
-                                            action().then(() => {
-                                              triggerAlert({
-                                                color: "info",
-                                                title:
-                                                  "Download complete. Refreshing browser...",
-                                              });
-                                              setTimeout(
-                                                () => window.location.reload(),
-                                                1500,
-                                              );
-                                            });
-                                          }}
-                                        >
+                          variables={{ url: s.url }}>
+                          
+                                    {(action, { loading }) =>
+                          !loading &&
+                          <Button
+                            style={{ float: "right" }}
+                            color="success"
+                            onClick={() => {
+                              triggerAlert({
+                                color: "info",
+                                title: "Downloading simulator...",
+                                body:
+                                "This simulator is downloading in the background. Don't turn off Thorium Server. You can monitor download progress on your Thorium Server window."
+                              });
+                              action().then(() => {
+                                triggerAlert({
+                                  color: "info",
+                                  title:
+                                  "Download complete. Refreshing browser..."
+                                });
+                                setTimeout(
+                                  () => window.location.reload(),
+                                  1500
+                                );
+                              });
+                            }}>
+                            
                                           Download
                                         </Button>
-                                      )
-                                    }
+
+                          }
                                   </Mutation>
                                   <h3>{s.title}</h3>
                                   <div>Author: {s.author}</div>
                                   <div>
                                     Date Published:{" "}
                                     {DateTime.fromJSDate(
-                                      new Date(s.date),
-                                    ).toFormat("D")}
+                            new Date(s.date)
+                          ).toFormat("D")}
                                   </div>
                                   <div>Description:</div>
                                   <div>{s.description}</div>
                                 </CardBody>
                               </Card>
-                            ))
-                        ) : (
-                          <Card>
+                    ) :
+
+                    <Card>
                             <CardBody>
                               <h2>No simulators available.</h2>
                               <p>
@@ -207,18 +208,18 @@ const SimulatorPicker = ({triggerAlert}) => {
                               </p>
                             </CardBody>
                           </Card>
-                        )}
-                      </div>
-                    );
-                  }}
+                    }
+                      </div>);
+
+              }}
                 </Query>
               </Col>
             </Row>
           </Container>
-        )
+
       }
-    </Query>
-  );
+    </Query>);
+
 };
 
 export default SimulatorPicker;

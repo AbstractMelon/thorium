@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import Railgun from "./railgun";
@@ -47,7 +48,7 @@ const fragments = {
       endTime
       speed
     }
-  `,
+  `
 };
 export const RAILGUN_QUERY = gql`
   query Railgun($simulatorId: ID!) {
@@ -84,50 +85,50 @@ class RailgunData extends Component {
     return (
       <Query
         query={RAILGUN_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, error, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, error, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {railgun, sensorContacts = []} = data;
+          const { railgun, sensorContacts = [] } = data;
           if (!railgun[0]) return <div>No Railgun</div>;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: RAILGUN_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      railgun: subscriptionData.data.railgunUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: RAILGUN_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    railgun: subscriptionData.data.railgunUpdate
+                  });
+                }
+              })
+              }>
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: RAILGUN_CONTACTS_SUB,
-                    variables: {simulatorId: this.props.simulator.id},
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        sensorContacts:
-                          subscriptionData.data.sensorContactUpdate,
-                      });
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: RAILGUN_CONTACTS_SUB,
+                  variables: { simulatorId: this.props.simulator.id },
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    return Object.assign({}, previousResult, {
+                      sensorContacts:
+                      subscriptionData.data.sensorContactUpdate
+                    });
+                  }
+                })
+                } />
+              
               <Railgun
                 {...this.props}
                 {...railgun[0]}
-                contacts={sensorContacts}
-              />
-            </SubscriptionHelper>
-          );
+                contacts={sensorContacts} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 

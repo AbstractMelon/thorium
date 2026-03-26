@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Query} from "react-apollo";
+import React, { Component } from "react";
+import { Query } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import BattleCore from "./battle";
@@ -54,48 +55,48 @@ class TemplateData extends Component {
     return (
       <Query
         query={BATTLE_QUERY}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {({loading, data, error, subscribeToMore}) => {
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {({ loading, data, error, subscribeToMore }) => {
           if (loading || !data) return null;
-          const {sensorContacts, sensors} = data;
+          const { sensorContacts, sensors } = data;
           return (
             <SubscriptionHelper
               subscribe={() =>
-                subscribeToMore({
-                  document: BATTLE_CONTACT_SUB,
-                  variables: {simulatorId: this.props.simulator.id},
-                  updateQuery: (previousResult, {subscriptionData}) => {
-                    return Object.assign({}, previousResult, {
-                      sensorContacts: subscriptionData.data.sensorContactUpdate,
-                    });
-                  },
-                })
-              }
-            >
+              subscribeToMore({
+                document: BATTLE_CONTACT_SUB,
+                variables: { simulatorId: this.props.simulator.id },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    sensorContacts: subscriptionData.data.sensorContactUpdate
+                  });
+                }
+              })
+              }>
+              
               <SubscriptionHelper
                 subscribe={() =>
-                  subscribeToMore({
-                    document: BATTLE_SENSORS_SUB,
-                    variables: {simulatorId: this.props.simulator.id},
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        sensors: subscriptionData.data.sensorsUpdate,
-                      });
-                    },
-                  })
-                }
-              />
+                subscribeToMore({
+                  document: BATTLE_SENSORS_SUB,
+                  variables: { simulatorId: this.props.simulator.id },
+                  updateQuery: (previousResult, { subscriptionData }) => {
+                    return Object.assign({}, previousResult, {
+                      sensors: subscriptionData.data.sensorsUpdate
+                    });
+                  }
+                })
+                } />
+              
               <BattleCore
                 {...this.props}
                 contacts={sensorContacts}
-                sensors={sensors[0]}
-              />
-            </SubscriptionHelper>
-          );
+                sensors={sensors[0]} />
+              
+            </SubscriptionHelper>);
+
         }}
-      </Query>
-    );
+      </Query>);
+
   }
 }
 export default TemplateData;

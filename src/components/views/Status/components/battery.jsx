@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Label} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Label } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {graphql} from "react-apollo";
+import { graphql } from "@apollo/client/react/hoc";
+
 import Dot from "./dots";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 export const STATUS_BATTERY_SUB = gql`
@@ -18,29 +19,29 @@ export const STATUS_BATTERY_SUB = gql`
 class Battery extends Component {
   render() {
     if (this.props.data.loading || !this.props.data.reactors) return null;
-    const {reactors} = this.props.data;
+    const { reactors } = this.props.data;
     if (!reactors) return null;
-    const battery = reactors.find(r => r.model === "battery");
+    const battery = reactors.find((r) => r.model === "battery");
     if (!battery) return null;
     return (
       <div>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: STATUS_BATTERY_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  reactors: subscriptionData.data.reactorUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: STATUS_BATTERY_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                reactors: subscriptionData.data.reactorUpdate
+              });
+            }
+          })
+          } />
+        
         <Label>Battery</Label>
         <Dot color="goldenrod" level={battery.batteryChargeLevel} />
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -56,8 +57,8 @@ export const STATUS_BATTERY_QUERY = gql`
 `;
 
 export default graphql(STATUS_BATTERY_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(Battery);

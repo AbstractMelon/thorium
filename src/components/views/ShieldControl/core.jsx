@@ -1,7 +1,9 @@
-import React, {Component} from "react";
-import {Table, Button, ButtonGroup} from "helpers/reactstrap";
-import {InputField, OutputField} from "../../generic/core";
-import {graphql, withApollo, Mutation} from "react-apollo";
+import React, { Component } from "react";
+import { Table, Button, ButtonGroup } from "helpers/reactstrap";
+import { InputField, OutputField } from "../../generic/core";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import gql from "graphql-tag.macro";
@@ -30,11 +32,11 @@ class ShieldsCore extends Component {
     `;
     const variables = {
       id: shields.id,
-      freq: Math.round(freq * 10) / 10,
+      freq: Math.round(freq * 10) / 10
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   setIntegrity(shields, integrity) {
@@ -46,11 +48,11 @@ class ShieldsCore extends Component {
     `;
     const variables = {
       id: shields.id,
-      integrity: Math.round(integrity) / 100,
+      integrity: Math.round(integrity) / 100
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   }
   _hitShields(shields) {
@@ -61,11 +63,11 @@ class ShieldsCore extends Component {
         }
       `;
       const variables = {
-        simulatorId: this.props.simulator.id,
+        simulatorId: this.props.simulator.id
       };
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
       return;
     }
@@ -80,21 +82,21 @@ class ShieldsCore extends Component {
       <div>
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: SHIELD_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  shields: subscriptionData.data.shieldsUpdate,
-                });
-              },
-            })
-          }
-        />
-        {this.props.data.shields.length > 0 ? (
-          <div>
+          this.props.data.subscribeToMore({
+            document: SHIELD_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                shields: subscriptionData.data.shieldsUpdate
+              });
+            }
+          })
+          } />
+        
+        {this.props.data.shields.length > 0 ?
+        <div>
             <Table responsive size="sm">
               <thead>
                 <tr>
@@ -105,67 +107,67 @@ class ShieldsCore extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.props.data.shields.map(s => {
-                  return (
-                    <tr key={s.id}>
+                {this.props.data.shields.map((s) => {
+                return (
+                  <tr key={s.id}>
                       <td>{s.name}</td>
                       <td>
                         <Mutation
-                          mutation={gql`
+                        mutation={gql`
                             mutation shieldLowered($id: ID!) {
                               shieldLowered(id: $id)
                             }
                           `}
-                          variables={{id: s.id}}
-                        >
-                          {lower => (
-                            <Mutation
-                              mutation={gql`
+                        variables={{ id: s.id }}>
+                        
+                          {(lower) =>
+                        <Mutation
+                          mutation={gql`
                                 mutation shieldRaised($id: ID!) {
                                   shieldRaised(id: $id)
                                 }
                               `}
-                              variables={{id: s.id}}
-                            >
-                              {raise => (
-                                <OutputField
-                                  onDoubleClick={s.state ? lower : raise}
-                                >
+                          variables={{ id: s.id }}>
+                          
+                              {(raise) =>
+                          <OutputField
+                            onDoubleClick={s.state ? lower : raise}>
+                            
                                   {s.state ? "Raised" : "Lowered"}
                                 </OutputField>
-                              )}
+                          }
                             </Mutation>
-                          )}
+                        }
                         </Mutation>
                       </td>
                       <td>
                         <InputField
-                          prompt="What is the frequency? (100.0 - 350.0)"
-                          onClick={this.setFrequency.bind(this, s)}
-                        >
+                        prompt="What is the frequency? (100.0 - 350.0)"
+                        onClick={this.setFrequency.bind(this, s)}>
+                        
                           {Math.round(s.frequency * 10) / 10}
                         </InputField>
                       </td>
                       <td>
                         <InputField
-                          style={{width: "50%", float: "left"}}
-                          prompt="What is the integrity? (0 - 100)"
-                          onClick={this.setIntegrity.bind(this, s)}
-                        >
+                        style={{ width: "50%", float: "left" }}
+                        prompt="What is the integrity? (0 - 100)"
+                        onClick={this.setIntegrity.bind(this, s)}>
+                        
                           {Math.round(s.integrity * 100)}
                         </InputField>
                         <Button
-                          style={{width: "50%", height: "16px"}}
-                          size="sm"
-                          color="danger"
-                          onClick={this._hitShields.bind(this, s)}
-                        >
+                        style={{ width: "50%", height: "16px" }}
+                        size="sm"
+                        color="danger"
+                        onClick={this._hitShields.bind(this, s)}>
+                        
                           Hit
                         </Button>
                       </td>
-                    </tr>
-                  );
-                })}
+                    </tr>);
+
+              })}
               </tbody>
             </Table>
             <div>
@@ -173,33 +175,33 @@ class ShieldsCore extends Component {
             </div>
             <ButtonGroup>
               <Button
-                size="sm"
-                color="danger"
-                onClick={this._hitShields.bind(this, "all")}
-              >
+              size="sm"
+              color="danger"
+              onClick={this._hitShields.bind(this, "all")}>
+              
                 Hit All
               </Button>
               <Mutation
-                mutation={gql`
+              mutation={gql`
                   mutation RestoreShields($simulatorId: ID!) {
                     restoreShields(simulatorId: $simulatorId)
                   }
                 `}
-                variables={{simulatorId: this.props.simulator.id}}
-              >
-                {action => (
-                  <Button size="sm" color="success" onClick={action}>
+              variables={{ simulatorId: this.props.simulator.id }}>
+              
+                {(action) =>
+              <Button size="sm" color="success" onClick={action}>
                     Restore All
                   </Button>
-                )}
+              }
               </Mutation>
             </ButtonGroup>
-          </div>
-        ) : (
-          "No shields"
-        )}
-      </div>
-    );
+          </div> :
+
+        "No shields"
+        }
+      </div>);
+
   }
 }
 
@@ -218,8 +220,8 @@ export const SHIELD_CORE_QUERY = gql`
 `;
 
 export default graphql(SHIELD_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(ShieldsCore));

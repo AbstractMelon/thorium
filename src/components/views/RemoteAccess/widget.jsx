@@ -1,13 +1,14 @@
-import React, {Component} from "react";
-import {withApollo} from "react-apollo";
+import React, { Component } from "react";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import gql from "graphql-tag.macro";
-import {Button, Row, Col, Container, Input} from "helpers/reactstrap";
+import { Button, Row, Col, Container, Input } from "helpers/reactstrap";
 
 class MessageComposer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      code: "",
+      code: ""
     };
   }
   sendCode() {
@@ -27,11 +28,11 @@ class MessageComposer extends Component {
     const variables = {
       simulatorId: this.props.simulator.id,
       station: this.props.station.name,
-      code: this.state.code,
+      code: this.state.code
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
     this.props.toggle();
   }
@@ -42,26 +43,26 @@ class MessageComposer extends Component {
           <Col sm={8}>
             <Input
               value={this.state.code}
-              onChange={e => {
-                this.setState({code: e.target.value});
+              onChange={(e) => {
+                this.setState({ code: e.target.value });
               }}
               type="text"
-              placeholder="Enter code here:"
-            />
+              placeholder="Enter code here:" />
+            
           </Col>
           <Col sm={4}>
             <Button
               block
               onClick={this.sendCode.bind(this)}
               disabled={this.state.code.length === 0}
-              color="success"
-            >
+              color="success">
+              
               Send Code
             </Button>
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 

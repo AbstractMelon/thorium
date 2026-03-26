@@ -1,8 +1,9 @@
-import React, {Fragment} from "react";
-import {FormGroup, Label, Input} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import React, { Fragment } from "react";
+import { FormGroup, Label, Input } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {GENERIC_QUERY} from "./index";
+import { GENERIC_QUERY } from "./index";
 
 const SYSTEM_QUERY = gql`
   query Systems($simulatorId: ID!) {
@@ -23,7 +24,7 @@ const SYSTEM_QUERY = gql`
   }
 `;
 
-const Basic = ({id, simulatorId, name, displayName}) => {
+const Basic = ({ id, simulatorId, name, displayName }) => {
   return (
     <>
       <Mutation
@@ -43,38 +44,38 @@ const Basic = ({id, simulatorId, name, displayName}) => {
           }
         `}
         refetchQueries={[
-          {query: GENERIC_QUERY, variables: {id, simulatorId}},
-          {query: SYSTEM_QUERY, variables: {simulatorId}},
-        ]}
-      >
-        {action => (
-          <Fragment>
+        { query: GENERIC_QUERY, variables: { id, simulatorId } },
+        { query: SYSTEM_QUERY, variables: { simulatorId } }]
+        }>
+        
+        {(action) =>
+        <Fragment>
             <FormGroup>
               <Label>
                 Name
                 <Input
-                  type="text"
-                  defaultValue={name}
-                  onBlur={e => action({variables: {id, name: e.target.value}})}
-                />
+                type="text"
+                defaultValue={name}
+                onBlur={(e) => action({ variables: { id, name: e.target.value } })} />
+              
               </Label>
             </FormGroup>
             <FormGroup>
               <Label>
                 Display Name
                 <Input
-                  type="text"
-                  defaultValue={displayName || ""}
-                  onBlur={e =>
-                    action({variables: {id, displayName: e.target.value}})
-                  }
-                />
+                type="text"
+                defaultValue={displayName || ""}
+                onBlur={(e) =>
+                action({ variables: { id, displayName: e.target.value } })
+                } />
+              
               </Label>
             </FormGroup>
           </Fragment>
-        )}
+        }
       </Mutation>
-    </>
-  );
+    </>);
+
 };
 export default Basic;

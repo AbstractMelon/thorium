@@ -1,10 +1,11 @@
 import React from "react";
-import {Query, Mutation} from "react-apollo";
+import { Query, Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Table, Button} from "helpers/reactstrap";
+import { Table, Button } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {OutputField, InputField} from "../../generic/core";
-import {capitalCase} from "change-case";
+import { OutputField, InputField } from "../../generic/core";
+import { capitalCase } from "change-case";
 import "./style.scss";
 
 const fragment = gql`
@@ -60,85 +61,85 @@ export const JUMP_DRIVE_CORE_SUB = gql`
 
 const JumpDriveCore = ({
   id,
-  power: {power},
+  power: { power },
   sectors,
   env,
   activated,
   stress,
   enabled,
-  ringsExtended,
-}) => (
-  <div className="jumpDrive-core">
+  ringsExtended
+}) =>
+<div className="jumpDrive-core">
     <Mutation
-      mutation={gql`
+    mutation={gql`
         mutation ActivateJumpdrive($id: ID!, $activated: Boolean!) {
           setJumpdriveActivated(id: $id, activated: $activated)
         }
-      `}
-    >
-      {action => (
-        <OutputField
-          onClick={() => action({variables: {id, activated: !activated}})}
-          alert={activated}
-        >
+      `}>
+    
+      {(action) =>
+    <OutputField
+      onClick={() => action({ variables: { id, activated: !activated } })}
+      alert={activated}>
+      
           {activated ? "Activated" : "Deactivated"}
         </OutputField>
-      )}
+    }
     </Mutation>
-    <div style={{display: "flex", justifyContent: "space-between"}}>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       <p>Total Power: {power}</p>
       <label>
         <Mutation
-          mutation={gql`
+        mutation={gql`
             mutation SetJumpDriveEnabled($id: ID!, $enabled: Boolean!) {
               setJumpDriveEnabled(id: $id, enabled: $enabled)
             }
           `}
-          variables={{id, enabled: !enabled}}
-        >
-          {action => (
-            <input type="checkbox" checked={enabled} onChange={action} />
-          )}
+        variables={{ id, enabled: !enabled }}>
+        
+          {(action) =>
+        <input type="checkbox" checked={enabled} onChange={action} />
+        }
         </Mutation>
         Enabled
       </label>
       <label>
         <Mutation
-          mutation={gql`
+        mutation={gql`
             mutation SetJumpDriveEnabled($id: ID!, $ringsExtended: Boolean!) {
               setJumpDriveRingsExtended(id: $id, ringsExtended: $ringsExtended)
             }
           `}
-          variables={{id, ringsExtended: !ringsExtended}}
-        >
-          {action => (
-            <input type="checkbox" checked={ringsExtended} onChange={action} />
-          )}
+        variables={{ id, ringsExtended: !ringsExtended }}>
+        
+          {(action) =>
+        <input type="checkbox" checked={ringsExtended} onChange={action} />
+        }
         </Mutation>
         Rings Extended
       </label>
       <span>
         Current Envelope:{" "}
         <Mutation
-          mutation={gql`
+        mutation={gql`
             mutation SetJumpDriveEnv($id: ID!, $env: Float!) {
               setJumpdriveEnvs(id: $id, envs: $env)
             }
-          `}
-        >
-          {action => (
-            <InputField
-              prompt={`What would you like to set the envelope level to (1 - 6)?`}
-              onClick={val => {
-                const env = parseFloat(val);
-                if (!env || env < 1 || env > 6) return;
-                action({variables: {id, env}});
-              }}
-              style={{display: "inline-block", width: "20px"}}
-            >
+          `}>
+        
+          {(action) =>
+        <InputField
+          prompt={`What would you like to set the envelope level to (1 - 6)?`}
+          onClick={(val) => {
+            const env = parseFloat(val);
+            if (!env || env < 1 || env > 6) return;
+            action({ variables: { id, env } });
+          }}
+          style={{ display: "inline-block", width: "20px" }}>
+          
               {Math.round(env * 100) / 100}
             </InputField>
-          )}
+        }
         </Mutation>
       </span>
     </div>
@@ -151,87 +152,87 @@ const JumpDriveCore = ({
         </tr>
       </thead>
       <tbody>
-        {["fore", "aft", "port", "starboard"].map(s => (
-          <tr key={s}>
+        {["fore", "aft", "port", "starboard"].map((s) =>
+      <tr key={s}>
             <td>{capitalCase(s)}</td>
             <td>{sectors[s].level}</td>
             <td
-              className={`${sectors[s].offset > 0.5 ? "text-warning" : ""} ${
-                sectors[s].offset > 0.7 ? "text-danger" : ""
-              }`}
-            >
+          className={`${sectors[s].offset > 0.5 ? "text-warning" : ""} ${
+          sectors[s].offset > 0.7 ? "text-danger" : ""}`
+          }>
+          
               {Math.round(sectors[s].offset * 100) / 100}{" "}
               <Mutation
-                mutation={gql`
+            mutation={gql`
                   mutation HitStress($id: ID!, $sector: String!) {
                     hitJumpDriveStress(id: $id, sector: $sector)
                   }
                 `}
-                variables={{id, sector: s}}
-              >
-                {action => (
-                  <Button
-                    style={{float: "right"}}
-                    size="sm"
-                    color="warning"
-                    onClick={action}
-                  >
+            variables={{ id, sector: s }}>
+            
+                {(action) =>
+            <Button
+              style={{ float: "right" }}
+              size="sm"
+              color="warning"
+              onClick={action}>
+              
                     Hit
                   </Button>
-                )}
+            }
               </Mutation>
             </td>
           </tr>
-        ))}
+      )}
       </tbody>
     </Table>
     <p>
       Total Stress: {Math.round(stress * 100) / 100}{" "}
       <Mutation
-        mutation={gql`
+      mutation={gql`
           mutation HitStress($id: ID!, $sector: String!) {
             hitJumpDriveStress(id: $id, sector: $sector)
           }
         `}
-        variables={{id, sector: "all"}}
-      >
-        {action => (
-          <Button size="sm" color="warning" onClick={action}>
+      variables={{ id, sector: "all" }}>
+      
+        {(action) =>
+      <Button size="sm" color="warning" onClick={action}>
             Hit All
           </Button>
-        )}
+      }
       </Mutation>
     </p>
-  </div>
-);
+  </div>;
 
-const JumpDriveData = props => (
-  <Query
-    query={JUMP_DRIVE_CORE_QUERY}
-    variables={{simulatorId: props.simulator.id}}
-  >
-    {({loading, data, subscribeToMore}) => {
-      if (loading || !data) return null;
-      const {jumpDrive} = data;
-      if (!jumpDrive[0]) return <div>No JumpDrive</div>;
-      return (
-        <SubscriptionHelper
-          subscribe={() =>
-            subscribeToMore({
-              document: JUMP_DRIVE_CORE_SUB,
-              variables: {simulatorId: props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  jumpDrive: subscriptionData.data.jumpDriveUpdate,
-                });
-              },
-            })
+
+const JumpDriveData = (props) =>
+<Query
+  query={JUMP_DRIVE_CORE_QUERY}
+  variables={{ simulatorId: props.simulator.id }}>
+  
+    {({ loading, data, subscribeToMore }) => {
+    if (loading || !data) return null;
+    const { jumpDrive } = data;
+    if (!jumpDrive[0]) return <div>No JumpDrive</div>;
+    return (
+      <SubscriptionHelper
+        subscribe={() =>
+        subscribeToMore({
+          document: JUMP_DRIVE_CORE_SUB,
+          variables: { simulatorId: props.simulator.id },
+          updateQuery: (previousResult, { subscriptionData }) => {
+            return Object.assign({}, previousResult, {
+              jumpDrive: subscriptionData.data.jumpDriveUpdate
+            });
           }
-        >
+        })
+        }>
+        
           <JumpDriveCore {...props} {...jumpDrive[0]} />
-        </SubscriptionHelper>
-      );
-    }}
-  </Query>
-);
+        </SubscriptionHelper>);
+
+  }}
+  </Query>;
+
 export default JumpDriveData;

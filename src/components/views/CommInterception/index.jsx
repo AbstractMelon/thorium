@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
-import {Container, Row, Col, Button} from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Button } from "helpers/reactstrap";
 import WaveMatch from "./waveMatch";
 import Tour from "helpers/tourHelper";
 import SubscriptionHelper from "helpers/subscriptionHelper";
@@ -31,52 +32,52 @@ export const INTERCEPTION_SUB = gql`
 `;
 
 const trainingSteps = [
-  {
-    selector: ".nothing",
-    content:
-      "Sometimes your systems will detect signals which can be intercepted. These signals can be short range communications or long range messages.",
-  },
-  {
-    selector: ".centered-text",
-    content:
-      "When a signal can be intercepted, a button will appear which says 'Attempt Interception'. Clicking this button will begin the interception process.",
-  },
-  {
-    selector: ".wave-match",
-    content:
-      "To intercept a signal you must match the red carrier wave with the blue receiver wave. You can do this by adjusting the sliders below the signal display. Once the two signals match up, you can click 'Lock Signal' to lock on to the signal and intercept it.",
-  },
-];
+{
+  selector: ".nothing",
+  content:
+  "Sometimes your systems will detect signals which can be intercepted. These signals can be short range communications or long range messages."
+},
+{
+  selector: ".centered-text",
+  content:
+  "When a signal can be intercepted, a button will appear which says 'Attempt Interception'. Clicking this button will begin the interception process."
+},
+{
+  selector: ".wave-match",
+  content:
+  "To intercept a signal you must match the red carrier wave with the blue receiver wave. You can do this by adjusting the sliders below the signal display. Once the two signals match up, you can click 'Lock Signal' to lock on to the signal and intercept it."
+}];
+
 
 class Interception extends Component {
   state = {};
   renderInterception() {
     const {
-      data: {longRangeCommunications},
+      data: { longRangeCommunications }
     } = this.props;
-    const {interception, decoded, locked} = longRangeCommunications[0];
+    const { interception, decoded, locked } = longRangeCommunications[0];
     if (interception) {
       if (locked) {
         if (decoded) {
           return (
             <div className="centered-text">
               <h1>Signal Decoded</h1>
-            </div>
-          );
+            </div>);
+
         }
         return (
           <div className="centered-text">
             <h1>Signal Locked</h1>
-          </div>
-        );
+          </div>);
+
       }
       if (this.state.intercepting) {
         return (
           <WaveMatch
             client={this.props.client}
-            lrComm={longRangeCommunications[0]}
-          />
-        );
+            lrComm={longRangeCommunications[0]} />);
+
+
       }
       return (
         <div className="centered-text">
@@ -84,48 +85,48 @@ class Interception extends Component {
           <Button
             size="lg"
             color="warning"
-            onClick={() => this.setState({intercepting: true})}
-          >
+            onClick={() => this.setState({ intercepting: true })}>
+            
             Attempt Interception
           </Button>
-        </div>
-      );
+        </div>);
+
     }
     return (
       <div className="centered-text">
         <h1>No active signals</h1>
-      </div>
-    );
+      </div>);
+
   }
   render() {
     const {
-      data: {loading, longRangeCommunications},
+      data: { loading, longRangeCommunications }
     } = this.props;
     if (loading || !longRangeCommunications) return null;
     return (
       <Container className="card-commInterception">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: INTERCEPTION_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  longRangeCommunications:
-                    subscriptionData.data.longRangeCommunicationsUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: INTERCEPTION_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                longRangeCommunications:
+                subscriptionData.data.longRangeCommunicationsUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={12}>{this.renderInterception()}</Col>
         </Row>
         <Tour steps={trainingSteps} client={this.props.clientObj} />
-      </Container>
-    );
+      </Container>);
+
   }
 }
 export const INTERCEPTION_QUERY = gql`
@@ -150,10 +151,10 @@ export const INTERCEPTION_QUERY = gql`
   }
 `;
 export default graphql(INTERCEPTION_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(Interception));

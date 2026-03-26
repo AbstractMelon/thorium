@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from "react";
-import {Container, Button, ButtonGroup} from "helpers/reactstrap";
+import React, { useState, useEffect, useRef } from "react";
+import { Container, Button, ButtonGroup } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {OutputField} from "../../generic/core";
-import {Query} from "react-apollo";
-import {capitalCase} from "change-case";
+import { OutputField } from "../../generic/core";
+import { Query } from "@apollo/client/react/components";
+
+import { capitalCase } from "change-case";
 import TorpedoInventory from "./inventory";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
@@ -22,8 +23,8 @@ function usePrevious(value) {
   return ref.current;
 }
 
-const TorpedoView = ({torpedo}) => {
-  const loaded = torpedo.inventory.find(t => t.id === torpedo.loaded);
+const TorpedoView = ({ torpedo }) => {
+  const loaded = torpedo.inventory.find((t) => t.id === torpedo.loaded);
   const lastLoaded = usePrevious(loaded);
   return (
     <>
@@ -32,43 +33,43 @@ const TorpedoView = ({torpedo}) => {
           if (torpedo.state === "idle") return "No Torpedos Loaded";
 
           return `${capitalCase(
-            loaded ? loaded.type : lastLoaded ? lastLoaded.type : "",
+            loaded ? loaded.type : lastLoaded ? lastLoaded.type : ""
           )} Torpedo ${torpedo.state === "loaded" ? "Loaded" : "Fired"}`;
         })()}
       </OutputField>
       <TorpedoInventory {...torpedo} />
-    </>
-  );
+    </>);
+
 };
-const TorpedoSwitcher = ({torpedos, selectTorpedo, selectedTorpedo}) => {
+const TorpedoSwitcher = ({ torpedos, selectTorpedo, selectedTorpedo }) => {
   return (
     <ButtonGroup>
-      {torpedos.map((t, i) => (
-        <Button
-          size="sm"
-          key={t.id}
-          active={t.id === selectedTorpedo || (!selectedTorpedo && i === 0)}
-          onClick={() => selectTorpedo(t.id)}
-        >
+      {torpedos.map((t, i) =>
+      <Button
+        size="sm"
+        key={t.id}
+        active={t.id === selectedTorpedo || !selectedTorpedo && i === 0}
+        onClick={() => selectTorpedo(t.id)}>
+        
           {t.name}
         </Button>
-      ))}
-    </ButtonGroup>
-  );
+      )}
+    </ButtonGroup>);
+
 };
-const TorpedoLoadingCore = ({torpedos}) => {
+const TorpedoLoadingCore = ({ torpedos }) => {
   const [selectedTorpedo, setSelectedTorpedo] = useState(torpedos[0].id);
-  const torpedo = torpedos.find(t => t.id === selectedTorpedo);
+  const torpedo = torpedos.find((t) => t.id === selectedTorpedo);
   return (
     <Container fluid className="torpedos-core">
       <TorpedoSwitcher
         torpedos={torpedos}
-        selectTorpedo={torp => setSelectedTorpedo(torp)}
-        selectedTorpedo={selectedTorpedo}
-      />
+        selectTorpedo={(torp) => setSelectedTorpedo(torp)}
+        selectedTorpedo={selectedTorpedo} />
+      
       <TorpedoView torpedo={torpedo} />
-    </Container>
-  );
+    </Container>);
+
 };
 
 const fragment = gql`
@@ -106,36 +107,36 @@ export const TORPEDO_CORE_QUERY = gql`
   ${fragment}
 `;
 
-const TorpedoData = props => {
+const TorpedoData = (props) => {
   const {
-    simulator: {id: simulatorId},
+    simulator: { id: simulatorId }
   } = props;
   return (
-    <Query query={TORPEDO_CORE_QUERY} variables={{simulatorId}}>
-      {({loading, data, subscribeToMore}) => {
+    <Query query={TORPEDO_CORE_QUERY} variables={{ simulatorId }}>
+      {({ loading, data, subscribeToMore }) => {
         if (loading || !data) return null;
-        const {torpedos} = data;
+        const { torpedos } = data;
         if (!torpedos[0]) return <div>No Torpedos</div>;
         return (
           <SubscriptionHelper
             subscribe={() =>
-              subscribeToMore({
-                document: TORPEDO_CORE_SUB,
-                variables: {simulatorId},
-                updateQuery: (previousResult, {subscriptionData}) => {
-                  return Object.assign({}, previousResult, {
-                    torpedos: subscriptionData.data.torpedosUpdate,
-                  });
-                },
-              })
-            }
-          >
+            subscribeToMore({
+              document: TORPEDO_CORE_SUB,
+              variables: { simulatorId },
+              updateQuery: (previousResult, { subscriptionData }) => {
+                return Object.assign({}, previousResult, {
+                  torpedos: subscriptionData.data.torpedosUpdate
+                });
+              }
+            })
+            }>
+            
             <TorpedoLoadingCore {...props} torpedos={torpedos} />
-          </SubscriptionHelper>
-        );
+          </SubscriptionHelper>);
+
       }}
-    </Query>
-  );
+    </Query>);
+
 };
 
 export default TorpedoData;

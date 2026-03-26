@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
+
 import "./style.scss";
 
 class VideoConfig extends Component {
@@ -18,30 +19,30 @@ class VideoConfig extends Component {
   }
   componentDidMount() {
     const data = JSON.parse(this.props.viewscreen.data);
-    this.videoToggleSub = this.props.client
-      .subscribe({
-        query: gql`
+    this.videoToggleSub = this.props.client.
+    subscribe({
+      query: gql`
           subscription ToggleVideo($viewscreenId: ID) {
             viewscreenVideoToggle(viewscreenId: $viewscreenId)
           }
         `,
-        variables: {viewscreenId: this.props.viewscreen.id},
-      })
-      .subscribe({
-        next: () => {
-          this.player.current.paused === false
-            ? this.player.current.pause()
-            : this.player.current.play();
-        },
-        error(err) {
-          console.error("Error in subscription", err);
-        },
-      });
+      variables: { viewscreenId: this.props.viewscreen.id }
+    }).
+    subscribe({
+      next: () => {
+        this.player.current.paused === false ?
+        this.player.current.pause() :
+        this.player.current.play();
+      },
+      error(err) {
+        console.error("Error in subscription", err);
+      }
+    });
     if (this.player.current)
-      this.player.current.playbackRate = parseFloat(data.speed) || 1;
+    this.player.current.playbackRate = parseFloat(data.speed) || 1;
     setTimeout(() => {
       if (this.player.current)
-        this.player.current.playbackRate = parseFloat(data.speed) || 1;
+      this.player.current.playbackRate = parseFloat(data.speed) || 1;
     }, 300);
     document.addEventListener("keydown", this.keypress);
   }
@@ -49,27 +50,27 @@ class VideoConfig extends Component {
     document.removeEventListener("keydown", this.keypress);
     this.videoToggleSub && this.videoToggleSub.unsubscribe();
   }
-  keypress = evt => {
+  keypress = (evt) => {
     if (evt.code === "Space") {
       this.props.viewscreen &&
-        this.props.viewscreen.id &&
-        this.props.client.mutate({
-          mutation: gql`
+      this.props.viewscreen.id &&
+      this.props.client.mutate({
+        mutation: gql`
             mutation ToggleVideo($viewscreenId: ID) {
               toggleViewscreenVideo(viewscreenId: $viewscreenId)
             }
           `,
-          variables: {viewscreenId: this.props.viewscreen.id},
-        });
+        variables: { viewscreenId: this.props.viewscreen.id }
+      });
     }
   };
   render() {
-    const {core} = this.props;
+    const { core } = this.props;
     const data = JSON.parse(this.props.viewscreen.data);
     const videoEnd = () => {
       if (core || !data.advance) return;
       const variables = {
-        simulatorId: this.props.simulator.id,
+        simulatorId: this.props.simulator.id
       };
       const mutation = gql`
         mutation AdvanceTimeline($simulatorId: ID!) {
@@ -78,7 +79,7 @@ class VideoConfig extends Component {
       `;
       this.props.client.mutate({
         mutation,
-        variables,
+        variables
       });
     };
     return (
@@ -89,10 +90,10 @@ class VideoConfig extends Component {
           autoPlay={data.autoplay}
           muted={core}
           loop={data.loop}
-          onEnded={videoEnd}
-        />
-      </div>
-    );
+          onEnded={videoEnd} />
+        
+      </div>);
+
   }
 }
 

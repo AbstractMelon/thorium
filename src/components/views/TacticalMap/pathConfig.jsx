@@ -1,9 +1,10 @@
 import React from "react";
-import {Button} from "helpers/reactstrap";
+import { Button } from "helpers/reactstrap";
 import gql from "graphql-tag.macro";
-import {withApollo} from "react-apollo";
+import { withApollo } from "@apollo/client/react/hoc";
 
-const PathConfig = ({client, tacticalMapId, layerId}) => {
+
+const PathConfig = ({ client, tacticalMapId, layerId }) => {
   const addPath = () => {
     const mutation = gql`
       mutation AddTacticalPath(
@@ -17,17 +18,17 @@ const PathConfig = ({client, tacticalMapId, layerId}) => {
     const variables = {
       mapId: tacticalMapId,
       layerId: layerId,
-      path: {},
+      path: {}
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   return (
     <div>
       <Button onClick={addPath}>Add Path</Button>
-    </div>
-  );
+    </div>);
+
 };
 export default withApollo(PathConfig);

@@ -1,7 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {Button} from "helpers/reactstrap";
-import {graphql, withApollo} from "react-apollo";
+import { Button } from "helpers/reactstrap";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import NavigationScanner from "../Navigation/NavigationScanner";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import "./style.scss";
@@ -26,7 +27,7 @@ class Navigation extends Component {
       selectedField: null,
       enteredCourse: {},
       scanning: false,
-      selectedDest: "",
+      selectedDest: ""
     };
   }
   setCourse = () => {
@@ -39,11 +40,11 @@ class Navigation extends Component {
     const navigation = this.props.data.navigation[0];
     const variables = {
       id: navigation.id,
-      destination: this.state.selectedDest,
+      destination: this.state.selectedDest
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   calcCourses = () => {
@@ -54,11 +55,11 @@ class Navigation extends Component {
     `;
     const navigation = this.props.data.navigation[0];
     const variables = {
-      id: navigation.id,
+      id: navigation.id
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
@@ -69,38 +70,38 @@ class Navigation extends Component {
       <div className="jr-navigation">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: JR_NAVIGATION_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  navigation: subscriptionData.data.navigationUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: JR_NAVIGATION_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                navigation: subscriptionData.data.navigationUpdate
+              });
+            }
+          })
+          } />
+        
         <h1>Current Course: {navigation.destination}</h1>
         <Button block color="info" onClick={this.calcCourses}>
           Calculate Courses
         </Button>
         <div className="course-list">
-          {navigation.destinations.map(d => (
-            <p
-              key={d}
-              onClick={() => this.setState({selectedDest: d})}
-              className={this.state.selectedDest === d ? "selected" : ""}
-            >
+          {navigation.destinations.map((d) =>
+          <p
+            key={d}
+            onClick={() => this.setState({ selectedDest: d })}
+            className={this.state.selectedDest === d ? "selected" : ""}>
+            
               {d}
             </p>
-          ))}
+          )}
         </div>
         <Button block color="success" onClick={this.setCourse}>
           Set Course
         </Button>
         <NavigationScanner scanning={navigation.scanning} />
-      </div>
-    );
+      </div>);
+
   }
 }
 
@@ -116,8 +117,8 @@ export const JR_NAVIGATION_QUERY = gql`
 `;
 
 export default graphql(JR_NAVIGATION_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(Navigation));

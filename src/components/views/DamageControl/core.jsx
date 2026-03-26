@@ -1,8 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo, Mutation} from "react-apollo";
-import {Table, Button} from "helpers/reactstrap";
-import {InputField, OutputField} from "../../generic/core";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Table, Button } from "helpers/reactstrap";
+import { InputField, OutputField } from "../../generic/core";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 import SystemRow from "./systemRow";
 import WingPower from "./wingPower";
@@ -55,22 +57,22 @@ export const DAMAGE_SYSTEMS_CORE_SUB = gql`
 `;
 
 const options = [
-  {key: "destroy", title: "Destroy"},
-  {key: "rnd", title: "R&D"},
-  {key: "engineering", title: "Engineering"},
-];
+{ key: "destroy", title: "Destroy" },
+{ key: "rnd", title: "R&D" },
+{ key: "engineering", title: "Engineering" }];
+
 class DamageControlCore extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deck: null,
-      room: null,
+      room: null
     };
   }
 
-  setPowerOutput = output => {
+  setPowerOutput = (output) => {
     if ((!output || !parseFloat(output)) && output !== "0") return;
-    const reactor = this.props.data.reactors.find(r => r.model === "reactor");
+    const reactor = this.props.data.reactors.find((r) => r.model === "reactor");
     const mutation = gql`
       mutation ReactorPowerLevel($id: ID!, $output: Int!) {
         reactorChangeOutput(id: $id, output: $output)
@@ -78,11 +80,11 @@ class DamageControlCore extends Component {
     `;
     const variables = {
       id: reactor.id,
-      output: parseInt(output, 10),
+      output: parseInt(output, 10)
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   toggleDamage = (e, system, destroyed = false, which) => {
@@ -90,7 +92,7 @@ class DamageControlCore extends Component {
     const variables = {
       systemId: system.id,
       destroyed,
-      which,
+      which
     };
     let mutation;
     if (system.damage.damaged || system.damage.taskReportDamage) {
@@ -118,7 +120,7 @@ class DamageControlCore extends Component {
     }
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   setContext = (e, s) => {
@@ -127,37 +129,37 @@ class DamageControlCore extends Component {
       context: {
         system: s,
         x: e.clientX,
-        y: e.clientY,
-      },
+        y: e.clientY
+      }
     });
     //this.toggleDamage(e, s, true)
   };
 
   damageOption = (e, option) => {
-    const {system} = this.state.context;
+    const { system } = this.state.context;
     if (option === "destroy") {
       this.toggleDamage(e, system, true);
     } else {
       this.toggleDamage(e, system, false, option);
     }
-    this.setState({context: null});
+    this.setState({ context: null });
   };
   render() {
     if (
-      this.props.data.loading ||
-      !this.props.data.systems ||
-      !this.props.data.reactors
-    )
-      return null;
-    const reactor = this.props.data.reactors.find(r => r.model === "reactor");
+    this.props.data.loading ||
+    !this.props.data.systems ||
+    !this.props.data.reactors)
+
+    return null;
+    const reactor = this.props.data.reactors.find((r) => r.model === "reactor");
 
     const systems = this.props.data.systems.concat().sort((a, b) => {
       const hasPowerA =
-        a.power?.powerLevels.length > 0 &&
-        (a.power?.power || a.power?.power === 0);
+      a.power?.powerLevels.length > 0 && (
+      a.power?.power || a.power?.power === 0);
       const hasPowerB =
-        b.power?.powerLevels.length > 0 &&
-        (b.power?.power || b.power?.power === 0);
+      b.power?.powerLevels.length > 0 && (
+      b.power?.power || b.power?.power === 0);
 
       if (hasPowerA && !hasPowerB) return -1;
       if (hasPowerB && !hasPowerA) return 1;
@@ -174,7 +176,7 @@ class DamageControlCore extends Component {
         prev[`${next.wing}Power`] += next?.power?.power || 0;
         return prev;
       },
-      {left: [], right: [], leftPower: 0, rightPower: 0},
+      { left: [], right: [], leftPower: 0, rightPower: 0 }
     );
     return (
       <Mutation
@@ -183,41 +185,41 @@ class DamageControlCore extends Component {
             fluxSystemPower(id: $id, all: $all, simulatorId: $simulatorId)
           }
         `}
-        variables={{simulatorId: this.props.simulator.id}}
-      >
-        {action => (
-          <div onMouseLeave={() => this.setState({context: null})}>
+        variables={{ simulatorId: this.props.simulator.id }}>
+        
+        {(action) =>
+        <div onMouseLeave={() => this.setState({ context: null })}>
             <Table size="sm" hover>
               <SubscriptionHelper
-                subscribe={() =>
-                  this.props.data.subscribeToMore({
-                    document: DAMAGE_SYSTEMS_CORE_SUB,
-                    variables: {
-                      simulatorId: this.props.simulator.id,
-                    },
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        systems: subscriptionData.data.systemsUpdate,
-                      });
-                    },
-                  })
+              subscribe={() =>
+              this.props.data.subscribeToMore({
+                document: DAMAGE_SYSTEMS_CORE_SUB,
+                variables: {
+                  simulatorId: this.props.simulator.id
+                },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    systems: subscriptionData.data.systemsUpdate
+                  });
                 }
-              />
+              })
+              } />
+            
               <SubscriptionHelper
-                subscribe={() =>
-                  this.props.data.subscribeToMore({
-                    document: DAMAGE_REACTOR_CORE_SUB,
-                    variables: {
-                      simulatorId: this.props.simulator.id,
-                    },
-                    updateQuery: (previousResult, {subscriptionData}) => {
-                      return Object.assign({}, previousResult, {
-                        reactors: subscriptionData.data.reactorUpdate,
-                      });
-                    },
-                  })
+              subscribe={() =>
+              this.props.data.subscribeToMore({
+                document: DAMAGE_REACTOR_CORE_SUB,
+                variables: {
+                  simulatorId: this.props.simulator.id
+                },
+                updateQuery: (previousResult, { subscriptionData }) => {
+                  return Object.assign({}, previousResult, {
+                    reactors: subscriptionData.data.reactorUpdate
+                  });
                 }
-              />
+              })
+              } />
+            
               <thead>
                 <tr>
                   <th>System</th>
@@ -229,72 +231,72 @@ class DamageControlCore extends Component {
                 </tr>
               </thead>
               <tbody>
-                {reactor?.hasWings
-                  ? Object.entries(wingedSystems).map(
-                      ([key, value]) =>
-                        ["left", "right"].includes(key) && (
-                          <WingPower
-                            key={key}
-                            wing={key}
-                            value={value}
-                            reactor={reactor}
-                            wingedSystems={wingedSystems}
-                            simulatorId={this.props.simulator.id}
-                            fluxPower={id => action({variables: {id}})}
-                            toggleDamage={this.toggleDamage}
-                            setContext={this.setContext}
-                          />
-                        ),
-                    )
-                  : systems.map(s => (
-                      <SystemRow
-                        key={s.id}
-                        simulatorId={this.props.simulator.id}
-                        fluxPower={id => action({variables: {id}})}
-                        toggleDamage={this.toggleDamage}
-                        s={s}
-                        setContext={this.setContext}
-                      />
-                    ))}
+                {reactor?.hasWings ?
+              Object.entries(wingedSystems).map(
+                ([key, value]) =>
+                ["left", "right"].includes(key) &&
+                <WingPower
+                  key={key}
+                  wing={key}
+                  value={value}
+                  reactor={reactor}
+                  wingedSystems={wingedSystems}
+                  simulatorId={this.props.simulator.id}
+                  fluxPower={(id) => action({ variables: { id } })}
+                  toggleDamage={this.toggleDamage}
+                  setContext={this.setContext} />
+
+
+              ) :
+              systems.map((s) =>
+              <SystemRow
+                key={s.id}
+                simulatorId={this.props.simulator.id}
+                fluxPower={(id) => action({ variables: { id } })}
+                toggleDamage={this.toggleDamage}
+                s={s}
+                setContext={this.setContext} />
+
+              )}
                 <tr>
                   <td>Total</td>
                   <td>
                     <OutputField
-                      alert={
-                        reactor &&
-                        Math.round(reactor.powerOutput * reactor.efficiency) <
-                          this.props.data.systems.reduce(
-                            (prev, next) =>
-                              next.power ? prev + next.power.power : prev,
-                            0,
-                          )
-                      }
-                    >
+                    alert={
+                    reactor &&
+                    Math.round(reactor.powerOutput * reactor.efficiency) <
+                    this.props.data.systems.reduce(
+                      (prev, next) =>
+                      next.power ? prev + next.power.power : prev,
+                      0
+                    )
+                    }>
+                    
                       {this.props.data.systems.reduce(
-                        (prev, next) =>
-                          next.power ? prev + next.power.power : prev,
-                        0,
-                      )}
+                      (prev, next) =>
+                      next.power ? prev + next.power.power : prev,
+                      0
+                    )}
                     </OutputField>
                   </td>
                   <td>{reactor && "/"}</td>
                   <td>
-                    {reactor && (
-                      <OutputField title="Reactor Output">
+                    {reactor &&
+                  <OutputField title="Reactor Output">
                         {Math.round(reactor.powerOutput * reactor.efficiency)}
                       </OutputField>
-                    )}
+                  }
                   </td>
                   <td>
-                    {reactor && (
-                      <InputField
-                        title="Reactor Power Level"
-                        prompt="What is the new power output?"
-                        onClick={this.setPowerOutput}
-                      >
+                    {reactor &&
+                  <InputField
+                    title="Reactor Power Level"
+                    prompt="What is the new power output?"
+                    onClick={this.setPowerOutput}>
+                    
                         {reactor.powerOutput}
                       </InputField>
-                    )}
+                  }
                   </td>
                   <td />
                 </tr>
@@ -309,42 +311,42 @@ class DamageControlCore extends Component {
                   </td>
                   <td colSpan={5}>
                     <Button
-                      block
-                      size="sm"
-                      color="danger"
-                      onClick={() =>
-                        action({
-                          variables: {
-                            all: true,
-                            simulatorId: this.props.simulator.id,
-                          },
-                        })
+                    block
+                    size="sm"
+                    color="danger"
+                    onClick={() =>
+                    action({
+                      variables: {
+                        all: true,
+                        simulatorId: this.props.simulator.id
                       }
-                    >
+                    })
+                    }>
+                    
                       Flux All
                     </Button>
                   </td>
                 </tr>
               </tbody>
             </Table>
-            {this.state.context && (
-              <div
-                style={{
-                  transform: `translate(${this.state.context.x}px, ${this.state.context.y}px)`,
-                }}
-                className="systems-context"
-              >
-                {options.map(o => (
-                  <p key={o.key} onClick={e => this.damageOption(e, o.key)}>
+            {this.state.context &&
+          <div
+            style={{
+              transform: `translate(${this.state.context.x}px, ${this.state.context.y}px)`
+            }}
+            className="systems-context">
+            
+                {options.map((o) =>
+            <p key={o.key} onClick={(e) => this.damageOption(e, o.key)}>
                     {o.title}
                   </p>
-                ))}
-              </div>
             )}
+              </div>
+          }
           </div>
-        )}
-      </Mutation>
-    );
+        }
+      </Mutation>);
+
   }
 }
 export const DAMAGE_SYSTEMS_CORE_QUERY = gql`
@@ -377,8 +379,8 @@ export const DAMAGE_SYSTEMS_CORE_QUERY = gql`
 `;
 
 export default graphql(DAMAGE_SYSTEMS_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(DamageControlCore));

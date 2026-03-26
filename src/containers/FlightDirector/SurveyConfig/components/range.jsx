@@ -1,7 +1,7 @@
 import React from "react";
 import {Label, Input} from "helpers/reactstrap";
-import Slider from "react-rangeslider";
-import "react-rangeslider/lib/index.css";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const Range = ({
   min = 1,
@@ -13,13 +13,15 @@ const Range = ({
   id,
   survey,
 }) => {
-  const range = max - min + 1;
+  const start = parseInt(min, 10);
+  const end = parseInt(max, 10);
+  const range = end - start + 1;
   const labels = isNaN(range)
     ? {}
     : Array(range)
         .fill(0)
         .reduce(
-          (prev, next, i) => Object.assign({}, prev, {[i + 1]: i + 1}),
+          (prev, next, i) => Object.assign({}, prev, {[start + i]: start + i}),
           {},
         );
   return (
@@ -47,11 +49,12 @@ const Range = ({
         </Label>
       )}
       <Slider
-        min={parseInt(min, 10)}
-        max={parseInt(max, 10)}
+        min={start}
+        max={end}
         value={value}
-        labels={labels}
+        marks={labels}
         disabled={disabled}
+        step={1}
         onChange={e => updateValue(e)}
       />
     </div>

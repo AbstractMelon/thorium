@@ -4,17 +4,18 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
-  ButtonGroup,
-} from "helpers/reactstrap";
+  ButtonGroup } from
+"helpers/reactstrap";
 import gql from "graphql-tag";
-import {Mutation} from "react-apollo";
+import { Mutation } from "@apollo/client/react/components";
+
 import EventName from "containers/FlightDirector/MissionConfig/EventName";
 import "./style.scss";
 const ClientInfo = ({
   id,
   simulator,
   commandLineOutput,
-  commandLineFeedback,
+  commandLineFeedback
 }) => {
   const [input, setInput] = React.useState("");
   const outputRef = React.useRef();
@@ -41,51 +42,51 @@ const ClientInfo = ({
               output: $output
             )
           }
-        `}
-      >
-        {action => (
-          <Input
-            size="sm"
-            className="terminal-main-input"
-            placeholder="Input Response..."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => {
-              if (e.key === "Enter") {
-                action({
-                  variables: {
-                    simulatorId: simulator.id,
-                    clientId: id,
-                    output: input,
-                  },
-                });
-                setInput("");
-                return;
-              }
-            }}
-          />
-        )}
+        `}>
+        
+        {(action) =>
+        <Input
+          size="sm"
+          className="terminal-main-input"
+          placeholder="Input Response..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              action({
+                variables: {
+                  simulatorId: simulator.id,
+                  clientId: id,
+                  output: input
+                }
+              });
+              setInput("");
+              return;
+            }
+          }} />
+
+        }
       </Mutation>
       <small>
         Use this input to write back command responses as if you were the
         computer.
       </small>
-      {commandLineFeedback.map(c => (
-        <div key={c.id}>
+      {commandLineFeedback.map((c) =>
+      <div key={c.id}>
           <p>Command Approval: {c.command}</p>
           <div className="flex flex-wrap">
-            {c.triggers.length > 0 ? (
-              <pre>
+            {c.triggers.length > 0 ?
+          <pre>
                 Approve Triggers:{"\n"}
-                {c.triggers.map(e => (
-                  <div className="trigger-name">
+                {c.triggers.map((e) =>
+            <div className="trigger-name">
                     <EventName id={e.event} label={e.event} />
                   </div>
-                ))}
-              </pre>
-            ) : null}
+            )}
+              </pre> :
+          null}
             <Mutation
-              mutation={gql`
+            mutation={gql`
                 mutation HandleFeedback(
                   $simulatorId: ID!
                   $clientId: ID!
@@ -101,106 +102,106 @@ const ClientInfo = ({
                     ignore: $ignore
                   )
                 }
-              `}
-            >
-              {action => (
-                <ButtonGroup>
+              `}>
+            
+              {(action) =>
+            <ButtonGroup>
                   <Button
-                    size="sm"
-                    color="danger"
-                    onClick={() =>
-                      action({
-                        variables: {
-                          simulatorId: simulator.id,
-                          clientId: id,
-                          feedbackId: c.id,
-                          isApproved: false,
-                        },
-                      })
-                    }
-                  >
+                size="sm"
+                color="danger"
+                onClick={() =>
+                action({
+                  variables: {
+                    simulatorId: simulator.id,
+                    clientId: id,
+                    feedbackId: c.id,
+                    isApproved: false
+                  }
+                })
+                }>
+                
                     Deny
                   </Button>
                   <Button
-                    size="sm"
-                    color="success"
-                    onClick={() =>
-                      action({
-                        variables: {
-                          simulatorId: simulator.id,
-                          clientId: id,
-                          feedbackId: c.id,
-                          isApproved: true,
-                        },
-                      })
-                    }
-                  >
+                size="sm"
+                color="success"
+                onClick={() =>
+                action({
+                  variables: {
+                    simulatorId: simulator.id,
+                    clientId: id,
+                    feedbackId: c.id,
+                    isApproved: true
+                  }
+                })
+                }>
+                
                     Approve
                   </Button>
                   <Button
-                    size="sm"
-                    color="secondary"
-                    onClick={() =>
-                      action({
-                        variables: {
-                          simulatorId: simulator.id,
-                          clientId: id,
-                          ignore: true,
-                          feedbackId: c.id,
-                          isApproved: true,
-                        },
-                      })
-                    }
-                  >
+                size="sm"
+                color="secondary"
+                onClick={() =>
+                action({
+                  variables: {
+                    simulatorId: simulator.id,
+                    clientId: id,
+                    ignore: true,
+                    feedbackId: c.id,
+                    isApproved: true
+                  }
+                })
+                }>
+                
                     Ignore
                   </Button>
                 </ButtonGroup>
-              )}
+            }
             </Mutation>
           </div>
         </div>
-      ))}
-    </>
-  );
+      )}
+    </>);
+
 };
-const CommandLineCore = ({simulator, clients, ...rest}) => {
+const CommandLineCore = ({ simulator, clients, ...rest }) => {
   const [selectedClient, setSelectedClient] = React.useState(null);
-  const client = clients.find(c => c.id === selectedClient);
+  const client = clients.find((c) => c.id === selectedClient);
   return (
     <div className="commandline-core">
       <div className="commandline-clients">
         <ListGroup>
-          {clients
-            .map(c => ({
-              ...c,
-              station: simulator.stations.find(
-                s => c.station && s.name === c.station.name,
-              ),
-            }))
-            .filter(
-              c =>
-                c.commandLineOutput &&
-                c.commandLineOutput.length > 0 &&
-                c.station &&
-                c.station.cards.find(s => s.component === "CommandLine"),
+          {clients.
+          map((c) => ({
+            ...c,
+            station: simulator.stations.find(
+              (s) => c.station && s.name === c.station.name
             )
-            .map(c => (
-              <ListGroupItem
-                key={c.id}
-                active={c.id === selectedClient}
-                className={c.commandLineFeedback.length > 0 ? "bg-danger" : ""}
-                onClick={() => setSelectedClient(c.id)}
-              >
+          })).
+          filter(
+            (c) =>
+            c.commandLineOutput &&
+            c.commandLineOutput.length > 0 &&
+            c.station &&
+            c.station.cards.find((s) => s.component === "CommandLine")
+          ).
+          map((c) =>
+          <ListGroupItem
+            key={c.id}
+            active={c.id === selectedClient}
+            className={c.commandLineFeedback.length > 0 ? "bg-danger" : ""}
+            onClick={() => setSelectedClient(c.id)}>
+            
                 {c.id}
               </ListGroupItem>
-            ))}
+          )}
         </ListGroup>
       </div>
       <div className="commandline-info">
         {client && <ClientInfo {...client} simulator={simulator} />}
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default CommandLineCore;

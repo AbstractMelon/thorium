@@ -1,32 +1,33 @@
-import React, {Component, Fragment} from "react";
-import {Mutation} from "react-apollo";
+import React, { Component, Fragment } from "react";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
-import {Button} from "helpers/reactstrap";
-import {TypingField} from "../../../generic/core";
-import {capitalCase} from "change-case";
+import { Button } from "helpers/reactstrap";
+import { TypingField } from "../../../generic/core";
+import { capitalCase } from "change-case";
 import HashtagDefinition from "helpers/hashtagDefinition";
 
 class Treatment extends Component {
   constructor(props) {
     super(props);
-    const {chart} = props;
+    const { chart } = props;
     this.state = {
-      treatment: chart.treatment,
+      treatment: chart.treatment
     };
   }
-  loadReport = e => {
+  loadReport = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result;
       this.setState({
-        treatment: result,
+        treatment: result
       });
     };
     e.target.files[0] && reader.readAsText(e.target.files[0]);
   };
   render() {
-    const {treatment} = this.state;
-    const {chart, patient, simulator} = this.props;
+    const { treatment } = this.state;
+    const { chart, patient, simulator } = this.props;
     return (
       <Fragment>
         <p>
@@ -44,24 +45,24 @@ class Treatment extends Component {
           style={{
             display: "flex",
             minHeight: "44px",
-            flexGrow: 1,
-          }}
-        >
+            flexGrow: 1
+          }}>
+          
           <TypingField
             style={{
               height: "auto",
               flex: 5,
-              textAlign: "left",
+              textAlign: "left"
             }}
             controlled
-            onChange={e => {
-              this.setState({treatment: e.target.value});
+            onChange={(e) => {
+              this.setState({ treatment: e.target.value });
             }}
-            value={treatment}
-          />
+            value={treatment} />
+          
           <HashtagDefinition />
         </div>
-        <div style={{display: "flex"}}>
+        <div style={{ display: "flex" }}>
           <Mutation
             mutation={gql`
               mutation SetBunkTreatment(
@@ -79,19 +80,19 @@ class Treatment extends Component {
             variables={{
               crewId: patient && patient.id,
               simulatorId: simulator.id,
-              treatment,
-            }}
-          >
-            {action => (
-              <Button onClick={action} style={{flexGrow: 2}} size={"sm"}>
+              treatment
+            }}>
+            
+            {(action) =>
+            <Button onClick={action} style={{ flexGrow: 2 }} size={"sm"}>
                 Send
               </Button>
-            )}
+            }
           </Mutation>
           <label
             htmlFor="fileInput"
-            style={{flexGrow: 1, display: "inline-block"}}
-          >
+            style={{ flexGrow: 1, display: "inline-block" }}>
+            
             <Button tag="div" color="info" block size="sm">
               File
             </Button>
@@ -101,11 +102,11 @@ class Treatment extends Component {
             type="file"
             hidden
             value={[]}
-            onChange={this.loadReport}
-          />
+            onChange={this.loadReport} />
+          
         </div>
-      </Fragment>
-    );
+      </Fragment>);
+
   }
 }
 export default Treatment;

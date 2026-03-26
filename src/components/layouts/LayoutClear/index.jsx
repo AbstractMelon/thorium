@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import { withApollo } from "@apollo/client/react/hoc";
 
-import {withApollo} from "react-apollo";
 import CardFrame from "./cardFrame";
 import Widgets from "../LayoutOdyssey/widgets";
 import CardSwitcher from "../LayoutLine/cardSwitcher";
@@ -14,10 +14,10 @@ class LayoutClear extends Component {
     window.addEventListener(
       "touchstart",
       function onFirstTouch() {
-        self.setState({touch: true});
+        self.setState({ touch: true });
         window.removeEventListener("touchstart", onFirstTouch);
       },
-      false,
+      false
     );
   }
   render() {
@@ -27,23 +27,23 @@ class LayoutClear extends Component {
       cardName,
       changeCard,
       clientObj,
-      flight,
+      flight
     } = this.props;
-    const {hypercard} = clientObj;
-    const {touch} = this.state;
+    const { hypercard } = clientObj;
+    const { touch } = this.state;
     let alertClass = `alertColor${simulator.alertlevel || 5}`;
     return (
       <div className={`layout-clear ${alertClass}`}>
-        {!hypercard && (
-          <CardSwitcher
-            className={alertClass}
-            clientObj={this.props.clientObj}
-            cards={station.cards}
-            currentCard={cardName}
-            changeCard={changeCard}
-            {...this.props}
-          />
-        )}
+        {!hypercard &&
+        <CardSwitcher
+          className={alertClass}
+          clientObj={this.props.clientObj}
+          cards={station.cards}
+          currentCard={cardName}
+          changeCard={changeCard}
+          {...this.props} />
+
+        }
         <CardFrame {...this.props}>
           <CardHolder {...this.props} />
         </CardFrame>
@@ -52,10 +52,10 @@ class LayoutClear extends Component {
           simulator={simulator}
           station={station}
           flight={flight}
-          touch={touch}
-        />
-      </div>
-    );
+          touch={touch} />
+        
+      </div>);
+
   }
 }
 

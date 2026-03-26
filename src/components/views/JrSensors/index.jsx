@@ -1,11 +1,12 @@
-import React, {Component} from "react";
-import {Container, Row, Col, Card, CardBody} from "helpers/reactstrap";
+import React, { Component } from "react";
+import { Container, Row, Col, Card, CardBody } from "helpers/reactstrap";
 import Measure from "react-measure";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo} from "react-apollo";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
 import Grid from "../Sensors/GridDom";
 import SubscriptionHelper from "helpers/subscriptionHelper";
-import {Typing} from "react-typing";
+import { Typing } from "react-typing";
 
 import "./style.scss";
 
@@ -31,73 +32,73 @@ class Sensors extends Component {
   state = {
     processedData: "",
     weaponsRangePulse: 0,
-    hoverContact: {name: "", pictureUrl: ""},
+    hoverContact: { name: "", pictureUrl: "" }
   };
   _hoverContact(contact = {}) {
     this.setState({
-      hoverContact: contact,
+      hoverContact: contact
     });
   }
   render() {
-    const {hoverContact} = this.state;
-    const {data} = this.props;
+    const { hoverContact } = this.state;
+    const { data } = this.props;
     if (data.loading || !data) return null;
     const sensors = data.sensors[0];
     return (
-      <Container style={{height: "90vh"}} className="jr-sensors">
+      <Container style={{ height: "90vh" }} className="jr-sensors">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: JR_SENSOR_SUB,
-              variables: {simulatorId: this.props.simulator.id},
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  sensors: subscriptionData.data.sensorsUpdate,
-                });
-              },
-            })
-          }
-        />
-        <Row style={{height: "100%"}}>
-          <Col sm={8} className="arrayContainer" style={{height: "100%"}}>
+          this.props.data.subscribeToMore({
+            document: JR_SENSOR_SUB,
+            variables: { simulatorId: this.props.simulator.id },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                sensors: subscriptionData.data.sensorsUpdate
+              });
+            }
+          })
+          } />
+        
+        <Row style={{ height: "100%" }}>
+          <Col sm={8} className="arrayContainer" style={{ height: "100%" }}>
             <div className="spacer" />
             <Measure
               bounds
-              onResize={contentRect => {
-                this.setState({dimensions: contentRect.bounds});
-              }}
-            >
-              {({measureRef}) => (
-                <div id="threeSensors" className="array" ref={measureRef}>
-                  {this.state.dimensions && (
-                    <Grid
-                      dimensions={this.state.dimensions}
-                      sensor={sensors.id}
-                      hoverContact={this._hoverContact.bind(this)}
-                      pings={false}
-                      segments={sensors.segments}
-                    />
-                  )}
+              onResize={(contentRect) => {
+                this.setState({ dimensions: contentRect.bounds });
+              }}>
+              
+              {({ measureRef }) =>
+              <div id="threeSensors" className="array" ref={measureRef}>
+                  {this.state.dimensions &&
+                <Grid
+                  dimensions={this.state.dimensions}
+                  sensor={sensors.id}
+                  hoverContact={this._hoverContact.bind(this)}
+                  pings={false}
+                  segments={sensors.segments} />
+
+                }
                 </div>
-              )}
+              }
             </Measure>
           </Col>
           <Col sm={4}>
             <Row>
               <Col className="col-sm-12">
                 <div className="card contactPictureContainer">
-                  {hoverContact.picture && (
-                    <div
-                      className="contactPicture"
-                      style={{
-                        backgroundSize: "contain",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundColor: "black",
-                        backgroundImage: `url('/assets${hoverContact.picture}')`,
-                      }}
-                    />
-                  )}
+                  {hoverContact.picture &&
+                  <div
+                    className="contactPicture"
+                    style={{
+                      backgroundSize: "contain",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundColor: "black",
+                      backgroundImage: `url('/assets${hoverContact.picture}')`
+                    }} />
+
+                  }
                 </div>
               </Col>
               <Col className="col-sm-12 contactNameContainer">
@@ -122,8 +123,8 @@ class Sensors extends Component {
             </Row>
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -146,8 +147,8 @@ export const JR_SENSOR_QUERY = gql`
 `;
 
 export default graphql(JR_SENSOR_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
-    variables: {simulatorId: ownProps.simulator.id},
-  }),
+    variables: { simulatorId: ownProps.simulator.id }
+  })
 })(withApollo(Sensors));

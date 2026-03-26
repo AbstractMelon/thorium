@@ -1,9 +1,10 @@
 import React from "react";
-import {Mutation} from "react-apollo";
-import gql from "graphql-tag.macro";
-import {Table, Button} from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
 
-const Fighters = ({fighters, id}) => {
+import gql from "graphql-tag.macro";
+import { Table, Button } from "helpers/reactstrap";
+
+const Fighters = ({ fighters, id }) => {
   return (
     <div className="crm-clients">
       <Table size="sm">
@@ -17,38 +18,38 @@ const Fighters = ({fighters, id}) => {
           </tr>
         </thead>
         <tbody>
-          {fighters.map(f => (
-            <tr key={f.id}>
+          {fighters.map((f) =>
+          <tr key={f.id}>
               <td>{f.client && f.client.id}</td>
               <td>{f.client && f.client.station.name}</td>
               <td>{f.docked ? "🔵" : null}</td>
               <td>
-                {f.destroyed ? (
-                  <>
+                {f.destroyed ?
+              <>
                     🔴
                     <Mutation
-                      mutation={gql`
+                  mutation={gql`
                         mutation Restore($id: ID!, $clientId: ID!) {
                           crmRestoreFighter(id: $id, clientId: $clientId)
                         }
                       `}
-                      variables={{id, clientId: f.client && f.client.id}}
-                    >
-                      {action => (
-                        <Button onClick={action} color="success" size="sm">
+                  variables={{ id, clientId: f.client && f.client.id }}>
+                  
+                      {(action) =>
+                  <Button onClick={action} color="success" size="sm">
                           Restore
                         </Button>
-                      )}
+                  }
                     </Mutation>
-                  </>
-                ) : null}
+                  </> :
+              null}
               </td>
               <td>{f.frags}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </Table>
-    </div>
-  );
+    </div>);
+
 };
 export default Fighters;

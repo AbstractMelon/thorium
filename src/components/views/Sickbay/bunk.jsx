@@ -1,17 +1,18 @@
 import React from "react";
-import {Row, Col, Card, Button, CardBody} from "helpers/reactstrap";
-import {Mutation} from "react-apollo";
+import { Row, Col, Card, Button, CardBody } from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+
 import gql from "graphql-tag.macro";
 import TimeCared from "./timeCared";
 
-const Bunk = ({sickbayId, id, num, scanning, patient, openModal, openBunk}) => {
+const Bunk = ({ sickbayId, id, num, scanning, patient, openModal, openBunk }) => {
   const chart =
-    patient &&
-    patient.charts.concat().sort((a, b) => {
-      if (new Date(a.admitTime) > new Date(b.admitTime)) return -1;
-      if (new Date(a.admitTime) < new Date(b.admitTime)) return 1;
-      return 0;
-    })[0];
+  patient &&
+  patient.charts.concat().sort((a, b) => {
+    if (new Date(a.admitTime) > new Date(b.admitTime)) return -1;
+    if (new Date(a.admitTime) < new Date(b.admitTime)) return 1;
+    return 0;
+  })[0];
   return (
     <Card className="bunk">
       <CardBody>
@@ -31,8 +32,8 @@ const Bunk = ({sickbayId, id, num, scanning, patient, openModal, openBunk}) => {
         <p />
         <p className="pull-left" />
         <p />
-        {patient ? (
-          <Row>
+        {patient ?
+        <Row>
             <Col sm={6}>
               <Button color="info" block onClick={openBunk}>
                 Status
@@ -40,29 +41,29 @@ const Bunk = ({sickbayId, id, num, scanning, patient, openModal, openBunk}) => {
             </Col>
             <Col sm={6}>
               <Mutation
-                mutation={gql`
+              mutation={gql`
                   mutation Discharge($id: ID!, $bunkId: ID!) {
                     dischargePatient(id: $id, bunkId: $bunkId)
                   }
                 `}
-                variables={{bunkId: id, id: sickbayId}}
-              >
-                {action => (
-                  <Button color="danger" block onClick={action}>
+              variables={{ bunkId: id, id: sickbayId }}>
+              
+                {(action) =>
+              <Button color="danger" block onClick={action}>
                     Discharge
                   </Button>
-                )}
+              }
               </Mutation>
             </Col>
-          </Row>
-        ) : (
-          <Button color="success" block onClick={openModal}>
+          </Row> :
+
+        <Button color="success" block onClick={openModal}>
             Admit Patient
           </Button>
-        )}
+        }
       </CardBody>
-    </Card>
-  );
+    </Card>);
+
 };
 
 export default Bunk;

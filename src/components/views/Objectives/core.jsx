@@ -1,12 +1,14 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag.macro";
-import {graphql, withApollo, Mutation} from "react-apollo";
-import {Container, Row, Col, Button} from "helpers/reactstrap";
+import { Mutation } from "@apollo/client/react/components";
+import { graphql, withApollo } from "@apollo/client/react/hoc";
+
+import { Container, Row, Col, Button } from "helpers/reactstrap";
 import SubscriptionHelper from "helpers/subscriptionHelper";
 
 import "./style.scss";
-import {useMutation} from "@apollo/client";
-import {InputField} from "components/generic/core";
+import { useMutation } from "@apollo/client";
+import { InputField } from "components/generic/core";
 
 export const OBJECTIVE_CORE_SUB = gql`
   subscription ObjectivesUpdate($simulatorId: ID!) {
@@ -35,7 +37,7 @@ const Objective = ({
   cancelled,
   client,
   crewComplete,
-  order,
+  order
 }) => {
   const complete = (e, cancel) => {
     const completed = e.target ? e.target.checked : e;
@@ -47,11 +49,11 @@ const Objective = ({
     const variables = {
       id,
       state: completed,
-      cancel: cancel === true,
+      cancel: cancel === true
     };
     client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
 
@@ -59,8 +61,8 @@ const Objective = ({
 
   return (
     <div className="objective">
-      <div style={{flex: 1, marginLeft: "20px"}}>
-        <strong style={{textDecoration: cancelled ? "line-through" : ""}}>
+      <div style={{ flex: 1, marginLeft: "20px" }}>
+        <strong style={{ textDecoration: cancelled ? "line-through" : "" }}>
           {title}
         </strong>
         <p>{description}</p>
@@ -76,8 +78,8 @@ const Objective = ({
           disabled={completed}
           size="sm"
           color="warning"
-          onClick={() => complete(true, true)}
-        >
+          onClick={() => complete(true, true)}>
+          
           Cancel
         </Button>
         <div>
@@ -90,38 +92,38 @@ const Objective = ({
                 ) {
                   objectiveSetCrewComplete(id: $id, crewComplete: $crewComplete)
                 }
-              `}
-            >
-              {action => (
-                <input
-                  type="checkbox"
-                  checked={crewComplete}
-                  onChange={e =>
-                    action({
-                      variables: {id, crewComplete: e.target.checked},
-                    })
-                  }
-                />
-              )}
+              `}>
+              
+              {(action) =>
+              <input
+                type="checkbox"
+                checked={crewComplete}
+                onChange={(e) =>
+                action({
+                  variables: { id, crewComplete: e.target.checked }
+                })
+                } />
+
+              }
             </Mutation>{" "}
             Allow Crew Check Off
           </label>
         </div>
-        <label style={{display: "flex"}}>
+        <label style={{ display: "flex" }}>
           Order:
           <InputField
             title="Objective Order"
             prompt="What should the new order be? Smaller numbers are at the top of the list."
-            onClick={value =>
-              setOrder({variables: {order: parseInt(value, 10), id}})
-            }
-          >
+            onClick={(value) =>
+            setOrder({ variables: { order: parseInt(value, 10), id } })
+            }>
+            
             {order}
           </InputField>
         </label>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 class Objectives extends Component {
@@ -129,7 +131,7 @@ class Objectives extends Component {
     const title = window.prompt("What is the title of the objective?");
     if (!title) return;
     const description = window.prompt(
-      "What is the description of the objective? (May be blank)",
+      "What is the description of the objective? (May be blank)"
     );
     const mutation = gql`
       mutation CreateObjective(
@@ -149,58 +151,58 @@ class Objectives extends Component {
     const variables = {
       simulatorId: this.props.simulator.id,
       title,
-      description,
+      description
     };
     this.props.client.mutate({
       mutation,
-      variables,
+      variables
     });
   };
   render() {
     const {
-      data: {loading, objective},
-      client,
+      data: { loading, objective },
+      client
     } = this.props;
     if (loading || !objective) return null;
     return (
       <Container className="objective-core">
         <SubscriptionHelper
           subscribe={() =>
-            this.props.data.subscribeToMore({
-              document: OBJECTIVE_CORE_SUB,
-              variables: {
-                simulatorId: this.props.simulator.id,
-              },
-              updateQuery: (previousResult, {subscriptionData}) => {
-                return Object.assign({}, previousResult, {
-                  objective: subscriptionData.data.objectiveUpdate,
-                });
-              },
-            })
-          }
-        />
+          this.props.data.subscribeToMore({
+            document: OBJECTIVE_CORE_SUB,
+            variables: {
+              simulatorId: this.props.simulator.id
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+              return Object.assign({}, previousResult, {
+                objective: subscriptionData.data.objectiveUpdate
+              });
+            }
+          })
+          } />
+        
         <Row>
           <Col sm={12}>
             <Button color="success" size="sm" block onClick={this.addObjective}>
               Add New Objective
             </Button>
-            {objective
-              .concat()
-              .sort((a, b) => {
-                if (a.completed && !b.completed) return -1;
-                if (!a.completed && b.completed) return 1;
-                if (a.order > b.order) return -1;
-                if (a.order < b.order) return 1;
-                return 0;
-              })
-              .reverse()
-              .map(o => (
-                <Objective key={o.id} {...o} client={client} />
-              ))}
+            {objective.
+            concat().
+            sort((a, b) => {
+              if (a.completed && !b.completed) return -1;
+              if (!a.completed && b.completed) return 1;
+              if (a.order > b.order) return -1;
+              if (a.order < b.order) return 1;
+              return 0;
+            }).
+            reverse().
+            map((o) =>
+            <Objective key={o.id} {...o} client={client} />
+            )}
           </Col>
         </Row>
-      </Container>
-    );
+      </Container>);
+
   }
 }
 
@@ -219,10 +221,10 @@ export const OBJECTIVE_CORE_QUERY = gql`
   }
 `;
 export default graphql(OBJECTIVE_CORE_QUERY, {
-  options: ownProps => ({
+  options: (ownProps) => ({
     fetchPolicy: "cache-and-network",
     variables: {
-      simulatorId: ownProps.simulator.id,
-    },
-  }),
+      simulatorId: ownProps.simulator.id
+    }
+  })
 })(withApollo(Objectives));
